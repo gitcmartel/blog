@@ -18,7 +18,7 @@ class User
 
 class UserRepository
 {
-    private ?PDO $connexion = null;
+    private DatabaseConnexion $connexion;
 
     //Returns a User object
     public function getUser(int $userId) : User

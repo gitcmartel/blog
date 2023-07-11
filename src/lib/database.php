@@ -1,6 +1,6 @@
 <?php
 
-class database
+class DatabaseConnexion
 {
     private ?PDO $connexion = null;
 
