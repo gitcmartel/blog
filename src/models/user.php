@@ -1,5 +1,7 @@
 <?php
 
+namespace Application\Model\User;
+
 require_once("src/lib/database.php");
 require_once("src/lib/password.php");
 
@@ -20,6 +22,11 @@ class UserRepository
 {
     private DatabaseConnexion $connexion;
 
+    function __construct()
+    {
+        $this->$connexion = new DatabaseConnexion();
+    }
+    
     //Returns a User object
     public function getUser(int $userId) : User
     {

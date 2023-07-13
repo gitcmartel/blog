@@ -1,10 +1,10 @@
 <?php
 
-namespace Application\Controllers\Post;
+namespace Application\Controllers\ModifyPost;
 
 require_once("src/models/post.php");
 
-class Post 
+class ModifyPost 
 {
     public function execute(int $id) {
 

@@ -7,6 +7,13 @@ require_once('src/controllers/subscription.php');
 require_once('src/controllers/user.php');
 require_once('src/controllers/comment.php');
 
+use Application\Controllers\Home\Home;
+use Application\Controllers\Post\Post;
+use Application\Controllers\Post\Connexion;
+use Application\Controllers\Post\Subscription;
+use Application\Controllers\Post\User;
+use Application\Controllers\Post\Comment;
+
 try {
     if (isset($_GET['action']) && $_GET['action'] !== ''){
         if ($_GET['action'] === 'post') {

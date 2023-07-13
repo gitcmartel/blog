@@ -1,5 +1,7 @@
 <?php
 
+namespace Application\Model\Post;
+
 require_once('src/lib/database.php');
 require_once('src/models/user.php');
 
@@ -31,6 +33,11 @@ class Post
 class PostRepository
 {
     private DatabaseConnexion $connexion;
+
+    function __construct()
+    {
+        $this->$connexion = new DatabaseConnexion();
+    }
 
     //Returns a Post
     public function getPost($postId) : Post

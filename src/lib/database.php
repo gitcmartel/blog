@@ -1,5 +1,7 @@
 <?php
 
+namespace Application\Lib\Database;
+
 class DatabaseConnexion
 {
     private ?PDO $connexion = null;

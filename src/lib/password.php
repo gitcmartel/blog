@@ -1,5 +1,7 @@
 <?php
 
+namespace Application\Lib\Password;
+
 class Password 
 {
     //Returns an encrypted password
