@@ -6,6 +6,7 @@ require_once(__DIR__ . "/vendor/autoload.php");
 
 use Application\Controllers\Home;
 
+
 try {
     if (isset($_GET['action']) && $_GET['action'] !== ''){
         $class = "Application\\Controllers\\" . $_GET['action'];

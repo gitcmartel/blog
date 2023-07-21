@@ -12,10 +12,34 @@
 }
 
 .contact-form {
-  width: 50vw;
-  height: 55vh;
-  margin: 10vh 10vw 0 10vw;
+  width: 55%;
+  height: 90%;
+  margin: 0% 10% 0% 10%;
   background-color: #A19695;
+  padding: 1% 2% 1% 2%;
+}
+.contact-form form {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.contact-form .contact-form-name {
+  height: 20%;
+}
+.contact-form .contact-form-email {
+  height: 20%;
+}
+.contact-form .contact-form-message {
+  height: 45%;
+}
+.contact-form .contact-form-button {
+  height: 10%;
+}
+.contact-form button {
+  background-color: #394A58;
+  width: 20%;
+  height: 100%;
 }
 
 .message input {
@@ -37,14 +61,12 @@
   height: 5vh;
 }
 
-.bouton {
-  background-color: #394A58;
-  width: 10vw;
-}
-
-.footer {
+footer {
   height: 10vh;
   background-color: #394A58;
+}
+footer p {
+  margin: 0;
 }
 
 .font-size1 {
@@ -55,6 +77,23 @@
   font-size: 1.5vw;
 }
 
+.font-size3 {
+  font-size: 1.2vw;
+}
+
+.font-size4 {
+  font-size: 0.9vw;
+}
+
 .rounded-corners {
   border-radius: 0.6vw;
+}
+
+.formulaire .avertissement {
+  color: red;
+  display: none;
+}
+
+.body-container {
+  height: 60vh;
 }/*# sourceMappingURL=style.css.map */

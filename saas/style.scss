@@ -17,10 +17,42 @@ $color3 : #394A58;
 }
 
 .contact-form {
-    width: 50vw;
-    height: 55vh;
-    margin: 10vh 10vw 0 10vw;
+    width: 55%;
+    height: 90%;
+    margin: 0% 10% 0% 10%;
     background-color: $color1;
+    padding: 1% 2% 1% 2%;
+
+    form {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+
+    }
+
+    .contact-form-name {
+        height: 20%;
+    }
+
+    .contact-form-email {
+        height: 20%;
+    }
+
+    .contact-form-message {
+        height: 45%;
+    }
+
+    .contact-form-button {
+        height: 10%;
+    }
+
+    button {
+        background-color: $color3;
+        width: 20%;
+        height: 100%;
+    }
+
 }
 
 .message input {
@@ -43,14 +75,13 @@ $color3 : #394A58;
     height: 5vh;;
 }
 
-.bouton {
-    background-color: $color3;
-    width: 10vw;
-}
-
-.footer {
+footer {
     height:10vh;
     background-color: $color3;
+
+    p {
+        margin: 0;
+    }
 }
 
 .font-size1 {
@@ -61,6 +92,31 @@ $color3 : #394A58;
     font-size: 1.5vw;
 }
 
+.font-size3 {
+    font-size: 1.2vw;
+}
+
+.font-size4 {
+    font-size: 0.9vw;
+}
+
 .rounded-corners {
     border-radius: .6vw;
+}
+
+.formulaire {
+    .avertissement {
+        color: red;
+        display: none;
+    }
+}
+
+.body-container {
+    height: 60vh;
+}
+
+//Media Queries
+
+@media screen and (max-width: 1440px){
+
 }
