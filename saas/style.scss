@@ -1,26 +1,27 @@
-//Variables
-$color1 : #A19695;
-$color2 : #B0ADB5;
-$color3 : #394A58;
+@use 'variables.scss';
 
 .hero {
     background-image: url("../img/header.jpg");
     background-size: cover;
     height: 30vh;
-}
 
-.page-title {
-    height: 6vw;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    .page-title {
+        height: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .navbar {
+        height: 30%;
+    }
 }
 
 .contact-form {
     width: 55%;
     height: 90%;
-    margin: 0% 10% 0% 10%;
-    background-color: $color1;
+    margin: 2% 10% 0% 10%;
+    background-color: variables.$color1;
     padding: 1% 2% 1% 2%;
 
     form {
@@ -48,11 +49,12 @@ $color3 : #394A58;
     }
 
     button {
-        background-color: $color3;
         width: 20%;
-        height: 100%;
     }
+}
 
+.connexion-form {
+    background-color: variables.$color2;
 }
 
 .message input {
@@ -60,27 +62,42 @@ $color3 : #394A58;
 }
 
 .presentation {
-    background-color: $color2;
-    width: 20vw;
-    height: 60vh;
-    margin-top: -5vh;
+    background-color: variables.$color2;
+    width: 20%;
+    height: 100%;
+    margin-top: -3%;
+
+    .photo {
+        height: 30%;
+    }
+
+    p {
+        height:15%;
+    }
+
+    .socials {
+        height: 10%;
+        width: 100%;
+    }
 }
 
-.photo {
-    height: 15vh;
-
-}
-
-.socials {
-    height: 5vh;;
-}
 
 footer {
     height:10vh;
-    background-color: $color3;
+    background-color: variables.$color3;
 
     p {
         margin: 0;
+    }
+}
+
+button {
+    background-color: variables.$color3;
+    transition: background-color .5s;
+    border-radius: 10px;
+
+    &:hover {
+        background-color : variables.$colorButtonLight;
     }
 }
 

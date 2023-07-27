@@ -13,9 +13,7 @@ class Home
         $loader = new \Twig\Loader\FilesystemLoader('templates');
         $twig = new \Twig\Environment($loader);
         
-        echo $twig->render('header.twig', [
-            'title' => "Explorez l'univers du développement web avec Christophe Martel : 
-            des lignes de code qui transforment vos idées en réalité numérique.", 
+        echo $twig->render('home.twig', [ 
             'messageResponse' => $messageResponse
         ]);
     }
@@ -39,17 +37,14 @@ class Home
                     $mail = new Email(
                         $_POST['surname'], 
                         $_POST['name'],
-                        "martel.c73@gmail.com", 
+                        "contact@blog.devcm.fr", 
                         $_POST['email'], 
                         "Nouveau contact !", 
                         $_POST['message']
                     );
 
-                    if ($mail->sendMail()){
-                        $response = "Message envoyé !";
-                    } else {
-                        $response = "Un problème est survenu lors de l'envoi du message !";
-                    }
+                    $response = $mail->sendMail();
+
                 } else {
                     $response = "Un ou plusieurs champs du formulaire sont invalides !";
                 }

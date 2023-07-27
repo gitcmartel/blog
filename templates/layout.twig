@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+    <title>Christophe's Blog</title>
+    <link rel="icon" type="image/x-icon" href="img/app_icon.ico">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/style.css">
+    </head>
+    <body>
+        <header>
+            <div class="hero">
+                <nav class="navbar navbar-expand-lg navbar-light">
+                    <div class="container-fluid">
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse justify-content-end me-5" id="navbarNav">
+                        <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link active text-light font-size1" aria-current="page" href="index.php">Accueil</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-light font-size1" href="#">Blog</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-light font-size1" href="index.php?action=connexion">Connexion</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-light font-size1" href="index.php?action=subscription">Inscription</a>
+                        </li>
+                        </ul>
+                    </div>
+                    </div>
+                </nav>
+                <p class="page-title font-size2 text-light text-center">
+                    {% block title %}{% endblock %}
+                </p>
+            </div>
+        </header>
+        {% block body %}{% endblock %}
+    </body>
+    <footer>
+        <div class="mt-5 d-flex justify-content-between h-100">
+            <div class="text-light font-size4 d-flex align-items-center ms-4">
+                <p>Powered by @Devcm</p>
+            </div>
+            <div class="text-light font-size4 d-flex align-items-center me-4">
+                <p class="me-4">Mentions légales</p>
+                <p>Administration</p>
+            </div>
+        </div>
+        <script src="src/Js/Functions.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    </footer>
+    </html>

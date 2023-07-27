@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<parameters>
+	<mail>
+		<username>contact@blog.devcm.fr</username>
+		<password>!PDMSJ4dd$CMKsGB</password>
+		<host>smtp.hostinger.fr</host>
+		<mailTo>contact@blog.devcm.fr</mailTo>
+		<port>587</port>
+		<secureMode>SSL</secureMode>
+	</mail>
+</parameters>

@@ -1,0 +1,41 @@
+{% extends 'layout.twig' %}
+
+{% block body %}
+    <section>
+        <div class="body-container d-flex justify-content-center align-items-center">
+            <form method="post" action="index.php?action=subscription" id = "subscriptionForm" class="formulaire connexion-form container-fluid d-flex flex-column w-50 rounded-corners p-3" novalidate>
+                <div class="d-flex flex-row">
+                    <div class="d-flex flex-column w-50 pb-2 pe-3">
+                        <label for="name" class="form-label text-light">Prénom :</label>
+                        <input type="text" class="form-control" id = "name" name="name" required>
+                    </div>
+                    <div class="d-flex flex-column pb-2 w-50">
+                        <label for="surname" class="form-label text-light">Nom :</label>
+                        <input type="text" class="form-control" id = "surname" name="surname" required>
+                    </div>
+                </div>
+                <div class="d-flex flex-column pb-2 w-50 pe-3">
+                    <label for="pseudo" class="form-label text-light">Pseudo :</label>
+                    <input type="text" class="form-control" id = "pseudo" name="pseudo" required>
+                    <div id="warningPseudo" class="avertissement">Ce pseudo est déjà utilisé</div>
+                </div>
+                <div class="d-flex flex-column pb-2">
+                    <label for="email" class="form-label text-light">Adresse Email :</label>
+                    <input type="email" class="form-control" id = "email" name="email" required>
+                    <div id="warningEmail" class="avertissement">Un compte utilisateur existe déjà pour cette adresse email</div>
+                </div>
+                <div class="d-flex flex-column pb-2">
+                    <label for="password" class="form-label text-light">Mot de passe :</label>
+                    <input type="password" class="form-control" id = "password" name="password" required>
+                    <div id="warningPassword" class="avertissement"></div>
+                </div>
+                <div class="d-flex flex-column pb-2">
+                    <label for="passwordConfirmation" class="form-label text-light">Confirmation du mot de passe :</label>
+                    <input type="password" class="form-control" id = "passwordConfirmation" name="passwordConfirmation" required>
+                </div>
+                <button type="submit" class="text-light" id="btnValider">Valider</button>
+                <div id="warningGeneral" class="avertissement"></div>
+            </form>
+        </div>
+    </section>
+{% endblock %}

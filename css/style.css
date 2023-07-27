@@ -3,18 +3,20 @@
   background-size: cover;
   height: 30vh;
 }
-
-.page-title {
-  height: 6vw;
+.hero .page-title {
+  height: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.hero .navbar {
+  height: 30%;
 }
 
 .contact-form {
   width: 55%;
   height: 90%;
-  margin: 0% 10% 0% 10%;
+  margin: 2% 10% 0% 10%;
   background-color: #A19695;
   padding: 1% 2% 1% 2%;
 }
@@ -37,9 +39,11 @@
   height: 10%;
 }
 .contact-form button {
-  background-color: #394A58;
   width: 20%;
-  height: 100%;
+}
+
+.connexion-form {
+  background-color: #B0ADB5;
 }
 
 .message input {
@@ -48,25 +52,36 @@
 
 .presentation {
   background-color: #B0ADB5;
-  width: 20vw;
-  height: 60vh;
-  margin-top: -5vh;
+  width: 20%;
+  height: 100%;
+  margin-top: -3%;
 }
-
-.photo {
-  height: 15vh;
+.presentation .photo {
+  height: 30%;
 }
-
-.socials {
-  height: 5vh;
+.presentation p {
+  height: 15%;
+}
+.presentation .socials {
+  height: 10%;
+  width: 100%;
 }
 
 footer {
   height: 10vh;
-  background-color: #394A58;
+  background-color: #2e3f4d;
 }
 footer p {
   margin: 0;
+}
+
+button {
+  background-color: #2e3f4d;
+  transition: background-color 0.5s;
+  border-radius: 10px;
+}
+button:hover {
+  background-color: #394A58;
 }
 
 .font-size1 {

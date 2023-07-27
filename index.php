@@ -9,17 +9,25 @@ use Application\Controllers\Home;
 
 try {
     if (isset($_GET['action']) && $_GET['action'] !== ''){
-        $class = "Application\\Controllers\\" . $_GET['action'];
-        if (class_exists($class)) {
-            (new $class())->execute();
-        } else {
+        $classes = array(
+            "Application\\Controllers\\" . $_GET['action'], 
+            "Application\\Controllers\\Api\\V1\\" . $_GET['action'] 
+        );
+        $classFound = false;
+        foreach($classes as $class) {
+            if (class_exists($class)) {
+                (new $class())->execute();
+                $classFound = true;
+            }
+        }
+        if (! $classFound) {
             throw new Exception("La page que vous demandez n'existe pas.");
         }
     } else {
         (new Home())->execute();
     }
 } catch (Execption $exception) {
-    $erreorMessage = $exception->getMessage();
+    $errorMessage = $exception->getMessage();
 
     require('templates/error.php');
 }
