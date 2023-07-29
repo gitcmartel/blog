@@ -42,10 +42,16 @@ function validationEmail(element)
     }
 }
 
-function validatationPassword(password){
-    let regex = new RegExp(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/);
-    return regex.test(mdp);
+function validationPassword(password){
+    let regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[`!@#$%^&*()_+\-=\[\]{};':\\|,.<>\/?~])(?=.{8,})/;
+    let test= regex.test(password.value);
+    return test;
 }
+
+function validationEqualityPassword(password1, password2){
+    return (password1.value === password2.value);
+}
+
 
 //When the submit button is pressed, if the fields values pass the tests
 //then the form is submited, otherwise the warnings are displayed
@@ -87,32 +93,94 @@ if (contactForm !== null) {
     });
 }
 
+function showPassword(element){
+    var passwordField = document.getElementById(element);
+    if (passwordField.type === "password") {
+        passwordField.type = "text";
+      } else {
+        passwordField.type = "password";
+      }
+}
 
-//Check if the email address or pseudo already exists in the database
 if (subscriptionForm !== null) {
     subscriptionForm.addEventListener("submit", function (event) {
+        let name = document.getElementById("name");
+        let surname = document.getElementById("surname");
         let email = document.getElementById("email");
         let pseudo = document.getElementById("pseudo");
+        let password = document.getElementById("password");
+        let passwordConfirmation = document.getElementById("passwordConfirmation");
         let warningEmail = document.getElementById("warningEmail");
         let warningPseudo = document.getElementById("warningPseudo");
-        warningEmail.style.display = "none";
-        warningPseudo.style.display = "none";
-    
+
+        
+        let validation = true;
+        //Check the fields content
+        if(validationNameSurnameMesssage(name, 0, 50) === false) {
+            warningName.innerHTML = "Le champ prénom doit être complété (50 caractères max)";
+            validation = false;
+        } else {
+            warningName.innerHTML = "";
+        }
+
+        if(validationNameSurnameMesssage(surname, 0, 50) === false) {
+            warningSurname.innerHTML = "Le champ nom doit être complété (50 caractères max)";
+            validation = false;
+        } else {
+            warningSurname.innerHTML = "";
+        }
+
+        if(validationNameSurnameMesssage(pseudo, 0, 50) === false) {
+            warningPseudo.innerHTML = "Le champ pseudo doit être complété (50 caractères max)";
+            validation = false;
+        } else {
+            warningPseudo.innerHTML = "";
+        }
+
+        if(validationEmail(email) === false) {
+            warningEmail.innerHTML = "L'adresse email est incorrrecte"
+            validation = false;
+        } else {
+            warningEmail.innerHTML = "";
+        }
+
+        if(validationPassword(password) === false) {
+            warningPassword.innerHTML = "Le mot de passe doit être composé d'au moins 8 caractères, 1 majuscule, 1 minuscule et 1 nombre."
+            validation = false;
+        } else {
+            warningPassword.innerHTML = "";
+        }
+
+        if(validationEqualityPassword(password, passwordConfirmation) === false) {
+            warningPassword.innerHTML = "Les deux mots de passe ne correspondent pas"
+            validation = false;
+        } else {
+            warningPassword.innerHTML = "";
+        }
+
+        //If the fields content are incorrect we don't go further
+        if (!validation){
+            event.preventDefault();
+            return;
+        }
+
+        //Check if the email address or pseudo already exists in the database
         if (email !== null && pseudo !== null && email.value !== "" && pseudo.value !== "") {
-            let validation = true;
+            
             let xhttp = new XMLHttpRequest;
             let url = "index.php?action=UserExists&email=" + email.value + "&pseudo=" + pseudo.value;
             xhttp.open("GET", url, false);
             xhttp.send();
             let response = xhttp.responseText;
+
             if (response !== ""){
                 let jsonResponse = JSON.parse(response);
                 if (jsonResponse.email === true){
-                    warningEmail.style.display = "block";
+                    warningEmail.innerHTML = "Cette adresse email est déjà utilisée";
                     validation = false;
                 }
                 if (jsonResponse.pseudo === true){
-                    warningPseudo.style.display = "block";
+                    warningPseudo.innerHTML = "Ce pseudo est déjà utilisé";
                     validation = false;
                 }
             }
