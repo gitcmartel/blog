@@ -162,4 +162,26 @@ class UserRepository
             return false;
         }
     }
+
+    /**
+     * Checks if the parameter is max 50 characters long
+     * and is not empty
+     */
+    public function checkNameSurname(string $value) : bool
+    {
+        if(strlen($value) > 50 || trim($value) === ""){
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    /**
+     * Checks the email validity
+     */
+
+    public function checkEmail(string $email) : bool
+    {
+        return preg_match("/(^[a-zA-Z0-9_.]+[@]{1}[a-z0-9]+[\.][a-z]+$)/", $email);
+    }
 }

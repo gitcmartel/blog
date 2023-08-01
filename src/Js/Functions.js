@@ -102,6 +102,7 @@ function showPassword(element){
       }
 }
 
+
 if (subscriptionForm !== null) {
     subscriptionForm.addEventListener("submit", function (event) {
         let name = document.getElementById("name");
@@ -145,7 +146,7 @@ if (subscriptionForm !== null) {
         }
 
         if(validationPassword(password) === false) {
-            warningPassword.innerHTML = "Le mot de passe doit être composé d'au moins 8 caractères, 1 majuscule, 1 minuscule et 1 nombre."
+            warningPassword.innerHTML = "Le mot de passe doit être composé d'au moins 8 caractères, 1 majuscule, 1 minuscule, 1 nombre et 1 caractère spécial"
             validation = false;
         } else {
             warningPassword.innerHTML = "";
@@ -191,4 +192,3 @@ if (subscriptionForm !== null) {
         }
     });
 }
-
