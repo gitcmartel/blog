@@ -70,8 +70,10 @@ class Subscription
             //If the email and pseudo are available we create the user account
             if ($warningEmail["warningMessage"] === "" && $warningPseudo["warningMessage"] === "" && $warningPassword["warningMessage"] === "" 
             && $warningName["warningMessage"] === "" && $warningSurname["warningMessage"] === ""){
-                if($userRepository->createUser(new User($_POST['name'], $_POST['surname'], $_POST['pseudo'], $_POST['email'], 
-                $_POST['password'], DateTime::createFromFormat("Y-m-d H:i:s", Date("Y-m-d H:i:s")), "Lecteur", 0))){
+                $user = new User();
+                $user->constructWhithParameters($_POST['name'], $_POST['surname'], $_POST['pseudo'], $_POST['email'], 
+                $_POST['password'], DateTime::createFromFormat("Y-m-d H:i:s", Date("Y-m-d H:i:s")), "Lecteur", 0);
+                if($userRepository->createUser($user)){
                     $loader = new \Twig\Loader\FilesystemLoader('templates');
                     $twig = new \Twig\Environment($loader);
                     echo $twig->render('subscriptionSuccess.twig', []);  

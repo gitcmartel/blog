@@ -97,8 +97,12 @@ function showPassword(element){
     var passwordField = document.getElementById(element);
     if (passwordField.type === "password") {
         passwordField.type = "text";
+        element.classList.remove('fa-eye');
+        element.classList.add('fa-eye-slash');
       } else {
         passwordField.type = "password";
+        element.classList.add('fa-eye');
+        element.classList.remove('fa-eye-slash');
       }
 }
 

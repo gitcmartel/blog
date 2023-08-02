@@ -11,7 +11,7 @@ class Home
         $messageResponse = $this->sendMessage();
 
         $loader = new \Twig\Loader\FilesystemLoader('templates');
-        $twig = new \Twig\Environment($loader);
+        $twig = new \Twig\Environment($loader, ['cache' => false]);
         
         echo $twig->render('home.twig', [ 
             'messageResponse' => $messageResponse
@@ -37,13 +37,21 @@ class Home
                     $mail = new Email(
                         $_POST['surname'], 
                         $_POST['name'],
-                        "contact@blog.devcm.fr", 
+                        "contact@blog.devcm.fr",
+                        "contact@blog.devcm.fr",  
                         $_POST['email'], 
                         "Nouveau contact !", 
+                        "Message envoyé depuis le formulaire de contact du Blog Devcm. \r\n" . 
+                        "Auteur : " . $_POST['surname'] . " " . $_POST['name'] . " - " . $_POST['email'] . "\r\n" . 
                         $_POST['message']
+                        
                     );
 
-                    $response = $mail->sendMail();
+                    if($mail->sendMail()) {
+                        $response = 'Le message a été envoyé.';
+                    } else {
+                        $response = 'Erreur de Mailer : ' . $mail->errorInfo;
+                    }
 
                 } else {
                     $response = "Un ou plusieurs champs du formulaire sont invalides !";

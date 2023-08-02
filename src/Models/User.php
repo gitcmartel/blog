@@ -12,11 +12,13 @@ class User
     public string $pseudo;
     public string $email;
     public string $password;
+    public string $tokenForgotPassword;
+    public DateTime $forgotPasswordDate;
     public DateTime $creationDate;
     public string $userFunction;
     public bool $isValid;
 
-    function __construct(string $name, string $surname, string $pseudo, string $email, string $password, 
+    public function constructWhithParameters(string $name, string $surname, string $pseudo, string $email, string $password, 
         DateTime $creationDate, string $userFunction, bool $isValid)
     {
         $this->name = $name;
@@ -24,9 +26,11 @@ class User
         $this->pseudo = $pseudo;
         $this->email = $email;
         $this->password = $password;
-        $this->creationDate = $creationDate;
+        $this->creaionDate = $creationDate;
         $this->userFunction = $userFunction;
         $this->isValid = $isValid;
     }
+
+
 }
 

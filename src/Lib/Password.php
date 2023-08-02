@@ -29,11 +29,21 @@ class Password
      * 1 special character
      */
 
-     public static function checkPassword(string $password)
+     public static function checkPassword(string $password) : bool
      {
         return preg_match(
             "/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[`!@#$%^&*()_+\-=\[\]{};':\\|,.<>\/?~])(?=.{8,})/", 
             $password
         );
      }
+
+     /**
+      * Generates a random token string
+      * which will be used for password renewal
+      */
+
+      public static function generateToken()
+      {
+        return  bin2hex(random_bytes(100));
+      }
 }

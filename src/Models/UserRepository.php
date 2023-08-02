@@ -4,6 +4,7 @@ namespace Application\Models;
 
 use Application\Lib\DatabaseConnexion;
 use Application\Lib\Password;
+use DateTime;
 
 class UserRepository
 {
@@ -58,7 +59,7 @@ class UserRepository
             $user->pseudo = $row['pseudo'];
             $user->email = $row['email'];
             $user->password = $row['password'];
-            $user->creationDate = $row['creationDate'];
+            $user->creationDate = DateTime::createFromFormat("Y-m-d H:i:s", $row['creationDate']);
             $user->userFunction = $row['userFunction'];
             $user->isValid = $row['isValid'];
         }
@@ -107,7 +108,7 @@ class UserRepository
             htmlspecialchars($user->surname), 
             htmlspecialchars($user->pseudo), 
             htmlspecialchars($user->email), 
-            Password::encrypt(htmlspecialchars($user->password)), 
+            Password::encrypt($user->password), 
             $user->userFunction])) 
         {
             return true;
@@ -120,7 +121,7 @@ class UserRepository
     public function updateUser(User $user) : bool 
     {
         $statement = $this->connexion->getConnexion()->prepare(
-            "UPDATE user SET(name = ?, surname = ?, pseudo = ?, email = ?, password = ?, userFunction = ?, isValid = ?) 
+            "UPDATE user SET name = ?, surname = ?, pseudo = ?, email = ?, password = ?, userFunction = ?, isValid = ? 
             WHERE userId = ?;"
         );
 
@@ -184,4 +185,65 @@ class UserRepository
     {
         return preg_match("/(^[a-zA-Z0-9_.]+[@]{1}[a-z0-9]+[\.][a-z]+$)/", $email);
     }
+
+    /**
+     * Updates the tokenForgotPassword and forgotPasswordDate fields
+     */
+    public function updateToken(int $userId, string $token) : bool
+    {
+        $statement = $this->connexion->getConnexion()->prepare(
+            "UPDATE user SET tokenForgotPassword = ?, forgotPasswordDate = now() 
+            WHERE userId = ?;"
+        );
+
+        if ($statement->execute([$token, $userId])) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Checks the token validity and returns the corresponding user
+     */
+     public function isTokenValid(string $token, string $email) : User
+     {
+        $statement = $this->connexion->getConnexion()->prepare(
+            "SELECT * FROM user WHERE tokenForgotPassword = ? and email = ?;"
+        );
+
+        $statement->execute([$token, $email]);
+
+        $user = new User();
+
+        while ($row = $statement->fetch()) {
+            $user->id = $row['userId'];
+            $user->name = $row['name'];
+            $user->surname = $row['surname'];
+            $user->pseudo = $row['pseudo'];
+            $user->email = $row['email'];
+            $user->password = $row['password'];
+            $user->tokenForgotPassword = $row['tokenForgotPassword'];
+            $user->forgotPasswordDate = DateTime::createFromFormat("Y-m-d H:i:s", $row['forgotPasswordDate']);
+            $user->creationDate = DateTime::createFromFormat("Y-m-d H:i:s", $row['creationDate']);
+            $user->userFunction = $row['userFunction'];
+            $user->isValid = $row['isValid'];
+        }
+
+        return $user;
+     }
+
+     public function changePassword(int $userId, string $password)
+     {
+        $statement = $this->connexion->getConnexion()->prepare(
+            "UPDATE user SET tokenForgotPassword = '', forgotPasswordDate = '0000-00-00 00:00:00', password = ? 
+            WHERE userId = ?;"
+        );
+
+        if ($statement->execute([Password::encrypt($password), $userId])) {
+            return true;
+        } else {
+            return false;
+        }
+     }
 }

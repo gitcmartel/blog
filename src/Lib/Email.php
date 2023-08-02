@@ -11,20 +11,23 @@ class Email
     public string $surname;
     public string $name;
     public string $from;
+    public string $to;
     public string $subject;
     public string $message;
+    public string $errorInfo;
 
-    function __construct(string $surname, string $name, string $from, string $subject, string $message)
+    function __construct(string $surname, string $name, string $from, string $to, string $subject, string $message)
     {
         $this->surname = htmlspecialchars($surname);
         $this->name = htmlspecialchars($name);
         $this->from = htmlspecialchars($from);
+        $this->to =  htmlspecialchars($to);
         $this->subject = htmlspecialchars($subject);
         $this->message = htmlspecialchars($message);
     }
 
     //Sends the email
-    public function sendMail() : string
+    public function sendMail() : bool
     {
         //Get the parameters
         $parameters = new MailParameters();
@@ -43,16 +46,16 @@ class Email
         $mail->Password = $parameters->password;
         $mail->setFrom($parameters->mailTo, $author);
         $mail->addReplyTo($this->from, $author);
-        $mail->addAddress($parameters->mailTo, "Contact Devcm");
+        $mail->addAddress($this->to, "Contact Devcm");
         $mail->isHTML(true);
         $mail->CharSet = 'UTF-8';
         $mail->Subject = $this->subject;
-        $mail->Body = "Message envoyé depuis le formulaire de contact du Blog Devcm. \r\n" . 
-            "Auteur : " . $author . " - " . $this->from . "\r\n" . $this->message;
-        if (!$mail->send()) {
-            return 'Erreur de Mailer : ' . $mail->ErrorInfo;
+        $mail->Body = $this->message;
+        if ($mail->send()){
+            return true;
         } else {
-            return 'Le message a été envoyé.';
+            $this->errorInfo = $mail->ErrorInfo;
+            return false;
         }
     }
 }
