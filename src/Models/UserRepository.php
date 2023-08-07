@@ -236,7 +236,7 @@ class UserRepository
      public function changePassword(int $userId, string $password)
      {
         $statement = $this->connexion->getConnexion()->prepare(
-            "UPDATE user SET tokenForgotPassword = '', forgotPasswordDate = '0000-00-00 00:00:00', password = ? 
+            "UPDATE user SET tokenForgotPassword = '', forgotPasswordDate = null, password = ? 
             WHERE userId = ?;"
         );
 

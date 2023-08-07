@@ -6,6 +6,7 @@ namespace Application\Controllers;
 use Application\Models\User;
 use Application\Models\UserRepository;
 use Application\Lib\Password;
+use Application\Lib\Session;
 use DateTime;
 
 class Subscription 
@@ -76,7 +77,9 @@ class Subscription
                 if($userRepository->createUser($user)){
                     $loader = new \Twig\Loader\FilesystemLoader('templates');
                     $twig = new \Twig\Environment($loader);
-                    echo $twig->render('subscriptionSuccess.twig', []);  
+                    echo $twig->render('subscriptionSuccess.twig', [
+                        'activeUser' => Session::getActiveUser()
+                    ]);  
                     return;
                 } else {
                     $warningGeneral = "Un problème est survenu lors de la création du compte";
@@ -93,7 +96,8 @@ class Subscription
             'warningEmail' => $warningEmail, 
             'warningPseudo' => $warningPseudo, 
             'warningPassword' => $warningPassword, 
-            'warningGeneral' => $warningGeneral
+            'warningGeneral' => $warningGeneral, 
+            'activeUser' => Session::getActiveUser()
         ]);  
         return; 
     }

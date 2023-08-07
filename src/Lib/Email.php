@@ -23,7 +23,7 @@ class Email
         $this->from = htmlspecialchars($from);
         $this->to =  htmlspecialchars($to);
         $this->subject = htmlspecialchars($subject);
-        $this->message = htmlspecialchars($message);
+        $this->message = $message;
     }
 
     //Sends the email

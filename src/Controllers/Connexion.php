@@ -5,6 +5,7 @@ namespace Application\Controllers;
 use Application\Models\UserRepository;
 use Application\Models\User;
 use Application\Lib\Password;
+use Application\Lib\Session;
 
 class Connexion 
 {
@@ -36,7 +37,10 @@ class Connexion
                         $loader = new \Twig\Loader\FilesystemLoader('templates');
                         $twig = new \Twig\Environment($loader);
                         
-                        echo $twig->render('connexionSuccess.twig', []);
+                        $_SESSION['activeUser'] = $user->pseudo;
+                        echo $twig->render('connexionSuccess.twig', [
+                            'activeUser' => Session::getActiveUser()
+                        ]);
                         return;
                     } else {
                         $warningPassword = "Le mot de passe est incorrect";
@@ -53,7 +57,8 @@ class Connexion
         echo $twig->render('connexion.twig', [ 
             'warningLogin' => $warningLogin, 
             'warningPassword' => $warningPassword,
-            'loginValue' => $loginValue
+            'loginValue' => $loginValue, 
+            'activeUser' => Session::getActiveUser()
         ]);
     }
 }

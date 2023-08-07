@@ -6,6 +6,7 @@ use Application\Models\UserRepository;
 use Application\Models\User;
 use Application\Lib\Password;
 use Application\Lib\Email;
+use Application\Lib\Constants;
 use DateTime;
 
 class PasswordRenewal
@@ -36,19 +37,22 @@ class PasswordRenewal
                     //Stores the token and the actual datetime in the user table
                     if ($userRepository->updateToken($user->id, $token)){
                         //Send the email with the password renewal link
+                        $loader = new \Twig\Loader\FilesystemLoader('templates');
+                        $twig = new \Twig\Environment($loader);
+
+                        $parameters = array(
+                            'domaine' => Constants::WEBSITE_DOMAIN, 
+                            'emailAdress' => $_POST['emailAddress'],
+                            'token' => $token
+                        );
                         $email = new Email("Blog Devcm", 
                         "", 
                         "contact@blog.devcm.fr", 
                         $_POST['emailAddress'],
                         "Renouvellement de mot de passe", 
-                        "Bonjour, \r\n" . 
-                        "Vous avez effectué une demande de renouvellement de mot de passe sur notre site blog.devcm.fr. \r\n" . 
-                        "Pour cela veuillez cliquer sur le lien ci-dessous, ce dernier est valable 24 heures. \r\n" . 
-                        "http://localhost/index.php?action=passwordRenewalSubscription&email=" . $_POST['emailAddress'] . 
-                        "&token=" . $token . "\r\n" . 
-                        "Cordialement. \r\n" . 
-                        "Le service support"
+                        $twig->render('mailMessage.twig', $parameters)
                         );
+
                         if($email->sendMail()){
                             $successMessage = "Un mail vous a été envoyé pour le renouvellement de votre mot de passe";
                         } else {

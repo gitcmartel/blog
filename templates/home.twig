@@ -14,16 +14,12 @@
                         <div class="me-5 w-50">
                             <label for="surname" class="form-label text-light font-size3 h-50">Nom</label>
                             <input type="text" class="form-control h-50" id="surname" name="surname" required>
-                            <div class="avertissement font-size3" id="alertSurname">
-                                Veuillez entrer votre nom.
-                            </div>
+                            <div class="avertissement font-size3" id="alertSurname">{{ warningSurname }}</div>
                         </div>
                         <div class="w-50">
                             <label for="name" class="form-label text-light font-size3 h-50">Prénom</label>
                             <input type="text" class="form-control h-50" id="name" name="name" required>
-                            <div class="avertissement font-size3" id="alertName">
-                                Veuillez entrer votre prénom.
-                            </div>
+                            <div class="avertissement font-size3" id="alertName">{{ warningName }}</div>
                         </div>
                     </div>
                     <div class="mb-4 contact-form-email">
@@ -32,16 +28,12 @@
                             <span class="input-group-text" id="inputGroupPrepend">@</span>
                             <input type="email" class="form-control" id="email" name="email" aria-describedby="inputGroupPrepend" required>
                         </div>
-                        <div class="avertissement font-size3" id="alertEmail">
-                            Veuillez entrer une adresse email valide.
-                        </div>
+                        <div class="avertissement font-size3" id="alertEmail">{{ warningEmail }}</div>
                     </div>
                     <div class="mb-4 message contact-form-message">
                         <label for="message" class="form-label text-light font-size3 h-25">Message</label>
                         <textarea class="form-control h-75" id="message" name="message" maxlength="500" form="contactForm" rows="2" required></textarea>
-                        <div class="avertissement font-size3" id="alertMessage">
-                            Veuillez entrer un message valide.
-                        </div>
+                        <div class="avertissement font-size3" id="alertMessage">{{ warningMessage }}</div>
                     </div>
                     <div class="d-flex justify-content-center contact-form-button">
                         <button type="submit" class="text-light font-size3 d-flex justify-content-center align-items-center">

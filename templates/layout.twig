@@ -12,25 +12,34 @@
             <div class="hero">
                 <nav class="navbar navbar-expand-lg navbar-light">
                     <div class="container-fluid">
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse justify-content-end me-5" id="navbarNav">
-                        <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link active text-light font-size1" aria-current="page" href="index.php">Accueil</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-light font-size1" href="#">Blog</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-light font-size1" href="index.php?action=connexion">Connexion</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-light font-size1" href="index.php?action=subscription">Inscription</a>
-                        </li>
-                        </ul>
-                    </div>
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse justify-content-start" id="navbarNav">
+                            <ul class="navbar-nav me-auto">
+                                <li class="nav-item">
+                                    <a class="nav-link active text-light font-size1" aria-current="page" href="index.php">Accueil</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-light font-size1" href="#">Blog</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-light font-size1" href="index.php?action=connexion">Connexion</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-light font-size1" href="index.php?action=subscription">Inscription</a>
+                                </li>
+                            </ul>
+                            {% if activeUser != "" %}
+                                <div class="text-light fst-italic font-size3 me-3" id="pseudo">Bienvenue {{ activeUser }}</div>
+                                <a href="">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                                        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+                                        <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+                                    </svg>
+                                </a>
+                            {% endif %}
+                        </div>
                     </div>
                 </nav>
                 <p class="page-title font-size2 text-light text-center">

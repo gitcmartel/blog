@@ -4,6 +4,7 @@ namespace Application\Controllers;
 
 use Application\Lib\FormValidation;
 use Application\Lib\Email;
+use Application\Lib\Session;
 
 class Home 
 {
@@ -14,7 +15,8 @@ class Home
         $twig = new \Twig\Environment($loader, ['cache' => false]);
         
         echo $twig->render('home.twig', [ 
-            'messageResponse' => $messageResponse
+            'messageResponse' => $messageResponse, 
+            'activeUser' => Session::getActiveUser()
         ]);
     }
 

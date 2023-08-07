@@ -6,6 +6,7 @@ require_once(__DIR__ . "/vendor/autoload.php");
 
 use Application\Controllers\Home;
 
+session_start();
 
 try {
     if (isset($_GET['action']) && $_GET['action'] !== ''){

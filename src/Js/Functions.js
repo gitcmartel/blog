@@ -82,6 +82,7 @@ if (contactForm !== null) {
         if(validationEmail(formEmail) === false) {
             alertEmail.style.display = "block";
             validation = false;
+            alertEmail.innerHTML = "Cette adresse email est incorrecte";
         } else {
             alertEmail.style.display = "none";
         }
