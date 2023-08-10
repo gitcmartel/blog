@@ -31,6 +31,17 @@ class User
         $this->isValid = $isValid;
     }
 
-
+    /**
+     * If the user has a function of "createur" or "administrateur"
+     * then the function returns true
+     */
+    public function isCreator() : bool
+    {
+        if($this->userFunction === "Createur" || "administrateur"){
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
 

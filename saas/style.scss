@@ -1,4 +1,5 @@
 @use 'variables.scss';
+@use 'post.scss';
 
 .hero {
     background-image: url("../img/header.jpg");
@@ -91,7 +92,7 @@ footer {
     }
 }
 
-button {
+.button {
     background-color: variables.$color3;
     transition: background-color .5s;
     border-radius: 10px;
@@ -123,6 +124,18 @@ button {
 
 .body-container {
     height: 60vh;
+}
+
+.vh-60{
+    height: 60vh;
+}
+
+.w-15{
+    width: 15%;
+}
+
+.w-80{
+    width: 80%;
 }
 
 //Media Queries

@@ -13,9 +13,10 @@ class Post
     public DateTime $publicationDate;
     public DateTime $lastUpdateTime;
     public User $user;
+    public User $modifier;
 
     function __construct(int $id, string $title, string $sumary, string $content, DateTime $creationDate, 
-    DateTime $publicationDate, DateTime $lastUpdateTime, User $user)
+    DateTime $publicationDate, DateTime $lastUpdateTime, User $user, User $modifier)
     {
         $this->id = $id;
         $this->title = $title;
@@ -25,5 +26,6 @@ class Post
         $this->publicationDate = $publicationDate;
         $this->lastUpdateTime = $lastUpdateTime;
         $this->user = $user;
+        $this->modifier = $modifier;
     }
 }

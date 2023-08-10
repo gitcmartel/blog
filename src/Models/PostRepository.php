@@ -10,7 +10,7 @@ class PostRepository
 
     function __construct()
     {
-        $this->$connexion = new DatabaseConnexion();
+        $this->connexion = new DatabaseConnexion();
     }
 
     //Returns a Post
@@ -56,6 +56,8 @@ class PostRepository
             $userRepository = new UserRepository();
             $user = $userRepository->getUser($row['userId']);
 
+            $modifier = $userRepository->getUser($row['userIdModifier']);
+
             $post = new Post(
                 $row['postId'], 
                 $row['title'], 
@@ -64,7 +66,8 @@ class PostRepository
                 $row['creationDate'], 
                 $row['publicationDate'], 
                 $row['lastUpdateDate'], 
-                $user
+                $user, 
+                $modifier
             );
 
             $posts[] = $post; 
@@ -80,7 +83,8 @@ class PostRepository
             VALUES (?, ?, ?, now(), ?, ?, ?);"
         );
 
-        $affectedLines = $statement->execute([$post->title, $post->summary, $post->content, $post->creationDate, 
+        $affectedLines = $statement->execute([htmlspecialchars($post->title), htmlspecialchars($post->summary), 
+        htmlspecialchars($post->content), $post->creationDate, 
         $post->publicationDate, $post->lastUpdateDate, $post->user->userId]);
 
         return ($affectedLines > 0);

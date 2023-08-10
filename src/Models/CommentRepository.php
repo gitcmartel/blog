@@ -80,7 +80,7 @@ class CommentRepository
             VALUES (?, ?, ?, ?);"
         );
 
-        $affectedRows = $statement->execute([$comment->publicationDate, $comment->comment, $comment->userId, $comment->postId]);
+        $affectedRows = $statement->execute([$comment->publicationDate, htmlspecialchars($comment->comment), $comment->userId, $comment->postId]);
 
         return($affectedRows > 0);
     }

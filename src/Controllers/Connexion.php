@@ -38,6 +38,7 @@ class Connexion
                         $twig = new \Twig\Environment($loader);
                         
                         $_SESSION['activeUser'] = $user->pseudo;
+                        $_SESSION['userId'] = $user->id;
                         echo $twig->render('connexionSuccess.twig', [
                             'activeUser' => Session::getActiveUser()
                         ]);

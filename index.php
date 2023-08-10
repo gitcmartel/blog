@@ -12,6 +12,7 @@ try {
     if (isset($_GET['action']) && $_GET['action'] !== ''){
         $classes = array(
             "Application\\Controllers\\" . $_GET['action'], 
+            "Application\\Controllers\\Admin\\" . $_GET['action'], 
             "Application\\Controllers\\Api\\V1\\" . $_GET['action'] 
         );
         $classFound = false;

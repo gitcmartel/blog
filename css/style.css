@@ -75,12 +75,12 @@ footer p {
   margin: 0;
 }
 
-button {
+.button {
   background-color: #2e3f4d;
   transition: background-color 0.5s;
   border-radius: 10px;
 }
-button:hover {
+.button:hover {
   background-color: #394A58;
 }
 
@@ -104,10 +104,18 @@ button:hover {
   border-radius: 0.6vw;
 }
 
-.formulaire .avertissement {
-  color: red;
-}
-
 .body-container {
   height: 60vh;
+}
+
+.vh-60 {
+  height: 60vh;
+}
+
+.w-15 {
+  width: 15%;
+}
+
+.w-80 {
+  width: 80%;
 }/*# sourceMappingURL=style.css.map */

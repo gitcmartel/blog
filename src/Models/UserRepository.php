@@ -18,7 +18,7 @@ class UserRepository
     //Returns a User object
     public function getUser(int $userId) : User
     {
-        $statement = $this->connexion->getConnexion()->getConnexion()->prepare(
+        $statement = $this->connexion->getConnexion()->prepare(
             "SELECT * FROM user WHERE userId = ?;"
         );
 
@@ -33,7 +33,7 @@ class UserRepository
             $user->pseudo = $row['pseudo'];
             $user->email = $row['email'];
             $user->password = $row['password'];
-            $user->creationDate = $row['creationDate'];
+            $user->creationDate = DateTime::createFromFormat("Y-m-d H:i:s", $row['creationDate']);
             $user->userFunction = $row['userFunction'];
             $user->isValid = $row['isValid'];
         }
