@@ -118,4 +118,9 @@ footer p {
 
 .w-80 {
   width: 80%;
+}
+
+.img-post {
+  width: 100%;
+  background-size: cover;
 }/*# sourceMappingURL=style.css.map */
