@@ -3,6 +3,7 @@
 namespace Application\Models;
 
 use Application\Lib\DatabaseConnexion;
+use DateTime;
 
 class PostRepository
 {
@@ -27,16 +28,22 @@ class PostRepository
         $userRepository = new UserRepository();
         $user = $userRepository->getUser($row['userId']);
 
-        $post = new Post(
-            $row['postId'], 
-            $row['title'], 
-            $row['summary'], 
-            $row['content'], 
-            $row['creationDate'], 
-            $row['publicationDate'], 
-            $row['lastUpdateDate'], 
-            $user
-        );
+        if($row['userIdModifier'] !== null){
+            $modifier = $userRepository->getUser($row['userIdModifier']);
+        } else {
+            $modifier = new User();
+        }
+
+        $post = new Post();
+        $post->id = $row['postId'];
+        $post->title = $row['title'];
+        $post->summary = $row['summary'];
+        $post->content = $row['content'];
+        $post->creationDate = $row['creationDate'] !== null ? $row['creationDate'] : '';
+        $post->publicationDate = $row['publicationDate'] !== null ? $row['publicationDate'] : '';
+        $post->lastUpdateDate = $row['lastUpdateDate'] !== null ? $row['lastUpdateDate'] : '';
+        $post->user = $user;
+        $post->modifier = $modifier;
 
         return $post;
     }
@@ -56,19 +63,22 @@ class PostRepository
             $userRepository = new UserRepository();
             $user = $userRepository->getUser($row['userId']);
 
-            $modifier = $userRepository->getUser($row['userIdModifier']);
+            if($row['userIdModifier'] !== null){
+                $modifier = $userRepository->getUser($row['userIdModifier']);
+            } else {
+                $modifier = new User();
+            }
 
-            $post = new Post(
-                $row['postId'], 
-                $row['title'], 
-                $row['summary'], 
-                $row['content'], 
-                $row['creationDate'], 
-                $row['publicationDate'], 
-                $row['lastUpdateDate'], 
-                $user, 
-                $modifier
-            );
+            $post = new Post();
+            $post->id = $row['postId'];
+            $post->title = $row['title'];
+            $post->summary = $row['summary'];
+            $post->content = $row['content'];
+            $post->creationDate = $row['creationDate'] !== null ? $row['creationDate'] : '';
+            $post->publicationDate = $row['publicationDate'] !== null ? $row['publicationDate'] : '';
+            $post->lastUpdateDate = $row['lastUpdateDate'] !== null ? $row['lastUpdateDate'] : '';
+            $post->user = $user;
+            $post->modifier = $modifier;
 
             $posts[] = $post; 
         }
@@ -79,13 +89,12 @@ class PostRepository
     public function createPost($post) : bool
     {
         $statement = $this->connexion->getConnexion()->prepare(
-            "INSERT INTO post (title, summary, content, creationDate, publicationDate, lastUpdateDate, userId) 
-            VALUES (?, ?, ?, now(), ?, ?, ?);"
+            "INSERT INTO post (title, summary, content, creationDate, lastUpdateDate, userId) 
+            VALUES (?, ?, ?, now(), now(), ?);"
         );
 
         $affectedLines = $statement->execute([htmlspecialchars($post->title), htmlspecialchars($post->summary), 
-        htmlspecialchars($post->content), $post->creationDate, 
-        $post->publicationDate, $post->lastUpdateDate, $post->user->userId]);
+        htmlspecialchars($post->content), $post->user->id]);
 
         return ($affectedLines > 0);
     }
@@ -94,15 +103,15 @@ class PostRepository
     public function updatePost($post) : bool 
     {
         $statement = $this->connexion->getConnexion()->prepare(
-            "UPDATE post SET(title = ?, summary = ?, content = ?, lastUpdateDate = now());"
+            "UPDATE post SET title = ?, summary = ?, content = ?, lastUpdateDate = now() WHERE postId=?;"
         );
 
-        $affectedLines = $statement->execute([$post->title, $post->summary, $post->content]);
+        $affectedLines = $statement->execute([$post->title, $post->summary, $post->content, $post->id]);
 
         return ($affectedLines > 0);
     }
 
-    //Delete a post
+    //Deletes a post
     public function deletePost($post) : bool 
     {
         $statement = $this->connexion->getConnexion()->prepare(
@@ -110,6 +119,34 @@ class PostRepository
         );
 
         $affectedLines = $statement->execute([$post->postId]);
+
+        return ($affectedLines > 0);
+    }
+
+    /**
+     * Set the publicationDate field to now
+     */
+    public function setPublicationDate(int $postId) : bool
+    {
+        $statement = $this->connexion->getConnexion()->prepare(
+            "UPDATE post SET publicationDate = now() WHERE postId = ?;"
+        );
+
+        $affectedLines = $statement->execute([$postId]);
+
+        return ($affectedLines > 0);
+    }
+
+    /**
+     * Set the publicationDate field to null
+     */
+    public function setPublicationDateToNull(int $postId) : bool 
+    {
+        $statement = $this->connexion->getConnexion()->prepare(
+            "UPDATE post SET publicationDate = null WHERE postId = ?;"
+        );
+
+        $affectedLines = $statement->execute([$postId]);
 
         return ($affectedLines > 0);
     }

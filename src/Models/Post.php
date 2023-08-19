@@ -2,7 +2,6 @@
 
 namespace Application\Models;
 
-
 class Post 
 {
     public int $id;
@@ -10,24 +9,10 @@ class Post
     public string $summary;
     public string $content;
     public string $imagePath;
-    public DateTime $creationDate;
-    public DateTime $publicationDate;
-    public DateTime $lastUpdateTime;
+    public string $creationDate;
+    public string $publicationDate;
+    public string $lastUpdateDate;
     public User $user;
     public User $modifier;
 
-    function __construct(int $id, string $title, string $sumary, string $content, string $imagePath, DateTime $creationDate, 
-    DateTime $publicationDate, DateTime $lastUpdateTime, User $user, User $modifier)
-    {
-        $this->id = $id;
-        $this->title = $title;
-        $this->summary = $summary;
-        $this->content = $content;
-        $this->imagePath = $imagePath;
-        $this->creationDate = $creationDate;
-        $this->publicationDate = $publicationDate;
-        $this->lastUpdateTime = $lastUpdateTime;
-        $this->user = $user;
-        $this->modifier = $modifier;
-    }
 }

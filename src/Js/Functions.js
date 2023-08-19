@@ -198,3 +198,15 @@ if (subscriptionForm !== null) {
     });
 }
 
+/**
+ * Set the hidden html input element to 1
+ * Then when a sumbission is performed, the php controller can now if it's a
+ * publication (0) or not (1)
+ */
+function unPublish()
+{
+    let inputUnpublish = document.getElementById("unpublish");
+    if(inputUnpublish !== null){
+        inputUnpublish.setAttribute('value', 'true');
+    }
+}

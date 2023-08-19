@@ -51,17 +51,21 @@ class AdminPostSave
                     } else {
                         $postContent = $_POST['postContent'];
                     }
-        
+
                     //if there is an image for the post
                     if(isset($_FILES['imagePath'])){
-                        //Checks the image size
-                        if(! Upload::checkSize($_FILES['imagePath']['size'])){
-                            $warningImage = "La taille de l'image ne doit pas excéder 2 Mo";
+                        if($_FILES['imagePath']['size'] > 0) {
+                            //Checks the image size
+                            if(! Upload::checkSize($_FILES['imagePath']['size'])){
+                                $warningImage = "La taille de l'image ne doit pas excéder 2 Mo";
+                            }
                         }
-        
-                        //Checks if the file type is an image
-                        if(! Upload::checkFileType($_FILES['imagePath']['name'])){
-                            $warningImage = "Le type de fichier doit être une image (jpeg, jpg, png, svg)";
+
+                        if(trim($_FILES['imagePath']['name']) !== ""){
+                            //Checks if the file type is an image
+                            if(! Upload::checkFileType($_FILES['imagePath']['name'])){
+                                $warningImage = "Le type de fichier doit être une image (jpeg, jpg, png, svg)";
+                            }
                         }
 
                         if($warningImage === ""){
@@ -72,37 +76,33 @@ class AdminPostSave
                     //If all fields are ok we proceed
                     if($postTitle !== "" && $postSummary !== "" && $postContent !="" && $warningImage === ""){
                         $postRepository = new PostRepository();
-                        $post = new Post(
-                            null, 
-                            $postTitle, 
-                            $postSummary, 
-                            $postContent,
-                            $pathImage, 
-                            null, 
-                            null, 
-                            null, 
-                            null,  
-                            $user
-                        );
+                        $post = new Post();
+                        $post->title = $postTitle;
+                        $post->summary = $postSummary;
+                        $post->content = $postContent;
+                        $post->imagePath = $pathImage;
+                        $post->modifier = $user;
 
                         //If there is a Post Id then we have to make an update
                         if(isset($_POST['postId'])){
-                            if (! $postRepository->updatePost($post)){
-                                $warningGlobal = "Un problème est survenu lors de l'enregistrement du post";
-                            } else {
-                                //We display the updated post list
-                                header("Location:index.php?action=AdminPostList");
-                                return;
-                            }
-                        //Else we have to create a new post
-                        } else {                         
-                            $post->user = $user;
-                            if(! $postRepository->createPost($post)){
-                                $warningGlobal = "Un problème est survenu lors de l'enregistrement du post";
-                            } else {
-                                //We display the updated post list
-                                header("Location:index.php?action=AdminPostList");
-                                return;
+                            if($_POST['postId'] !== ""){
+                                $post->id = $_POST['postId'];
+                                if (! $postRepository->updatePost($post)){
+                                    $warningGlobal = "Un problème est survenu lors de l'enregistrement du post";
+                                } else {
+                                    //We display the updated post list
+                                    header("Location:index.php?action=AdminPostList");
+                                    return;
+                                }
+                            } else { //Else we have to create a new post
+                                $post->user = $user;
+                                if(! $postRepository->createPost($post)){
+                                    $warningGlobal = "Un problème est survenu lors de l'enregistrement du post";
+                                } else {
+                                    //We display the updated post list
+                                    header("Location:index.php?action=AdminPostList");
+                                    return;
+                                }
                             }
                         }
                     }
@@ -122,6 +122,7 @@ class AdminPostSave
             'warningTitle' => $warningTitle, 
             'warningSummary' => $warningSummary,
             'warningContent' => $warningContent,
+            'warningImage' => $warningImage, 
             'activeUser' => Session::getActiveUser()
         ]);
     }

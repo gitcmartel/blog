@@ -21,7 +21,7 @@ class AdminPostList
             if($user->isCreator()){
                 $postRepository = new PostRepository();
                 $posts = $postRepository->getPosts();
-        
+
                 $loader = new \Twig\Loader\FilesystemLoader('templates');
                 $twig = new \Twig\Environment($loader, ['cache' => false]);
                 

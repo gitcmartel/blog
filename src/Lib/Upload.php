@@ -12,7 +12,7 @@ class Upload
     {
         $fileExtension = strtolower(end(explode(".", $fileName)));
 
-        if (in_array(Constants::IMAGE_EXTENSIONS, $fileExtension) === false){
+        if (in_array($fileExtension, Constants::IMAGE_EXTENSIONS) === false){
             return false;
         } else {
             return true;
