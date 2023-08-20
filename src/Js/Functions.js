@@ -210,3 +210,19 @@ function unPublish()
         inputUnpublish.setAttribute('value', 'true');
     }
 }
+
+/**
+ * Change the action attribute of the form
+ * to re-route the action to the AdminPostPublish Controller
+ */
+
+function publish(event)
+{
+    let formPost = document.getElementById("formPost");
+
+    if(formPost !== null){
+        formPost.action = "index.php?action=AdminPostPublish"
+    } else {
+        event.preventDefault(); //Cancel form submission
+    }
+}

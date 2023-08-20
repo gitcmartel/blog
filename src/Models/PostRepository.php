@@ -48,15 +48,32 @@ class PostRepository
         return $post;
     }
 
-    //Returns all Posts
-    public function getPosts() : array
+    /**
+     * Returns an array of post objects
+     * If the $pageNumber parameter is set to 0, the function will return all posts
+     * If the $pageNumber parameter is different than 0, the function will return the corresponding posts
+     * The $numberOfPostsPerPage determins the number of posts to return
+     */
+    public function getPosts(string $pageNumber, int $numberOfPostsPerPage) : array
     {
-        $statement = $this->connexion->getConnexion()->prepare(
-            "SELECT * FROM post ORDER BY creationDate DESC;"
-        );
+        $limit = $numberOfPostsPerPage + 1;
+        $offset = ((($pageNumber - 1) * $numberOfPostsPerPage) - 1) >=0 ? ((($pageNumber - 1) * $numberOfPostsPerPage) - 1) : 0;
 
-        $statement->execute();
-        
+        if($pageNumber !== 0 && $numberOfPostsPerPage !== 0){
+            $statement = $this->connexion->getConnexion()->prepare(
+                "SELECT * FROM post ORDER BY creationDate DESC LIMIT ". $limit . " OFFSET ". $offset . ";"
+            );
+
+            $statement->execute();
+
+        } else { //We return all posts
+            $statement = $this->connexion->getConnexion()->prepare(
+                "SELECT * FROM post ORDER BY creationDate DESC;"
+            );
+    
+            $statement->execute();
+        }
+ 
         $posts = array();
 
         while($row = $statement->fetch()) {
@@ -149,5 +166,20 @@ class PostRepository
         $affectedLines = $statement->execute([$postId]);
 
         return ($affectedLines > 0);
+    }
+
+    /**
+     * Get the number of records by page
+     * The $numberOfPostsPerPage parameter contains the number of posts per page
+     */
+    public function getTotalPageNumber(int $numberOfPostsPerPage) : int
+    {
+        $statement = $this->connexion->getConnexion()->prepare(
+            "SELECT COUNT(postId) AS TotalPosts FROM post;"
+        );
+
+        $row = $statement->fetch();
+
+        return (round($row['TotalPosts'] / $numberOfPostsPerPage, 0));
     }
 }

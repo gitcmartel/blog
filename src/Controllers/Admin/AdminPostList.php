@@ -20,8 +20,14 @@ class AdminPostList
             $user = $userRepository->getUser($_SESSION['userId']);
             if($user->isCreator()){
                 $postRepository = new PostRepository();
-                $posts = $postRepository->getPosts();
-
+                if (isset($_GET['pageNumber'])){
+                    if($_GET['pageNumber'] !== 0){
+                        $posts = $postRepository->getPosts($_GET['pageNumber'], 10);
+                    }
+                } else {
+                    $posts = $postRepository->getPosts(1, 10);
+                }
+                
                 $loader = new \Twig\Loader\FilesystemLoader('templates');
                 $twig = new \Twig\Environment($loader, ['cache' => false]);
                 

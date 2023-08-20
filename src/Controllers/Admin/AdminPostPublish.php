@@ -10,8 +10,8 @@ class AdminPostPublish
 {
     public function execute()
     {
+        $postRepository = new PostRepository();
         if(isset($_POST['postPublish']) && isset($_POST['unpublish'])){
-            $postRepository = new PostRepository();
             //Updates the status post field
             switch(gettype($_POST['postPublish'])){
                 case "array":
@@ -29,7 +29,7 @@ class AdminPostPublish
                 case "string" :
                     $post = $postRepository->getPost($_POST['postPublish']);
                     if($_POST['unpublish'] === "false"){
-                        if($post->publicationDate === null){
+                        if($post->publicationDate === ''){
                             $postRepository->setPublicationDate($_POST['postPublish']);
                         }
                     } else {
@@ -38,10 +38,13 @@ class AdminPostPublish
                     break;
             }
         }
+
+        $posts = $postRepository->getPosts();
         $loader = new \Twig\Loader\FilesystemLoader('templates');
         $twig = new \Twig\Environment($loader, ['cache' => false]);
         
         echo $twig->render('adminPostList.twig', [ 
+            'posts' => $posts, 
             'activeUser' => Session::getActiveUser()
         ]);
     }
