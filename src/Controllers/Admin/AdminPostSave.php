@@ -91,7 +91,7 @@ class AdminPostSave
                                     $warningGlobal = "Un problème est survenu lors de l'enregistrement du post";
                                 } else {
                                     //We display the updated post list
-                                    header("Location:index.php?action=AdminPostList");
+                                    header("Location:index.php?action=AdminPostList&pageNumber=1");
                                     return;
                                 }
                             } else { //Else we have to create a new post
@@ -100,7 +100,7 @@ class AdminPostSave
                                     $warningGlobal = "Un problème est survenu lors de l'enregistrement du post";
                                 } else {
                                     //We display the updated post list
-                                    header("Location:index.php?action=AdminPostList");
+                                    header("Location:index.php?action=AdminPostList&pageNumber=1");
                                     return;
                                 }
                             }

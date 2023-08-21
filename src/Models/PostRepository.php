@@ -56,12 +56,11 @@ class PostRepository
      */
     public function getPosts(string $pageNumber, int $numberOfPostsPerPage) : array
     {
-        $limit = $numberOfPostsPerPage + 1;
-        $offset = ((($pageNumber - 1) * $numberOfPostsPerPage) - 1) >=0 ? ((($pageNumber - 1) * $numberOfPostsPerPage) - 1) : 0;
+        $offset = (($pageNumber - 1) * $numberOfPostsPerPage) >=0 ? (($pageNumber - 1) * $numberOfPostsPerPage) : 0;
 
         if($pageNumber !== 0 && $numberOfPostsPerPage !== 0){
             $statement = $this->connexion->getConnexion()->prepare(
-                "SELECT * FROM post ORDER BY creationDate DESC LIMIT ". $limit . " OFFSET ". $offset . ";"
+                "SELECT * FROM post ORDER BY creationDate DESC LIMIT ". $numberOfPostsPerPage . " OFFSET ". $offset . ";"
             );
 
             $statement->execute();
@@ -178,8 +177,10 @@ class PostRepository
             "SELECT COUNT(postId) AS TotalPosts FROM post;"
         );
 
+        $statement->execute();
+
         $row = $statement->fetch();
 
-        return (round($row['TotalPosts'] / $numberOfPostsPerPage, 0));
+        return ceil(round($row['TotalPosts'] / $numberOfPostsPerPage, 2));
     }
 }

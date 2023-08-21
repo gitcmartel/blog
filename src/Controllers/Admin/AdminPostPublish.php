@@ -44,6 +44,7 @@ class AdminPostPublish
         $twig = new \Twig\Environment($loader, ['cache' => false]);
         
         echo $twig->render('adminPostList.twig', [ 
+            'pageNumber' => 1, 
             'posts' => $posts, 
             'activeUser' => Session::getActiveUser()
         ]);

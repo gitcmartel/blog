@@ -226,3 +226,17 @@ function publish(event)
         event.preventDefault(); //Cancel form submission
     }
 }
+
+/**
+ * Display the selected image post
+ */
+
+function displayImagePost()
+{
+    let imagePost = document.getElementById("imagePost");
+    let inputImagePost = document.getElementById("imagePath");
+
+    if(imagePost !== null && inputImagePost !== null){
+        imagePost.src = inputImagePost.value;
+    }
+}

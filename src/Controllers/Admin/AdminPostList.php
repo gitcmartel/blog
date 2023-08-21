@@ -20,6 +20,7 @@ class AdminPostList
             $user = $userRepository->getUser($_SESSION['userId']);
             if($user->isCreator()){
                 $postRepository = new PostRepository();
+                $totalPages = $postRepository->getTotalPageNumber(10);;
                 if (isset($_GET['pageNumber'])){
                     if($_GET['pageNumber'] !== 0){
                         $posts = $postRepository->getPosts($_GET['pageNumber'], 10);
@@ -32,6 +33,8 @@ class AdminPostList
                 $twig = new \Twig\Environment($loader, ['cache' => false]);
                 
                 echo $twig->render('adminPostList.twig', [ 
+                    'actualPage' => $_GET['pageNumber'], 
+                    'totalPages' => $totalPages, 
                     'posts' => $posts, 
                     'activeUser' => Session::getActiveUser()
                 ]);
