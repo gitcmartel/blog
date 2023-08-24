@@ -10,7 +10,8 @@ class Upload
      */
     public static function checkFileType(string $fileName) : bool
     {
-        $fileExtension = strtolower(end(explode(".", $fileName)));
+        $explode = explode(".", $fileName);
+        $fileExtension = strtolower(end($explode));
 
         if (in_array($fileExtension, Constants::IMAGE_EXTENSIONS) === false){
             return false;
@@ -24,7 +25,7 @@ class Upload
      */
     public static function checkSize(int $fileSize) : bool 
     {
-        if ($fileSize > Constants::IMAGE_MAX_SIZE) {
+        if ($fileSize > Constants::IMAGE_MAX_SIZE)  {
             return false;
         } else {
             return true;

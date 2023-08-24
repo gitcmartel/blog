@@ -39,6 +39,7 @@ class PostRepository
         $post->title = $row['title'];
         $post->summary = $row['summary'];
         $post->content = $row['content'];
+        $post->imagePath = $row['imagePath'];
         $post->creationDate = $row['creationDate'] !== null ? $row['creationDate'] : '';
         $post->publicationDate = $row['publicationDate'] !== null ? $row['publicationDate'] : '';
         $post->lastUpdateDate = $row['lastUpdateDate'] !== null ? $row['lastUpdateDate'] : '';
@@ -119,10 +120,10 @@ class PostRepository
     public function updatePost($post) : bool 
     {
         $statement = $this->connexion->getConnexion()->prepare(
-            "UPDATE post SET title = ?, summary = ?, content = ?, lastUpdateDate = now() WHERE postId=?;"
+            "UPDATE post SET title = ?, summary = ?, content = ?, imagePath = ?, userIdModifier = ?, lastUpdateDate = now() WHERE postId=?;"
         );
 
-        $affectedLines = $statement->execute([$post->title, $post->summary, $post->content, $post->id]);
+        $affectedLines = $statement->execute([$post->title, $post->summary, $post->content, $post->imagePath, $post->modifier->id, $post->id]);
 
         return ($affectedLines > 0);
     }

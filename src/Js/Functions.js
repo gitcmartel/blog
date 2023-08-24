@@ -231,12 +231,16 @@ function publish(event)
  * Display the selected image post
  */
 
-function displayImagePost()
-{
-    let imagePost = document.getElementById("imagePost");
-    let inputImagePost = document.getElementById("imagePath");
+function displayImagePost(e)
+{           
+    var image = document.getElementById("imagePost");
 
-    if(imagePost !== null && inputImagePost !== null){
-        imagePost.src = inputImagePost.value;
-    }
+        // e.files contient un objet FileList
+        const [picture] = e.files
+
+        // "picture" est un objet File
+        if (picture) {
+            // On change l'URL de l'image
+            image.src = URL.createObjectURL(picture)
+        }
 }

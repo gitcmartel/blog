@@ -23,7 +23,7 @@ class AdminPostSave
         $warningSummary = "";
         $warningContent = "";
         $warningImage = "";
-        $pathImage = "";
+        $pathImage = "img\\blog-post.svg";
         $warningGlobal = "";
 
         //Checks the active user
@@ -59,17 +59,22 @@ class AdminPostSave
                             if(! Upload::checkSize($_FILES['imagePath']['size'])){
                                 $warningImage = "La taille de l'image ne doit pas excéder 2 Mo";
                             }
-                        }
 
-                        if(trim($_FILES['imagePath']['name']) !== ""){
-                            //Checks if the file type is an image
-                            if(! Upload::checkFileType($_FILES['imagePath']['name'])){
-                                $warningImage = "Le type de fichier doit être une image (jpeg, jpg, png, svg)";
+                            if(trim($_FILES['imagePath']['name']) !== ""){
+                                //Checks if the file type is an image
+                                if(! Upload::checkFileType($_FILES['imagePath']['name'])){
+                                    $warningImage = "Le type de fichier doit être une image (jpeg, jpg, png, svg)";
+                                }
                             }
-                        }
-
-                        if($warningImage === ""){
-                            $pathImage = Constants::IMAGE_POST_PATH . $_FILES['imagePath']['name'];
+    
+                            if($warningImage === ""){
+                                $pathImage = Constants::IMAGE_POST_PATH . basename($_FILES['imagePath']['name']);
+    
+                                $tmp_name = $_FILES["imagePath"]["tmp_name"];
+                                if (! move_uploaded_file($tmp_name, dirname(__FILE__, 4) . "\\" . $pathImage)) {
+                                    $warningImage =  "Le fichier est invalide";
+                                }
+                            }
                         }
                     }
                             
@@ -87,6 +92,10 @@ class AdminPostSave
                         if(isset($_POST['postId'])){
                             if($_POST['postId'] !== ""){
                                 $post->id = $_POST['postId'];
+                                $actualPost = $postRepository->getPost($_POST['postId']);  //Get the data from the database
+                                if($actualPost->imagePath !== "img\blog-post.svg" && $post->imagePath === "img\\blog-post.svg"){
+                                    $post->imagePath = $actualPost->imagePath;
+                                }
                                 if (! $postRepository->updatePost($post)){
                                     $warningGlobal = "Un problème est survenu lors de l'enregistrement du post";
                                 } else {
