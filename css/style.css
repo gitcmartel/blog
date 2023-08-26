@@ -109,7 +109,7 @@ footer p {
 }
 
 .vh-60 {
-  height: 60vh;
+  min-height: 60vh;
 }
 
 .w-15 {

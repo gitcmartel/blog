@@ -71,7 +71,7 @@ class AdminPostSave
                                 $pathImage = Constants::IMAGE_POST_PATH . basename($_FILES['imagePath']['name']);
     
                                 $tmp_name = $_FILES["imagePath"]["tmp_name"];
-                                if (! move_uploaded_file($tmp_name, dirname(__FILE__, 4) . "\\" . $pathImage)) {
+                                if (! move_uploaded_file($tmp_name, dirname(__FILE__, 4) . DIRECTORY_SEPARATOR . $pathImage)) {
                                     $warningImage =  "Le fichier est invalide";
                                 }
                             }

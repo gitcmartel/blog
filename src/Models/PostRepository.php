@@ -184,4 +184,43 @@ class PostRepository
 
         return ceil(round($row['TotalPosts'] / $numberOfPostsPerPage, 2));
     }
+
+    public function searchPosts(string $searchString)
+    {
+        $statement = $this->connexion->getConnexion()->prepare(
+            "SELECT * FROM post WHERE title LIKE '%" . $searchString . "%' 
+            OR summary LIKE '%" . $searchString . "%' 
+            OR content LIKE '%" . $searchString . "%' 
+            OR creationDate LIKE '%" . $searchString . "%';"
+        );
+
+        $statement->execute();
+
+        $posts = array();
+
+        while($row = $statement->fetch()) {
+            $userRepository = new UserRepository();
+            $user = $userRepository->getUser($row['userId']);
+
+            if($row['userIdModifier'] !== null){
+                $modifier = $userRepository->getUser($row['userIdModifier']);
+            } else {
+                $modifier = new User();
+            }
+
+            $post = new Post();
+            $post->id = $row['postId'];
+            $post->title = $row['title'];
+            $post->summary = $row['summary'];
+            $post->content = $row['content'];
+            $post->creationDate = $row['creationDate'] !== null ? $row['creationDate'] : '';
+            $post->publicationDate = $row['publicationDate'] !== null ? $row['publicationDate'] : '';
+            $post->lastUpdateDate = $row['lastUpdateDate'] !== null ? $row['lastUpdateDate'] : '';
+            $post->user = $user;
+            $post->modifier = $modifier;
+
+            $posts[] = $post; 
+        }
+        return $posts;
+    }
 }

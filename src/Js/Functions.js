@@ -211,6 +211,27 @@ function unPublish()
     }
 }
 
+
+/**
+ * 
+ */
+
+function searchPosts(event)
+{
+    let formPostList = document.getElementById("formPostList");
+    let searchString = document.getElementById("searchString");
+
+    if(formPostList !== null && searchString !== null){
+        if(searchString.value.trim() !== ""){
+            formPostList.action = "index.php?action=AdminPostSearch"
+        } else {
+            event.preventDefault(); //Cancel form submission
+        }
+    } else {
+        event.preventDefault(); //Cancel form submission
+    }
+}
+
 /**
  * Change the action attribute of the form
  * to re-route the action to the AdminPostPublish Controller
@@ -244,3 +265,4 @@ function displayImagePost(e)
             image.src = URL.createObjectURL(picture)
         }
 }
+
