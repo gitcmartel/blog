@@ -19,6 +19,8 @@ class AdminUser
             $user = $userRepository->getUser($_SESSION['userId']);
             if($user->isCreator()){
                 $users = $userRepository->getUsers();
+
+                
             } else {
                 $warningGeneral = "Vous n'avez pas les droits requis pour accéder à cette page. Contactez l'administrateur du site";
                 $warningLink = "index.php/action=Home";
