@@ -4,6 +4,7 @@ namespace Application\Models;
 
 use Application\Lib\DatabaseConnexion;
 use DateTime;
+use PDO;
 
 class PostRepository
 {
@@ -187,12 +188,17 @@ class PostRepository
 
     public function searchPosts(string $searchString)
     {
+        $searchString = htmlspecialchars($searchString); //Escape special characters
+
         $statement = $this->connexion->getConnexion()->prepare(
-            "SELECT * FROM post WHERE title LIKE '%" . $searchString . "%' 
-            OR summary LIKE '%" . $searchString . "%' 
-            OR content LIKE '%" . $searchString . "%' 
-            OR creationDate LIKE '%" . $searchString . "%';"
+            "SELECT * FROM post WHERE title LIKE '%' :searchString '%' 
+            OR summary LIKE '%' :searchString '%' 
+            OR content LIKE '%' :searchString '%' 
+            ORDER BY creationDate DESC;"
+
         );
+
+        $statement->bindValue(':searchString', $searchString, PDO::PARAM_STR);
 
         $statement->execute();
 
