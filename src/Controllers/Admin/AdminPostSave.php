@@ -9,6 +9,7 @@ use Application\Models\User;
 use Application\Lib\Session;
 use Application\Lib\Upload;
 use Application\Lib\Constants;
+use Application\Lib\Path;
 
 
 class AdminPostSave
@@ -23,7 +24,7 @@ class AdminPostSave
         $warningSummary = "";
         $warningContent = "";
         $warningImage = "";
-        $pathImage = "img\\blog-post.svg";
+        $pathImage = Path::fileBuildPath(array("img", "blog-post.svg"));
         $warningGlobal = "";
 
         //Checks the active user
@@ -93,7 +94,7 @@ class AdminPostSave
                             if($_POST['postId'] !== ""){
                                 $post->id = $_POST['postId'];
                                 $actualPost = $postRepository->getPost($_POST['postId']);  //Get the data from the database
-                                if($actualPost->imagePath !== "img\blog-post.svg" && $post->imagePath === "img\\blog-post.svg"){
+                                if($actualPost->imagePath !== Path::fileBuildPath(array("img", "blog-post.svg")) && $post->imagePath === Path::fileBuildPath(array("img", "blog-post.svg"))){
                                     $post->imagePath = $actualPost->imagePath;
                                 }
                                 if (! $postRepository->updatePost($post)){
