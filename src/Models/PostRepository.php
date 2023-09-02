@@ -107,12 +107,12 @@ class PostRepository
     public function createPost($post) : bool
     {
         $statement = $this->connexion->getConnexion()->prepare(
-            "INSERT INTO post (title, summary, content, creationDate, lastUpdateDate, userId) 
+            "INSERT INTO post (title, summary, content, creationDate, lastUpdateDate, imagePath, userId) 
             VALUES (?, ?, ?, now(), now(), ?);"
         );
 
         $affectedLines = $statement->execute([htmlspecialchars($post->title), htmlspecialchars($post->summary), 
-        htmlspecialchars($post->content), $post->user->id]);
+        htmlspecialchars($post->content), $post->imagePath, $post->user->id]);
 
         return ($affectedLines > 0);
     }
@@ -136,7 +136,7 @@ class PostRepository
             "DELETE FROM post WHERE postId = ?"
         );
 
-        $affectedLines = $statement->execute([$post->postId]);
+        $affectedLines = $statement->execute([$post->id]);
 
         return ($affectedLines > 0);
     }
