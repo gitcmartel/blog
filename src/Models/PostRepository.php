@@ -103,18 +103,19 @@ class PostRepository
         return $posts;
     }
 
-    //Create a new post
-    public function createPost($post) : bool
+    //Creates a new post and returns the id of the inserted row if there is an image to insert
+    public function createPost(Post $post) : bool
     {
+        //Inserts the new post
         $statement = $this->connexion->getConnexion()->prepare(
-            "INSERT INTO post (title, summary, content, creationDate, lastUpdateDate, imagePath, userId) 
-            VALUES (?, ?, ?, now(), now(), ?);"
+            "INSERT INTO post (title, summary, content, imagePath, creationDate, lastUpdateDate, userId) 
+            VALUES (?, ?, ?, ?, now(), now(), ?);"
         );
 
         $affectedLines = $statement->execute([htmlspecialchars($post->title), htmlspecialchars($post->summary), 
         htmlspecialchars($post->content), $post->imagePath, $post->user->id]);
 
-        return ($affectedLines > 0);
+        return $affectedLines > 0;
     }
 
     //Update a post
@@ -228,5 +229,43 @@ class PostRepository
             $posts[] = $post; 
         }
         return $posts;
+    }
+
+    //Concatenates the imagePath with the id of the row and updates the path field
+    public function updateImagePath(Post $post, string $extension) : string
+    {
+        $postId = 0;
+        $date = date('Y-m-d H:i:s');
+
+        //If we create a new post the id might not be known yet
+        if(isset($post->id)){ //If the id is set
+            $postId = $post->id;
+            $date = new DateTime($post->creationDate);
+        } else {
+            //Get the id of the last inserted row
+            $statement = $this->connexion->getConnexion()->prepare(
+                "SELECT postId, creationDate FROM post WHERE postId=LAST_INSERT_ID();"
+            );
+
+            $statement->execute();
+
+            $row = $statement->fetch();
+            $postId = $row['postId'];
+            $date = new DateTime($row['creationDate']);
+        }
+
+        if ($postId > 0){
+            $imagePath = $post->imagePath . $postId . $date->format("YmdHis") . $extension;
+
+            //Updates the imagePath field by adding the id of the new row to the image file name
+            $statement = $this->connexion->getConnexion()->prepare(
+                "UPDATE post SET imagePath=? WHERE postId=?;"
+            );
+
+            $affectedLines = $statement->execute([$imagePath, $postId]);
+
+            return $imagePath;
+        }
+        return "";
     }
 }

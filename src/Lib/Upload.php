@@ -10,8 +10,7 @@ class Upload
      */
     public static function checkFileType(string $fileName) : bool
     {
-        $explode = explode(".", $fileName);
-        $fileExtension = strtolower(end($explode));
+        $fileExtension = self::getExtension($fileName);
 
         if (in_array($fileExtension, Constants::IMAGE_EXTENSIONS) === false){
             return false;
@@ -32,4 +31,12 @@ class Upload
         }
     }
 
+    /**
+     * Get the extension of a file
+     */
+     public static function getExtension(string $fileName) : string 
+     {
+        $explode = explode(".", $fileName);
+        return strtolower(end($explode));
+     }
 }

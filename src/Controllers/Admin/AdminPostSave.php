@@ -25,6 +25,7 @@ class AdminPostSave
         $warningContent = "";
         $warningImage = "";
         $pathImage = Path::fileBuildPath(array("img", "blog-post.svg"));
+        $insertImage = false;
         $warningGlobal = "";
 
         //Checks the active user
@@ -69,12 +70,8 @@ class AdminPostSave
                             }
     
                             if($warningImage === ""){
-                                $pathImage = Constants::IMAGE_POST_PATH . basename($_FILES['imagePath']['name']);
-    
-                                $tmp_name = $_FILES["imagePath"]["tmp_name"];
-                                if (! move_uploaded_file($tmp_name, dirname(__FILE__, 4) . DIRECTORY_SEPARATOR . $pathImage)) {
-                                    $warningImage =  "Le fichier est invalide";
-                                }
+                                $pathImage = Constants::IMAGE_POST_PATH;
+                                $insertImage = true;
                             }
                         }
                     }
@@ -94,12 +91,38 @@ class AdminPostSave
                             if($_POST['postId'] !== ""){
                                 $post->id = $_POST['postId'];
                                 $actualPost = $postRepository->getPost($_POST['postId']);  //Get the data from the database
-                                if($actualPost->imagePath !== Path::fileBuildPath(array("img", "blog-post.svg")) && $post->imagePath === Path::fileBuildPath(array("img", "blog-post.svg"))){
+                                //If the stored image path is different from the default image path
+                                $post->creationDate = $actualPost->creationDate;
+                                if($actualPost->imagePath !== Path::fileBuildPath(array("img", "blog-post.svg")) && $post->imagePath === Path::fileBuildPath(array("img", "blog-post.svg")) && $_POST["resetImage"] === "false"){
                                     $post->imagePath = $actualPost->imagePath;
                                 }
                                 if (! $postRepository->updatePost($post)){
                                     $warningGlobal = "Un problème est survenu lors de l'enregistrement du post";
                                 } else {
+                                    if ($insertImage){ //If there is an image to insert
+                                        $imagePath = $postRepository->updateImagePath($post, "." . Upload::getExtension($_FILES["imagePath"]["name"])); //Updates the new image path
+                                        if ($imagePath !== "") {
+                                            //We move the image into the img-posts folder
+                                            $tmp_name = $_FILES["imagePath"]["tmp_name"];
+                                            if (! move_uploaded_file($tmp_name, dirname(__FILE__, 4) . DIRECTORY_SEPARATOR . $imagePath)) {
+                                                $warningImage =  "Le fichier est invalide";
+                                            }
+                                            //If the original image is not the default image
+                                            if ($actualPost->imagePath !== Path::fileBuildPath(array("img", "blog-post.svg"))){
+                                                //We delete the old image file
+                                                if(file_exists($actualPost->imagePath)){
+                                                    unlink($actualPost->imagePath);
+                                                }
+                                            }
+                                        }
+                                    } else { //If the resetImage variable is true
+                                        if ($_POST["resetImage"] === "true"){
+                                            //We delete the old image file
+                                            if(file_exists($actualPost->imagePath)){
+                                                unlink($actualPost->imagePath);
+                                            }
+                                        }
+                                    }
                                     //We display the updated post list
                                     header("Location:index.php?action=AdminPostList&pageNumber=1");
                                     return;
@@ -109,6 +132,16 @@ class AdminPostSave
                                 if(! $postRepository->createPost($post)){
                                     $warningGlobal = "Un problème est survenu lors de l'enregistrement du post";
                                 } else {
+                                    if($insertImage){ //If there is an image to insert
+                                        $imagePath = $postRepository->updateImagePath($post, "." . Upload::getExtension($_FILES["imagePath"]["name"]));
+                                        if ($imagePath !== "") {
+                                            //We move the image into the img-posts folder
+                                            $tmp_name = $_FILES["imagePath"]["tmp_name"];
+                                            if (! move_uploaded_file($tmp_name, dirname(__FILE__, 4) . DIRECTORY_SEPARATOR . $imagePath)) {
+                                                $warningImage =  "Le fichier est invalide";
+                                            }
+                                        }
+                                    }
                                     //We display the updated post list
                                     header("Location:index.php?action=AdminPostList&pageNumber=1");
                                     return;

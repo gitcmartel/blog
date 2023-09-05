@@ -266,3 +266,17 @@ function displayImagePost(e)
         }
 }
 
+/**
+ * Reset the image of a post
+ */
+
+function resetImagePost()
+{
+    let image = document.getElementById("imagePost");
+    let imagePath = document.getElementById("imagePath");
+    let resetImage = document.getElementById("resetImage");
+
+    image.src = "img/blog-post.svg";
+    imagePath.defaultValue = "img/blog-post.svg";
+    resetImage.defaultValue = "true";
+}
