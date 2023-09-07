@@ -9,9 +9,10 @@ class DatabaseConnexionTest extends TestCase
     /**
      * Test de connexion à la base de données
      */
-    public function testGetConnexion(){
+    public function testGetConnexion()
+    {
         $database = new DatabaseConnexion();
         
-        $this->assertNotNull($database->getConnexion(), "Class Database : erreur de connexion à la base de données");
+        $this->assertNotNull($database->getConnexion());
     }
 }

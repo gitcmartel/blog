@@ -10,6 +10,10 @@ class Path
      */
     public static function fileBuildPath(array $arguments) : string
     {
-        return join(DIRECTORY_SEPARATOR, $arguments);
+        if (!empty($arguments))
+            return join(DIRECTORY_SEPARATOR, $arguments);
+        else {
+            return "";
+        }
     }
 }
