@@ -67,16 +67,35 @@ class UserRepository
         return $user;
     }
 
-    //Returns an array of User objects
-    public function getUsers() : array
+    /**
+     * Returns an array of user objects
+     * If the $pageNumber parameter is set to 0, the function will return all users
+     * If the $pageNumber parameter is different than 0, the function will return the corresponding users
+     * The $numberOfUsersPerPage determins the number of users to return
+     */
+    public function getUsers(string $pageNumber, int $numberOfUsersPerPage) : array
     {
-        $statement = $this->connexion->getConnexion()->prepare(
-            "SELECT * FROM user ORDER BY creationDate DESC;"
-        );
+        $offset = (($pageNumber - 1) * $numberOfPostsPerPage) >=0 ? (($pageNumber - 1) * $numberOfPostsPerPage) : 0;
 
-        $statement->execute();
+        if($pageNumber !== 0 && $numberOfPostsPerPage !== 0){
+            $statement = $this->connexion->getConnexion()->prepare(
+                "SELECT * FROM user ORDER BY creationDate DESC LIMIT :numberOfUsersPerPage OFFSET :offset;"
+            );
 
-        $users = array();
+            $statement->bindValue(':numberOfUsersPerPage', $numberOfUsersPerPage, PDO::PARAM_INT);
+            $statement->bindValue(':offset', $offset, PDO::PARAM_INT);
+
+            $statement->execute();
+
+        } else { //We return all users
+            $statement = $this->connexion->getConnexion()->prepare(
+                "SELECT * FROM user ORDER BY creationDate DESC;"
+            );
+    
+            $statement->execute();
+        }
+ 
+        $posts = array();
 
         while ($row = $statement->fetch()) {
             $user = new User();
