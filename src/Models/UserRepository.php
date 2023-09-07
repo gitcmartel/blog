@@ -246,4 +246,21 @@ class UserRepository
             return false;
         }
      }
+
+    /**
+     * Get the number of records by page
+     * The $numberOfUsersPerPage parameter contains the number of posts per page
+     */
+    public function getTotalPageNumber(int $numberOfUsersPerPage) : int
+    {
+        $statement = $this->connexion->getConnexion()->prepare(
+            "SELECT COUNT(userId) AS TotalUsers FROM user;"
+        );
+
+        $statement->execute();
+
+        $row = $statement->fetch();
+
+        return ceil(round($row['TotalUsers'] / $numberOfPostsPerPage, 2));
+    }
 }
