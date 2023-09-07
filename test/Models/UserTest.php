@@ -27,6 +27,9 @@ class UserTest extends TestCase
         $this->assertTrue($user->isCreator());
     }
 
+    /**
+     * Test if the function returns true with a valid parameter
+     */
     public function testIsAdmin()
     {
         $user = New User();
