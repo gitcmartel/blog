@@ -37,7 +37,20 @@ class User
      */
     public function isCreator() : bool
     {
-        if($this->userFunction === "Createur" || "administrateur"){
+        if($this->userFunction === "Createur" || $this->userFunction === "Administrateur"){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * If the user has a function of "administrateur"
+     * then the function returns true
+     */
+    public function isAdmin() : bool
+    {
+        if($this->userFunction === "Administrateur"){
             return true;
         } else {
             return false;
