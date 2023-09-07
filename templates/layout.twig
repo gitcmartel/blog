@@ -23,12 +23,25 @@
                                 <li class="nav-item">
                                     <a class="nav-link text-light font-size1" href="#">Blog</a>
                                 </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-light font-size1" href="index.php?action=connexion">Connexion</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-light font-size1" href="index.php?action=subscription">Inscription</a>
-                                </li>
+                                {% if activeUser != "" %}
+                                    {% if userFunction == "Createur" or userFunction == "Administrateur" %}
+                                        <li class="nav-item">
+                                            <a class="nav-link text-light font-size1" href="index.php?action=AdminPostList&pageNumber=1">Posts</a>
+                                        </li>
+                                    {% endif %}
+                                    {% if userFunction == "Administrateur"%}
+                                        <li class="nav-item">
+                                            <a class="nav-link text-light font-size1" href="index.php?action=AdminUserList&pageNumber=1">Utilisateurs</a>
+                                        </li>
+                                    {% endif %}
+                                {% else %}
+                                    <li class="nav-item">
+                                        <a class="nav-link text-light font-size1" href="index.php?action=connexion">Connexion</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-light font-size1" href="index.php?action=subscription">Inscription</a>
+                                    </li>
+                                {% endif %}
                             </ul>
                             {% if activeUser != "" %}
                                 <div class="text-light fst-italic font-size3 me-3" id="pseudo">Bienvenue {{ activeUser }}</div>

@@ -15,9 +15,11 @@ class AdminPostList
         $warningGeneral = "";
         $warningLink = "";
         $warningLinkMessage = "";
+        $userFunction = "";
         if(isset($_SESSION['userId'])){
             $userRepository = new UserRepository();
             $user = $userRepository->getUser($_SESSION['userId']);
+            $userFunction = $user->userFunction;
             if($user->isCreator()){
                 $postRepository = new PostRepository();
                 $totalPages = $postRepository->getTotalPageNumber(10);;
@@ -36,12 +38,13 @@ class AdminPostList
                     'actualPage' => $_GET['pageNumber'], 
                     'totalPages' => $totalPages, 
                     'posts' => $posts, 
-                    'activeUser' => Session::getActiveUser()
+                    'activeUser' => Session::getActiveUser(), 
+                    'userFunction' => $userFunction
                 ]);
                 return;
             } else {
                 $warningGeneral = "Vous n'avez pas les droits requis pour accéder à cette page. Contactez l'administrateur du site";
-                $warningLink = "index.php/action=Home";
+                $warningLink = "index.php?action=Home";
                 $warningLinkMessage = "Nous contacter";
             }
         } else {
@@ -57,7 +60,8 @@ class AdminPostList
             'warningGeneral' => $warningGeneral, 
             'warningLink' => $warningLink, 
             'warningLinkMessage' => $warningLinkMessage,
-            'activeUser' => Session::getActiveUser()
+            'activeUser' => Session::getActiveUser(),
+            'userFunction' => $userFunction
         ]);
     }
 }
