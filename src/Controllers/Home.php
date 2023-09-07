@@ -4,11 +4,21 @@ namespace Application\Controllers;
 
 use Application\Lib\FormValidation;
 use Application\Lib\Email;
+use Application\Models\UserRepository;
+use Application\Models\User;
 use Application\Lib\Session;
 
 class Home 
 {
     public function execute() {
+        $userFunction = "";
+        //Get the function of the active user
+        if(isset($_SESSION['userId'])){
+            $userRepository = new UserRepository();
+            $user = $userRepository->getUser($_SESSION['userId']);
+            $userFunction = $user->userFunction;
+        }
+
         $messageResponse = $this->sendMessage();
 
         $loader = new \Twig\Loader\FilesystemLoader('templates');
@@ -16,7 +26,8 @@ class Home
         
         echo $twig->render('home.twig', [ 
             'messageResponse' => $messageResponse, 
-            'activeUser' => Session::getActiveUser()
+            'activeUser' => Session::getActiveUser(), 
+            'userFunction' => $userFunction
         ]);
     }
 
