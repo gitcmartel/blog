@@ -22,7 +22,7 @@ class PasswordTest extends TestCase
      */
     public function testVerifyTrue()
     {
-        $hash = "$2y$10$Zy10d/MISY/qkf9OAh8JleGPMIjau37dk/55WtZnoVhoXZqk.wdy6";
+        $hash = '$2y$10$Zy10d/MISY/qkf9OAh8JleGPMIjau37dk/55WtZnoVhoXZqk.wdy6';
         $password = "6?S4hgmJMGr!PtS@c";
         $result = Password::verify($password, $hash);
 
@@ -34,7 +34,7 @@ class PasswordTest extends TestCase
      */
     public function testVerifyFalse()
     {
-        $hash = "$2y$10$Zy10d/MISY/qkf9OAh8JleGPMIjau37dk/55WtZnoVhoXZqk.wdy6";
+        $hash = '$2y$10$Zy10d/MISY/qkf9OAh8JleGPMIjau37dk/55WtZnoVhoXZqk.wdy6';
         $password = "test";
 
         $result = Password::verify($password, $hash);
@@ -46,7 +46,7 @@ class PasswordTest extends TestCase
      */
     public function testCheckPasswordTrue()
     {
-        $password = "12Htd@uyt"; //Valid password ()
+        $password = '12Htd@uyt'; //Valid password ()
 
         $this->assertTrue(Password::checkPassword($password));
     }
