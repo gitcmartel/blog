@@ -39,8 +39,10 @@ class Connexion
                         
                         $_SESSION['activeUser'] = $user->pseudo;
                         $_SESSION['userId'] = $user->id;
+
                         echo $twig->render('connexionSuccess.twig', [
-                            'activeUser' => Session::getActiveUser()
+                            'activeUser' => Session::getActiveUser(), 
+                            'userFunction' => $user->userFunction
                         ]);
                         return;
                     } else {
