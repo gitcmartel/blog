@@ -29,6 +29,8 @@ class AdminPostDeletion
                                 $warningLink = "index.php?action=AdminPostList&pageNumber=1";
                                 $warningLinkMessage = "Retour à la liste de posts";
                             } else  {
+                                //We delete the image if there is one
+                                $post->deleteImage();
                                 //We display the updated post list
                                 header("Location:index.php?action=AdminPostList&pageNumber=1");
                                 return;
