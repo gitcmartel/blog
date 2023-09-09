@@ -34,7 +34,7 @@ class AdminUserList
                 echo $twig->render('adminUserList.twig', [ 
                     'actualPage' => $_GET['pageNumber'], 
                     'totalPages' => $totalPages, 
-                    'posts' => $posts, 
+                    'users' => $users, 
                     'activeUser' => Session::getActiveUser(), 
                     'userFunction' => $userFunction
                 ]);

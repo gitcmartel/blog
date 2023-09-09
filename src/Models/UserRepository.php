@@ -96,7 +96,7 @@ class UserRepository
             $statement->execute();
         }
  
-        $posts = array();
+        $users = array();
 
         while ($row = $statement->fetch()) {
             $user = new User();
@@ -109,7 +109,7 @@ class UserRepository
             $user->creationDate = $row['creationDate'];
             $user->userFunction = $row['userFunction'];
             $user->isValid = $row['isValid'];
-            $users = $user;
+            $users[] = $user;
         }
 
         return $users;
