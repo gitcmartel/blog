@@ -5,6 +5,7 @@ namespace Application\Models;
 use Application\Lib\DatabaseConnexion;
 use Application\Lib\Password;
 use DateTime;
+use PDO;
 
 class UserRepository
 {
@@ -33,7 +34,7 @@ class UserRepository
             $user->pseudo = $row['pseudo'];
             $user->email = $row['email'];
             $user->password = $row['password'];
-            $user->creationDate = DateTime::createFromFormat("Y-m-d H:i:s", $row['creationDate']);
+            $user->creationDate = $row['creationDate'] !== null ? $row['creationDate'] : '';
             $user->userFunction = $row['userFunction'];
             $user->isValid = $row['isValid'];
         }
@@ -59,7 +60,7 @@ class UserRepository
             $user->pseudo = $row['pseudo'];
             $user->email = $row['email'];
             $user->password = $row['password'];
-            $user->creationDate = DateTime::createFromFormat("Y-m-d H:i:s", $row['creationDate']);
+            $user->creationDate = $row['creationDate'] !== null ? $row['creationDate'] : '';
             $user->userFunction = $row['userFunction'];
             $user->isValid = $row['isValid'];
         }
@@ -75,9 +76,9 @@ class UserRepository
      */
     public function getUsers(string $pageNumber, int $numberOfUsersPerPage) : array
     {
-        $offset = (($pageNumber - 1) * $numberOfPostsPerPage) >=0 ? (($pageNumber - 1) * $numberOfPostsPerPage) : 0;
+        $offset = (($pageNumber - 1) * $numberOfUsersPerPage) >=0 ? (($pageNumber - 1) * $numberOfUsersPerPage) : 0;
 
-        if($pageNumber !== 0 && $numberOfPostsPerPage !== 0){
+        if($pageNumber !== 0 && $numberOfUsersPerPage !== 0){
             $statement = $this->connexion->getConnexion()->prepare(
                 "SELECT * FROM user ORDER BY creationDate DESC LIMIT :numberOfUsersPerPage OFFSET :offset;"
             );
@@ -243,8 +244,8 @@ class UserRepository
             $user->email = $row['email'];
             $user->password = $row['password'];
             $user->tokenForgotPassword = $row['tokenForgotPassword'];
-            $user->forgotPasswordDate = DateTime::createFromFormat("Y-m-d H:i:s", $row['forgotPasswordDate']);
-            $user->creationDate = DateTime::createFromFormat("Y-m-d H:i:s", $row['creationDate']);
+            $user->forgotPasswordDate = $row['creationDate'] !== null ? $row['forgotPasswordDate'] : '';
+            $user->creationDate = $row['creationDate'] !== null ? $row['creationDate'] : '';
             $user->userFunction = $row['userFunction'];
             $user->isValid = $row['isValid'];
         }
@@ -280,6 +281,6 @@ class UserRepository
 
         $row = $statement->fetch();
 
-        return ceil(round($row['TotalUsers'] / $numberOfPostsPerPage, 2));
+        return ceil(round($row['TotalUsers'] / $numberOfUsersPerPage, 2));
     }
 }
