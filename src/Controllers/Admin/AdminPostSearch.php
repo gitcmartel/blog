@@ -18,7 +18,7 @@ class AdminPostSearch
         if(isset($_SESSION['userId'])){
             $userRepository = new UserRepository();
             $user = $userRepository->getUser($_SESSION['userId']);
-            if($user->isCreator()){
+            if($user->isCreator()  && $user->isValid === -1){
                 if(isset($_POST['searchString'])){
                     if(trim($_POST['searchString']) !== ""){
                         $postRepository = new PostRepository();

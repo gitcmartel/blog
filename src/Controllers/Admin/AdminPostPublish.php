@@ -18,7 +18,7 @@ class AdminPostPublish
         if(isset($_SESSION['userId'])){
             $userRepository = new UserRepository();
             $user = $userRepository->getUser($_SESSION['userId']);
-            if($user->isCreator()){
+            if($user->isCreator()  && $user->isValid === -1){
                 $postRepository = new PostRepository();
 
                 if(isset($_POST['postPublish']) && isset($_POST['unpublish'])){

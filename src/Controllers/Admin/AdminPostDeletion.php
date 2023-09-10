@@ -18,7 +18,7 @@ class AdminPostDeletion
         if(isset($_SESSION['userId'])){
             $userRepository = new UserRepository();
             $user = $userRepository->getUser($_SESSION['userId']);
-            if($user->isCreator()){
+            if($user->isCreator()  && $user->isValid === -1){
                 if (isset($_GET['postId'])){
                     if($_GET['postId'] !== ""){
                         $postRepository = new PostRepository();
