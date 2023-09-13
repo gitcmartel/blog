@@ -120,7 +120,7 @@ class UserRepository
     {
         $statement = $this->connexion->getConnexion()->prepare (
             "INSERT INTO user (name, surname, pseudo, email, password, creationDate, userFunction, isValid) 
-            VALUES(?, ?, ?, ?, ?, now(), ?, 0);"
+            VALUES(?, ?, ?, ?, ?, now(), ?, ?);"
         );
 
         if ($statement->execute([
@@ -129,7 +129,8 @@ class UserRepository
             htmlspecialchars($user->pseudo), 
             htmlspecialchars($user->email), 
             Password::encrypt($user->password), 
-            $user->userFunction])) 
+            htmlspecialchars($user->userFunction), 
+            htmlspecialchars($user->isValid)])) 
         {
             return true;
         } else {
@@ -140,17 +141,24 @@ class UserRepository
     //Updates a user
     public function updateUser(User $user) : bool 
     {
+        $result = false;
+
         $statement = $this->connexion->getConnexion()->prepare(
-            "UPDATE user SET name = ?, surname = ?, pseudo = ?, email = ?, password = ?, userFunction = ?, isValid = ? 
+            "UPDATE user SET name = ?, surname = ?, pseudo = ?, email = ?, userFunction = ?, isValid = ? 
             WHERE userId = ?;"
         );
 
-        if ($statement->execute([$user->name, $user->surname, $user->email, Password::encrypt($user->password), 
-        $user->userFunction, $user->isValid])) {
-            return true;
-        } else {
-            return false;
+        if ($statement->execute([$user->name, $user->surname, $user->email, 
+        $user->userFunction, $user->isValid, $user->id])) {
+            $result = true;
         }
+
+        //If there is a password we have to change it
+        if($user->password === ""){
+            $result = $this->changePassword($user->id, $user->password);
+        }
+
+        return $result;
     }
 
     //Deletes a user
