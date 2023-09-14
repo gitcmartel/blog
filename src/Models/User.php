@@ -18,7 +18,7 @@ class User
     public string $userFunction;
     public bool $isValid;
 
-    public function constructWhithParameters(string $name, string $surname, string $pseudo, string $email, string $password, 
+    public function constructWithParameters(string $name, string $surname, string $pseudo, string $email, string $password, 
         string $creationDate, string $userFunction, bool $isValid)
     {
         $this->name = $name;
