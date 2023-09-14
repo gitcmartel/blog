@@ -298,4 +298,21 @@ class UserRepository
 
         return ceil(round($row['TotalUsers'] / $numberOfUsersPerPage, 2));
     }
+
+    /**
+     * Set the isValid field to true or false
+     */
+     public function setValidation(int $userId, int $value) : bool
+     {
+        $statement = $this->connexion->getConnexion()->prepare(
+            "UPDATE user SET isValid = :value WHERE userId = :id;"
+        );
+
+        $statement->bindValue(':value', $value, PDO::PARAM_INT);
+        $statement->bindValue(':id', $userId, PDO::PARAM_INT);
+
+        $affectedLines = $statement->execute();
+
+        return ($affectedLines > 0);
+     }
 }
