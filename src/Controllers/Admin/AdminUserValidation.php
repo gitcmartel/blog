@@ -13,37 +13,38 @@ class AdminUserValidation
         $warningGeneral = "";
         $warningLink = "";
         $warningLinkMessage = "";
+        $userFunction = "";
         if(isset($_SESSION['userId'])){
             $userRepository = new UserRepository();
-            $user = $userRepository->getUser($_SESSION['userId']);
-
-            if($user->isCreator()  && $user->isValid === -1){
+            $activeUser = $userRepository->getUser($_SESSION['userId']);
+            $userFunction = $activeUser->userFunction;
+            if($activeUser->isCreator()  && $activeUser->isValid){
                 if(isset($_POST['userValidation']) && isset($_POST['devalidate'])){
                     //Updates the status user field
                     switch(gettype($_POST['userValidation'])){
                         case "array":
                             foreach($_POST['userValidation'] as $userId){
                                 $user = $userRepository->getUser($userId);
-                                if($_POST['devalidate'] === "true"){
-                                    if($user->isValid === -1){
-                                        $userRepository->devalidate($userId);
+                                if($_POST['devalidate'] === 'true'){
+                                    if($user->isValid){
+                                        $userRepository->setValidation($userId, 0);
                                     }
-                                } else if($_POST['devalidate'] === "false") {
-                                    if($user->isValid === 0){
-                                        $userRepository->validate($userId);
+                                } else if($_POST['devalidate'] === 'false') {
+                                    if(! $user->isValid){
+                                        $userRepository->setValidation($userId, -1);
                                     }
                                 }
                             }
                             break;
                         case "string" :
                             $user = $postRepository->getUser($_POST['userValidation']);
-                            if($_POST['devalidate'] === "true"){
-                                if($user->isValid === -1){
-                                    $postRepository->devalidate($_POST['userValidation']);
+                            if($_POST['devalidate'] === 'true'){
+                                if($user->isValid){
+                                    $postRepository->setValidation($_POST['userValidation'], 0);
                                 }
-                            } else {
-                                if($user->isValid === 0){
-                                    $postRepository->validate($_POST['userValidation']);
+                            } else if($_POST['devalidate'] === 'false'){
+                                if($user->isValid){
+                                    $postRepository->setValidation($_POST['userValidation'], -1);
                                 }
                             }
                             break;
@@ -62,10 +63,11 @@ class AdminUserValidation
                 $loader = new \Twig\Loader\FilesystemLoader('templates');
                 $twig = new \Twig\Environment($loader, ['cache' => false]);
                 
-                echo $twig->render('adminPostList.twig', [ 
+                echo $twig->render('adminUserList.twig', [ 
                     'actualPage' => "1", 
                     'totalPages' => $totalPages, 
                     'users' => $users, 
+                    'userFunction' => $userFunction,
                     'activeUser' => Session::getActiveUser()
                 ]);
                 return;
@@ -87,6 +89,7 @@ class AdminUserValidation
             'warningGeneral' => $warningGeneral, 
             'warningLink' => $warningLink, 
             'warningLinkMessage' => $warningLinkMessage,
+            'userFunction' => $userFunction,
             'activeUser' => Session::getActiveUser()
         ]);
     }

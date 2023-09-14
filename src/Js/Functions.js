@@ -200,8 +200,8 @@ if (subscriptionForm !== null) {
 
 /**
  * Set the hidden html input element to 1
- * Then when a sumbission is performed, the php controller can now if it's a
- * publication (0) or not (1)
+ * Then when a sumbission is performed, the php controller can know if it's a
+ * publication or not
  */
 function unPublish()
 {
@@ -211,9 +211,23 @@ function unPublish()
     }
 }
 
+/**
+ * Set the hidden html input element to 1
+ * Then when a sumbission is performed, the php controller can know if it's a
+ * validation or not
+ */
+
+function userDevalidation()
+{
+    let inputDevalidate = document.getElementById("devalidate");
+    if(inputDevalidate !== null){
+        inputDevalidate.setAttribute('value', 'true');
+    }
+}
+
 
 /**
- * 
+ * Changes the form action to trigger a post search 
  */
 
 function searchPosts(event)
@@ -224,6 +238,26 @@ function searchPosts(event)
     if(formPostList !== null && searchString !== null){
         if(searchString.value.trim() !== ""){
             formPostList.action = "index.php?action=AdminPostSearch"
+        } else {
+            event.preventDefault(); //Cancel form submission
+        }
+    } else {
+        event.preventDefault(); //Cancel form submission
+    }
+}
+
+/**
+ * Changes the form action to trigger a user search 
+ */
+
+function searchUsers(event)
+{
+    let formUserList = document.getElementById("formUserList");
+    let searchString = document.getElementById("searchString");
+
+    if(formUserList !== null && searchString !== null){
+        if(searchString.value.trim() !== ""){
+            formUserList.action = "index.php?action=AdminUserSearch"
         } else {
             event.preventDefault(); //Cancel form submission
         }

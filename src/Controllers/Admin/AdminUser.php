@@ -4,7 +4,7 @@ namespace Application\Controllers\Admin;
 
 use Application\Models\UserRepository;
 use Application\Models\User;
-use Application\Models\Session;
+use Application\Lib\Session;
 
 class AdminUser
 {
@@ -16,11 +16,17 @@ class AdminUser
 
         if(isset($_SESSION['userId'])){
             $userRepository = new UserRepository();
-            $user = $userRepository->getUser($_SESSION['userId']);
-            if($user->isCreator()){
-                $users = $userRepository->getUsers();
+            $activeUser = $userRepository->getUser($_SESSION['userId']);
+            if($activeUser->isCreator()){
+                if (isset($_GET['userId'])){
+                    $user = $userRepository->getUser($_GET['userId']);
 
-                
+                    echo $twig->render('user.twig', [ 
+                        'user' => $user, 
+                        'activeUser' => Session::getActiveUser(), 
+                        'userFunction' => $userFunction
+                    ]);
+                }
             } else {
                 $warningGeneral = "Vous n'avez pas les droits requis pour accéder à cette page. Contactez l'administrateur du site";
                 $warningLink = "index.php/action=Home";

@@ -120,7 +120,7 @@ class UserRepository
     {
         $statement = $this->connexion->getConnexion()->prepare (
             "INSERT INTO user (name, surname, pseudo, email, password, creationDate, userFunction, isValid) 
-            VALUES(?, ?, ?, ?, ?, now(), ?, 0);"
+            VALUES(?, ?, ?, ?, ?, now(), ?, ?);"
         );
 
         if ($statement->execute([
@@ -129,7 +129,8 @@ class UserRepository
             htmlspecialchars($user->pseudo), 
             htmlspecialchars($user->email), 
             Password::encrypt($user->password), 
-            $user->userFunction])) 
+            htmlspecialchars($user->userFunction), 
+            htmlspecialchars($user->isValid)])) 
         {
             return true;
         } else {
@@ -140,17 +141,31 @@ class UserRepository
     //Updates a user
     public function updateUser(User $user) : bool 
     {
+        $result = false;
+
         $statement = $this->connexion->getConnexion()->prepare(
-            "UPDATE user SET name = ?, surname = ?, pseudo = ?, email = ?, password = ?, userFunction = ?, isValid = ? 
-            WHERE userId = ?;"
+            "UPDATE user SET name = :name, surname = :surname, pseudo = :pseudo, email = :email, userFunction = :function, isValid = :isvalid 
+            WHERE userId = :id;"
         );
 
-        if ($statement->execute([$user->name, $user->surname, $user->email, Password::encrypt($user->password), 
-        $user->userFunction, $user->isValid])) {
-            return true;
-        } else {
-            return false;
+        $statement->bindValue(':name', $user->name, PDO::PARAM_STR);
+        $statement->bindValue(':surname', $user->surname, PDO::PARAM_STR);
+        $statement->bindValue(':pseudo', $user->pseudo, PDO::PARAM_STR);
+        $statement->bindValue(':email', $user->email, PDO::PARAM_STR);
+        $statement->bindValue(':function', $user->userFunction, PDO::PARAM_STR);
+        $statement->bindValue(':isvalid', $user->isValid, PDO::PARAM_BOOL);
+        $statement->bindValue(':id', $user->id, PDO::PARAM_INT);
+
+        if ($statement->execute()) {
+            $result = true;
         }
+
+        //If there is a password we have to change it
+        if($user->password === ""){
+            $result = $this->changePassword($user->id, $user->password);
+        }
+
+        return $result;
     }
 
     //Deletes a user
@@ -283,4 +298,59 @@ class UserRepository
 
         return ceil(round($row['TotalUsers'] / $numberOfUsersPerPage, 2));
     }
+
+    /**
+     * Returns a list of User objects given the searchString parameter
+     * If the searchString parameter is found in one of the following fields : name, surname, email
+     */
+    public function searchUsers(string $searchString)
+    {
+        $searchString = htmlspecialchars($searchString); //Escape special characters
+
+        $statement = $this->connexion->getConnexion()->prepare(
+            "SELECT * FROM user WHERE name LIKE '%' :searchString '%' 
+            OR surname LIKE '%' :searchString '%' 
+            OR email LIKE '%' :searchString '%' 
+            ORDER BY creationDate DESC;"
+
+        );
+
+        $statement->bindValue(':searchString', $searchString, PDO::PARAM_STR);
+
+        $statement->execute();
+
+        $users = array();
+
+        while($row = $statement->fetch()) {
+            $user = new User();
+            $user->id = $row['userId'];
+            $user->name = $row['name'];
+            $user->surname = $row['surname'];
+            $user->pseudo = $row['pseudo'];
+            $user->email = $row['email'];
+            $user->creationDate = $row['creationDate'] !== null ? $row['creationDate'] : '';
+            $user->userFunction = $row['userFunction'];
+            $user->isValid = $row['isValid'];
+
+            $users[] = $user; 
+        }
+        return $users;
+    }
+
+    /**
+     * Set the isValid field to true or false
+     */
+     public function setValidation(int $userId, int $value) : bool
+     {
+        $statement = $this->connexion->getConnexion()->prepare(
+            "UPDATE user SET isValid = :value WHERE userId = :id;"
+        );
+
+        $statement->bindValue(':value', $value, PDO::PARAM_INT);
+        $statement->bindValue(':id', $userId, PDO::PARAM_INT);
+
+        $affectedLines = $statement->execute();
+
+        return ($affectedLines > 0);
+     }
 }
