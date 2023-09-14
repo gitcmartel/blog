@@ -56,6 +56,10 @@ class AdminUserSave
                         $warningEmail = "Vous devez renseigner un email";
                         $user->email = "";
                     } else {
+                        $emailRegExp = "/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix";
+                        if ( ! (preg_match($emailRegExp, trim($_POST['userMail'])) === 1)){
+                            $warningEmail = "L'adresse email est incorrecte";
+                        }
                         $user->email = $_POST['userMail'];
                     }
 
@@ -90,9 +94,17 @@ class AdminUserSave
                         }  
                     }
 
+                    //If it is a new user the password fields cannot be empty
+                    if(((trim($_POST['userPwd']) === "") && trim($_POST['userPwdConfirmation']) === "") && trim($_POST['userId']) === ""){
+                        $warningPassword = "Vous devez renseigner un mot de passe";
+                        $user->password = "";
+                    } else {
+                        $user->password = $_POST['userPwd'];
+                    }  
+
                     //Set the user id if there is one. If there is a warning message, then the user id
                     //will get back into the input form field
-                    if (trim($_POST['userId'] !== "")){
+                    if (trim($_POST['userId']) !== ""){
                         $user->id = $_POST['userId'];
                     }
 
