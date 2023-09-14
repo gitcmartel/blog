@@ -144,12 +144,19 @@ class UserRepository
         $result = false;
 
         $statement = $this->connexion->getConnexion()->prepare(
-            "UPDATE user SET name = ?, surname = ?, pseudo = ?, email = ?, userFunction = ?, isValid = ? 
-            WHERE userId = ?;"
+            "UPDATE user SET name = :name, surname = :surname, pseudo = :pseudo, email = :email, userFunction = :function, isValid = :isvalid 
+            WHERE userId = :id;"
         );
 
-        if ($statement->execute([$user->name, $user->surname, $user->email, 
-        $user->userFunction, $user->isValid, $user->id])) {
+        $statement->bindValue(':name', $user->name, PDO::PARAM_STR);
+        $statement->bindValue(':surname', $user->surname, PDO::PARAM_STR);
+        $statement->bindValue(':pseudo', $user->pseudo, PDO::PARAM_STR);
+        $statement->bindValue(':email', $user->email, PDO::PARAM_STR);
+        $statement->bindValue(':function', $user->userFunction, PDO::PARAM_STR);
+        $statement->bindValue(':isvalid', $user->isValid, PDO::PARAM_BOOL);
+        $statement->bindValue(':id', $user->id, PDO::PARAM_INT);
+
+        if ($statement->execute()) {
             $result = true;
         }
 

@@ -11,7 +11,7 @@ class AdminUserSave
 {
     public function execute()
     {
-        $warningGeneral = "";
+        $warningGlobal = "";
         $warningLink = "";
         $warningLinkMessage = "";
         $warningName = "";
@@ -20,6 +20,7 @@ class AdminUserSave
         $warningEmail = "";
         $warningFunction = "";
         $warningValidity = "";
+        $warningPassword = "";
         $user = new User();
         if(isset($_SESSION['userId'])){
             $userRepository = new UserRepository();
@@ -59,9 +60,16 @@ class AdminUserSave
 
                     if(trim($_POST['userFunction']) === ""){
                         $warningFunction = "Vous devez renseigner une fonction";
-                        $user->function = "";
+                        $user->userFunction = "";
                     } else {
-                        $user->function = $_POST['userFunction'];
+                        $user->userFunction = $_POST['userFunction'];
+                    }
+
+                    if(trim($_POST['userValidity']) === ""){
+                        $warningValidity = "Vous devez selectionner une option";
+                        $user->isValid = 0;
+                    } else {
+                        $user->isValid = $_POST['userValidity'];
                     }
 
                     if((trim($_POST['userPwd']) !== "" || trim($_POST['userPwdConfirmation']) !== "") && 
@@ -69,12 +77,22 @@ class AdminUserSave
                         $warningPassword = 'Les deux mot de passe ne sont pas identiques';
                         $user->password = "";
                     } else {
+                        $user->password = $_POST['userPwd'];
+                    }
+
+                    if(! ((trim($_POST['userPwd']) === "") && trim($_POST['userPwdConfirmation']) === "")){
                         if (! Password::checkPassword($_POST['userPwd'])){
                             $warningPassword = "Le mot de passe doit être composé d'au moins 8 caractères, 1 majuscule, 1 minuscule, 1 nombre et 1 caractère spécial";
                             $user->password = "";
                         } else {
                             $user->password = $_POST['userPwd'];
                         }  
+                    }
+
+                    //Set the user id if there is one. If there is a warning message, then the user id
+                    //will get back into the input form field
+                    if (trim($_POST['userId'] !== "")){
+                        $user->id = $_POST['userId'];
                     }
 
                     if($warningName === "" && $warningSurname === "" && $warningPseudo === "" && $warningEmail === "" 
@@ -119,6 +137,8 @@ class AdminUserSave
             'warningPassword' => $warningPassword, 
             'warningFunction' => $warningFunction, 
             'warningValidity' => $warningValidity, 
+            'user' => $user,
+            'userFunction' => $user->userFunction,
             'activeUser' => Session::getActiveUser()
         ]);
     }
