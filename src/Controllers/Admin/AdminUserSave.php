@@ -22,6 +22,7 @@ class AdminUserSave
         $warningValidity = "";
         $warningPassword = "";
         $user = new User();
+        $userFunction = "";
         if(isset($_SESSION['userId'])){
             $userRepository = new UserRepository();
             $activeUser = $userRepository->getUser($_SESSION['userId']);
@@ -138,7 +139,7 @@ class AdminUserSave
             'warningFunction' => $warningFunction, 
             'warningValidity' => $warningValidity, 
             'user' => $user,
-            'userFunction' => $user->userFunction,
+            'userFunction' => $userFunction,
             'activeUser' => Session::getActiveUser()
         ]);
     }
