@@ -227,7 +227,7 @@ function userDevalidation()
 
 
 /**
- * 
+ * Changes the form action to trigger a post search 
  */
 
 function searchPosts(event)
@@ -238,6 +238,26 @@ function searchPosts(event)
     if(formPostList !== null && searchString !== null){
         if(searchString.value.trim() !== ""){
             formPostList.action = "index.php?action=AdminPostSearch"
+        } else {
+            event.preventDefault(); //Cancel form submission
+        }
+    } else {
+        event.preventDefault(); //Cancel form submission
+    }
+}
+
+/**
+ * Changes the form action to trigger a user search 
+ */
+
+function searchUsers(event)
+{
+    let formUserList = document.getElementById("formUserList");
+    let searchString = document.getElementById("searchString");
+
+    if(formUserList !== null && searchString !== null){
+        if(searchString.value.trim() !== ""){
+            formUserList.action = "index.php?action=AdminUserSearch"
         } else {
             event.preventDefault(); //Cancel form submission
         }

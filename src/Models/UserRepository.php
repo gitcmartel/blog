@@ -300,6 +300,44 @@ class UserRepository
     }
 
     /**
+     * Returns a list of User objects given the searchString parameter
+     * If the searchString parameter is found in one of the following fields : name, surname, email
+     */
+    public function searchUsers(string $searchString)
+    {
+        $searchString = htmlspecialchars($searchString); //Escape special characters
+
+        $statement = $this->connexion->getConnexion()->prepare(
+            "SELECT * FROM user WHERE name LIKE '%' :searchString '%' 
+            OR surname LIKE '%' :searchString '%' 
+            OR email LIKE '%' :searchString '%' 
+            ORDER BY creationDate DESC;"
+
+        );
+
+        $statement->bindValue(':searchString', $searchString, PDO::PARAM_STR);
+
+        $statement->execute();
+
+        $users = array();
+
+        while($row = $statement->fetch()) {
+            $user = new User();
+            $user->id = $row['userId'];
+            $user->name = $row['name'];
+            $user->surname = $row['surname'];
+            $user->pseudo = $row['pseudo'];
+            $user->email = $row['email'];
+            $user->creationDate = $row['creationDate'] !== null ? $row['creationDate'] : '';
+            $user->userFunction = $row['userFunction'];
+            $user->isValid = $row['isValid'];
+
+            $users[] = $user; 
+        }
+        return $users;
+    }
+
+    /**
      * Set the isValid field to true or false
      */
      public function setValidation(int $userId, int $value) : bool
