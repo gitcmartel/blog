@@ -10,10 +10,13 @@ class CommentRepository
 
     function __construct()
     {
-        $this->$connexion = new DatabaseConnexion();
+        $this->connexion = new DatabaseConnexion();
     }
     
-    public function getComment($commentId) : getComment
+    /**
+     * Returns a comment object
+     */
+    public function getComment($commentId) : Comment
     {
         $statement = $this->connexion->getConnexion()->prepare(
             "SELECT * FROM comment WHERE commentId = ?;"
@@ -27,33 +30,62 @@ class CommentRepository
         $postRepository = new PostRepository();
         $post = $postRepository->getPost($row['postId']);
 
-        $comment = new Comment($row['commentId'], $row['publicationDate'], $row['comment'], $user, $post);
+        $comment->commentId = $row['commentId'];
+        $comment->creationDate = $row['creationDate'];
+        $comment->publicationDate = $row['publicationDate'];
+        $comment->comment = $row['comment'];
+        $comment->user = $user;
+        $comment->post = $post;
+
 
         return $comment;
     }
 
-    public function getComments() : array
+    /**
+     * Returns an array of comment objects
+     */
+    public function getComments(string $pageNumber, int $numberOfCommentsPerPage) : array
     {
-        $statement = $this->connexion->getConnexion()->prepare(
-            "SELECT * FROM comment ORDER BY publicationDate DESC;"
-        );
+        $offset = (($pageNumber - 1) * $numberOfCommentsPerPage) >=0 ? (($pageNumber - 1) * $numberOfCommentsPerPage) : 0;
 
-        $statement->execute();
+        if($pageNumber !== 0 && $numberOfCommentsPerPage !== 0){
+            $statement = $this->connexion->getConnexion()->prepare(
+                "SELECT * FROM comment ORDER BY creationDate DESC LIMIT ". $numberOfCommentsPerPage . " OFFSET ". $offset . ";"
+            );
+
+            $statement->execute();
+
+        } else { //We return all comments
+            $statement = $this->connexion->getConnexion()->prepare(
+                "SELECT * FROM comment ORDER BY creationDate DESC;"
+            );
+    
+            $statement->execute();
+        }
 
         $comments = array();
         $userRepository = new UserRepository();
         $postRepository = new PostRepository();
 
         while($row = $statement->fetch()) {
-            $user = $userRepository($row['userId']);
-            $post = $postRepository($row['postId']);
-            $comments[] = new Comment($row['commentId'], $row['publicationDate'], $row['comment'], $user, $post);
-        }
+            $comment = new Comment();
 
+            $comment->id = $row['commentId'];
+            $comment->creationDate = $row['creationDate'] !== null ? $row['creationDate'] : '';
+            $comment->publicationDate = $row['publicationDate'] !== null ? $row['publicationDate'] : '';
+            $comment->comment = $row['comment'];
+            $comment->user = $userRepository->getUser($row['userId']);
+            $comment->post = $postRepository->getPost($row['postId']);
+
+            $comments[] = $comment; 
+        }
         return $comments;
     }
 
-    public function getCommentsPost(int $postId) : Post 
+    /**
+     * Returns an array of comment objects for a specific post
+     */
+    public function getCommentsPost(int $postId) : array 
     {
         $statement = $this->connexion->getConnexion()->prepare(
             "SELECT * FROM comment WHERE postId = ? ;"
@@ -73,6 +105,9 @@ class CommentRepository
         return $comments;
     }
 
+    /**
+     * Creates a new comment record in the database
+     */
     public function createComment(Comment $comment) : bool
     {
         $statement = $this->connexion->getConnexion()->prepare(
@@ -85,6 +120,9 @@ class CommentRepository
         return($affectedRows > 0);
     }
 
+    /**
+     * Modifies a comment record
+     */
     public function modifyComment(Comment $comment) : bool 
     {
         $statement = $this->connexion->getConnexion()->prepare(
@@ -96,6 +134,9 @@ class CommentRepository
         return ($affectedLines > 0);
     }
 
+    /**
+     * Deletes a comment record
+     */
     public function deleteComment(Comment $comment) : bool 
     {
         $statement = $connexion->getConnexion()->prepare(
@@ -105,5 +146,22 @@ class CommentRepository
         $affectedLines = $statement->execute([$comment->commentId]);
 
         return ($affectedLines > 0);
+    }
+
+    /**
+     * Get the number of records by page
+     * The $numberOfCommentsPerPage parameter contains the number of comments per page
+     */
+    public function getTotalPageNumber(int $numberOfCommentsPerPage) : int
+    {
+        $statement = $this->connexion->getConnexion()->prepare(
+            "SELECT COUNT(commentId) AS TotalComments FROM comment;"
+        );
+
+        $statement->execute();
+
+        $row = $statement->fetch();
+
+        return ceil(round($row['TotalComments'] / $numberOfCommentsPerPage, 2));
     }
 }
