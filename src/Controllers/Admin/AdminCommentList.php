@@ -32,7 +32,10 @@ class AdminCommentList
                 }
                 
                 $loader = new \Twig\Loader\FilesystemLoader('templates');
-                $twig = new \Twig\Environment($loader, ['cache' => false]);
+                
+                $twig = new \Twig\Environment($loader, ['cache' => false, 'debug' => true]);
+                $twig->addExtension(new \Twig\Extension\DebugExtension());
+                
                 
                 echo $twig->render('adminCommentList.twig', [ 
                     'actualPage' => $_GET['pageNumber'], 

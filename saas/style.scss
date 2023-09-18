@@ -1,5 +1,4 @@
 @use 'variables.scss';
-@use 'post.scss';
 
 .hero {
     background-image: url("../img/header.jpg");
@@ -128,6 +127,10 @@ footer {
 
 .vh-60{
     min-height: 60vh;
+}
+
+.w-10{
+    width: 10%;
 }
 
 .w-15{
