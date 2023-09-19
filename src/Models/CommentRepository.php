@@ -30,13 +30,13 @@ class CommentRepository
         $postRepository = new PostRepository();
         $post = $postRepository->getPost($row['postId']);
 
-        $comment->commentId = $row['commentId'];
-        $comment->creationDate = $row['creationDate'];
-        $comment->publicationDate = $row['publicationDate'];
+        $comment = new Comment();
+        $comment->id = $row['commentId'];
+        $comment->creationDate = $row['creationDate'] !== null ? $row['creationDate'] : '';
+        $comment->publicationDate = $row['publicationDate'] !== null ? $row['publicationDate'] : '';
         $comment->comment = $row['comment'];
         $comment->user = $user;
         $comment->post = $post;
-
 
         return $comment;
     }
@@ -139,11 +139,11 @@ class CommentRepository
      */
     public function deleteComment(Comment $comment) : bool 
     {
-        $statement = $connexion->getConnexion()->prepare(
+        $statement = $this->connexion->getConnexion()->prepare(
             "DELETE FROM comment WHERE commentId = ?;"
         );
 
-        $affectedLines = $statement->execute([$comment->commentId]);
+        $affectedLines = $statement->execute([$comment->id]);
 
         return ($affectedLines > 0);
     }
@@ -163,5 +163,33 @@ class CommentRepository
         $row = $statement->fetch();
 
         return ceil(round($row['TotalComments'] / $numberOfCommentsPerPage, 2));
+    }
+
+    /**
+     * Set the publicationDate field to now
+     */
+    public function setPublicationDate(int $commentId) : bool
+    {
+        $statement = $this->connexion->getConnexion()->prepare(
+            "UPDATE comment SET publicationDate = now() WHERE commentId = ?;"
+        );
+
+        $affectedLines = $statement->execute([$commentId]);
+
+        return ($affectedLines > 0);
+    }
+
+    /**
+     * Set the publicationDate field to null
+     */
+    public function setPublicationDateToNull(int $commentId) : bool 
+    {
+        $statement = $this->connexion->getConnexion()->prepare(
+            "UPDATE comment SET publicationDate = null WHERE commentId = ?;"
+        );
+
+        $affectedLines = $statement->execute([$commentId]);
+
+        return ($affectedLines > 0);
     }
 }
