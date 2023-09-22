@@ -23,8 +23,7 @@ class AdminUserModification
                     $user = $userRepository->getUser($_GET['userId']);
 
                     $loader = new \Twig\Loader\FilesystemLoader('templates');
-                    $twig = new \Twig\Environment($loader, ['cache' => false, 'debug' => true]);
-                    $twig->addExtension(new \Twig\Extension\DebugExtension());
+                    $twig = new \Twig\Environment($loader, ['cache' => false]);
                     
                     echo $twig->render('user.twig', [  
                         'user' => $user, 
