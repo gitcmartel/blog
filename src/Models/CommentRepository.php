@@ -3,6 +3,7 @@
 namespace Application\Models;
 
 use Application\Lib\DatabaseConnexion;
+use PDO;
 
 class CommentRepository
 {
@@ -111,25 +112,32 @@ class CommentRepository
     public function createComment(Comment $comment) : bool
     {
         $statement = $this->connexion->getConnexion()->prepare(
-            "INSERT INTO comment (publicationDate, comment, userId, postId) 
-            VALUES (?, ?, ?, ?);"
+            "INSERT INTO comment (creationDate, publicationDate, comment, userId, postId) 
+            VALUES (now(), ?, ?, ?, ?);"
         );
 
-        $affectedRows = $statement->execute([$comment->publicationDate, htmlspecialchars($comment->comment), $comment->userId, $comment->postId]);
+        $affectedRows = $statement->execute([
+            isset($comment->publicationDate) ? $comment->publicationDate : null, 
+            htmlspecialchars($comment->comment), 
+            $comment->user->id, 
+            $comment->post->id]);
 
         return($affectedRows > 0);
     }
 
     /**
-     * Modifies a comment record
+     * Updates a comment record
      */
-    public function modifyComment(Comment $comment) : bool 
+    public function updateComment(Comment $comment) : bool 
     {
         $statement = $this->connexion->getConnexion()->prepare(
-            "UPDATE comment SET (comment = ?);"
+            "UPDATE comment SET comment = ?, publicationDate = ? WHERE commentId = ?;"
         );
 
-        $affectedLines = $statement->execute([$comment->comment]);
+        $affectedLines = $statement->execute([
+            htmlspecialchars($comment->comment), 
+            isset($comment->publicationDate) ? $comment->publicationDate : null, 
+            $comment->id]);
 
         return ($affectedLines > 0);
     }
@@ -191,5 +199,44 @@ class CommentRepository
         $affectedLines = $statement->execute([$commentId]);
 
         return ($affectedLines > 0);
+    }
+
+    /**
+     * Returns a list of Comment objects given the searchString parameter
+     * If the searchString parameter is found in one of the following fields : 
+     * User : Name, surname, pseudo, email
+     * Post : title
+     * Comment : comment, creationDate
+     */
+    public function searchComments(string $searchString)
+    {
+        $searchString = htmlspecialchars($searchString); //Escape special characters
+
+        $statement = $this->connexion->getConnexion()->prepare(
+            "SELECT c.comment, c.creationDate, c.commentId, p.title, u.name, u.surname, u.pseudo, u.email 
+            FROM comment c INNER JOIN user u ON c.userId = u.userId 
+            INNER JOIN post p ON c.postId = p.postId
+            WHERE u.name LIKE '%' :searchString '%' 
+            OR u.surname LIKE '%' :searchString '%' 
+            OR u.pseudo LIKE '%' :searchString '%' 
+            OR u.email LIKE '%' :searchString '%' 
+            OR p.title LIKE '%' :searchString '%' 
+            OR c.comment LIKE '%' :searchString '%' 
+            OR c.creationDate LIKE '%' :searchString '%' 
+            ORDER BY creationDate DESC;"
+
+        );
+
+        $statement->bindValue(':searchString', $searchString, PDO::PARAM_STR);
+
+        $statement->execute();
+
+        $comments = array();
+
+        while($row = $statement->fetch()) {
+            $comment = $this->getComment($row['commentId']);
+            $comments[] = $comment; 
+        }
+        return $comments;
     }
 }
