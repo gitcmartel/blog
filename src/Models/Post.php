@@ -28,10 +28,7 @@ class Post
 
         if ($this->imagePath !== Path::fileBuildPath(array("img", Constants::DEFAULT_IMAGE_POST))){
             if (file_exists($rootPath . $this->imagePath)){
-                try {
-                    unlink($rootPath . $this->imagePath);
-                    return true;
-                } catch (Exception $exception) {} 
+                return unlink($rootPath . $this->imagePath);
             }
         }
         return false;

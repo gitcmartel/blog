@@ -22,7 +22,7 @@ class AdminCommentList
             $userFunction = $activeUser->userFunction;
             if($activeUser->isAdmin() && $activeUser->isValid){
                 $commentRepository = new CommentRepository();
-                $totalPages = $commentRepository->getTotalPageNumber(10);;
+                $totalPages = $commentRepository->getTotalPageNumber(10);
                 if (isset($_GET['pageNumber'])){
                     if($_GET['pageNumber'] !== 0){
                         $comments = $commentRepository->getComments($_GET['pageNumber'], 10);

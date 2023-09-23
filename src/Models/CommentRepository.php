@@ -51,14 +51,14 @@ class CommentRepository
 
         if($pageNumber !== 0 && $numberOfCommentsPerPage !== 0){
             $statement = $this->connexion->getConnexion()->prepare(
-                "SELECT * FROM comment ORDER BY creationDate DESC LIMIT ". $numberOfCommentsPerPage . " OFFSET ". $offset . ";"
+                "SELECT * FROM comment ORDER BY publicationDate, creationDate DESC LIMIT ". $numberOfCommentsPerPage . " OFFSET ". $offset . ";"
             );
 
             $statement->execute();
 
         } else { //We return all comments
             $statement = $this->connexion->getConnexion()->prepare(
-                "SELECT * FROM comment ORDER BY creationDate DESC;"
+                "SELECT * FROM comment ORDER BY publicationDate, creationDate DESC;"
             );
     
             $statement->execute();
@@ -216,18 +216,18 @@ class CommentRepository
             "SELECT c.comment, c.creationDate, c.commentId, p.title, u.name, u.surname, u.pseudo, u.email 
             FROM comment c INNER JOIN user u ON c.userId = u.userId 
             INNER JOIN post p ON c.postId = p.postId
-            WHERE u.name LIKE '%' :searchString '%' 
-            OR u.surname LIKE '%' :searchString '%' 
-            OR u.pseudo LIKE '%' :searchString '%' 
-            OR u.email LIKE '%' :searchString '%' 
-            OR p.title LIKE '%' :searchString '%' 
-            OR c.comment LIKE '%' :searchString '%' 
-            OR c.creationDate LIKE '%' :searchString '%' 
+            WHERE u.name LIKE :searchString  
+            OR u.surname LIKE :searchString 
+            OR u.pseudo LIKE :searchString 
+            OR u.email LIKE :searchString 
+            OR p.title LIKE :searchString 
+            OR c.comment LIKE :searchString 
+            OR c.creationDate LIKE :searchString 
             ORDER BY creationDate DESC;"
 
         );
 
-        $statement->bindValue(':searchString', $searchString, PDO::PARAM_STR);
+        $statement->bindValue(':searchString', '%' . $searchString . '%', PDO::PARAM_STR);
 
         $statement->execute();
 
