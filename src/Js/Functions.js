@@ -334,3 +334,30 @@ function resetImagePost()
     imagePath.defaultValue = "img/blog-post.svg";
     resetImage.defaultValue = "true";
 }
+
+/**
+ * 
+ */
+
+function deletion(elementType, id, title)
+{
+    let btnConfirmationDeletion = document.getElementById("btnConfirmationDeletion");
+    let deletionMessage = document.getElementById("deletionMessage");
+
+    switch (elementType) {
+        case "post" :
+            btnConfirmationDeletion.href = "index.php?action=AdminPostDeletion&postId=" + id;
+            deletionMessage.innerHTML = "Confirmez-vous la suppression du post " + title + " ?";
+        break;
+
+        case "user" :
+            btnConfirmationDeletion.href = "index.php?action=AdminUserDeletion&userId=" + id;
+            deletionMessage.innerHTML = "Confirmez-vous la suppression de l'utilisateur " + title + " ?";
+        break;
+
+        case "comment" :
+            btnConfirmationDeletion.href = "index.php?action=AdminCommentDeletion&commentId=" + id;
+            deletionMessage.innerHTML = "Confirmez-vous la suppression du commentaire de " + title + " ?";
+        break;
+    }
+}

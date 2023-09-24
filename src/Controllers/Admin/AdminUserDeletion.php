@@ -18,18 +18,18 @@ class AdminUserDeletion
             $userRepository = new UserRepository();
             $activeUser = $userRepository->getUser($_SESSION['userId']);
             $userFunction = $activeUser->userFunction;
-            if($activeUser->isCreator()  && $activeUser->isValid === -1){
+            if($activeUser->isCreator()  && $activeUser->isValid){
                 if (isset($_GET['userId'])){
                     if(trim($_GET['userId']) !== ""){
                         $user = $userRepository->getUser(trim($_GET['userId']));
                         if(isset($user->id)){
-                            if (! $userRepository->deleteUser($user)) {
+                            if (! $userRepository->deleteUser($user->id)) {
                                 $warningGeneral = "Un problème est survenu lors de la suppression de l'utilisateur";
                                 $warningLink = "index.php?action=AdminUserList&pageNumber=1";
                                 $warningLinkMessage = "Retour à la liste des utilisateurs";
                             } else  {
                                 //We display the updated user list
-                                header("Location:index.php?action=AdminUsertList&pageNumber=1");
+                                header("Location:index.php?action=AdminUserList&pageNumber=1");
                                 return;
                             }
                         }

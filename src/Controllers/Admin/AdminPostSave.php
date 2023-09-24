@@ -33,7 +33,7 @@ class AdminPostSave
             $userRepository = new UserRepository();
             $user = $userRepository->getUser($_SESSION['userId']);
             //If the active user is allowed to create or update posts we proceed
-            if($user->isCreator()  && $user->isValid === -1){
+            if($user->isCreator()  && $user->isValid){
                 if(isset($_POST['postTitle']) && isset($_POST['postSummary']) && isset($_POST['postContent'])){
                     //Checks if the fields are corrects
                     if(trim($_POST['postTitle']) === ""){
