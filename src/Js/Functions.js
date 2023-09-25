@@ -336,28 +336,38 @@ function resetImagePost()
 }
 
 /**
- * 
+ * Set the html elements to trigger the proper Controller
  */
 
-function deletion(elementType, id, title)
+function confirmationAction(elementType, id, title)
 {
-    let btnConfirmationDeletion = document.getElementById("btnConfirmationDeletion");
-    let deletionMessage = document.getElementById("deletionMessage");
+    let confirmationTitle = document.getElementById("confirmationModalLabel");
+    let btnConfirmation = document.getElementById("btnConfirmationModal");
+    let deletionMessage = document.getElementById("confirmationMessage");
 
     switch (elementType) {
         case "post" :
-            btnConfirmationDeletion.href = "index.php?action=AdminPostDeletion&postId=" + id;
+            confirmationTitle.innerHTML = "Suppression"
+            btnConfirmation.href = "index.php?action=AdminPostDeletion&postId=" + id;
             deletionMessage.innerHTML = "Confirmez-vous la suppression du post " + title + " ?";
         break;
 
         case "user" :
-            btnConfirmationDeletion.href = "index.php?action=AdminUserDeletion&userId=" + id;
+            confirmationTitle.innerHTML = "Suppression"
+            btnConfirmation.href = "index.php?action=AdminUserDeletion&userId=" + id;
             deletionMessage.innerHTML = "Confirmez-vous la suppression de l'utilisateur " + title + " ?";
         break;
 
         case "comment" :
-            btnConfirmationDeletion.href = "index.php?action=AdminCommentDeletion&commentId=" + id;
+            confirmationTitle.innerHTML = "Suppression"
+            btnConfirmation.href = "index.php?action=AdminCommentDeletion&commentId=" + id;
             deletionMessage.innerHTML = "Confirmez-vous la suppression du commentaire de " + title + " ?";
         break;
+
+        case "disconnection" :
+            confirmationTitle.innerHTML = "Déconnexion"
+            btnConfirmation.href = "index.php?action=Disconnection";
+            deletionMessage.innerHTML = "Confirmez-vous la déconnexion ?";
     }
 }
+
