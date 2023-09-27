@@ -20,9 +20,11 @@ class AdminUserList
             $userFunction = $user->userFunction;
             if($user->isAdmin()){
                 $totalPages = $userRepository->getTotalPageNumber(10);;
+                $pageNumber = 1;
                 if (isset($_GET['pageNumber'])){
                     if($_GET['pageNumber'] !== 0){
                         $users = $userRepository->getUsers($_GET['pageNumber'], 10);
+                        $pageNumber = $_GET['pageNumber'];
                     }
                 } else {
                     $users = $postRepository->getUsers(1, 10);
@@ -32,7 +34,7 @@ class AdminUserList
                 $twig = new \Twig\Environment($loader, ['cache' => false]);
                 
                 echo $twig->render('adminUserList.twig', [ 
-                    'actualPage' => $_GET['pageNumber'], 
+                    'actualPage' => $pageNumber, 
                     'totalPages' => $totalPages, 
                     'users' => $users, 
                     'activeUser' => Session::getActiveUser(), 

@@ -23,9 +23,11 @@ class AdminCommentList
             if($activeUser->isAdmin() && $activeUser->isValid){
                 $commentRepository = new CommentRepository();
                 $totalPages = $commentRepository->getTotalPageNumber(10);
+                $pageNumber = 1;
                 if (isset($_GET['pageNumber'])){
                     if($_GET['pageNumber'] !== 0){
                         $comments = $commentRepository->getComments($_GET['pageNumber'], 10);
+                        $pageNumber = $_GET['pageNumber'];
                     }
                 } else {
                     $comments = $commentRepository->getComments(1, 10);
@@ -38,7 +40,7 @@ class AdminCommentList
                 
                 
                 echo $twig->render('adminCommentList.twig', [ 
-                    'actualPage' => $_GET['pageNumber'], 
+                    'actualPage' => $pageNumber, 
                     'totalPages' => $totalPages, 
                     'comments' => $comments, 
                     'activeUser' => Session::getActiveUser(), 
