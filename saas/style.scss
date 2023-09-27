@@ -133,6 +133,14 @@ footer {
     min-height: 60vh;
 }
 
+.vh-50{
+    min-height: 50vh;
+}
+
+.vh-max-50{
+    max-height: 50vh;
+}
+
 .w-10{
     width: 10%;
 }
@@ -145,14 +153,31 @@ footer {
     width: 20%;
 }
 
+.w-35{
+    width: 35%;
+}
+
 .w-80{
     width: 80%;
+}
+
+.m-10{
+    margin: 5%;
 }
 
 .img-post {
     width: 100%;
     background-size: cover;
 }
+
+.scrollbar-thin {
+    scrollbar-width: thin;
+}
+
+.post-background-color{
+    background-color: variables.$color4;
+}
+
 //Media Queries
 
 @media screen and (max-width: 1440px){

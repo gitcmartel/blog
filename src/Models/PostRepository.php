@@ -92,6 +92,7 @@ class PostRepository
             $post->title = $row['title'];
             $post->summary = $row['summary'];
             $post->content = $row['content'];
+            $post->imagePath = $row['imagePath'];
             $post->creationDate = $row['creationDate'] !== null ? $row['creationDate'] : '';
             $post->publicationDate = $row['publicationDate'] !== null ? $row['publicationDate'] : '';
             $post->lastUpdateDate = $row['lastUpdateDate'] !== null ? $row['lastUpdateDate'] : '';
