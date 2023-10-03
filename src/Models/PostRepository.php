@@ -268,4 +268,19 @@ class PostRepository
         }
         return "";
     }
+
+    /**
+     * Returns an id's array
+     * Can be usefull for blog post navigation
+     */
+    public function getPostIdList() : array
+    {
+        $statement = $this->connexion->getConnexion()->prepare(
+            "SELECT postId FROM post ORDER BY postId ASC;"
+        );
+
+        $statement->execute();
+
+        return $statement->fetchAll(PDO::FETCH_COLUMN);
+    }
 }

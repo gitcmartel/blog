@@ -6,7 +6,7 @@ use PDO;
 
 class DatabaseConnexion
 {
-    private ?PDO $connexion = null;
+    protected ?PDO $connexion = null;
 
     public function getConnexion() : PDO
     {

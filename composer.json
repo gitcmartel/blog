@@ -2,7 +2,8 @@
     "name": "cmartel/blog",
     "autoload": {
         "psr-4": {
-            "Application\\": "src/"
+            "Application\\": "src/",
+            "Application\\Tests\\": "tests/"
         }
     },
     "authors": [

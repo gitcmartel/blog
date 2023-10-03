@@ -1,0 +1,75 @@
+{% extends 'layout.twig' %}
+
+{% block body %}
+    <section class="vh-60">
+        <div class="d-flex flex-wrap justify-content-around w-100 text-white">
+            {% for post in posts  %}
+                <div class="d-flex flex-column w-35 vh-50 vh-max-50 my-5 shadow p-3 mb-5 rounded post-background-color">
+                    <div class="d-flex w-100 mb-4">
+                        <div class="w-25">
+                            <a href="index.php?action=postDisplay&postId={{ post.id }}">
+                                <img class="w-100 rounded" src="{{ post.imagePath }}" alt="Image du post">
+                            </a>
+                        </div>
+                        <div class="w-75 text-center pt-4">
+                            <a class="text-reset text-decoration-none" href="index.php?action=postDisplay&postId={{ post.id }}">
+                                <p class="fs-5">{{ post.title }}</p>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="w-100 overflow-auto">
+                        {{ post.summary }}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section>
+        <nav aria-label="Page navigation">
+            <ul class="pagination justify-content-center">
+                <li class="page-item
+                    {% if actualPage == 1 %}
+                        disabled
+                    {% endif %}
+                ">
+                    <a class="page-link" href="index.php?action=postList&pageNumber=1" tabindex="-1">Premier</a>
+                </li>
+                <li class="page-item
+                    {% if actualPage == 1 %}
+                        disabled
+                    {% endif %}
+                ">
+                    <a class="page-link" href="index.php?action=postList&pageNumber={{ actualPage - 1 }}" tabindex="-1">Precédent</a>
+                </li>
+                {% for i in 1..totalPages %}
+                    <li class="page-item"><a class="page-link
+                    {% if actualPage == i %}
+                        text-decoration-underline
+                    {% endif %}
+                    " href="index.php?action=postList&pageNumber={{ i }}">{{ i }}</a></li>
+                {% endfor %}
+                <li class="page-item 
+                    {% if actualPage == totalPages %}
+                        disabled
+                    {% endif %}
+                ">
+                <a class="page-link" 
+                    {% if actualPage < totalPages %}
+                        href="index.php?action=postList&pageNumber={{ actualPage + 1 }}"
+                    {% else %}
+                        href="index.php?action=postList&pageNumber={{ totalPages }}"
+                    {% endif %}
+                >Suivant</a>
+                <li class="page-item
+                    {% if actualPage == totalPages %}
+                        disabled
+                    {% endif %}
+                ">
+                    <a class="page-link" href="index.php?action=postList&pageNumber={{ totalPages }}">Dernier</a>
+                  </li>
+                </li>
+            </ul>
+          </nav>
+    </section>
+{% endblock %}
