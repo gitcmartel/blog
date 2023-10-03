@@ -7,6 +7,7 @@ use Application\Models\Post;
 use Application\Models\UserRepository;
 use Application\Models\User;
 use Application\Lib\Session;
+use Application\Lib\DatabaseConnexion;
 
 class AdminPostList 
 {
@@ -17,7 +18,7 @@ class AdminPostList
         $warningLinkMessage = "";
         $userFunction = "";
         if(isset($_SESSION['userId'])){
-            $userRepository = new UserRepository();
+            $userRepository = new UserRepository(new DatabaseConnexion);
             $user = $userRepository->getUser($_SESSION['userId']);
             $userFunction = $user->userFunction;
             if($user->isCreator() && $user->isValid){

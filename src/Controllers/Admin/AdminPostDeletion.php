@@ -7,6 +7,7 @@ use Application\Models\PostRepository;
 use Application\Models\UserRepository;
 use Application\Models\User;
 use Application\Lib\Session;
+use Application\Lib\DatabaseConnexion;
 
 class AdminPostDeletion
 {
@@ -16,7 +17,7 @@ class AdminPostDeletion
         $warningLink = "";
         $warningLinkMessage = "";
         if(isset($_SESSION['userId'])){
-            $userRepository = new UserRepository();
+            $userRepository = new UserRepository(new DatabaseConnexion);
             $user = $userRepository->getUser($_SESSION['userId']);
             if($user->isCreator()  && $user->isValid){
                 if (isset($_GET['postId'])){

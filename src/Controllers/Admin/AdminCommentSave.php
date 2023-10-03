@@ -9,6 +9,7 @@ use Application\Models\CommentRepository;
 use Application\Models\Post;
 use Application\Models\PostRepository;
 use Application\Lib\Session;
+use Application\Lib\DatabaseConnexion;
 
 
 class AdminCommentSave
@@ -22,7 +23,7 @@ class AdminCommentSave
         $userFunction = "";
 
         if(isset($_SESSION['userId'])){
-            $userRepository = new UserRepository();
+            $userRepository = new UserRepository(new DatabaseConnexion);
             $activeUser = $userRepository->getUser($_SESSION['userId']);
             $userFunction = $activeUser->userFunction;
             if($activeUser->isAdmin() && $activeUser->isValid){

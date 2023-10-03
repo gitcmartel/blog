@@ -10,6 +10,7 @@ use Application\Lib\Session;
 use Application\Lib\Upload;
 use Application\Lib\Constants;
 use Application\Lib\Path;
+use Application\Lib\DatabaseConnexion;
 
 
 class AdminPostSave
@@ -30,7 +31,7 @@ class AdminPostSave
 
         //Checks the active user
         if(isset($_SESSION['userId'])){
-            $userRepository = new UserRepository();
+            $userRepository = new UserRepository(new DatabaseConnexion);
             $user = $userRepository->getUser($_SESSION['userId']);
             //If the active user is allowed to create or update posts we proceed
             if($user->isCreator()  && $user->isValid){

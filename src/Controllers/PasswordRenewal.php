@@ -7,6 +7,7 @@ use Application\Models\User;
 use Application\Lib\Password;
 use Application\Lib\Email;
 use Application\Lib\Constants;
+use Application\Lib\DatabaseConnexion;
 use DateTime;
 
 class PasswordRenewal
@@ -28,7 +29,7 @@ class PasswordRenewal
 
             if($warningEmail === ""){
                 //Get the user
-                $userRepository = new UserRepository();
+                $userRepository = new UserRepository(new DatabaseConnexion);
                 $user = $userRepository->getUserByMail($_POST['emailAddress']);
 
                 if(isset($user->id)){

@@ -7,6 +7,7 @@ use Application\Models\User;
 use Application\Models\PostRepository;
 use Application\Models\Post;
 use Application\Lib\Session;
+use Application\Lib\DatabaseConnexion;
 
 class AdminPostSearch
 {
@@ -16,7 +17,7 @@ class AdminPostSearch
         $warningLink = "";
         $warningLinkMessage = "";
         if(isset($_SESSION['userId'])){
-            $userRepository = new UserRepository();
+            $userRepository = new UserRepository(new DatabaseConnexion);
             $user = $userRepository->getUser($_SESSION['userId']);
             if($user->isCreator()  && $user->isValid){
                 if(isset($_POST['searchString'])){

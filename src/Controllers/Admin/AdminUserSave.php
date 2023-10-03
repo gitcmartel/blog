@@ -4,6 +4,7 @@ namespace Application\Controllers\Admin;
 
 use Application\Models\UserRepository;
 use Application\Models\User;
+use Application\Models\DatabaseRepository;
 use Application\Lib\Session;
 use Application\Lib\Password;
 
@@ -24,7 +25,7 @@ class AdminUserSave
         $user = new User();
         $userFunction = "";
         if(isset($_SESSION['userId'])){
-            $userRepository = new UserRepository();
+            $userRepository = new UserRepository(new DatabaseConnexion);
             $activeUser = $userRepository->getUser($_SESSION['userId']);
             $userFunction = $activeUser->userFunction;
             if($activeUser->isAdmin() && $activeUser->isValid){

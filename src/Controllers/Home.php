@@ -6,6 +6,7 @@ use Application\Lib\FormValidation;
 use Application\Lib\Email;
 use Application\Models\UserRepository;
 use Application\Models\User;
+use Application\Lib\DatabaseConnexion;
 use Application\Lib\Session;
 
 class Home 
@@ -14,7 +15,7 @@ class Home
         $userFunction = "";
         //Get the function of the active user
         if(isset($_SESSION['userId'])){
-            $userRepository = new UserRepository();
+            $userRepository = new UserRepository(new DatabaseConnexion);
             $user = $userRepository->getUser($_SESSION['userId']);
             $userFunction = $user->userFunction;
         }

@@ -7,6 +7,7 @@ use Application\Models\PostRepository;
 use Application\Models\UserRepository;
 use Application\Models\User;
 use Application\Lib\Session;
+use Application\Lib\DatabaseConnexion;
 
 class PostDisplay{
 
@@ -17,7 +18,7 @@ class PostDisplay{
         $warningLinkMessage = "";
 
         if(isset($_SESSION['userId'])){
-            $userRepository = new UserRepository();
+            $userRepository = new UserRepository(new DatabaseConnexion);
             $user = $userRepository->getUser($_SESSION['userId']);
             $userFunction = $user->userFunction;
         } else {

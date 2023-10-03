@@ -4,6 +4,7 @@ namespace Application\Controllers;
 
 use Application\Models\UserRepository;
 use Application\Models\User;
+use Application\Lib\DatabaseConnexion;
 use Application\Lib\Password;
 use DateTime;
 
@@ -16,7 +17,7 @@ class PasswordRenewalSubscription
         $warningMessage = "";
 
         if(isset($_GET['token']) && isset($_GET['email'])){
-            $userRepository = new UserRepository();
+            $userRepository = new UserRepository(new DatabaseConnexion);
 
             //If the user has already entered his new password
             if(isset($_POST['password']) && isset($_POST['passwordConfirmation'])){

@@ -4,6 +4,7 @@ namespace Application\Controllers;
 
 use Application\Models\UserRepository;
 use Application\Models\User;
+use Application\Lib\DatabaseConnexion;
 use Application\Lib\Password;
 use Application\Lib\Session;
 
@@ -28,7 +29,7 @@ class Connexion
 
             if($warningLogin === "" && $warningPassword === ""){
                 //Get the user
-                $userRepository = new UserRepository();
+                $userRepository = new UserRepository(new DatabaseConnexion);
                 $user = $userRepository->getUserByMail($_POST['login']);
 
                 if(isset($user->id)){

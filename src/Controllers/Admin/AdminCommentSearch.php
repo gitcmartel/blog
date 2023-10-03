@@ -7,6 +7,7 @@ use Application\Models\User;
 use Application\Models\Comment;
 use Application\Models\CommentRepository;
 use Application\Lib\Session;
+use Application\Lib\DatabaseConnexion;
 
 class AdminCommentSearch
 {
@@ -18,7 +19,7 @@ class AdminCommentSearch
         $userFunction = "";
 
         if(isset($_SESSION['userId'])){
-            $userRepository = new UserRepository();
+            $userRepository = new UserRepository(new DatabaseConnexion);
             $activeUser = $userRepository->getUser($_SESSION['userId']);
             $userFunction = $activeUser->userFunction;
             if($activeUser->isCreator()  && $activeUser->isValid){

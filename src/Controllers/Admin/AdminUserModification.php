@@ -4,6 +4,7 @@ namespace Application\Controllers\Admin;
 
 use Application\Models\UserRepository;
 use Application\Models\User;
+use Application\Lib\DatabaseConnexion;
 use Application\Lib\Session;
 
 class AdminUserModification
@@ -15,7 +16,7 @@ class AdminUserModification
         $warningLinkMessage = "";
         $userFunction = "";
         if(isset($_SESSION['userId'])){
-            $userRepository = new UserRepository();
+            $userRepository = new UserRepository(new DatabaseConnexion);
             $activeUser = $userRepository->getUser($_SESSION['userId']);
             $userFunction = $activeUser->userFunction;
             if($activeUser->isAdmin() && $activeUser->isValid){

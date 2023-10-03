@@ -7,6 +7,7 @@ use Application\Models\Post;
 use Application\Models\UserRepository;
 use Application\Models\User;
 use Application\Lib\Session;
+use Application\Lib\DatabaseConnexion;
 
 class AdminPost
 {
@@ -15,7 +16,7 @@ class AdminPost
         $post = "";
         //If it's an existing post
         if(isset($_GET['postId'])){
-            $postRepository = new PostRepository();
+            $postRepository = new PostRepository(new DatabaseConnexion);
             $post = $postRepository->getPost($_GET['postId']);
         }
 

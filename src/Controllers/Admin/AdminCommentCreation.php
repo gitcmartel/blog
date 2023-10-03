@@ -8,6 +8,7 @@ use Application\Models\UserRepository;
 use Application\Models\User;
 use Application\Models\Comment;
 use Application\Lib\Session;
+use Application\Lib\DatabaseConnexion;
 
 class AdminCommentCreation
 {
@@ -19,7 +20,7 @@ class AdminCommentCreation
         $userFunction = "";
 
         if(isset($_SESSION['userId'])){
-            $userRepository = new UserRepository();
+            $userRepository = new UserRepository(new DatabaseConnexion);
             $activeUser = $userRepository->getUser($_SESSION['userId']);
             $userFunction = $activeUser->userFunction;
             if($activeUser->isAdmin() && $activeUser->isValid){

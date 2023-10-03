@@ -7,6 +7,7 @@ use Application\Models\PostRepository;
 use Application\Models\UserRepository;
 use Application\Models\User;
 use Application\Lib\Session;
+use Application\Lib\DatabaseConnexion;
 
 class AdminPostModification
 {
@@ -14,7 +15,7 @@ class AdminPostModification
     {
         if(isset($_GET['postId'])){
             if(trim($_GET['postId']) !== ""){
-                $postRepository = new PostRepository();
+                $postRepository = new PostRepository(new DatabaseConnexion);
                 $post = $postRepository->getPost($_GET['postId']);
 
                 $userFunction = "";

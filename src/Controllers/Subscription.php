@@ -7,6 +7,7 @@ use Application\Models\User;
 use Application\Models\UserRepository;
 use Application\Lib\Password;
 use Application\Lib\Session;
+use Application\Lib\DatabaseConnexion;
 use DateTime;
 
 class Subscription 
@@ -24,7 +25,7 @@ class Subscription
         if (isset($_POST['name']) && isset($_POST['surname']) && isset($_POST['pseudo']) && isset($_POST['email']) 
         && isset($_POST['password']) && isset($_POST['passwordConfirmation'])) {
 
-            $userRepository = new UserRepository();
+            $userRepository = new UserRepository(new DatabaseConnexion);
             
             if ($userRepository->exists($_POST['email'], 'email')) {
                 $warningEmail["warningMessage"] = "Cette adresse email existe déjà";

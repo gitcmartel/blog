@@ -4,6 +4,7 @@ namespace Application\Controllers\Admin;
 
 use Application\Models\UserRepository;
 use Application\Models\User;
+use Application\Lib\DatabaseConnexion;
 use Application\Lib\Session;
 
 class AdminUserList 
@@ -15,7 +16,7 @@ class AdminUserList
         $warningLinkMessage = "";
         $userFunction = "";
         if(isset($_SESSION['userId'])){
-            $userRepository = new UserRepository();
+            $userRepository = new UserRepository(new DatabaseConnexion);
             $user = $userRepository->getUser($_SESSION['userId']);
             $userFunction = $user->userFunction;
             if($user->isAdmin()){
