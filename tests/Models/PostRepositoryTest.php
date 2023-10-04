@@ -7,5 +7,6 @@ class PostRepositoryTest extends TestCase
         //Preparing test environnement
         $postRepository = new postRepository(new DbConnexionTest);
         
+        
     }
 }
