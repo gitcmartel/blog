@@ -12,7 +12,7 @@ class PostRepository
 
     function __construct(DatabaseConnexion $dbConnexion)
     {
-        $this->connexion = new DatabaseConnexion($dbConnexion);
+        $this->connexion = $dbConnexion;
     }
 
     //Returns a Post
