@@ -79,7 +79,7 @@ class AdminPostSave
                             
                     //If all fields are ok we proceed
                     if($postTitle !== "" && $postSummary !== "" && $postContent !="" && $warningImage === ""){
-                        $postRepository = new PostRepository();
+                        $postRepository = new PostRepository(new DatabaseConnexion);
                         $post = new Post();
                         $post->title = $postTitle;
                         $post->summary = $postSummary;

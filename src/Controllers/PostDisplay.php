@@ -28,7 +28,7 @@ class PostDisplay{
         if(isset($_GET['postId'])){
             if(trim($_GET['postId']) !== ""){
                 if(is_numeric($_GET['postId'])){
-                    $postRepository = new PostRepository();
+                    $postRepository = new PostRepository(new DatabaseConnexion);
                     $post = $postRepository->getPost($_GET['postId']);
 
                     $postIdList = $postRepository->getPostIdList();

@@ -22,7 +22,7 @@ class AdminPostDeletion
             if($user->isCreator()  && $user->isValid){
                 if (isset($_GET['postId'])){
                     if($_GET['postId'] !== ""){
-                        $postRepository = new PostRepository();
+                        $postRepository = new PostRepository(new DatabaseConnexion);
                         $post = $postRepository->getPost($_GET['postId']);
                         if(isset($post->id)){
                             if (! $postRepository->deletePost($post)) {

@@ -10,9 +10,9 @@ class PostRepository
 {
     private DatabaseConnexion $connexion;
 
-    function __construct()
+    function __construct(DatabaseConnexion $dbConnexion)
     {
-        $this->connexion = new DatabaseConnexion();
+        $this->connexion = new DatabaseConnexion($dbConnexion);
     }
 
     //Returns a Post

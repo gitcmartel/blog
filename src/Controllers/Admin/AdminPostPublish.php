@@ -20,7 +20,7 @@ class AdminPostPublish
             $userRepository = new UserRepository(new DatabaseConnexion);
             $user = $userRepository->getUser($_SESSION['userId']);
             if($user->isCreator()  && $user->isValid){
-                $postRepository = new PostRepository();
+                $postRepository = new PostRepository(new DatabaseConnexion);
 
                 if(isset($_POST['postPublish']) && isset($_POST['unpublish'])){
                     //Updates the status post field

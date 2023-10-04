@@ -22,7 +22,7 @@ class AdminPostList
             $user = $userRepository->getUser($_SESSION['userId']);
             $userFunction = $user->userFunction;
             if($user->isCreator() && $user->isValid){
-                $postRepository = new PostRepository();
+                $postRepository = new PostRepository(new DatabaseConnexion);
                 $totalPages = $postRepository->getTotalPageNumber(10);;
                 $pageNumber = 1;
                 if (isset($_GET['pageNumber'])){

@@ -22,7 +22,7 @@ class AdminPostSearch
             if($user->isCreator()  && $user->isValid){
                 if(isset($_POST['searchString'])){
                     if(trim($_POST['searchString']) !== ""){
-                        $postRepository = new PostRepository();
+                        $postRepository = new PostRepository(new DatabaseConnexion);
                         $posts = $postRepository->searchPosts(trim($_POST['searchString']));
 
                         $loader = new \Twig\Loader\FilesystemLoader('templates');

@@ -68,7 +68,7 @@ class AdminCommentSave
                                 $warningGlobal = "Une erreur est survenue lors de l'enregistrement des données";
                             }
                         } else { //If there is no commentId we create a new comment
-                            $postRepository = new PostRepository();
+                            $postRepository = new PostRepository(new DatabaseConnexion);
                             $comment->post = $postRepository->getPost($_POST['postId']);
                             $comment->user = $activeUser;
 

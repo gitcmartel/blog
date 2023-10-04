@@ -28,7 +28,7 @@ class CommentRepository
         $row = $statement->fetch();
         $userRepository = new UserRepository(new DatabaseConnexion);
         $user = $userRepository->getUser($row['userId']);
-        $postRepository = new PostRepository();
+        $postRepository = new PostRepository(new DatabaseConnexion);
         $post = $postRepository->getPost($row['postId']);
 
         $comment = new Comment();
@@ -66,7 +66,7 @@ class CommentRepository
 
         $comments = array();
         $userRepository = new UserRepository(new DatabaseConnexion);
-        $postRepository = new PostRepository();
+        $postRepository = new PostRepository(new DatabaseConnexion);
 
         while($row = $statement->fetch()) {
             $comment = new Comment();
@@ -96,7 +96,7 @@ class CommentRepository
 
         $comments = array();
         $userRepository = new UserRepository(new DatabaseConnexion);
-        $postRepository = new PostRepository();
+        $postRepository = new PostRepository(new DatabaseConnexion);
         while ($row = $statement->fetch()) {
             $user = $userRepository->getUser($row['userId']);
             $post = $postRepository->getPost($row['postId']);

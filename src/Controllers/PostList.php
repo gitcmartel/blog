@@ -21,7 +21,7 @@ class PostList
             $userFunction = "";
         } 
 
-        $postRepository = new PostRepository();
+        $postRepository = new PostRepository(new DatabaseConnexion);
         $totalPages = $postRepository->getTotalPageNumber(4);
         $pageNumber = 1;
         if (isset($_GET['pageNumber'])){
