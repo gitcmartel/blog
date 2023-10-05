@@ -119,7 +119,7 @@ class PostRepository
         return $affectedLines > 0;
     }
 
-    //Update a post
+    //Updates a post
     public function updatePost($post) : bool 
     {
         $statement = $this->connexion->getConnexion()->prepare(
@@ -172,7 +172,7 @@ class PostRepository
     }
 
     /**
-     * Get the number of records by page
+     * Get the total number of pages for a given number of posts per page
      * The $numberOfPostsPerPage parameter contains the number of posts per page
      */
     public function getTotalPageNumber(int $numberOfPostsPerPage) : int
@@ -188,7 +188,7 @@ class PostRepository
         return ceil(round($row['TotalPosts'] / $numberOfPostsPerPage, 2));
     }
 
-    public function searchPosts(string $searchString)
+    public function searchPosts(string $searchString) : array
     {
         $searchString = htmlspecialchars($searchString); //Escape special characters
 
@@ -232,7 +232,7 @@ class PostRepository
         return $posts;
     }
 
-    //Concatenates the imagePath with the id of the row and updates the path field
+    //Concatenates the imagePath with the id of the row and updates the imagePath field
     public function updateImagePath(Post $post, string $extension) : string
     {
         $postId = 0;
