@@ -1,0 +1,53 @@
+{% extends 'Layout/layout.html.twig' %}
+
+{% block body %}
+    <section class="container-fluid d-flex align-items-center flex-column">
+        <div class="d-flex w-75 justify-content-end mt-2 me-2">
+            <a href="index.php?action=Admin\Comment\AdminPostList&pageNumber=1">Retour</a>
+        </div>
+        <div class="m-4 p-3 shadow rounded w-75">
+            <form method="post" enctype="multipart/form-data" action="index.php?action=Admin\Post\AdminPostSave" id="formPost">
+                <div class="d-flex">
+                    <input type="text" class="d-none" name="postId" value="{{ post.id }}">
+                    <input type="text" class="d-none" name="postPublish" value="{{ post.id }}">
+                    <input type="text" class="d-none" name="unpublish" value="false">
+                    <div class="w-25 me-2">
+                        <label for="imagePath">
+                            <img class="img-post" src="
+                            {% if post.imagePath != "" %}
+                                {{ post.imagePath }}
+                            {% else %}
+                                img/blog-post.svg
+                            {% endif %}
+                        " alt="Image du post" id="imagePost">
+                        </label>
+                        <input type="file" accept=".png, .jpeg, .jpg, .svg" class="form-control d-none" name="imagePath" id="imagePath" onchange="displayImagePost(this)" value="{{ post.imagePath }}">
+                        <input type="text" class="form-control d-none" name="resetImage" id="resetImage" value="false">
+                        <button type="button" class="btn btn-link" onclick="resetImagePost()">Réinitialiser l'image</button>
+                    </div>
+                    <div class="d-flex flex-column w-75">
+                        <label class="form-label font-size3" for="postTitle">Titre</label>
+                        <input type="text" class="form-control" name="postTitle" id="postTitle" value="{{ post.title }}">
+                        <label class="form-label font-size3 mt-2" for="postSummary">Résumé</label>
+                        <textarea rows="3" class="form-control" name="postSummary" id="postSummary">{{ post.summary }}</textarea>
+                    </div>           
+                </div>
+                <div class="text-danger">{{ warningImage }}</div>
+                <label for="postContent" class="form-label font-size3">Contenu</label>
+                <textarea rows="5" name="postContent" id="postContent" class="form-control">{{ post.content }}</textarea>
+                <div class="d-flex">
+                    <div class="my-2 me-2 font-size3">Rédigé par {{ post.user.name }} {{ post.user.surname }}</div>
+                    {% if post.modifier.name != "" %}
+                        <div class="my-2 font-size3">- Modifié par {{ post.modifier.name }} {{ post.modifier.surname }}</div> 
+                    {% endif %}
+                    <div class="text-danger">{{ warningGlobal }}</div>
+                </div>
+                <div class="d-flex justify-content-end">
+                    <button type="submit" class="btn button text-light me-3 w-15">Enregistrer</button>
+                    <button type="submit" onclick="publish(event)" class="btn button text-light me-3 w-15">Publier</button>
+                </div>
+            </form>
+        </div>
+        
+    </section>
+{% endblock %}

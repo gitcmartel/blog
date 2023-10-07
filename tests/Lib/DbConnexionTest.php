@@ -7,11 +7,8 @@ use PDO;
 
 class DbConnexionTest extends DatabaseConnexion
 {
-    public function getConnexion() : PDO
+    public function construct() : PDO
     {
-        if($this->connexion === null) {
-            $this->connexion = new PDO('mysql:host=localhost;dbname=blogtest;charset=utf8', 'root', '');
-        }
-        return $this->connexion;
+        return new PDO('mysql:host=localhost;dbname=blogtest;charset=utf8', 'root', '');
     }
 }

@@ -1,0 +1,91 @@
+{% extends 'Layout/layout.html.twig' %}
+
+{% block body %}
+    <section class="container-fluid d-flex align-items-center flex-column">
+        <div class="d-flex w-75 justify-content-end mt-2 me-2">
+            <a href="index.php?action=Admin\User\AdminUserList&pageNumber=1">Retour</a>
+        </div>
+        <div class="m-4 p-3 shadow rounded w-50">
+            <form method="post" action="index.php?action=Admin\User\adminUserSave" id="formUser">
+                <div class="d-flex">
+                    <input type="text" class="d-none" name="userId" value="{{ user.id }}">
+                    <input type="text" class="d-none" name="devalidate" value="false">
+                    <div class="d-flex flex-column w-75">
+                        <div>
+                            <label class="form-label font-size3" for="userName">Prénom</label>
+                            <input type="text" class="form-control" name="userName" id="userName" value="{{ user.name }}">
+                            <div class="text-danger">{{ warningName }}</div>
+                        </div>
+                        <div class="mt-2">
+                            <label class="form-label font-size3" for="surname">Nom</label>
+                            <input type="text" class="form-control" name="surname" id="surname" value="{{ user.surname }}">
+                            <div class="text-danger">{{ warningSurname }}</div>
+                        </div>
+                    </div>           
+                </div>
+                <div class="mt-2">
+                    <label class="form-label font-size3 mt-2" for="pseudo">Pseudo</label>
+                    <input type="text" class="form-control" name="pseudo" id="pseudo" value="{{ user.pseudo }}">
+                    <div class="text-danger">{{ warningPseudo }}</div>
+                </div>
+                <div class="mt-2">
+                    <label class="form-label font-size3" for="userMail">Email</label>
+                    <input type="text" class="form-control" name="userMail" id="userMail" value="{{ user.email }}">
+                    <div class="text-danger">{{ warningEmail }}</div>
+                </div>
+                <div class="mt-2">
+                    <label class="form-label font-size3" for="userPwd">Mot de passe</label>
+                    <input type="password" class="form-control" name="userPwd" id="userPwd">
+                </div>
+                <div class="mt-2">
+                    <label class="form-label font-size3" for="userPwdConfirmation">Confirmation du mot de passe</label>
+                    <input type="password" class="form-control" name="userPwdConfirmation" id="userPwdConfirmation">
+                    <div class="text-danger">{{ warningPassword }}</div>
+                </div>
+                <div class="mt-2">
+                    <label class="form-label font-size3" for="userFunction">Fonction</label>
+                    <select class="form-select" name="userFunction" id="userFunction">
+                        <option value="Lecteur" 
+                            {% if user.userFunction == "Lecteur"%}
+                                selected
+                            {% endif %}
+                        >Lecteur</option>
+                        <option value="Createur"
+                            {% if user.userFunction == "Createur"%}
+                                selected
+                            {% endif %}
+                        >Createur</option>
+                        <option value="Administrateur"
+                            {% if user.userFunction == "Administrateur"%}
+                                selected
+                            {% endif %}
+                        >Administrateur</option>
+                    </select>
+                    <div class="text-danger">{{ warningFunction }}</div>
+                </div>
+                <div class="mt-2">
+                    <p>Compte utilisateur valide :</p>
+                    <div class="d-flex">
+                        <label class="form-check-label font-size3" for="userValidity">Oui</label>
+                        <input class="form-check-input ms-2" type="radio" id="userValidity" name="userValidity" value="-1" 
+                            {% if user.isValid == true%}
+                                checked
+                            {% endif %}
+                        >
+                        <label class="form-check-label font-size3 ms-2" for="userValidity">Non</label>
+                        <input class="form-check-input ms-2" type="radio" id="userValidity" name="userValidity" value="0"
+                            {% if user.isValid == false%}
+                                checked
+                            {% endif %}
+                        >
+                    </div>
+                    <div class="text-danger">{{ warningValidity }}</div>
+                </div>
+                <div class="d-flex justify-content-end">
+                    <button type="submit" class="btn button text-light me-3 w-20">Enregistrer</button>
+                </div>
+            </form>
+        </div>
+        
+    </section>
+{% endblock %}

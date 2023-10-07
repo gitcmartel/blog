@@ -1,0 +1,137 @@
+{% extends 'Layout/layout.html.twig' %}
+
+{% block body %}
+    <section class="vh-60">
+        <form method="POST" action="index.php?action=Admin\User\AdminUserValidation" id="formUserList">
+            <input class="d-none" type="text" id="devalidate" name="devalidate" value="false">
+            <div class="d-flex justify-content-between font-size-3 fw-bold mt-3 ms-2 mb-2">
+                <div class="d-flex w-50 font-size3">
+                    <label for="search" id="searchLabel">Rechercher : </label>
+                    <input type="text" class = "w-75 ms-2" name="searchString" id="searchString" aria-describedby="searchLabel">
+                    <button class="border-0 bg-transparent d-flex align-items-center" type="submit" onclick="searchUsers(event)">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-binoculars" viewBox="0 0 16 16">
+                            <path d="M3 2.5A1.5 1.5 0 0 1 4.5 1h1A1.5 1.5 0 0 1 7 2.5V5h2V2.5A1.5 1.5 0 0 1 10.5 1h1A1.5 1.5 0 0 1 13 2.5v2.382a.5.5 0 0 0 .276.447l.895.447A1.5 1.5 0 0 1 15 7.118V14.5a1.5 1.5 0 0 1-1.5 1.5h-3A1.5 1.5 0 0 1 9 14.5v-3a.5.5 0 0 1 .146-.354l.854-.853V9.5a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v.793l.854.853A.5.5 0 0 1 7 11.5v3A1.5 1.5 0 0 1 5.5 16h-3A1.5 1.5 0 0 1 1 14.5V7.118a1.5 1.5 0 0 1 .83-1.342l.894-.447A.5.5 0 0 0 3 4.882V2.5zM4.5 2a.5.5 0 0 0-.5.5V3h2v-.5a.5.5 0 0 0-.5-.5h-1zM6 4H4v.882a1.5 1.5 0 0 1-.83 1.342l-.894.447A.5.5 0 0 0 2 7.118V13h4v-1.293l-.854-.853A.5.5 0 0 1 5 10.5v-1A1.5 1.5 0 0 1 6.5 8h3A1.5 1.5 0 0 1 11 9.5v1a.5.5 0 0 1-.146.354l-.854.853V13h4V7.118a.5.5 0 0 0-.276-.447l-.895-.447A1.5 1.5 0 0 1 12 4.882V4h-2v1.5a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5V4zm4-1h2v-.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5V3zm4 11h-4v.5a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5V14zm-8 0H2v.5a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5V14z"/>
+                            </svg>
+                    </button>
+                </div>
+                <div class="d-flex mx-2">
+                    <button class="border-0 bg-transparent d-flex align-items-center" type="submit">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-check2-circle" viewBox="0 0 16 16">
+                            <path d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0z"/>
+                            <path d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l7-7z"/>
+                            </svg>
+                    </button>
+                    <button onclick="userDevalidation()" class="border-0 bg-transparent d-flex align-items-center" type="submit">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-check2-circle" viewBox="0 0 16 16">
+                            <path d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0z"/>
+                            <path d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l7-7z"/>
+                            <path style="display:inline;mix-blend-mode:normal;fill:#FF0000;fill-opacity:0.890909;stroke:#FF0000;stroke-width:0.5"
+                            d="M 0.73189327,15.166455 14.92249,1.1385006"/>
+                        </svg>
+                    </button>
+                    <a class="border-0 bg-transparent px-2 d-flex align-items-center" href="index.php?action=Admin\User\AdminUserCreation">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#000000" class="bi bi-plus-circle" viewBox="0 0 16 16">
+                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th class="font-size3"></th>
+                    <th class="font-size3" scope="col">Date d'inscription</th>
+                    <th class="font-size3" scope="col">Nom</th>
+                    <th class="font-size3" scope="col">Prénom</th>
+                    <th class="font-size3" scope="col">Email</th>
+                    <th class="font-size3" scope="col">Fonction</th>
+                    <th class="font-size3" scope="col">Validité</th>
+                </tr>
+                </thead>
+                <tbody>
+                    {% for user in users  %}
+                    <tr>
+                        <td>
+                            <input type="checkbox" name="userValidation[]" class="form-check-input" value="{{ user.id }}">
+                        </td>
+                        <td>{{ user.creationDate|date('Y-m-d') }}</td>
+                        <td>{{ user.name }}</td>
+                        <td>{{ user.surname }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.userFunction }}</td>
+                        <td>
+                            {% if user.isValid == -1 %}
+                                <span class="text-success">Valide</span>
+                            {% elseif user.isValid == 0  %}
+                                <span class="text-danger">Non valide</span>
+                            {% endif %}
+                        </td>
+                        <td class="d-flex justify-content-between">
+                            <a href="index.php?action=Admin\User\AdminUserModification&userId={{ user.id }}">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                                </svg>
+                            </a>
+                            <a class="btn border-0 bg-transparent px-2 d-flex align-items-center" onclick="confirmationAction('post', '{{ user.id }}', '{{ user.name }} {{user.surname }}')" data-bs-toggle="modal" data-bs-target="#confirmationModal">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#0d6efd" class="bi bi-trash" viewBox="0 0 16 16">
+                                    <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z"/>
+                                    <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z"/>
+                                </svg>
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </form>
+    </section>
+    <section>
+        <nav aria-label="Page navigation">
+            <ul class="pagination justify-content-center">
+                <li class="page-item
+                    {% if actualPage == 1 %}
+                        disabled
+                    {% endif %}
+                ">
+                    <a class="page-link" href="index.php?action=Admin\User\AdminUserList&pageNumber=1" tabindex="-1">Premier</a>
+                </li>
+                <li class="page-item
+                    {% if actualPage == 1 %}
+                        disabled
+                    {% endif %}
+                ">
+                    <a class="page-link" href="index.php?action=Admin\User\AdminUserList&pageNumber={{ actualPage - 1 }}" tabindex="-1">Precédent</a>
+                </li>
+                {% for i in 1..totalPages %}
+                    <li class="page-item"><a class="page-link
+                    {% if actualPage == i %}
+                        text-decoration-underline
+                    {% endif %}
+                    " href="index.php?action=Admin\User\AdminUserList&pageNumber={{ i }}">{{ i }}</a></li>
+                {% endfor %}
+                <li class="page-item 
+                    {% if actualPage == totalPages %}
+                        disabled
+                    {% endif %}
+                ">
+                <a class="page-link" 
+                    {% if actualPage < totalPages %}
+                        href="index.php?action=Admin\User\AdminUserList&pageNumber={{ actualPage + 1 }}"
+                    {% else %}
+                        href="index.php?action=Admin\User\AdminUserList&pageNumber={{ totalPages }}"
+                    {% endif %}
+                >Suivant</a>
+                <li class="page-item
+                    {% if actualPage == totalPages %}
+                        disabled
+                    {% endif %}
+                ">
+                    <a class="page-link" href="index.php?action=Admin\User\AdminUserList&pageNumber={{ totalPages }}">Dernier</a>
+                  </li>
+                </li>
+            </ul>
+          </nav>
+    </section>
+{% endblock %}

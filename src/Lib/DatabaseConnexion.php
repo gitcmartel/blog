@@ -6,13 +6,18 @@ use PDO;
 
 class DatabaseConnexion
 {
-    protected ?PDO $connexion = null;
+    private static ?PDO $connexion = null;
 
-    public function getConnexion() : PDO
+    protected function construct() : PDO
     {
-        if($this->connexion === null) {
-            $this->connexion = new PDO('mysql:host=localhost;dbname=blog;charset=utf8', 'root', '');
+        return new PDO('mysql:host=localhost;dbname=blog;charset=utf8', 'root', '');
+    }
+
+    public final function getConnexion() : PDO
+    {
+        if(static::$connexion === null) {
+            static::$connexion = static::construct();
         }
-        return $this->connexion;
+        return static::$connexion;
     }
 }

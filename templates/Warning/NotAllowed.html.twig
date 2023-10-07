@@ -1,0 +1,10 @@
+{% extends 'Layout/layout.html.twig' %}
+
+{% block body %}
+    <section class="d-flex align-items-center justify-content-center vh-60">
+        <div class="d-flex flex-column align-items-center">
+            <div class="text-danger mb-3">{{ warningGeneral }}</div>
+            <a href="{{ warningLink }}">{{ warningLinkMessage }}</a>
+        </div>
+    </section>
+{% endblock %}

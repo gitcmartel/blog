@@ -1,0 +1,49 @@
+{% extends 'Layout/layout.html.twig' %}
+
+{% block body %}
+    <section>
+        <div class="body-container d-flex justify-content-center align-items-center">
+            <form method="post" action="index.php?action=Subscription\Subscription" id = "subscriptionForm" class="formulaire connexion-form container-fluid d-flex flex-column w-50 rounded-corners p-3" novalidate>
+                <div class="d-flex flex-row">
+                    <div class="d-flex flex-column w-50 pb-2 pe-3">
+                        <label for="name" class="form-label text-light">Prénom :</label>
+                        <input type="text" class="form-control" id = "name" name="name"  required value="{{ warningName.fieldContent }}">
+                        <div id="warningName" class="text-danger">{{ warningName.warningMessage }}</div>
+                    </div>
+                    <div class="d-flex flex-column pb-2 w-50">
+                        <label for="surname" class="form-label text-light">Nom :</label>
+                        <input type="text" class="form-control" id = "surname" name="surname" required value="{{ warningSurname.fieldContent }}">
+                        <div id="warningSurname" class="text-danger">{{ warningSurname.warningMessage }}</div>
+                    </div>
+                </div>
+                <div class="d-flex flex-column pb-2 w-50 pe-3">
+                    <label for="pseudo" class="form-label text-light">Pseudo :</label>
+                    <input type="text" class="form-control" id = "pseudo" name="pseudo" value="{{ warningPseudo.fieldContent }}" required>
+                    <div id="warningPseudo" class="text-danger">{{ warningPseudo.warningMessage }}</div>
+                </div>
+                <div class="d-flex flex-column pb-2">
+                    <label for="email" class="form-label text-light">Adresse Email :</label>
+                    <input type="email" class="form-control" id = "email" name="email" value="{{ warningEmail.fieldContent }}" required>
+                    <div id="warningEmail" class="text-danger">{{ warningEmail.warningMessage }}</div>
+                </div>
+                <div class="d-flex flex-column pb-2">
+                    <label for="password" class="form-label text-light">Mot de passe :</label>
+                    <div class="d-flex flex-row">
+                        <input type="password" class="form-control" id = "password" name="password" value="{{ warningPassword.fieldContent }}" required>
+                        <i class="far fa-eye position-relative align-self-center" id="togglePassword" onclick="showPassword('password')" style="margin-left: -30px; cursor: pointer;"></i>
+                    </div>
+                    <div id="warningPassword" class="text-danger">{{ warningPassword.warningMessage }}</div>
+                </div>
+                <div class="d-flex flex-column pb-2">
+                    <label for="passwordConfirmation" class="form-label text-light">Confirmation du mot de passe :</label>
+                    <div class="d-flex flex-row">
+                        <input type="password" class="form-control" id = "passwordConfirmation" name="passwordConfirmation" required>
+                        <i class="far fa-eye position-relative align-self-center" id="togglePasswordConfirmation" onclick="showPassword('passwordConfirmation')" style="margin-left: -30px; cursor: pointer;"></i> 
+                    </div> 
+                </div>
+                <button type="submit" class="button text-light" id="btnValider">Valider</button>
+                <div id="warningGeneral" class="text-danger">{{ warningGeneral.warningMessage }}</div>
+            </form>
+        </div>
+    </section>
+{% endblock %}
