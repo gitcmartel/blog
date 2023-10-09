@@ -19,8 +19,8 @@ class AdminUserDeletion
         if(isset($_SESSION['userId'])){
             $userRepository = new UserRepository(new DatabaseConnexion);
             $activeUser = $userRepository->getUser($_SESSION['userId']);
-            $userFunction = $activeUser->userFunction;
-            if($activeUser->isCreator()  && $activeUser->isValid){
+            $userFunction = $activeUser->getUserFunction();
+            if($userFunction::Creator && $activeUser->isValid){
                 if (isset($_GET['userId'])){
                     if(trim($_GET['userId']) !== ""){
                         $user = $userRepository->getUser(trim($_GET['userId']));

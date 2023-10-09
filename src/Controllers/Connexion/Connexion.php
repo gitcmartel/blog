@@ -43,7 +43,7 @@ class Connexion
 
                         echo $twig->render('Connexion/connexionSuccess.html.twig', [
                             'activeUser' => Session::getActiveUser(), 
-                            'userFunction' => $user->userFunction
+                            'userFunction' => $user->getUserFunction()
                         ]);
                         return;
                     } else {

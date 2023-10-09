@@ -19,7 +19,8 @@ class AdminUser
         if(isset($_SESSION['userId'])){
             $userRepository = new UserRepository(new DatabaseConnexion);
             $activeUser = $userRepository->getUser($_SESSION['userId']);
-            if($activeUser->isCreator()){
+            $userFunction = $activeUser->getUserFunction();
+            if($userFunction::Creator && $activeUser->isValid){
                 if (isset($_GET['userId'])){
                     $user = $userRepository->getUser($_GET['userId']);
 

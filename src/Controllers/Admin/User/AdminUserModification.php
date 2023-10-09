@@ -19,8 +19,8 @@ class AdminUserModification
         if(isset($_SESSION['userId'])){
             $userRepository = new UserRepository(new DatabaseConnexion);
             $activeUser = $userRepository->getUser($_SESSION['userId']);
-            $userFunction = $activeUser->userFunction;
-            if($activeUser->isAdmin() && $activeUser->isValid){
+            $userFunction = $activeUser->getUserFunction();
+            if($userFunction::Administrator && $activeUser->isValid){
                 if (isset($_GET['userId'])){
                     $user = $userRepository->getUser($_GET['userId']);
 

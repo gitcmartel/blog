@@ -4,6 +4,13 @@ namespace Application\Models;
 
 use DateTime;
 
+
+enum UserFunction {
+    case Administrator;
+    case Creator;
+    case Reader;
+}
+
 class User
 {
     public int $id;
@@ -15,7 +22,7 @@ class User
     public string $tokenForgotPassword;
     public string $forgotPasswordDate;
     public string $creationDate;
-    public string $userFunction;
+    public UserFunction $userFunction;
     public bool $isValid;
 
     public function constructWithParameters(string $name, string $surname, string $pseudo, string $email, string $password, 
@@ -27,8 +34,32 @@ class User
         $this->email = $email;
         $this->password = $password;
         $this->creationDate = $creationDate;
-        $this->userFunction = $userFunction;
+        $this->setUserFunction($userFunction);
         $this->isValid = $isValid;
+    }
+
+    /**
+     * Getters and setters
+     */
+    public function setUserFunction(string $function)
+    {
+        switch ($function){
+            case 'Administrateur':
+                $this->userFunction = UserFunction::Administrator;
+                break;
+            case 'Createur':
+                $this->userFunction::Creator;
+                break;
+            case 'Lecteur':
+                $this->userFunction::Reader;
+                break;
+        }
+    }
+
+
+    public function getUserFunction() : UserFunction
+    {
+        return $this->userFunction;
     }
 
     /**

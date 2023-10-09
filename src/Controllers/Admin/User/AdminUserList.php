@@ -19,8 +19,8 @@ class AdminUserList
         if(isset($_SESSION['userId'])){
             $userRepository = new UserRepository(new DatabaseConnexion);
             $user = $userRepository->getUser($_SESSION['userId']);
-            $userFunction = $user->userFunction;
-            if($user->isAdmin()){
+            $userFunction = $user->getUserFunction();
+            if($userFunction::Administrator){
                 $totalPages = $userRepository->getTotalPageNumber(10);;
                 $pageNumber = 1;
                 if (isset($_GET['pageNumber'])){

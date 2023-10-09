@@ -19,8 +19,8 @@ class AdminUserValidation
         if(isset($_SESSION['userId'])){
             $userRepository = new UserRepository(new DatabaseConnexion);
             $activeUser = $userRepository->getUser($_SESSION['userId']);
-            $userFunction = $activeUser->userFunction;
-            if($activeUser->isCreator()  && $activeUser->isValid){
+            $userFunction = $activeUser->getUserFunction();
+            if($userFunction::Creator  && $activeUser->isValid){
                 if(isset($_POST['userValidation']) && isset($_POST['devalidate'])){
                     //Updates the status user field
                     switch(gettype($_POST['userValidation'])){

@@ -28,8 +28,8 @@ class AdminUserSave
         if(isset($_SESSION['userId'])){
             $userRepository = new UserRepository(new DatabaseConnexion);
             $activeUser = $userRepository->getUser($_SESSION['userId']);
-            $userFunction = $activeUser->userFunction;
-            if($activeUser->isAdmin() && $activeUser->isValid){
+            $userFunction = $activeUser->getUserFunction();
+            if($userFunction::Administrator && $activeUser->isValid){
                 if(isset($_POST['userId']) && isset($_POST['userName']) && isset($_POST['surname']) && isset($_POST['pseudo']) && isset($_POST['userPwd'])
                 && isset($_POST['userPwdConfirmation']) && isset($_POST['userFunction']) && isset($_POST['userValidity'])){
                     //Checks if the fields are corrects

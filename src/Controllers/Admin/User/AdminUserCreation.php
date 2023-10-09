@@ -20,8 +20,8 @@ class AdminUserCreation
         if(isset($_SESSION['userId'])){
             $userRepository = new UserRepository(new DatabaseConnexion);
             $activeUser = $userRepository->getUser($_SESSION['userId']);
-            $userFunction = $activeUser->userFunction;
-            if($activeUser->isAdmin()){
+            $userFunction = $activeUser->getUserFunction();
+            if($userFunction::Administrator){
                 $user = new User();
 
                 $twig = TwigLoader::getEnvironment();
