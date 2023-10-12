@@ -29,7 +29,7 @@
                                 <a class="nav-link text-light font-size1" href="index.php?action=Post\PostList&pageNumber=1">Blog</a>
                             </li>
                             {% if activeUser != "" %}
-                            {% if userFunction.value == 'Creator' or userFunction.value =='Administrator' %}
+                            {% if userFunction == 'Createur' or userFunction =='Administrateur' %}
                             <li class="nav-item">
                                 <a class="nav-link text-light font-size1"
                                     href="index.php?action=Admin\Post\AdminPostList&pageNumber=1">Posts</a>

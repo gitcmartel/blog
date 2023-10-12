@@ -4,6 +4,7 @@ namespace Application\Controllers\Admin\User;
 
 use Application\Models\UserRepository;
 use Application\Models\User;
+use Application\Models\UserActiveCheckValidity;
 use Application\Lib\DatabaseConnexion;
 use Application\Lib\Session;
 use Application\Lib\TwigLoader;
@@ -15,42 +16,34 @@ class AdminUserList
         $warningGeneral = "";
         $warningLink = "";
         $warningLinkMessage = "";
-        $userFunction = "";
-        if(isset($_SESSION['userId'])){
+
+        if(UserActiveCheckValidity::check(array('Administrateur'))){
             $userRepository = new UserRepository(new DatabaseConnexion);
-            $user = $userRepository->getUser($_SESSION['userId']);
-            $userFunction = $user->getUserFunction();
-            if($userFunction::Administrator){
-                $totalPages = $userRepository->getTotalPageNumber(10);;
-                $pageNumber = 1;
-                if (isset($_GET['pageNumber'])){
-                    if($_GET['pageNumber'] !== 0){
-                        $users = $userRepository->getUsers($_GET['pageNumber'], 10);
-                        $pageNumber = $_GET['pageNumber'];
-                    }
-                } else {
-                    $users = $postRepository->getUsers(1, 10);
+            $totalPages = $userRepository->getTotalPageNumber(10);;
+            $pageNumber = 1;
+            if (isset($_GET['pageNumber'])){
+                if($_GET['pageNumber'] !== 0){
+                    $users = $userRepository->getUsers($_GET['pageNumber'], 10);
+                    $pageNumber = $_GET['pageNumber'];
                 }
-                
-                $twig = TwigLoader::getEnvironment();
-                
-                echo $twig->render('Admin\User\AdminUserList.html.twig', [ 
-                    'actualPage' => $pageNumber, 
-                    'totalPages' => $totalPages, 
-                    'users' => $users, 
-                    'activeUser' => Session::getActiveUser(), 
-                    'userFunction' => $userFunction
-                ]);
-                return;
             } else {
-                $warningGeneral = "Vous n'avez pas les droits requis pour accéder à cette page. Contactez l'administrateur du site";
-                $warningLink = "index.php/action=Home\Home";
-                $warningLinkMessage = "Nous contacter";
+                $users = $postRepository->getUsers(1, 10);
             }
+            
+            $twig = TwigLoader::getEnvironment();
+            
+            echo $twig->render('Admin\User\AdminUserList.html.twig', [ 
+                'actualPage' => $pageNumber, 
+                'totalPages' => $totalPages, 
+                'users' => $users, 
+                'activeUser' => Session::getActiveUser(), 
+                'userFunction' => Session::getActiveUserFunction()
+            ]);
+            return;
         } else {
-            $warningGeneral = "Veuillez-vous identifier pour pouvoir accéder à cette page";
-            $warningLink = "index.php?action=Connexion\Connexion";
-            $warningLinkMessage = "Se connecter";
+            $warningGeneral = "Vous n'avez pas les droits requis pour accéder à cette page. Contactez l'administrateur du site";
+            $warningLink = "index.php/action=Home\Home";
+            $warningLinkMessage = "Nous contacter";
         }
 
         $twig = TwigLoader::getEnvironment();
@@ -60,7 +53,7 @@ class AdminUserList
             'warningLink' => $warningLink, 
             'warningLinkMessage' => $warningLinkMessage,
             'activeUser' => Session::getActiveUser(), 
-            'userFunction' => $userFunction
+            'userFunction' => Session::getActiveUserFunction()
         ]);
     }
 }

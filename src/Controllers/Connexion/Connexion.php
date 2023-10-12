@@ -39,11 +39,12 @@ class Connexion
                         $twig = TwigLoader::getEnvironment();
                         
                         $_SESSION['activeUser'] = $user->pseudo;
+                        $_SESSION['activeUserFunction'] = $user->userFunction->toString();
                         $_SESSION['userId'] = $user->id;
 
                         echo $twig->render('Connexion/connexionSuccess.html.twig', [
                             'activeUser' => Session::getActiveUser(), 
-                            'userFunction' => $user->getUserFunction()
+                            'userFunction' => Session::getActiveUserFunction()
                         ]);
                         return;
                     } else {
@@ -60,7 +61,8 @@ class Connexion
         echo $twig->render('Connexion/connexion.html.twig', [ 
             'warningLogin' => $warningLogin, 
             'warningPassword' => $warningPassword,
-            'loginValue' => $loginValue, 
+            'loginValue' => $loginValue,
+            'userFunction' => Session::getActiveUserFunction(),
             'activeUser' => Session::getActiveUser()
         ]);
     }

@@ -41,7 +41,7 @@ class PostList
             'totalPages' => $totalPages, 
             'posts' => $posts, 
             'activeUser' => Session::getActiveUser(), 
-            'userFunction' => $userFunction
+            'userFunction' => Session::getActiveUserFunction()
         ]);
     }
 }

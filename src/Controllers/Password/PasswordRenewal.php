@@ -73,7 +73,9 @@ class PasswordRenewal
             'warningLogin' => $warningEmail, 
             'emailValue' => $emailValue,
             'errorMessage' =>$errorMessage,
-            'successMessage' => $successMessage
+            'successMessage' => $successMessage, 
+            'activeUser' => Session::getActiveUser(), 
+            'userFunction' => Session::getActiveUserFunction()
         ]);
     }
 }

@@ -28,7 +28,7 @@ class Home
         echo $twig->render('Home\Home.html.twig', [ 
             'messageResponse' => $messageResponse, 
             'activeUser' => Session::getActiveUser(), 
-            'userFunction' => $userFunction
+            'userFunction' => Session::getActiveUserFunction()
         ]);
     }
 

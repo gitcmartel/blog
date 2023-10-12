@@ -61,7 +61,7 @@ class PostDisplay{
                             'lastPostId' => $lastPostId, 
                             'post' => $post, 
                             'activeUser' => Session::getActiveUser(), 
-                            'userFunction' => $userFunction
+                            'userFunction' => Session::getActiveUserFunction()
                         ]);
                         return;
                     }
@@ -80,7 +80,7 @@ class PostDisplay{
             'warningLink' => $warningLink, 
             'warningLinkMessage' => $warningLinkMessage,
             'activeUser' => Session::getActiveUser(),
-            'userFunction' => $userFunction
+            'userFunction' => Session::getActiveUserFunction()
         ]);
     }
 }

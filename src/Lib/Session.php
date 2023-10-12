@@ -16,4 +16,22 @@ class session
             return "";
         }
     }
+
+    public static function getActiveUserFunction() : string
+    {
+        if (isset($_SESSION['activeUserFunction'])){
+            return $_SESSION['activeUserFunction'];
+        } else {
+            return "";
+        }
+    }
+
+    public static function getActiveUserId() : int
+    {
+        if (isset($_SESSION['userId'])){
+            return $_SESSION['userId'];
+        } else {
+            return null;
+        }
+    }
 }

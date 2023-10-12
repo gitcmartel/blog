@@ -98,7 +98,8 @@ class Subscription
             'warningPseudo' => $warningPseudo, 
             'warningPassword' => $warningPassword, 
             'warningGeneral' => $warningGeneral, 
-            'activeUser' => Session::getActiveUser()
+            'activeUser' => Session::getActiveUser(), 
+            'userFunction' => Session::getActiveUserFunction()
         ]);  
         return; 
     }

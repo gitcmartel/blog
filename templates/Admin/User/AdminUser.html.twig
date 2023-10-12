@@ -46,17 +46,17 @@
                     <label class="form-label font-size3" for="userFunction">Fonction</label>
                     <select class="form-select" name="userFunction" id="userFunction">
                         <option value="Lecteur" 
-                            {% if user.userFunction == "Lecteur"%}
+                            {% if user.getUserFunction().toString() == "Lecteur"%}
                                 selected
                             {% endif %}
                         >Lecteur</option>
                         <option value="Createur"
-                            {% if user.userFunction == "Createur"%}
+                            {% if user.getUserFunction().toString() == "Createur"%}
                                 selected
                             {% endif %}
                         >Createur</option>
                         <option value="Administrateur"
-                            {% if user.userFunction == "Administrateur"%}
+                            {% if user.getUserFunction().toString() == "Administrateur"%}
                                 selected
                             {% endif %}
                         >Administrateur</option>

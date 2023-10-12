@@ -5,14 +5,9 @@ namespace Application\Models;
 use DateTime;
 
 
-enum UserFunction {
-    case Administrator;
-    case Creator;
-    case Reader;
-}
-
 class User
 {
+    #region properties
     public int $id;
     public string $name;
     public string $surname;
@@ -24,7 +19,9 @@ class User
     public string $creationDate;
     public UserFunction $userFunction;
     public bool $isValid;
+    #endregion
 
+    #region Constructor
     public function constructWithParameters(string $name, string $surname, string $pseudo, string $email, string $password, 
         string $creationDate, string $userFunction, bool $isValid)
     {
@@ -37,7 +34,23 @@ class User
         $this->setUserFunction($userFunction);
         $this->isValid = $isValid;
     }
+    #endregion
 
+    #region Functions
+    /**
+     * Checks if the user is valid and has the proper function
+     */
+    function checkValidity(array $function) : bool
+    {     
+        if($this->isValid && in_array($this->userFunction->toString(), $function)){
+            return true;
+        } else {
+            return false;
+        }
+    }
+    #endregion
+
+    #region Getters and Setters
     /**
      * Getters and setters
      */
@@ -48,10 +61,10 @@ class User
                 $this->userFunction = UserFunction::Administrator;
                 break;
             case 'Createur':
-                $this->userFunction::Creator;
+                $this->userFunction = UserFunction::Creator;
                 break;
             case 'Lecteur':
-                $this->userFunction::Reader;
+                $this->userFunction = UserFunction::Reader;
                 break;
         }
     }
@@ -59,33 +72,12 @@ class User
 
     public function getUserFunction() : UserFunction
     {
-        return $this->userFunction;
-    }
-
-    /**
-     * If the user has a function of "createur" or "administrateur"
-     * then the function returns true
-     */
-    public function isCreator() : bool
-    {
-        if($this->userFunction === "Createur" || $this->userFunction === "Administrateur"){
-            return true;
-        } else {
-            return false;
+        if(isset($this->userFunction)){
+            return $this->userFunction;
+        }else{
+            return UserFunction::Else;
         }
     }
-
-    /**
-     * If the user has a function of "administrateur"
-     * then the function returns true
-     */
-    public function isAdmin() : bool
-    {
-        if($this->userFunction === "Administrateur"){
-            return true;
-        } else {
-            return false;
-        }
-    }
+    #endregion
 }
 

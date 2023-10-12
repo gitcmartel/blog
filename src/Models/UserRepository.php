@@ -107,7 +107,7 @@ class UserRepository
             $user->email = $row['email'];
             $user->password = $row['password'];
             $user->creationDate = $row['creationDate'];
-            $user->$user->setUserFunction($row['userFunction']);
+            $user->setUserFunction($row['userFunction']);
             $user->isValid = $row['isValid'];
             $users[] = $user;
         }
@@ -152,7 +152,7 @@ class UserRepository
         $statement->bindValue(':surname', $user->surname, PDO::PARAM_STR);
         $statement->bindValue(':pseudo', $user->pseudo, PDO::PARAM_STR);
         $statement->bindValue(':email', $user->email, PDO::PARAM_STR);
-        $statement->bindValue(':function', $user->getUserFunction(), PDO::PARAM_STR);
+        $statement->bindValue(':function', $user->getUserFunction().toString(), PDO::PARAM_STR);
         $statement->bindValue(':isvalid', $user->isValid, PDO::PARAM_BOOL);
         $statement->bindValue(':id', $user->id, PDO::PARAM_INT);
 
@@ -329,7 +329,7 @@ class UserRepository
             $user->pseudo = $row['pseudo'];
             $user->email = $row['email'];
             $user->creationDate = $row['creationDate'] !== null ? $row['creationDate'] : '';
-            $user->$user->setUserFunction($row['userFunction']);;
+            $user->setUserFunction($row['userFunction']);;
             $user->isValid = $row['isValid'];
 
             $users[] = $user; 
