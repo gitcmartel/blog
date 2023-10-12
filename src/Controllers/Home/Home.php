@@ -13,13 +13,6 @@ use Application\Lib\TwigLoader;
 class Home 
 {
     public function execute() {
-        $userFunction = "";
-        //Get the function of the active user
-        if(isset($_SESSION['userId'])){
-            $userRepository = new UserRepository(new DatabaseConnexion);
-            $user = $userRepository->getUser($_SESSION['userId']);
-            $userFunction = $user->userFunction;
-        }
 
         $messageResponse = $this->sendMessage();
 

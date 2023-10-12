@@ -22,8 +22,8 @@ class AdminUserDeletion
                 if(trim($_GET['userId']) !== ""){
                     $userRepository = new UserRepository(new DatabaseConnexion);
                     $user = $userRepository->getUser(trim($_GET['userId']));
-                    if(isset($user->id)){
-                        if (! $userRepository->deleteUser($user->id)) {
+                    if($user->getId() !== 0){
+                        if (! $userRepository->deleteUser($user->getId())) {
                             $warningGeneral = "Un problème est survenu lors de la suppression de l'utilisateur";
                             $warningLink = "index.php?action=Admin\User\AdminUserList&pageNumber=1";
                             $warningLinkMessage = "Retour à la liste des utilisateurs";

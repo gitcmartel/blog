@@ -26,11 +26,11 @@ class AdminUserValidation
                             $userRepository = new UserRepository(new DatabaseConnexion);
                             $user = $userRepository->getUser($userId);
                             if($_POST['devalidate'] === 'true'){
-                                if($user->isValid){
+                                if($user->getIsValid()){
                                     $userRepository->setValidation($userId, 0);
                                 }
                             } else if($_POST['devalidate'] === 'false') {
-                                if(! $user->isValid){
+                                if(! $user->getIsValid()){
                                     $userRepository->setValidation($userId, -1);
                                 }
                             }
@@ -39,11 +39,11 @@ class AdminUserValidation
                     case "string" :
                         $user = $postRepository->getUser($_POST['userValidation']);
                         if($_POST['devalidate'] === 'true'){
-                            if($user->isValid){
+                            if($user->getIsValid()){
                                 $postRepository->setValidation($_POST['userValidation'], 0);
                             }
                         } else if($_POST['devalidate'] === 'false'){
-                            if($user->isValid){
+                            if($user->getIsValid()){
                                 $postRepository->setValidation($_POST['userValidation'], -1);
                             }
                         }

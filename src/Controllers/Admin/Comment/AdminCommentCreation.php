@@ -17,7 +17,6 @@ class AdminCommentCreation
         $warningGeneral = "";
         $warningLink = "";
         $warningLinkMessage = "";
-        $userFunction = "";
 
         if(UserActiveCheckValidity::check(array('Administrateur'))){
             if (isset($_GET['postId'])){

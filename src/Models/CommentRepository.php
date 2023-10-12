@@ -32,12 +32,12 @@ class CommentRepository
         $post = $postRepository->getPost($row['postId']);
 
         $comment = new Comment();
-        $comment->id = $row['commentId'];
-        $comment->creationDate = $row['creationDate'] !== null ? $row['creationDate'] : '';
-        $comment->publicationDate = $row['publicationDate'] !== null ? $row['publicationDate'] : '';
-        $comment->comment = $row['comment'];
-        $comment->user = $user;
-        $comment->post = $post;
+        $comment->setId($row['commentId']);
+        $comment->setCreationDate($row['creationDate'] !== null ? $row['creationDate'] : '');
+        $comment->setPublicationDate($row['publicationDate'] !== null ? $row['publicationDate'] : '');
+        $comment->setComment($row['comment']);
+        $comment->setUser($user);
+        $comment->setPost($post);
 
         return $comment;
     }
@@ -71,12 +71,12 @@ class CommentRepository
         while($row = $statement->fetch()) {
             $comment = new Comment();
 
-            $comment->id = $row['commentId'];
-            $comment->creationDate = $row['creationDate'] !== null ? $row['creationDate'] : '';
-            $comment->publicationDate = $row['publicationDate'] !== null ? $row['publicationDate'] : '';
-            $comment->comment = $row['comment'];
-            $comment->user = $userRepository->getUser($row['userId']);
-            $comment->post = $postRepository->getPost($row['postId']);
+            $comment->setId($row['commentId']);
+            $comment->setCreationDate($row['creationDate'] !== null ? $row['creationDate'] : '');
+            $comment->setPublicationDate($row['publicationDate'] !== null ? $row['publicationDate'] : '');
+            $comment->setComment($row['comment']);
+            $comment->setUser($userRepository->getUser($row['userId']));
+            $comment->setPost($postRepository->getPost($row['postId']));
 
             $comments[] = $comment; 
         }
@@ -100,7 +100,13 @@ class CommentRepository
         while ($row = $statement->fetch()) {
             $user = $userRepository->getUser($row['userId']);
             $post = $postRepository->getPost($row['postId']);
-            $comments[] = new Comment($row['commentId'], $row['publicationDate'], $row['comment'], $user, $post);
+            $comment = new Comment();
+            $comment->setId($row['commentId']);
+            $comment->setPublicationDate($row['publicationDate'] !== null ? $row['publicationDate'] : '');
+            $comment->setComment($row['comment']);
+            $comment->setUser($userRepository->getUser($row['userId']));
+            $comment->setPost($postRepository->getPost($row['postId']));
+            $comments[] = $comment;
         }
 
         return $comments;
@@ -117,10 +123,10 @@ class CommentRepository
         );
 
         $affectedRows = $statement->execute([
-            isset($comment->publicationDate) ? $comment->publicationDate : null, 
-            htmlspecialchars($comment->comment), 
-            $comment->user->id, 
-            $comment->post->id]);
+            $comment->getPublicationDate() !== '' ? $comment->getPublicationDate() : null, 
+            htmlspecialchars($comment->getComment()), 
+            $comment->getUser()->id, 
+            $comment->getPost()->id]);
 
         return($affectedRows > 0);
     }
@@ -135,9 +141,9 @@ class CommentRepository
         );
 
         $affectedLines = $statement->execute([
-            htmlspecialchars($comment->comment), 
-            isset($comment->publicationDate) ? $comment->publicationDate : null, 
-            $comment->id]);
+            htmlspecialchars($comment->getComment()), 
+            $comment->getPublicationDate(), 
+            $comment->getId()]);
 
         return ($affectedLines > 0);
     }
@@ -151,7 +157,7 @@ class CommentRepository
             "DELETE FROM comment WHERE commentId = ?;"
         );
 
-        $affectedLines = $statement->execute([$comment->id]);
+        $affectedLines = $statement->execute([$comment->getId()]);
 
         return ($affectedLines > 0);
     }

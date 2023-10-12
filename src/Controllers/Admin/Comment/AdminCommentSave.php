@@ -27,33 +27,33 @@ class AdminCommentSave
                 //Checks if the comment field is correct
                 if(trim($_POST['comment']) === ""){
                     $warningComment = "Vous devez renseigner un commentaire";
-                    $comment->comment = "";
+                    $comment->setComment('');
                     //Get the id's to send it back to the view if 
-                    if($_POST['commentId'] !== "") {
-                        $comment->id = $_POST['commentId'];
+                    if($_POST['commentId'] !== "" && $_POST['commentId'] !== '0') {
+                        $comment->setId($_POST['commentId']);
                     }  
 
-                    if($_POST['postId'] !== "") {
-                        $post->id = $_POST['postId'];
+                    if($_POST['postId'] !== "" && $_POST['postId'] !== '0') {
+                        $post->setId($_POST['postId']);
                     }  
                 } else {
-                    $comment->comment = $_POST['comment'];
+                    $comment->setComment($_POST['comment']);
                 }
 
                 if($warningComment === ""){
                     $commentRepository = new CommentRepository();
-                    if (trim($_POST['commentId'] !== "")){
+                    if (trim($_POST['commentId'] !== "") && $_POST['commentId'] !== '0'){
                         //If there is a commentId we update the comment field
 
                         $comment = $commentRepository->getComment($_POST['commentId']);
-                        $comment->comment = $_POST['comment'];
+                        $comment->setComment($_POST['comment']);
 
                         if (isset($_POST['validation'])){
-                            if ($_POST['validation'] && $comment->publicationDate === null){
-                                $comment->publicationDate = date('Y-m-d H:i:s');
+                            if ($_POST['validation'] && $comment->getPublicationDate() === ''){
+                                $comment->setPublicationDate(date('Y-m-d H:i:s'));
                             }
                         } else {
-                            unset($comment->publicationDate);
+                            $comment->setPublicationDate(null);
                         }
 
                         if ($commentRepository->updateComment($comment)) {
@@ -66,11 +66,11 @@ class AdminCommentSave
                     } else { //If there is no commentId we create a new comment
                         $postRepository = new PostRepository(new DatabaseConnexion);
                         $userRepository = new UserRepository(new DatabaseConnexion);
-                        $comment->post = $postRepository->getPost($_POST['postId']);
-                        $comment->user = $userRepository->getUser(Session::getActiveUserId());
+                        $comment->setPost($postRepository->getPost($_POST['postId']));
+                        $comment->setUser($userRepository->getUser(Session::getActiveUserId()));
 
                         if (isset($_POST['validation'])){
-                            $comment->publicationDate = date('Y-m-d H:i:s');
+                            $comment-setPpublicationDate(date('Y-m-d H:i:s'));
                         }
 
                         if ($commentRepository->createComment($comment)){

@@ -23,7 +23,7 @@ class AdminCommentDeletion
                 if(trim($_GET['commentId']) !== ""){
                     $commentRepository = new CommentRepository();
                     $comment = $commentRepository->getComment(trim($_GET['commentId']));
-                    if(isset($comment->id)){
+                    if($comment->getid() !== 0){
                         if (! $commentRepository->deleteComment($comment)) {
                             $warningGeneral = "Un problème est survenu lors de la suppression du commentaire";
                             $warningLink = "index.php?action=AdminCommentList&pageNumber=1";

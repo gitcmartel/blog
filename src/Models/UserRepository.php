@@ -28,15 +28,15 @@ class UserRepository
         $user = new User();
 
         while ($row = $statement->fetch()) {
-            $user->id = $row['userId'];
-            $user->name = $row['name'];
-            $user->surname = $row['surname'];
-            $user->pseudo = $row['pseudo'];
-            $user->email = $row['email'];
-            $user->password = $row['password'];
-            $user->creationDate = $row['creationDate'] !== null ? $row['creationDate'] : '';
+            $user->setId($row['userId']);
+            $user->setName($row['name']);
+            $user->setSurname($row['surname']);
+            $user->setPseudo($row['pseudo']);
+            $user->setEmail($row['email']);
+            $user->setPassword($row['password']);
+            $user->setCreationDate($row['creationDate'] !== null ? $row['creationDate'] : '');
             $user->setUserFunction($row['userFunction']);
-            $user->isValid = $row['isValid'];
+            $user->setIsValid($row['isValid']);
         }
 
         return $user;
@@ -54,15 +54,15 @@ class UserRepository
         $user = new User();
 
         while ($row = $statement->fetch()) {
-            $user->id = $row['userId'];
-            $user->name = $row['name'];
-            $user->surname = $row['surname'];
-            $user->pseudo = $row['pseudo'];
-            $user->email = $row['email'];
-            $user->password = $row['password'];
-            $user->creationDate = $row['creationDate'] !== null ? $row['creationDate'] : '';
+            $user->setId($row['userId']);
+            $user->setName($row['name']);
+            $user->setSurname($row['surname']);
+            $user->setPseudo($row['pseudo']);
+            $user->setEmail($row['email']);
+            $user->setPassword($row['password']);
+            $user->setCreationDate($row['creationDate'] !== null ? $row['creationDate'] : '');
             $user->setUserFunction($row['userFunction']);
-            $user->isValid = $row['isValid'];
+            $user->setIsValid($row['isValid']);
         }
 
         return $user;
@@ -100,15 +100,15 @@ class UserRepository
 
         while ($row = $statement->fetch()) {
             $user = new User();
-            $user->id = $row['userId'];
-            $user->name = $row['name'];
-            $user->surname = $row['surname'];
-            $user->pseudo = $row['pseudo'];
-            $user->email = $row['email'];
-            $user->password = $row['password'];
-            $user->creationDate = $row['creationDate'];
+            $user->setId($row['userId']);
+            $user->setName($row['name']);
+            $user->setSurname($row['surname']);
+            $user->setPseudo($row['pseudo']);
+            $user->setEmail($row['email']);
+            $user->setPassword($row['password']);
+            $user->setCreationDate($row['creationDate'] !== null ? $row['creationDate'] : '');
             $user->setUserFunction($row['userFunction']);
-            $user->isValid = $row['isValid'];
+            $user->setIsValid($row['isValid']);
             $users[] = $user;
         }
 
@@ -124,13 +124,13 @@ class UserRepository
         );
 
         if ($statement->execute([
-            htmlspecialchars($user->name), 
-            htmlspecialchars($user->surname), 
-            htmlspecialchars($user->pseudo), 
-            htmlspecialchars($user->email), 
-            Password::encrypt($user->password), 
+            htmlspecialchars($user->getName()), 
+            htmlspecialchars($user->getSurname()), 
+            htmlspecialchars($user->getPseudo()), 
+            htmlspecialchars($user->getEmail()), 
+            Password::encrypt($user->getPassword()), 
             htmlspecialchars($user->getUserFunction()->toString()), 
-            htmlspecialchars($user->isValid)])) 
+            htmlspecialchars($user->getIsValid())])) 
         {
             return true;
         } else {
@@ -148,21 +148,21 @@ class UserRepository
             WHERE userId = :id;"
         );
 
-        $statement->bindValue(':name', $user->name, PDO::PARAM_STR);
-        $statement->bindValue(':surname', $user->surname, PDO::PARAM_STR);
-        $statement->bindValue(':pseudo', $user->pseudo, PDO::PARAM_STR);
-        $statement->bindValue(':email', $user->email, PDO::PARAM_STR);
+        $statement->bindValue(':name', $user->getName(), PDO::PARAM_STR);
+        $statement->bindValue(':surname', $user->getSurname(), PDO::PARAM_STR);
+        $statement->bindValue(':pseudo', $user->getPseudo(), PDO::PARAM_STR);
+        $statement->bindValue(':email', $user->getEmail(), PDO::PARAM_STR);
         $statement->bindValue(':function', $user->getUserFunction()->toString(), PDO::PARAM_STR);
-        $statement->bindValue(':isvalid', $user->isValid, PDO::PARAM_BOOL);
-        $statement->bindValue(':id', $user->id, PDO::PARAM_INT);
+        $statement->bindValue(':isvalid', $user->getIsValid(), PDO::PARAM_BOOL);
+        $statement->bindValue(':id', $user->getId(), PDO::PARAM_INT);
 
         if ($statement->execute()) {
             $result = true;
         }
 
         //If there is a password we have to change it
-        if($user->password === ""){
-            $result = $this->changePassword($user->id, $user->password);
+        if($user->getPassword() === ""){
+            $result = $this->changePassword($user->getId(), $user->getPassword());
         }
 
         return $result;
@@ -252,17 +252,17 @@ class UserRepository
         $user = new User();
 
         while ($row = $statement->fetch()) {
-            $user->id = $row['userId'];
-            $user->name = $row['name'];
-            $user->surname = $row['surname'];
-            $user->pseudo = $row['pseudo'];
-            $user->email = $row['email'];
-            $user->password = $row['password'];
-            $user->tokenForgotPassword = $row['tokenForgotPassword'];
-            $user->forgotPasswordDate = $row['creationDate'] !== null ? $row['forgotPasswordDate'] : '';
-            $user->creationDate = $row['creationDate'] !== null ? $row['creationDate'] : '';
-            $user->$user->setUserFunction($row['userFunction']);;
-            $user->isValid = $row['isValid'];
+            $user->setId($row['userId']);
+            $user->setName($row['name']);
+            $user->setSurname($row['surname']);
+            $user->setPseudo($row['pseudo']);
+            $user->setEmail($row['email']);
+            $user->setPassword($row['password']);
+            $user->setTokenForgotPassword($row['tokenForgotPassword']);
+            $user->setForgotPasswordDate($row['creationDate'] !== null ? $row['forgotPasswordDate'] : '');
+            $user->setCreationDate($row['creationDate'] !== null ? $row['creationDate'] : '');
+            $user->setUserFunction($row['userFunction']);
+            $user->setIsValid($row['isValid']);
         }
 
         return $user;
@@ -323,14 +323,16 @@ class UserRepository
 
         while($row = $statement->fetch()) {
             $user = new User();
-            $user->id = $row['userId'];
-            $user->name = $row['name'];
-            $user->surname = $row['surname'];
-            $user->pseudo = $row['pseudo'];
-            $user->email = $row['email'];
-            $user->creationDate = $row['creationDate'] !== null ? $row['creationDate'] : '';
-            $user->setUserFunction($row['userFunction']);;
-            $user->isValid = $row['isValid'];
+            
+            $user->setId($row['userId']);
+            $user->setName($row['name']);
+            $user->setSurname($row['surname']);
+            $user->setPseudo($row['pseudo']);
+            $user->setEmail($row['email']);
+            $user->setPassword($row['password']);
+            $user->setCreationDate($row['creationDate'] !== null ? $row['creationDate'] : '');
+            $user->setUserFunction($row['userFunction']);
+            $user->setIsValid($row['isValid']);
 
             $users[] = $user; 
         }

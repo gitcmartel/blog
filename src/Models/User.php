@@ -8,17 +8,17 @@ use DateTime;
 class User
 {
     #region properties
-    public int $id;
-    public string $name;
-    public string $surname;
-    public string $pseudo;
-    public string $email;
-    public string $password;
-    public string $tokenForgotPassword;
-    public string $forgotPasswordDate;
-    public string $creationDate;
-    public UserFunction $userFunction;
-    public bool $isValid;
+    private int $id;
+    private string $name;
+    private string $surname;
+    private string $pseudo;
+    private string $email;
+    private string $password;
+    private string $tokenForgotPassword;
+    private string $forgotPasswordDate;
+    private string $creationDate;
+    private UserFunction $userFunction;
+    private bool $isValid;
     #endregion
 
     #region Constructor
@@ -54,7 +54,134 @@ class User
     /**
      * Getters and setters
      */
-    public function setUserFunction(string $function)
+
+    function getId() : int
+    {
+        if(isset($this->id)){
+            return $this->id;
+        } else {
+            return 0;
+        } 
+    }
+
+    function setId(int $id)
+    {
+        $this->id = $id;
+    }
+
+    function getName() : string 
+    {
+        if(isset($this->name)){
+            return $this->name;
+        } else {
+            return '';
+        }
+    }
+
+    function setName(string $name)
+    {
+        $this->name = $name;
+    }
+
+    function getSurname() : string 
+    {
+        if(isset($this->surname)){
+            return $this->surname;
+        } else {
+            return '';
+        }
+    }
+
+    function setSurname(string $surname)
+    {
+        $this->surname = $surname;
+    }
+
+    function getPseudo() : string 
+    {
+        if(isset($this->pseudo)){
+            return $this->pseudo;
+        } else {
+            return '';
+        }
+    }
+
+    function setPseudo(string $pseudo)
+    {
+        $this->pseudo = $pseudo;
+    }
+
+    function getEmail() : string 
+    {
+        if(isset($this->email)){
+            return $this->email;
+        } else {
+            return '';
+        }
+    }
+
+    function setEmail(string $email)
+    {
+        $this->email = $email;
+    }
+
+    function getPassword() : string 
+    {
+        if(isset($this->password)){
+            return $this->password;
+        } else {
+            return '';
+        }
+    }
+
+    function setPassword(string $password)
+    {
+        $this->password = $password;
+    }
+
+    function getTokenForgotPassword() : string 
+    {
+        if(isset($this->tokenForgotPassword)){
+            return $this->tokenForgotPassword;
+        } else {
+            return '';
+        }
+    }
+
+    function setTokenForgotPassword(string $tokenForgotPassword)
+    {
+        $this->tokenForgotPassword = $tokenForgotPassword;
+    }
+
+    function getForgotPasswordDate() : string 
+    {
+        if(isset($this->forgotPasswordDate)){
+            return $this->forgotPasswordDate;
+        } else {
+            return '';
+        }
+    }
+
+    function setForgotPasswordDate(string $forgotPasswordDate)
+    {
+        $this->forgotPasswordDate = $forgotPasswordDate;
+    }
+
+    function getCreationDate() : string 
+    {
+        if(isset($this->creationDate)){
+            return $this->creationDate;
+        } else {
+            return '';
+        }
+    }
+
+    function setCreationDate(string $creationDate)
+    {
+        $this->creationDate = $creationDate;
+    }
+
+    function setUserFunction(string $function)
     {
         switch ($function){
             case 'Administrateur':
@@ -70,13 +197,27 @@ class User
     }
 
 
-    public function getUserFunction() : UserFunction
+    function getUserFunction() : UserFunction
     {
         if(isset($this->userFunction)){
             return $this->userFunction;
         }else{
             return UserFunction::Else;
         }
+    }
+
+    function getIsValid() : bool 
+    {
+        if (isset($this->isValid)){
+            return $this->isValid;
+        } else {
+            return false;
+        }
+    }
+
+    function setIsValid(bool $isValid) 
+    {
+        $this->isValid = $isValid;
     }
     #endregion
 }
