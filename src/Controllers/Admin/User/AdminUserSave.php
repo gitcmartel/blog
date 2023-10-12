@@ -106,12 +106,13 @@ class AdminUserSave
                 if (trim($_POST['userId']) !== ""){
                     $user->id = $_POST['userId'];
                 }
-
+                
+                $userRepository = new UserRepository(new DatabaseConnexion);
                 if($warningName === "" && $warningSurname === "" && $warningPseudo === "" && $warningEmail === "" 
                 & $warningPassword === "" & $warningFunction === "" & $warningValidity === ""){
                     if (trim($_POST['userId'] !== "")){
                         //If there is a userId we update
-                        $userRepository = new UserRepository(new DatabaseConnexion);
+                        
                         $user->id = $_POST['userId'];
                         if ($userRepository->updateUser($user)) {
                             //We display the updated user list

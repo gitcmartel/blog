@@ -2,6 +2,8 @@
 
 namespace Application\Controllers\Admin\Comment;
 
+use Application\Models\User;
+use Application\Models\UserRepository;
 use Application\Models\UserActiveCheckValidity;
 use Application\Models\Comment;
 use Application\Models\CommentRepository;
@@ -63,8 +65,13 @@ class AdminCommentSave
                         }
                     } else { //If there is no commentId we create a new comment
                         $postRepository = new PostRepository(new DatabaseConnexion);
+                        $userRepository = new UserRepository(new DatabaseConnexion);
                         $comment->post = $postRepository->getPost($_POST['postId']);
-                        $comment->user = $activeUser;
+                        $comment->user = $userRepository->getUser(Session::getActiveUserId());
+
+                        if (isset($_POST['validation'])){
+                            $comment->publicationDate = date('Y-m-d H:i:s');
+                        }
 
                         if ($commentRepository->createComment($comment)){
                             //We display the updated comment list

@@ -129,7 +129,7 @@ class UserRepository
             htmlspecialchars($user->pseudo), 
             htmlspecialchars($user->email), 
             Password::encrypt($user->password), 
-            htmlspecialchars($user->getUserFunction()), 
+            htmlspecialchars($user->getUserFunction()->toString()), 
             htmlspecialchars($user->isValid)])) 
         {
             return true;
@@ -152,7 +152,7 @@ class UserRepository
         $statement->bindValue(':surname', $user->surname, PDO::PARAM_STR);
         $statement->bindValue(':pseudo', $user->pseudo, PDO::PARAM_STR);
         $statement->bindValue(':email', $user->email, PDO::PARAM_STR);
-        $statement->bindValue(':function', $user->getUserFunction().toString(), PDO::PARAM_STR);
+        $statement->bindValue(':function', $user->getUserFunction()->toString(), PDO::PARAM_STR);
         $statement->bindValue(':isvalid', $user->isValid, PDO::PARAM_BOOL);
         $statement->bindValue(':id', $user->id, PDO::PARAM_INT);
 
