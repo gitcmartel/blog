@@ -4,7 +4,7 @@ namespace Application\Controllers\Admin\Comment;
 
 use Application\Models\PostRepository;
 use Application\Models\Post;
-use Application\Models\UserActiveCheckValidity;
+use Application\Lib\UserActiveCheckValidity;
 use Application\Models\Comment;
 use Application\Lib\Session;
 use Application\Lib\DatabaseConnexion;

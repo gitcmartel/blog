@@ -6,7 +6,7 @@ use Application\Models\PostRepository;
 use Application\Models\Post;
 use Application\Models\UserRepository;
 use Application\Models\User;
-use Application\Models\UserActiveCheckValidity;
+use Application\Lib\UserActiveCheckValidity;
 use Application\Lib\Session;
 use Application\Lib\Upload;
 use Application\Lib\Constants;
@@ -82,21 +82,21 @@ class AdminPostSave
                     $post = new Post();
                     $userRepository = new UserRepository(new DatabaseConnexion);
                     $user = $userRepository->getUser(Session::getActiveUserId());
-                    $post->title = $postTitle;
-                    $post->summary = $postSummary;
-                    $post->content = $postContent;
-                    $post->imagePath = $pathImage;
-                    $post->modifier = $user;
+                    $post->setTitle($postTitle);
+                    $post->setSummary($postSummary);
+                    $post->setContent($postContent);
+                    $post->setImagePath($pathImage);
+                    $post->setModifier($user);
 
                     //If there is a Post Id then we have to make an update
                     if(isset($_POST['postId'])){
                         if($_POST['postId'] !== ""){
-                            $post->id = $_POST['postId'];
+                            $post->setId($_POST['postId']);
                             $actualPost = $postRepository->getPost($_POST['postId']);  //Get the data from the database
                             //If the stored image path is different from the default image path
-                            $post->creationDate = $actualPost->creationDate;
-                            if($actualPost->imagePath !== Path::fileBuildPath(array("img", "blog-post.svg")) && $post->imagePath === Path::fileBuildPath(array("img", "blog-post.svg")) && $_POST["resetImage"] === "false"){
-                                $post->imagePath = $actualPost->imagePath;
+                            $post->setCreationDate($actualPost->creationDate);
+                            if($actualPost->getImagePath() !== Path::fileBuildPath(array("img", "blog-post.svg")) && $post->getImagePath() === Path::fileBuildPath(array("img", "blog-post.svg")) && $_POST["resetImage"] === "false"){
+                                $post->setImagePath($actualPost->getImagePath());
                             }
                             if (! $postRepository->updatePost($post)){
                                 $warningGlobal = "Un problème est survenu lors de l'enregistrement du post";
@@ -110,18 +110,18 @@ class AdminPostSave
                                             $warningImage =  "Le fichier est invalide";
                                         }
                                         //If the original image is not the default image
-                                        if ($actualPost->imagePath !== Path::fileBuildPath(array("img", "blog-post.svg"))){
+                                        if ($actualPost->getImagePath() !== Path::fileBuildPath(array("img", "blog-post.svg"))){
                                             //We delete the old image file
-                                            if(file_exists($actualPost->imagePath)){
-                                                unlink($actualPost->imagePath);
+                                            if(file_exists($actualPost->getImagePath())){
+                                                $actualPost->setImagePath(null);
                                             }
                                         }
                                     }
                                 } else { //If the resetImage variable is true
                                     if ($_POST["resetImage"] === "true"){
                                         //We delete the old image file
-                                        if(file_exists($actualPost->imagePath)){
-                                            unlink($actualPost->imagePath);
+                                        if(file_exists($actualPost->getImagePath())){
+                                            $actualPost->setImagePath(null);
                                         }
                                     }
                                 }

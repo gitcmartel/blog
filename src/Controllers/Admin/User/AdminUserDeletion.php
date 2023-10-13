@@ -4,7 +4,7 @@ namespace Application\Controllers\Admin\User;
 
 use Application\Models\UserRepository;
 use Application\Models\User;
-use Application\Models\UserActiveCheckValidity;
+use Application\Lib\UserActiveCheckValidity;
 use Application\Lib\DatabaseConnexion;
 use Application\Lib\Session;
 use Application\Lib\TwigLoader;
@@ -22,7 +22,7 @@ class AdminUserDeletion
                 if(trim($_GET['userId']) !== ""){
                     $userRepository = new UserRepository(new DatabaseConnexion);
                     $user = $userRepository->getUser(trim($_GET['userId']));
-                    if($user->getId() !== 0){
+                    if($user->getId() !== null){
                         if (! $userRepository->deleteUser($user->getId())) {
                             $warningGeneral = "Un problème est survenu lors de la suppression de l'utilisateur";
                             $warningLink = "index.php?action=Admin\User\AdminUserList&pageNumber=1";

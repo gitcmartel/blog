@@ -2,7 +2,7 @@
 
 namespace Application\Controllers\Admin\Post;
 
-use Application\Models\UserActiveCheckValidity;
+use Application\Lib\UserActiveCheckValidity;
 use Application\Models\PostRepository;
 use Application\Models\Post;
 use Application\Lib\Session;

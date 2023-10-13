@@ -5,13 +5,19 @@ mb_internal_encoding("UTF-8");
 require_once(dirname(__DIR__) . "/vendor/autoload.php");
 
 use Application\Controllers\Home\Home;
-use Application\Lib\Path;
 
 session_start();
 
 try {
     if (isset($_GET['action']) && $_GET['action'] !== ''){
-        $class = "Application\\Controllers\\" . mb_strtoupper(mb_substr($_GET['action'], 0, 1) . mb_substr($_GET['action'], 1));
+        $class = "Application\\Controllers\\" .
+        preg_replace_callback(
+            '#(?<=\\\\)[a-z]#',
+            function (array $match): string {
+                return mb_strtoupper($match[0]);
+            },
+            $_GET['action']
+        );
 
         $classFound = false;
 

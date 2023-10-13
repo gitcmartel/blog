@@ -3,7 +3,7 @@
 namespace Application\Controllers\Admin\User;
 
 use Application\Models\User;
-use Application\Models\UserActiveCheckValidity;
+use Application\Lib\UserActiveCheckValidity;
 use Application\Lib\DatabaseConnexion;
 use Application\Lib\Session;
 use Application\Lib\TwigLoader;

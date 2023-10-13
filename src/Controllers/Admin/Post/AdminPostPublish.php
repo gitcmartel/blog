@@ -4,7 +4,7 @@ namespace Application\Controllers\Admin\Post;
 
 use Application\Models\PostRepository;
 use Application\Models\Post;
-use Application\Models\UserActiveCheckValidity;
+use Application\Lib\UserActiveCheckValidity;
 use Application\Lib\Session;
 use Application\Lib\DatabaseConnexion;
 use Application\Lib\TwigLoader;
@@ -27,7 +27,7 @@ class AdminPostPublish
                         foreach($_POST['postPublish'] as $postId){
                             $post = $postRepository->getPost($postId);
                             if($_POST['unpublish'] === "false"){
-                                if($post->publicationDate === ''){
+                                if($post->getPublicationDate() === null){
                                     $postRepository->setPublicationDate($postId);
                                 }
                             } else {
@@ -38,7 +38,7 @@ class AdminPostPublish
                     case "string" :
                         $post = $postRepository->getPost($_POST['postPublish']);
                         if($_POST['unpublish'] === "false"){
-                            if($post->publicationDate === ''){
+                            if($post->getPublicationDate() === null){
                                 $postRepository->setPublicationDate($_POST['postPublish']);
                             }
                         } else {

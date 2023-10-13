@@ -33,14 +33,14 @@ class Connexion
                 $userRepository = new UserRepository(new DatabaseConnexion);
                 $user = $userRepository->getUserByMail($_POST['login']);
 
-                if(isset($user->id)){
+                if($user->getId() !== null){
                     //Check the password validity
-                    if(Password::verify($_POST['password'], $user->password)){
+                    if(Password::verify($_POST['password'], $user->getPassword())){
                         $twig = TwigLoader::getEnvironment();
                         
-                        $_SESSION['activeUser'] = $user->pseudo;
-                        $_SESSION['activeUserFunction'] = $user->userFunction->toString();
-                        $_SESSION['userId'] = $user->id;
+                        $_SESSION['activeUser'] = $user->getPseudo();
+                        $_SESSION['activeUserFunction'] = $user->getUserFunction()->toString();
+                        $_SESSION['userId'] = $user->getId();
 
                         echo $twig->render('Connexion/connexionSuccess.html.twig', [
                             'activeUser' => Session::getActiveUser(), 

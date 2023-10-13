@@ -6,9 +6,9 @@ namespace Application\Models;
 class Comment
 {
     #region properties
-    private int $id;
+    private ?int $id;
     private string $creationDate;
-    private $publicationDate; //No type defined because we want this property to be null when a comment is not valid
+    private ?string $publicationDate;
     private string $comment;
     private User $user;
     private Post $post;
@@ -20,7 +20,7 @@ class Comment
         if(isset($this->id)){
             return $this->id;
         } else {
-            return 0;
+            return  null;
         }  
     }
 

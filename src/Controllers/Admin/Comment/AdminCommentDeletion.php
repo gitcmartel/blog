@@ -2,7 +2,7 @@
 
 namespace Application\Controllers\Admin\Comment;
 
-use Application\Models\UserActiveCheckValidity;
+use Application\Lib\UserActiveCheckValidity;
 use Application\Models\Comment;
 use Application\Models\CommentRepository;
 use Application\Lib\Session;
@@ -23,7 +23,7 @@ class AdminCommentDeletion
                 if(trim($_GET['commentId']) !== ""){
                     $commentRepository = new CommentRepository();
                     $comment = $commentRepository->getComment(trim($_GET['commentId']));
-                    if($comment->getid() !== 0){
+                    if($comment->getid() !== null){
                         if (! $commentRepository->deleteComment($comment)) {
                             $warningGeneral = "Un problème est survenu lors de la suppression du commentaire";
                             $warningLink = "index.php?action=AdminCommentList&pageNumber=1";

@@ -9,13 +9,20 @@ use PDO;
 
 class UserRepository
 {
+    #region Properties
     private DatabaseConnexion $connexion;
 
+    #endregion
+
+    #region Constructor
     function __construct(DatabaseConnexion $dbConnexion)
     {
         $this->connexion = $dbConnexion;
     }
     
+    #endregion
+
+    #region Functions
     //Returns a User object
     public function getUser(int $userId) : User
     {
@@ -355,4 +362,5 @@ class UserRepository
 
         return ($affectedLines > 0);
      }
+     #endregion
 }

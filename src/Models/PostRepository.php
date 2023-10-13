@@ -8,13 +8,18 @@ use PDO;
 
 class PostRepository
 {
+    #region Properties
     private DatabaseConnexion $connexion;
+    #endregion
 
+    #region Constructor
     function __construct(DatabaseConnexion $dbConnexion)
     {
         $this->connexion = $dbConnexion;
     }
+    #endregion
 
+    #region Functions
     //Returns a Post
     public function getPost($postId) : Post
     {
@@ -36,16 +41,16 @@ class PostRepository
         }
 
         $post = new Post();
-        $post->id = $row['postId'];
-        $post->title = $row['title'];
-        $post->summary = $row['summary'];
-        $post->content = $row['content'];
-        $post->imagePath = $row['imagePath'];
-        $post->creationDate = $row['creationDate'] !== null ? $row['creationDate'] : '';
-        $post->publicationDate = $row['publicationDate'] !== null ? $row['publicationDate'] : '';
-        $post->lastUpdateDate = $row['lastUpdateDate'] !== null ? $row['lastUpdateDate'] : '';
-        $post->user = $user;
-        $post->modifier = $modifier;
+        $post->setId($row['postId']);
+        $post->setTitle($row['title']);
+        $post->setSummary($row['summary']);
+        $post->setContent($row['content']);
+        $post->setImagePath($row['imagePath']);
+        $post->setCreationDate($row['creationDate'] !== null ? $row['creationDate'] : '');
+        $post->setPublicationDate($row['publicationDate'] !== null ? $row['publicationDate'] : '');
+        $post->setLastUpdateDate($row['lastUpdateDate'] !== null ? $row['lastUpdateDate'] : '');
+        $post->setUser($user);
+        $post->setModifier($modifier);
 
         return $post;
     }
@@ -88,16 +93,16 @@ class PostRepository
             }
 
             $post = new Post();
-            $post->id = $row['postId'];
-            $post->title = $row['title'];
-            $post->summary = $row['summary'];
-            $post->content = $row['content'];
-            $post->imagePath = $row['imagePath'];
-            $post->creationDate = $row['creationDate'] !== null ? $row['creationDate'] : '';
-            $post->publicationDate = $row['publicationDate'] !== null ? $row['publicationDate'] : '';
-            $post->lastUpdateDate = $row['lastUpdateDate'] !== null ? $row['lastUpdateDate'] : '';
-            $post->user = $user;
-            $post->modifier = $modifier;
+            $post->setId($row['postId']);
+            $post->setTitle($row['title']);
+            $post->setSummary($row['summary']);
+            $post->setContent($row['content']);
+            $post->setImagePath($row['imagePath']);
+            $post->setCreationDate($row['creationDate'] !== null ? $row['creationDate'] : '');
+            $post->setPublicationDate($row['publicationDate'] !== null ? $row['publicationDate'] : '');
+            $post->setLastUpdateDate($row['lastUpdateDate'] !== null ? $row['lastUpdateDate'] : '');
+            $post->setUser($user);
+            $post->setModifier($modifier);
 
             $posts[] = $post; 
         }
@@ -113,8 +118,8 @@ class PostRepository
             VALUES (?, ?, ?, ?, now(), now(), ?);"
         );
 
-        $affectedLines = $statement->execute([htmlspecialchars($post->title), htmlspecialchars($post->summary), 
-        htmlspecialchars($post->content), $post->imagePath, $post->user->id]);
+        $affectedLines = $statement->execute([htmlspecialchars($post->getTitle()), htmlspecialchars($post->getSummary()), 
+        htmlspecialchars($post->getContent()), $post->getImagePath(), $post->getUser()->getId()]);
 
         return $affectedLines > 0;
     }
@@ -126,7 +131,7 @@ class PostRepository
             "UPDATE post SET title = ?, summary = ?, content = ?, imagePath = ?, userIdModifier = ?, lastUpdateDate = now() WHERE postId=?;"
         );
 
-        $affectedLines = $statement->execute([$post->title, $post->summary, $post->content, $post->imagePath, $post->modifier->id, $post->id]);
+        $affectedLines = $statement->execute([$post->getTitle(), $post->getSummary(), $post->getContent(), $post->getImagePath(), $post->getModifier()->getId(), $post->getId()]);
 
         return ($affectedLines > 0);
     }
@@ -217,15 +222,15 @@ class PostRepository
             }
 
             $post = new Post();
-            $post->id = $row['postId'];
-            $post->title = $row['title'];
-            $post->summary = $row['summary'];
-            $post->content = $row['content'];
-            $post->creationDate = $row['creationDate'] !== null ? $row['creationDate'] : '';
-            $post->publicationDate = $row['publicationDate'] !== null ? $row['publicationDate'] : '';
-            $post->lastUpdateDate = $row['lastUpdateDate'] !== null ? $row['lastUpdateDate'] : '';
-            $post->user = $user;
-            $post->modifier = $modifier;
+            $post->setId($row['postId']);
+            $post->setTitle($row['title']);
+            $post->setSummary($row['summary']);
+            $post->setContent($row['content']);
+            $post->setCreationDate($row['creationDate'] !== null ? $row['creationDate'] : '');
+            $post->setPublicationDate($row['publicationDate'] !== null ? $row['publicationDate'] : '');
+            $post->setLastUpdateDate($row['lastUpdateDate'] !== null ? $row['lastUpdateDate'] : '');
+            $post->setUser($user);
+            $post->setModifier($modifier);
 
             $posts[] = $post; 
         }
@@ -239,9 +244,9 @@ class PostRepository
         $date = date('Y-m-d H:i:s');
 
         //If we create a new post the id might not be known yet
-        if(isset($post->id)){ //If the id is set
-            $postId = $post->id;
-            $date = new DateTime($post->creationDate);
+        if($post->getId() !== null){ //If the id is set
+            $postId = $post->getId();
+            $date = new DateTime($post->getCreationDate());
         } else {
             //Get the id of the last inserted row
             $statement = $this->connexion->getConnexion()->prepare(
@@ -256,7 +261,7 @@ class PostRepository
         }
 
         if ($postId > 0){
-            $imagePath = $post->imagePath . $postId . $date->format("YmdHis") . $extension;
+            $imagePath = $post->getImagePath() . $postId . $date->format("YmdHis") . $extension;
 
             //Updates the imagePath field by adding the id of the new row to the image file name
             $statement = $this->connexion->getConnexion()->prepare(
@@ -284,4 +289,5 @@ class PostRepository
 
         return $statement->fetchAll(PDO::FETCH_COLUMN);
     }
+    #endregion
 }

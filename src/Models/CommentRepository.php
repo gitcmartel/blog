@@ -7,13 +7,18 @@ use PDO;
 
 class CommentRepository
 {
+    #region Properties
     private DatabaseConnexion $connexion;
+    #endregion
 
+    #region Constructor
     function __construct()
     {
         $this->connexion = new DatabaseConnexion();
     }
-    
+    #endregion
+
+    #region Functions
     /**
      * Returns a comment object
      */
@@ -123,7 +128,7 @@ class CommentRepository
         );
 
         $affectedRows = $statement->execute([
-            $comment->getPublicationDate() !== '' ? $comment->getPublicationDate() : null, 
+            $comment->getPublicationDate(), 
             htmlspecialchars($comment->getComment()), 
             $comment->getUser()->id, 
             $comment->getPost()->id]);
@@ -245,4 +250,5 @@ class CommentRepository
         }
         return $comments;
     }
+    #endregion
 }

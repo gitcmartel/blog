@@ -4,7 +4,7 @@ namespace Application\Controllers\Admin\Post;
 
 use Application\Models\Post;
 use Application\Models\PostRepository;
-use Application\Models\UserActiveCheckValidity;
+use Application\Lib\UserActiveCheckValidity;
 use Application\Lib\Session;
 use Application\Lib\DatabaseConnexion;
 use Application\Lib\TwigLoader;
@@ -22,7 +22,7 @@ class AdminPostDeletion
                 if($_GET['postId'] !== ""){
                     $postRepository = new PostRepository(new DatabaseConnexion);
                     $post = $postRepository->getPost($_GET['postId']);
-                    if(isset($post->id)){
+                    if($post->getId() !== null){
                         if (! $postRepository->deletePost($post)) {
                             $warningGeneral = "Un problème est survenu lors de la suppression du post";
                             $warningLink = "index.php?action=Admin\Post\AdminPostList&pageNumber=1";

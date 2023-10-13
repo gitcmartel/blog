@@ -2,7 +2,7 @@
 
 namespace Application\Controllers\Admin\Comment;
 
-use Application\Models\UserActiveCheckValidity;
+use Application\Lib\UserActiveCheckValidity;
 use Application\Models\CommentRepository;
 use Application\Models\Comment;
 use Application\Lib\Session;

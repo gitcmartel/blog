@@ -2,7 +2,7 @@
 
 namespace Application\Lib;
 
-class session
+class Session
 {
     /**
      * Returns the user pseudo If it is registered in the superglobal $_SESSION

@@ -8,7 +8,7 @@ use DateTime;
 class User
 {
     #region properties
-    private int $id;
+    private ?int $id;
     private string $name;
     private string $surname;
     private string $pseudo;
@@ -60,7 +60,7 @@ class User
         if(isset($this->id)){
             return $this->id;
         } else {
-            return 0;
+            return null;
         } 
     }
 

@@ -4,7 +4,7 @@ namespace Application\Controllers\Admin\Comment;
 
 use Application\Models\User;
 use Application\Models\UserRepository;
-use Application\Models\UserActiveCheckValidity;
+use Application\Lib\UserActiveCheckValidity;
 use Application\Models\Comment;
 use Application\Models\CommentRepository;
 use Application\Models\Post;
@@ -49,7 +49,7 @@ class AdminCommentSave
                         $comment->setComment($_POST['comment']);
 
                         if (isset($_POST['validation'])){
-                            if ($_POST['validation'] && $comment->getPublicationDate() === ''){
+                            if ($_POST['validation'] && $comment->getPublicationDate() === null){
                                 $comment->setPublicationDate(date('Y-m-d H:i:s'));
                             }
                         } else {
