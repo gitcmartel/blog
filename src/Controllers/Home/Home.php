@@ -12,6 +12,7 @@ use Application\Lib\TwigLoader;
 
 class Home 
 {
+    #region Functions
     public function execute() {
 
         $messageResponse = $this->sendMessage();
@@ -67,4 +68,5 @@ class Home
         }
         return $response;
     }
+    #endregion
 }

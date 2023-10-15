@@ -11,6 +11,7 @@ use Application\Lib\TwigLoader;
 
 class AdminPost
 {
+    #region Functions
     public function execute() 
     {
         if(UserActiveCheckValidity::check(array('Administrateur', 'Createur'))){
@@ -30,4 +31,5 @@ class AdminPost
             'userFunction' => Session::getActiveUserFunction()
         ]);
     }
+    #endregion
 }

@@ -11,6 +11,7 @@ use DateTime;
 
 class PasswordRenewalSubscription
 {
+    #region Functions
     public function execute()
     {
         $errorMessage = "";
@@ -100,4 +101,5 @@ class PasswordRenewalSubscription
         }
         return false;
     }
+    #endregion
 }

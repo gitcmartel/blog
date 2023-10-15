@@ -17,6 +17,7 @@ use Application\Lib\TwigLoader;
 
 class AdminPostSave
 {
+    #region Functions
     public function execute()
     {
         $postId = 0;
@@ -168,4 +169,5 @@ class AdminPostSave
             'userFunction' => Session::getActiveUserFunction()
         ]);
     }
+    #endregion
 }

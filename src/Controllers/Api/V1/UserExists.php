@@ -7,6 +7,7 @@ use Application\Models\UserRepository;
 
 class UserExists 
 {
+    #region Functions
     public function execute()
     {   
         $response = array("email" => false, "pseudo" => false);
@@ -20,4 +21,5 @@ class UserExists
 
         echo json_encode($response);
     }
+    #endregion
 }

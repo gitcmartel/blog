@@ -3,11 +3,10 @@
 namespace Application\Lib;
 
 use PHPMailer\PHPMailer\PHPMailer;
-use Application\Lib\MailParameters;
-use Application\Lib\Xml;
 
 class Email
 {
+    #region Properties
     public string $surname;
     public string $name;
     public string $from;
@@ -16,6 +15,9 @@ class Email
     public string $message;
     public string $errorInfo;
 
+    #endregion
+
+    #region Functions
     function __construct(string $surname, string $name, string $from, string $to, string $subject, string $message)
     {
         $this->surname = htmlspecialchars($surname);
@@ -58,4 +60,5 @@ class Email
             return false;
         }
     }
+    #endregion
 }

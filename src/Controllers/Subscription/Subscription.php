@@ -14,6 +14,7 @@ use DateTime;
 
 class Subscription 
 {
+    #region Functions
     public function execute()
     {
         $warningEmail = array("fieldContent" => "", "warningMessage" => "");
@@ -103,4 +104,5 @@ class Subscription
         ]);  
         return; 
     }
+    #endregion
 }

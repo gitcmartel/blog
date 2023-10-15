@@ -12,6 +12,7 @@ use Application\Lib\TwigLoader;
 
 class AdminUserSave
 {
+    #region Functions
     public function execute()
     {
         $warningGlobal = "";
@@ -143,4 +144,5 @@ class AdminUserSave
             'activeUser' => Session::getActiveUser()
         ]);
     }
+    #endregion
 }

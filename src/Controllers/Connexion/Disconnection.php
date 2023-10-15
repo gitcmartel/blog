@@ -8,6 +8,7 @@ use Application\Lib\Session;
 
 class Disconnection
 {
+    #region Functions
     public function execute()
     {
         if(isset($_SESSION['userId']) && isset($_SESSION['activeUser'])){
@@ -17,4 +18,5 @@ class Disconnection
             header("Location:index.php?action=Home\Home");
         }
     }
+    #endregion
 }

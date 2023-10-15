@@ -4,6 +4,8 @@ namespace Application\Lib;
 
 class Session
 {
+    #region Functions
+
     /**
      * Returns the user pseudo If it is registered in the superglobal $_SESSION
      * returns an empty string if not
@@ -34,4 +36,6 @@ class Session
             return null;
         }
     }
+
+    #endregion
 }

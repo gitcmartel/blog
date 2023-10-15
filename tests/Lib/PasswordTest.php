@@ -6,6 +6,8 @@ use Application\Lib\Password;
 
 class PasswordTest extends TestCase
 {
+    #region Functions
+
     /**
      * Test if the function returns a string
      */
@@ -70,4 +72,6 @@ class PasswordTest extends TestCase
 
         $this->assertTrue(($token !== ""));
     }
+
+    #endregion
 }

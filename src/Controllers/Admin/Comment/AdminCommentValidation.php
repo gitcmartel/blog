@@ -11,6 +11,7 @@ use Application\Lib\TwigLoader;
 
 class AdminCommentValidation
 {
+    #region Functions
     public function execute()
     {
         $warningGeneral = "";
@@ -78,4 +79,5 @@ class AdminCommentValidation
             'activeUser' => Session::getActiveUser()
         ]);
     }
+    #endregion
 }

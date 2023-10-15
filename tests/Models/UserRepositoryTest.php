@@ -7,6 +7,7 @@ use Application\Tests\Lib\DbConnexionTest;
 
 class UserRepositoryTest extends TestCase 
 {
+    #region Functions
 
     public function testCreateUser()
     {
@@ -331,4 +332,5 @@ class UserRepositoryTest extends TestCase
         $this->assertTrue($result);
     }
 
+    #endregion
 }

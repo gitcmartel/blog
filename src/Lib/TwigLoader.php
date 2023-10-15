@@ -8,9 +8,14 @@ use Application\lib\Path;
 
 abstract class TwigLoader
 {
+    #region Properties
+
     private static ?Environment $environment = null;
 
-    private function construct() : Environment 
+    #endregion
+
+    #region Functions
+    private static function construct() : Environment 
     {
         $loader = new FilesystemLoader(Path::getRootPath() . '\templates');
         return new Environment($loader, ['cache' => false]);
@@ -23,4 +28,6 @@ abstract class TwigLoader
         }
         return static::$environment;
     }
+
+    #endregion
 }

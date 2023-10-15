@@ -11,7 +11,7 @@ use Application\Lib\DatabaseConnexion;
 use Application\Lib\TwigLoader;
 
 class PostDisplay{
-
+    #region Functions
     public function execute()
     {
         $warningGeneral = "";
@@ -83,4 +83,5 @@ class PostDisplay{
             'userFunction' => Session::getActiveUserFunction()
         ]);
     }
+    #endregion
 }

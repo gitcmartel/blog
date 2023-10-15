@@ -5,6 +5,8 @@ use Application\Lib\FormValidation;
 
 class FormValidationTest extends TestCase
 {
+    #region Functions
+
     /**
      * Test if all the form fields are correct
      */
@@ -35,4 +37,6 @@ class FormValidationTest extends TestCase
 
         $this->assertFalse($formValidation->isValid());
     }
+
+    #endregion
 }

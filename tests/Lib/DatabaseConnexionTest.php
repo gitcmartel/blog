@@ -6,6 +6,8 @@ use Application\Lib\DatabaseConnexion;
 
 class DatabaseConnexionTest extends TestCase
 {
+    #region Functions
+
     /**
      * Test de connexion à la base de données
      */
@@ -15,4 +17,6 @@ class DatabaseConnexionTest extends TestCase
         
         $this->assertNotNull($database->getConnexion());
     }
+
+    #endregion
 }

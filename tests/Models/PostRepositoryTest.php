@@ -9,6 +9,8 @@ use Application\Tests\Lib\DbConnexionTest;
 
 class PostRepositoryTest extends TestCase
 {
+    #region Functions
+
     public function testCreatePost()
     {
         //Preparing test environnement
@@ -218,4 +220,6 @@ class PostRepositoryTest extends TestCase
         //Executing test
         $this->assertTrue($result);
     }
+
+    #endregion
 }

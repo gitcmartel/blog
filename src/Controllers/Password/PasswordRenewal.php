@@ -13,6 +13,7 @@ use DateTime;
 
 class PasswordRenewal
 {
+    #region Functions
     public function execute()
     {
 
@@ -78,4 +79,5 @@ class PasswordRenewal
             'userFunction' => Session::getActiveUserFunction()
         ]);
     }
+    #endregion
 }

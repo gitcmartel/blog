@@ -11,6 +11,7 @@ use Application\Lib\TwigLoader;
 
 class AdminUserList 
 {
+    #region Functions
     public function execute()
     {
         $warningGeneral = "";
@@ -56,4 +57,5 @@ class AdminUserList
             'userFunction' => Session::getActiveUserFunction()
         ]);
     }
+    #endregion
 }

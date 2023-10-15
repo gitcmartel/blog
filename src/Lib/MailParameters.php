@@ -4,6 +4,8 @@ namespace Application\Lib;
 
 class MailParameters 
 {
+    #region Properties
+
     public string $userName;
     public string $password;
     public string $host;
@@ -11,10 +13,12 @@ class MailParameters
     public string $port;
     public string $secureMode;
     
+    #endregion
 
+    #region Functions
     function __construct() 
     {
-        $parameters = Xml::convertToArray("src/parameters.xml");
+        $parameters = Xml::convertToArray(dirname(__FILE__, 3) . DIRECTORY_SEPARATOR ."src" . DIRECTORY_SEPARATOR . "parameters.xml");
         $this->userName = $parameters->mail->username;
         $this->password = $parameters->mail->password;
         $this->host = $parameters->mail->host;
@@ -22,4 +26,6 @@ class MailParameters
         $this->port = $parameters->mail->port;
         $this->secureMode = $parameters->mail->secureMode;
     }
+
+    #endregion
 }

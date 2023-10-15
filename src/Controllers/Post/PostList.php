@@ -12,6 +12,7 @@ use Application\Lib\TwigLoader;
 
 class PostList 
 {
+    #region Functions
     public function execute() 
     {
         if(isset($_SESSION['userId'])){
@@ -44,4 +45,5 @@ class PostList
             'userFunction' => Session::getActiveUserFunction()
         ]);
     }
+    #endregion
 }

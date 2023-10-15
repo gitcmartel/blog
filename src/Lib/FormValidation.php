@@ -4,11 +4,15 @@ namespace Application\Lib;
 
 class FormValidation
 {
+    #region Properties
     public string $surname;
     public string $name;
     public string $email;
     public string $message;
 
+    #endregion
+
+    #region Functions
     function __construct(string $surname, string $name, string $email, string $message)
     {
         $this->surname = htmlspecialchars($surname);
@@ -49,4 +53,5 @@ class FormValidation
     {
         return !(strlen($this->message) < 50 || strlen($this->message) > 500);
     }
+    #endregion
 }

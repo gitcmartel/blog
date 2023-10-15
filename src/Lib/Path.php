@@ -4,6 +4,8 @@ namespace Application\Lib;
 
 class Path 
 {
+    #region Functions
+
     /**
      * Build a path with the OS corresponding separator
      * So if the application is hosted on Windows or linux it could work on both systems
@@ -26,4 +28,5 @@ class Path
         return dirname(__FILE__, 3);
     }
 
+    #endregion
 }

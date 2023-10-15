@@ -11,6 +11,7 @@ use Application\Lib\TwigLoader;
 
 class Connexion 
 {
+    #region Functions
     public function execute() 
     {
         $warningLogin = "";
@@ -66,4 +67,5 @@ class Connexion
             'activeUser' => Session::getActiveUser()
         ]);
     }
+    #endregion
 }

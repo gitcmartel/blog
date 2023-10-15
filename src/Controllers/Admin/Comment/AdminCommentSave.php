@@ -15,6 +15,7 @@ use Application\Lib\TwigLoader;
 
 class AdminCommentSave
 {
+    #region Functions
     public function execute()
     {
         $warningGlobal = "";
@@ -98,4 +99,5 @@ class AdminCommentSave
             'activeUser' => Session::getActiveUser()
         ]);
     }
+    #endregion
 }

@@ -5,6 +5,8 @@ use Application\Lib\Path;
 
 class PathTest extends TestCase
 {
+    #region Functions
+
     /**
      * Test that the function returns a string
      */
@@ -24,4 +26,6 @@ class PathTest extends TestCase
     
         $this->assertFalse(Path::fileBuildPath($array) !== "");
     }
+
+    #endregion
 }

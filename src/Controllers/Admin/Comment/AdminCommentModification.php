@@ -12,6 +12,7 @@ use Application\Lib\TwigLoader;
 
 class AdminCommentModification
 {
+    #region Functions
     public function execute()
     {
         $warningGeneral = "";
@@ -51,4 +52,5 @@ class AdminCommentModification
             'userFunction' => Session::getActiveUserFunction()
         ]);
     }
+    #endregion
 }

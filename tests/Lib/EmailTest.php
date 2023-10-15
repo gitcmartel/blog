@@ -5,6 +5,8 @@ use Application\Lib\Email;
 
 class EmailTest extends TestCase
 {
+    #region Functions
+
     /**
      * Test if an email can be sent
      */
@@ -20,4 +22,6 @@ class EmailTest extends TestCase
 
         $this->assertTrue($mail->sendMail());
     }
+
+    #endregion
 }

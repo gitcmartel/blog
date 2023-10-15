@@ -11,6 +11,7 @@ use Application\Lib\TwigLoader;
 
 class AdminPostDeletion
 {
+    #region Functions
     public function execute()
     {
         $warningGeneral = "";
@@ -53,4 +54,5 @@ class AdminPostDeletion
             'userFunction' => Session::getActiveUserFunction()
         ]);
     }
+    #endregion
 }

@@ -8,6 +8,8 @@ enum UserFunction {
     case Reader;
     case Else;
 
+    #region Functions
+
     public function toString() : string
     {
         return match($this){
@@ -17,4 +19,6 @@ enum UserFunction {
             self::Else => ''
         };
     }
+
+    #endregion
 }

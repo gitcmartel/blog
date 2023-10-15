@@ -11,6 +11,7 @@ use Application\Lib\TwigLoader;
 
 class AdminPostSearch
 {
+    #region Functions
     public function execute()
     {
         $warningGeneral = "";
@@ -52,4 +53,5 @@ class AdminPostSearch
             'userFunction' => Session::getActiveUserFunction()
         ]);    
     }
+    #endregion
 }

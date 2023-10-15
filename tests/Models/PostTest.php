@@ -7,6 +7,8 @@ use Application\Lib\Path;
 
 class PostTest extends TestCase
 {
+    #region Functions
+
     /**
      * Test a true result 
      */
@@ -53,4 +55,6 @@ class PostTest extends TestCase
         //Executing test
         $this->assertFalse($result);
     }
+
+    #endregion
 }

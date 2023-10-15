@@ -11,6 +11,7 @@ use Application\Lib\TwigLoader;
 
 class AdminUserValidation 
 {
+    #region Functions
     public function execute()
     {
         $warningGeneral = "";
@@ -86,4 +87,5 @@ class AdminUserValidation
             'activeUser' => Session::getActiveUser()
         ]);
     }
+    #endregion
 }

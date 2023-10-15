@@ -5,6 +5,8 @@ use Application\Models\User;
 
 class UserTest extends TestCase 
 {
+    #region Functions
+
     /**
      * Test if the function returns true with a valid parameter
      */
@@ -37,4 +39,6 @@ class UserTest extends TestCase
 
         $this->assertTrue($user->isAdmin());
     }
+
+    #endregion
 }

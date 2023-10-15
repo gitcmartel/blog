@@ -5,6 +5,8 @@ namespace Application\Lib;
 
 class Upload 
 {
+    #region Functions
+
     /**
      * Checks if the file extension is one of thoses who are allowed
      */
@@ -34,9 +36,11 @@ class Upload
     /**
      * Get the extension of a file
      */
-     public static function getExtension(string $fileName) : string 
-     {
-        $explode = explode(".", $fileName);
-        return strtolower(end($explode));
-     }
+    public static function getExtension(string $fileName) : string 
+    {
+    $explode = explode(".", $fileName);
+    return strtolower(end($explode));
+    }
+
+    #endregion
 }

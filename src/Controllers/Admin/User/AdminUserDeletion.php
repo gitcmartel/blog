@@ -11,6 +11,7 @@ use Application\Lib\TwigLoader;
 
 class AdminUserDeletion
 {
+    #region Function
     public function execute()
     {
         $warningGeneral = "";
@@ -51,4 +52,5 @@ class AdminUserDeletion
             'activeUser' => Session::getActiveUser()
         ]);
     }
+    #endregion
 }

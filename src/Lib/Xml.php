@@ -4,6 +4,8 @@ namespace Application\Lib;
 
 class Xml
 {
+    #region Functions
+
     //Convert an xml file into an array object
     public static function convertToArray(string $path) : object
     {
@@ -13,12 +15,8 @@ class Xml
         //Convert xml string into an object
         $xmlObject = simplexml_load_string($xmlFile);
 
-        //Convert object into json
-        $json = json_encode($xmlObject);
-
-        //Convert json into associative array
-        $array = json_decode($json);
-
-        return $array;
+        return $xmlObject;
     }
+
+    #endregion
 }

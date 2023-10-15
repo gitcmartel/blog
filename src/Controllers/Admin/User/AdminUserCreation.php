@@ -10,6 +10,7 @@ use Application\Lib\TwigLoader;
 
 class AdminUserCreation
 {
+    #region Functions
     public function execute()
     {
         $warningGeneral = "";
@@ -43,4 +44,5 @@ class AdminUserCreation
             'activeUser' => Session::getActiveUser()
         ]);
     }
+    #endregion
 }

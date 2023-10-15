@@ -6,8 +6,12 @@ use PDO;
 
 class DatabaseConnexion
 {
+    #region Properties
     private static ?PDO $connexion = null;
-
+    
+    #endregion
+    
+    #region Functions
     protected function construct() : PDO
     {
         return new PDO('mysql:host=localhost;dbname=blog;charset=utf8', 'root', '');
@@ -20,4 +24,5 @@ class DatabaseConnexion
         }
         return static::$connexion;
     }
+    #endregion
 }
