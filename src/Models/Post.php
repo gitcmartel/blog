@@ -39,7 +39,7 @@ class Post
     #endregion
 
     #region Getters and Setters
-    function getId() : int
+    function getId() : ?int
     {
         if(isset($this->id)){
             return $this->id;
@@ -123,7 +123,7 @@ class Post
         $this->creationDate = $creationDate;
     }
 
-    function getPublicationDate() : string
+    function getPublicationDate() : ?string
     {
         if(isset($this->publicationDate)){
             return $this->publicationDate;

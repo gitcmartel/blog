@@ -15,42 +15,58 @@ class AdminCommentModification
     #region Functions
     public function execute()
     {
-        $warningGeneral = "";
-        $warningLink = "";
-        $warningLinkMessage = "";
-        $userFunction = "";
 
-        if(UserActiveCheckValidity::check(array('Administrateur'))){
-            if (isset($_GET['commentId'])){
-                $commentRepository = new CommentRepository();
-                $comment = $commentRepository->getComment($_GET['commentId']);
-                $post = new Post();
+        #region variables
+        $commentRepository = new CommentRepository();
+        $comment = "";
+        $post = new Post();
 
-                $twig = TwigLoader::getEnvironment();
-                
-                echo $twig->render('Admin\Comment\AdminComment.html.twig', [  
-                    'comment' => $comment,
-                    'post' => $post,  
-                    'activeUser' => Session::getActiveUser(), 
-                    'userFunction' => Session::getActiveUserFunction()
-                ]);
-                return;
-            }
-        } else {
-            $warningGeneral = "Vous n'avez pas les droits requis pour accéder à cette page. Contactez l'administrateur du site";
-            $warningLink = "index.php/action=Home\Home";
-            $warningLinkMessage = "Nous contacter";
+        #endregion
+
+        #region Conditions tests
+
+        //If the active user is not an admin
+        if(! UserActiveCheckValidity::check(array('Administrateur'))){
+            TwigWarning::display(
+                "Vous n'avez pas les droits requis pour accéder à cette page. Contactez l'administrateur du site", 
+                "index.php/action=Home\Home", 
+                "Nous contacter");
+            return;
         }
+
+        //If the commentId variable is not set
+        if (! isset($_GET['commentId'])){
+            TwigWarning::display(
+                "Une erreur est survenue lors du chargement de la page.", 
+                "index.php/action=Home\Home", 
+                "Retour à la page d'accueil");
+            return;
+        }
+
+        //If the commentId variable is empty
+        if(trim($_GET['commentId']) === ""){
+            TwigWarning::display(
+                "Une erreur est survenue lors du chargement de la page.", 
+                "index.php/action=Home\Home", 
+                "Retour à la page d'accueil");
+            return;
+        }
+
+        #endregion
+
+        #region Function execution
+        $comment = $commentRepository->getComment($_GET['commentId']);
 
         $twig = TwigLoader::getEnvironment();
         
-        echo $twig->render('Warning\NotAllowed.html.twig', [ 
-            'warningGeneral' => $warningGeneral, 
-            'warningLink' => $warningLink, 
-            'warningLinkMessage' => $warningLinkMessage,
+        echo $twig->render('Admin\Comment\AdminComment.html.twig', [  
+            'comment' => $comment,
+            'post' => $post,  
             'activeUser' => Session::getActiveUser(), 
             'userFunction' => Session::getActiveUserFunction()
         ]);
+
+        #endregion
     }
     #endregion
 }

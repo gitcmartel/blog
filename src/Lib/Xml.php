@@ -7,8 +7,12 @@ class Xml
     #region Functions
 
     //Convert an xml file into an array object
-    public static function convertToArray(string $path) : object
+    public static function convertToObject(string $path) : object
     {
+        if(! is_readable($path)){
+            return null;
+        }
+
         //Read entire file into string
         $xmlFile = file_get_contents($path);
 

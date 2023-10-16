@@ -36,7 +36,7 @@ class AdminCommentDeletion
             return;
         }
 
-        //If the postId variable is not set
+        //If the commentId variable is not set
         if (! isset($_GET['commentId'])){
             TwigWarning::display(
                 "Une erreur est survenue lors du chargement de la page.", 
@@ -45,7 +45,7 @@ class AdminCommentDeletion
             return;
         }
 
-        //If the postId variable is empty
+        //If the commentId variable is empty
         if(trim($_GET['commentId']) === ""){
             TwigWarning::display(
                 "Une erreur est survenue lors du chargement de la page.", 

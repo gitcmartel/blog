@@ -18,7 +18,7 @@ class MailParameters
     #region Functions
     function __construct() 
     {
-        $parameters = Xml::convertToArray(dirname(__FILE__, 3) . DIRECTORY_SEPARATOR ."src" . DIRECTORY_SEPARATOR . "parameters.xml");
+        $parameters = Xml::convertToObject(dirname(__FILE__, 3) . DIRECTORY_SEPARATOR ."src" . DIRECTORY_SEPARATOR . "parameters.xml");
         $this->userName = $parameters->mail->username;
         $this->password = $parameters->mail->password;
         $this->host = $parameters->mail->host;
