@@ -130,8 +130,8 @@ class CommentRepository
         $affectedRows = $statement->execute([
             $comment->getPublicationDate(), 
             htmlspecialchars($comment->getComment()), 
-            $comment->getUser()->id, 
-            $comment->getPost()->id]);
+            $comment->getUser()->getId(), 
+            $comment->getPost()->getId()]);
 
         return($affectedRows > 0);
     }

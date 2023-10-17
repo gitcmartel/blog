@@ -8,6 +8,7 @@ use Application\Lib\UserActiveCheckValidity;
 use Application\Models\Comment;
 use Application\Lib\Session;
 use Application\Lib\DatabaseConnexion;
+use Application\Lib\TwigLoader;
 use Application\Lib\TwigWarning;
 
 class AdminCommentCreation

@@ -15,7 +15,7 @@ class Comment
     #endregion
 
     #region getters and setters
-    function getId() : int
+    function getId() : ?int
     {
         if(isset($this->id)){
             return $this->id;
@@ -43,7 +43,7 @@ class Comment
         $this->creationDate = $creationDate;
     }
 
-    function getPublicationDate()
+    function getPublicationDate() : ?string
     {
         if(isset($this->publicationDate)){
             return $this->publicationDate;

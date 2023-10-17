@@ -40,7 +40,7 @@ class AdminCommentSave
         }
 
         //If the commentId variable is not set
-        if (! isset($_GET['commentId'])){
+        if (! isset($_POST['commentId'])){
             TwigWarning::display(
                 "Une erreur est survenue lors du chargement de la page.", 
                 "index.php/action=Home\Home", 
@@ -49,7 +49,7 @@ class AdminCommentSave
         }
 
         //If the postId variable is not set
-        if (! isset($_GET['postId'])){
+        if (! isset($_POST['postId'])){
             TwigWarning::display(
                 "Une erreur est survenue lors du chargement de la page.", 
                 "index.php/action=Home\Home", 
@@ -57,8 +57,8 @@ class AdminCommentSave
             return;
         }
 
-        //If the postId variable is not set
-        if (trim($_GET['postId']) === ""){
+        //If the comment variable is not set
+        if (! isset($_POST['comment'])){
             TwigWarning::display(
                 "Une erreur est survenue lors du chargement de la page.", 
                 "index.php/action=Home\Home", 
@@ -67,13 +67,18 @@ class AdminCommentSave
         }
 
         //If the commentId variable is empty
-        if(trim($_GET['commentId']) === ""){
+        if(trim($_POST['comment']) === ""){
             $warningComment = "Vous devez renseigner un commentaire";
             $comment->setComment('');
 
-            //Get the id's to send it back to the view
-            $comment->setId($_POST['commentId']);
-            $post->setId($_POST['postId']);
+            //Get the id's to send it back to the view if there is one
+            if($_POST['commentId'] !== "" && $_POST['commentId'] !== '0') {
+                $comment->setId($_POST['commentId']);
+            }  
+
+            if($_POST['postId'] !== "" && $_POST['postId'] !== '0') {
+                $post->setId($_POST['postId']);
+            }  
 
             $twig = TwigLoader::getEnvironment();
         
@@ -91,7 +96,7 @@ class AdminCommentSave
         #region Function execution
         $comment->setComment($_POST['comment']);
 
-        if (trim($_POST['commentId'] !== "") && $_POST['commentId'] !== '0'){
+        if (trim($_POST['commentId'] !== "") && $_POST['commentId'] !== null){
             //If there is a commentId we update the comment field
 
             $comment = $commentRepository->getComment($_POST['commentId']);
@@ -121,7 +126,7 @@ class AdminCommentSave
             $comment->setUser($userRepository->getUser(Session::getActiveUserId()));
 
             if (isset($_POST['validation'])){
-                $comment-setPpublicationDate(date('Y-m-d H:i:s'));
+                $comment->setPublicationDate(date('Y-m-d H:i:s'));
             }
 
             if ($commentRepository->createComment($comment)){
