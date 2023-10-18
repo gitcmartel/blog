@@ -28,7 +28,7 @@ class AdminCommentValidation
         if (!UserActiveCheckValidity::check(['Administrateur']) || !isset($_POST['commentValidation']) ||
             !isset($_POST['devalidate'])) {
             TwigWarning::display(
-                "Une erreur est survenue lors du chargement de la page.",
+                "Vous n'avez pas le droits requis pour accéder a cette page.",
                 "index.php/action=Home\Home",
                 "Retour à la page d'accueil"
             );

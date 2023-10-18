@@ -14,48 +14,49 @@ class AdminPostList
     #region Functions
     public function execute()
     {
-        $warningGeneral = "";
-        $warningLink = "";
-        $warningLinkMessage = "";
+        #region Variables
 
-        if(UserActiveCheckValidity::check(array('Administrateur', 'Createur'))){
-            $postRepository = new PostRepository(new DatabaseConnexion);
-            $totalPages = $postRepository->getTotalPageNumber(10);;
-            $pageNumber = 1;
-            if (isset($_GET['pageNumber'])){
-                if($_GET['pageNumber'] !== 0){
-                    $posts = $postRepository->getPosts($_GET['pageNumber'], 10);
-                    $pageNumber = $_GET['pageNumber'];
-                }
-            } else {
-                $posts = $postRepository->getPosts(1, 10);
-            }
-            
-            $twig = TwigLoader::getEnvironment();
-            
-            echo $twig->render('Admin\Post\AdminPostList.html.twig', [ 
-                'actualPage' => $pageNumber, 
-                'totalPages' => $totalPages, 
-                'posts' => $posts, 
-                'activeUser' => Session::getActiveUser(), 
-                'userFunction' => (isset($_SESSION['activeUserFunction'])? $_SESSION['activeUserFunction']:'')
-            ]);
-            return;
-        } else {
-            $warningGeneral = "Vous n'avez pas les droits requis pour accéder à cette page. Contactez l'administrateur du site";
-            $warningLink = "index.php?action=Home\Home";
-            $warningLinkMessage = "Nous contacter";
+        $postRepository = new PostRepository(new DatabaseConnexion);
+        $totalPages = $postRepository->getTotalPageNumber(10);;
+        $pageNumber = 1;
+        $posts = "";
+        $twig = TwigLoader::getEnvironment();
+
+        #endregion
+
+        #region Conditions tests
+
+        if(! UserActiveCheckValidity::check(array('Administrateur', 'Createur'))){
+            TwigWarning::display(
+                "Vous n'avez pas les droits requis pour accéder à cette page. Contactez l'administrateur du site", 
+                "index.php/action=Home\Home", 
+                "Nous contacter");
+            return;  
         }
 
-        $twig = TwigLoader::getEnvironment();
+        #endregion
+
+        #region Function execution
+
+        if (isset($_GET['pageNumber'])){
+            if($_GET['pageNumber'] !== 0){
+                $posts = $postRepository->getPosts($_GET['pageNumber'], 10);
+                $pageNumber = $_GET['pageNumber'];
+            }
+        } else {
+            $posts = $postRepository->getPosts(1, 10);
+        }
         
-        echo $twig->render('Warning\notAllowed.html.twig', [ 
-            'warningGeneral' => $warningGeneral, 
-            'warningLink' => $warningLink, 
-            'warningLinkMessage' => $warningLinkMessage,
-            'activeUser' => Session::getActiveUser(),
-            'userFunction' => Session::getActiveUserFunction()
+        echo $twig->render('Admin\Post\AdminPostList.html.twig', [ 
+            'actualPage' => $pageNumber, 
+            'totalPages' => $totalPages, 
+            'posts' => $posts, 
+            'activeUser' => Session::getActiveUser(), 
+            'userFunction' => (isset($_SESSION['activeUserFunction'])? $_SESSION['activeUserFunction']:'')
         ]);
+        return;
+
+        #endregion
     }
     #endregion
 }

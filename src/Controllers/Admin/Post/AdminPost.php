@@ -14,15 +14,28 @@ class AdminPost
     #region Functions
     public function execute() 
     {
-        if(UserActiveCheckValidity::check(array('Administrateur', 'Createur'))){
-            $post = "";
-            //If it's an existing post
-            if(isset($_GET['postId'])){
-                $postRepository = new PostRepository(new DatabaseConnexion);
-                $post = $postRepository->getPost($_GET['postId']);
-            }
+        #region Variables
+        $post = "";
+        $postRepository = new PostRepository(new DatabaseConnexion);
+
+        #endregion
+
+        #region Conditions tests
+
+        if(! UserActiveCheckValidity::check(array('Administrateur', 'Createur')) || ! isset($_GET['postId'])){
+            TwigWarning::display(
+                "Vous n'avez pas les droits requis pour accéder à cette page. Contactez l'administrateur du site", 
+                "index.php/action=Home\Home", 
+                "Nous contacter");
+            return;     
         }
 
+        #endregion
+
+        #region Function execution
+
+        $post = $postRepository->getPost($_GET['postId']);
+        
         $twig = TwigLoader::getEnvironment();
         
         echo $twig->render('Admin\Post\AdminPost.html.twig', [ 
@@ -30,6 +43,8 @@ class AdminPost
             'activeUser' => Session::getActiveUser(), 
             'userFunction' => Session::getActiveUserFunction()
         ]);
+        
+        #endregion
     }
     #endregion
 }

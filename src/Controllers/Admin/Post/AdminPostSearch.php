@@ -14,44 +14,41 @@ class AdminPostSearch
     #region Functions
     public function execute()
     {
-        $warningGeneral = "";
-        $warningLink = "";
-        $warningLinkMessage = "";
+        #region Variables
 
-        if(UserActiveCheckValidity::check(array('Administrateur', 'Createur'))){
-            if(isset($_POST['searchString'])){
-                if(trim($_POST['searchString']) !== ""){
-                    $postRepository = new PostRepository(new DatabaseConnexion);
-                    $posts = $postRepository->searchPosts(trim($_POST['searchString']));
+        $postRepository = new PostRepository(new DatabaseConnexion);
+        $posts = "";
+        $twig = TwigLoader::getEnvironment();
 
-                    $twig = TwigLoader::getEnvironment();
-                    
-                    echo $twig->render('Admin\Post\AdminPostList.html.twig', [ 
-                        'actualPage' => "1", 
-                        'totalPages' => "1", 
-                        'posts' => $posts, 
-                        'activeUser' => Session::getActiveUser(),
-                        'userFunction' => Session::getActiveUserFunction()
-                    ]);
-                    return;
-                }
-            }
-        } else {
-            $warningGeneral = "Vous n'avez pas les droits requis pour accéder à cette page. Contactez l'administrateur du site";
-            $warningLink = "index.php/action=Home\Home";
-            $warningLinkMessage = "Nous contacter";
+        #endregion
+
+        #region Conditions tests
+        if(! UserActiveCheckValidity::check(array('Administrateur', 'Createur')) || ! isset($_POST['searchString'])){
+            TwigWarning::display(
+                "Vous n'avez pas les droits requis pour accéder à cette page. Contactez l'administrateur du site", 
+                "index.php/action=Home\Home", 
+                "Nous contacter");
+            return;
         }
 
+        if(trim($_POST['searchString']) !== ""){
+            return;
+        }
+        #endregion
 
-        $twig = TwigLoader::getEnvironment();
-        
-        echo $twig->render('Warning\NotAllowed.html.twig', [ 
-            'warningGeneral' => $warningGeneral, 
-            'warningLink' => $warningLink, 
-            'warningLinkMessage' => $warningLinkMessage,
-            'activeUser' => Session::getActiveUser(), 
+        #region Function execution
+
+        $posts = $postRepository->searchPosts(trim($_POST['searchString']));
+
+        echo $twig->render('Admin\Post\AdminPostList.html.twig', [ 
+            'actualPage' => "1", 
+            'totalPages' => "1", 
+            'posts' => $posts, 
+            'activeUser' => Session::getActiveUser(),
             'userFunction' => Session::getActiveUserFunction()
-        ]);    
+        ]);
+
+        #endregion
     }
     #endregion
 }

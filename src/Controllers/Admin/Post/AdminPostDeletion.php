@@ -12,47 +12,53 @@ use Application\Lib\TwigLoader;
 class AdminPostDeletion
 {
     #region Functions
+
     public function execute()
     {
-        $warningGeneral = "";
-        $warningLink = "";
-        $warningLinkMessage = "";
+        #region Variables
 
-        if(UserActiveCheckValidity::check(array('Administrateur', 'Createur'))){
-            if (isset($_GET['postId'])){
-                if($_GET['postId'] !== ""){
-                    $postRepository = new PostRepository(new DatabaseConnexion);
-                    $post = $postRepository->getPost($_GET['postId']);
-                    if($post->getId() !== null){
-                        if (! $postRepository->deletePost($post)) {
-                            $warningGeneral = "Un problème est survenu lors de la suppression du post";
-                            $warningLink = "index.php?action=Admin\Post\AdminPostList&pageNumber=1";
-                            $warningLinkMessage = "Retour à la liste de posts";
-                        } else  {
-                            //We delete the image if there is one
-                            $post->deleteImage();
-                            //We display the updated post list
-                            header("Location:index.php?action=Admin\Post\AdminPostList&pageNumber=1");
-                            return;
-                        }
-                    }
-                }
-            }
-        } else {
-            $warningGeneral = "Vous n'avez pas les droits requis pour accéder à cette page. Contactez l'administrateur du site";
-            $warningLink = "index.php/action=Home\Home";
-            $warningLinkMessage = "Nous contacter";
+        $postRepository = new PostRepository(new DatabaseConnexion);
+        $post = "";
+        
+        #endregion
+
+        #region Conditions tests
+
+        if(! UserActiveCheckValidity::check(array('Administrateur', 'Createur')) || ! isset($_GET['postId'])){
+            TwigWarning::display(
+                "Vous n'avez pas les droits requis pour accéder à cette page. Contactez l'administrateur du site", 
+                "index.php/action=Home\Home", 
+                "Nous contacter");
+            return;  
         }
 
-        $twig = TwigLoader::getEnvironment();
-        
-        echo $twig->render('Warning\notAllowed.html.twig', [ 
-            'warningGeneral' => $warningGeneral, 
-            'warningLink' => $warningLink, 
-            'warningLinkMessage' => $warningLinkMessage,
-            'activeUser' => Session::getActiveUser(), 
-            'userFunction' => Session::getActiveUserFunction()
-        ]);
+        if($_GET['postId'] === ""){
+            TwigWarning::display(
+                "Un problème est survenu lors de la suppression du post.", 
+                "index.php/action=Home\Home", 
+                "Retour à l'accueil");
+            return;  
+        }
+
+        #endregion
+
+        #region Function execution
+
+        $post = $postRepository->getPost($_GET['postId']);
+
+        if (! $postRepository->deletePost($post)) {
+            TwigWarning::display(
+                "Un problème est survenu lors de la suppression du post.", 
+                "index.php/action=Home\Home", 
+                "Retour à l'accueil"); 
+                return;
+        } else {
+            //We delete the image if there is one
+            $post->deleteImage();
+            //We display the updated post list
+            header("Location:index.php?action=Admin\Post\AdminPostList&pageNumber=1");
+        }
+        #endregion
     }
     #endregion
 }
