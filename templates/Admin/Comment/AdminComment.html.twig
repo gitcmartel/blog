@@ -8,8 +8,8 @@
         <div class="m-4 p-3 shadow rounded w-50">
             <form method="post" action="index.php?action=Admin\Comment\AdminCommentSave" id="formComment">
                 <div class="d-flex">
-                    <input type="text" class="d-none" name="postId" value="{{ post.id }}">
-                    <input type="text" class="d-none" name="commentId" value="{{ comment.id }}">
+                    <input type="hidden" name="postId" value="{{ post.id }}">
+                    <input type="hidden" name="commentId" value="{{ comment.id }}">
                     <div class="d-flex flex-column w-100">
                         <div>
                             <label class="form-label font-size3" for="comment">Commentaire :</label>

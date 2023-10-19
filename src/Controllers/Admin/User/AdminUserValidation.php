@@ -50,7 +50,7 @@ class AdminUserValidation
                 if($user->getIsValid()){
                     $userRepository->setValidation($userId, 0);
                 }
-            } else if($_POST['devalidate'] === 'false') {
+            } elseif($_POST['devalidate'] === 'false') {
                 if(! $user->getIsValid()){
                     $userRepository->setValidation($userId, -1);
                 }

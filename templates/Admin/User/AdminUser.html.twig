@@ -8,8 +8,8 @@
         <div class="m-4 p-3 shadow rounded w-50">
             <form method="post" action="index.php?action=Admin\User\adminUserSave" id="formUser">
                 <div class="d-flex">
-                    <input type="text" class="d-none" name="userId" value="{{ user.id }}">
-                    <input type="text" class="d-none" name="devalidate" value="false">
+                    <input type="hidden" name="userId" value="{{ user.id }}">
+                    <input type="hidden" name="devalidate" value="false">
                     <div class="d-flex flex-column w-75">
                         <div>
                             <label class="form-label font-size3" for="userName">Prénom</label>

@@ -8,9 +8,9 @@
         <div class="m-4 p-3 shadow rounded w-75">
             <form method="post" enctype="multipart/form-data" action="index.php?action=Admin\Post\AdminPostSave" id="formPost">
                 <div class="d-flex">
-                    <input type="text" class="d-none" name="postId" value="{{ post.id }}">
-                    <input type="text" class="d-none" name="postPublish" value="{{ post.id }}">
-                    <input type="text" class="d-none" name="unpublish" value="false">
+                    <input type="hidden" name="postId" value="{{ post.id }}">
+                    <input type="hidden" name="postPublish" value="{{ post.id }}">
+                    <input type="hidden" name="unpublish" value="false">
                     <div class="w-25 me-2">
                         <label for="imagePath">
                             <img class="img-post" src="
@@ -22,7 +22,7 @@
                         " alt="Image du post" id="imagePost">
                         </label>
                         <input type="file" accept=".png, .jpeg, .jpg, .svg" class="form-control d-none" name="imagePath" id="imagePath" onchange="displayImagePost(this)" value="{{ post.imagePath }}">
-                        <input type="text" class="form-control d-none" name="resetImage" id="resetImage" value="false">
+                        <input type="hidden" class="form-control" name="resetImage" id="resetImage" value="false">
                         <button type="button" class="btn btn-link" onclick="resetImagePost()">Réinitialiser l'image</button>
                     </div>
                     <div class="d-flex flex-column w-75">

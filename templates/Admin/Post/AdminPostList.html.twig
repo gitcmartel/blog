@@ -3,7 +3,7 @@
 {% block body %}
     <section class="vh-60">
         <form method="POST" action="index.php?action=Admin\Post\AdminPostPublish" id="formPostList">
-            <input class="d-none" type="text" id="unpublish" name="unpublish" value="false">
+            <input type="hidden" id="unpublish" name="unpublish" value="false">
             <table class="table">
                 <thead>
                 <tr>
