@@ -14,51 +14,77 @@ class Connexion
     #region Functions
     public function execute() 
     {
+        #region Variables
+
         $warningLogin = "";
-        $loginValue = "";
         $warningPassword = "";
+        $loginValue = "";
+        $userRepository = new UserRepository(new DatabaseConnexion);
+        $user = "";
+        $twig = TwigLoader::getEnvironment();
 
-        if (isset($_POST['login']) && isset($_POST['password'])){
-            if(trim($_POST['login'] === "")){
-                $warningLogin = "Vous devez entrer un identifiant";
-            }
+        #endregion
 
-            if(trim($_POST['password'] === "")){
-                $warningPassword = "Vous devez entrer un mot de passe";
-            }
+        #region Conditions tests
 
-            $loginValue = $_POST['login'];
-
-            if($warningLogin === "" && $warningPassword === ""){
-                //Get the user
-                $userRepository = new UserRepository(new DatabaseConnexion);
-                $user = $userRepository->getUserByMail($_POST['login']);
-
-                if($user->getId() !== null){
-                    //Check the password validity
-                    if(Password::verify($_POST['password'], $user->getPassword())){
-                        $twig = TwigLoader::getEnvironment();
-                        
-                        $_SESSION['activeUser'] = $user->getPseudo();
-                        $_SESSION['activeUserFunction'] = $user->getUserFunction()->toString();
-                        $_SESSION['userId'] = $user->getId();
-
-                        echo $twig->render('Connexion/connexionSuccess.html.twig', [
-                            'activeUser' => Session::getActiveUser(), 
-                            'userFunction' => Session::getActiveUserFunction()
-                        ]);
-                        return;
-                    } else {
-                        $warningPassword = "Le mot de passe est incorrect";
-                    }
-                } else {
-                    $warningLogin = "Cet identifiant est inexistant";
-                }
-            } 
+        if (! isset($_POST['login']) && ! isset($_POST['password'])){
+            echo $twig->render('Connexion/connexion.html.twig', [ 
+                'warningLogin' => $warningLogin, 
+                'warningPassword' => $warningPassword,
+                'loginValue' => $loginValue,
+                'userFunction' => Session::getActiveUserFunction(),
+                'activeUser' => Session::getActiveUser()
+            ]);
+            return;
         }
 
-        $twig = TwigLoader::getEnvironment();
-        
+        if(trim($_POST['login'] === "")){
+            $warningLogin = "Vous devez entrer un identifiant";
+        }
+
+        if(trim($_POST['password'] === "")){
+            $warningPassword = "Vous devez entrer un mot de passe";
+        }
+
+        $loginValue = $_POST['login'];
+
+        if($warningLogin !== "" || $warningPassword !== ""){
+            echo $twig->render('Connexion/connexion.html.twig', [ 
+                'warningLogin' => $warningLogin, 
+                'warningPassword' => $warningPassword,
+                'loginValue' => $loginValue,
+                'userFunction' => Session::getActiveUserFunction(),
+                'activeUser' => Session::getActiveUser()
+            ]);
+            return;
+        }
+
+        #endregion
+
+        #region Function execution
+
+        $user = $userRepository->getUserByMail($_POST['login']);
+
+        if($user->getId() !== null){
+            //Check the password validity
+            if(Password::verify($_POST['password'], $user->getPassword())){
+                
+                $_SESSION['activeUser'] = $user->getPseudo();
+                $_SESSION['activeUserFunction'] = $user->getUserFunction()->toString();
+                $_SESSION['userId'] = $user->getId();
+
+                echo $twig->render('Connexion/connexionSuccess.html.twig', [
+                    'activeUser' => Session::getActiveUser(), 
+                    'userFunction' => Session::getActiveUserFunction()
+                ]);
+                return;
+            } else {
+                $warningPassword = "Le mot de passe est incorrect";
+            }
+        } else {
+            $warningLogin = "Cet identifiant est inexistant";
+        }
+
         echo $twig->render('Connexion/connexion.html.twig', [ 
             'warningLogin' => $warningLogin, 
             'warningPassword' => $warningPassword,
@@ -66,6 +92,8 @@ class Connexion
             'userFunction' => Session::getActiveUserFunction(),
             'activeUser' => Session::getActiveUser()
         ]);
+
+        #endregion
     }
     #endregion
 }

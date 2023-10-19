@@ -31,7 +31,7 @@ class AdminPostPublish
             ! isset($_POST['unpublish'])){
             TwigWarning::display(
                 "Vous n'avez pas les droits requis pour accéder à cette page. Contactez l'administrateur du site", 
-                "index.php/action=Home\Home", 
+                "index.php?action=Home\Home", 
                 "Nous contacter");
             return;  
         }

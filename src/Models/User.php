@@ -48,6 +48,27 @@ class User
             return false;
         }
     }
+
+    /**
+     * Checks if the token and it's generation date are valid
+     */
+    function tokenCheckValidity() : bool
+    {
+        //If we get a valid user then we proceed
+        if($this->id !== null){
+            //Check if the date is no more than 24h old
+            $tokenDate = DateTime::createFromFormat('Y-m-d H:i:s', $this->forgotPasswordDate);
+
+            $dateDifference = $tokenDate->diff(new DateTime());
+            $secondsDifference = ($dateDifference->h * 60 * 60) + ($dateDifference->i * 60) + $dateDifference->s;
+
+            if(($secondsDifference) <= 86400){
+               return true;
+            }
+        }
+        return false;
+    }
+
     #endregion
 
     #region Getters and Setters

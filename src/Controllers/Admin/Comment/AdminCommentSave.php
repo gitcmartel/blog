@@ -34,7 +34,7 @@ class AdminCommentSave
         if(! UserActiveCheckValidity::check(array('Administrateur'))){
             TwigWarning::display(
                 "Vous n'avez pas les droits requis pour accéder à cette page. Contactez l'administrateur du site", 
-                "index.php/action=Home\Home", 
+                "index.php?action=Home\Home", 
                 "Nous contacter");
             return;
         }
@@ -43,7 +43,7 @@ class AdminCommentSave
         if (! isset($_POST['commentId'])){
             TwigWarning::display(
                 "Une erreur est survenue lors du chargement de la page.", 
-                "index.php/action=Home\Home", 
+                "index.php?action=Home\Home", 
                 "Retour à la page d'accueil");
             return;
         }
@@ -52,7 +52,7 @@ class AdminCommentSave
         if (! isset($_POST['postId'])){
             TwigWarning::display(
                 "Une erreur est survenue lors du chargement de la page.", 
-                "index.php/action=Home\Home", 
+                "index.php?action=Home\Home", 
                 "Retour à la page d'accueil");
             return;
         }
@@ -61,7 +61,7 @@ class AdminCommentSave
         if (! isset($_POST['comment'])){
             TwigWarning::display(
                 "Une erreur est survenue lors du chargement de la page.", 
-                "index.php/action=Home\Home", 
+                "index.php?action=Home\Home", 
                 "Retour à la page d'accueil");
             return;
         }
@@ -117,7 +117,7 @@ class AdminCommentSave
             } else {
                 TwigWarning::display(
                     "Une erreur est survenue lors de l'enregistrement des données.", 
-                    "index.php/action=Home\Home", 
+                    "index.php?action=Home\Home", 
                     "Retour à la page d'accueil");
                 return;
             }
@@ -136,7 +136,7 @@ class AdminCommentSave
             } else {
                 TwigWarning::display(
                     "Une erreur est survenue lors de l'enregistrement des données.", 
-                    "index.php/action=Home\Home", 
+                    "index.php?action=Home\Home", 
                     "Retour à la page d'accueil");
                 return;
             }

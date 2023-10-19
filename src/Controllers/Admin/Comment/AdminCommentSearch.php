@@ -26,7 +26,7 @@ class AdminCommentSearch
         if(! UserActiveCheckValidity::check(array('Administrateur'))){
             TwigWarning::display(
                 "Vous n'avez pas les droits requis pour accéder à cette page. Contactez l'administrateur du site", 
-                "index.php/action=Home\Home", 
+                "index.php?action=Home\Home", 
                 "Nous contacter");
             return;
         }
@@ -35,7 +35,7 @@ class AdminCommentSearch
         if (! isset($_POST['searchString'])){
             TwigWarning::display(
                 "Une erreur est survenue lors du chargement de la page.", 
-                "index.php/action=Home\Home", 
+                "index.php?action=Home\Home", 
                 "Retour à la page d'accueil");
             return;
         }

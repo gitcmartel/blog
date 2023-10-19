@@ -15,58 +15,82 @@ class Home
     #region Functions
     public function execute() {
 
-        $messageResponse = $this->sendMessage();
+        #region Variables
 
         $twig = TwigLoader::getEnvironment();
+        $messageResponse = "";
+
+        #endregion
+
+        #region Conditions tests
+
+        //If the fields are not set we simply display the home page
+        if (! isset($_POST['surname']) && ! isset($_POST['name']) && ! isset($_POST['email']) && ! isset($_POST['message'])){
+            echo $twig->render('Home\Home.html.twig', [ 
+                'messageResponse' => "", 
+                'activeUser' => Session::getActiveUser(), 
+                'userFunction' => Session::getActiveUserFunction()
+            ]);
+            return;
+        }
+
+        //All the form fields have to be filled
+        if (trim($_POST['surname']) === "" || trim($_POST['name']) === "" || trim($_POST['email']) === "" 
+        || trim($_POST['message']) === "" ){
+            echo $twig->render('Home\Home.html.twig', [ 
+                'messageResponse' => "Vous devez compléter tous les champs du formulaire.", 
+                'activeUser' => Session::getActiveUser(), 
+                'userFunction' => Session::getActiveUserFunction()
+            ]);
+            return;
+        }
+
+        //Checks the validity of the form fields data
+        $formValidation = new FormValidation(
+            $_POST['surname'], 
+            $_POST['name'], 
+            $_POST['email'], 
+            $_POST['message']
+        );
+
+        if ($formValidation->isValid()) {
+            echo $twig->render('Home\Home.html.twig', [ 
+                'messageResponse' => "Un ou plusieurs champs du formulaire sont invalides !", 
+                'activeUser' => Session::getActiveUser(), 
+                'userFunction' => Session::getActiveUserFunction()
+            ]);
+            return;
+        }
+
+        #endregion
+
+        #region Function execution
+
+        $mail = new Email(
+            $_POST['surname'], 
+            $_POST['name'],
+            "contact@blog.devcm.fr",
+            "contact@blog.devcm.fr",  
+            $_POST['email'], 
+            "Nouveau contact !", 
+            "Message envoyé depuis le formulaire de contact du Blog Devcm. \r\n" . 
+            "Auteur : " . $_POST['surname'] . " " . $_POST['name'] . " - " . $_POST['email'] . "\r\n" . 
+            $_POST['message']
+        );
+
+        if($mail->sendMail()) {
+            $messageResponse = 'Le message a été envoyé.';
+        } else {
+            $messageResponse = 'Erreur de Mailer : ' . $mail->errorInfo;
+        }
 
         echo $twig->render('Home\Home.html.twig', [ 
             'messageResponse' => $messageResponse, 
             'activeUser' => Session::getActiveUser(), 
             'userFunction' => Session::getActiveUserFunction()
         ]);
-    }
 
-
-    //Send the message if the completed form fields are correct
-    private function sendMessage() : string 
-    {   
-        $response = "";
-        if (isset($_POST['surname']) && isset($_POST['name']) && isset($_POST['email']) && isset($_POST['message'])){
-            if (trim($_POST['surname']) !== "" && trim($_POST['name']) !== "" && trim($_POST['email']) !== "" 
-            && trim($_POST['message']) !== "" ){
-                $formValidation = new FormValidation(
-                    $_POST['surname'], 
-                    $_POST['name'], 
-                    $_POST['email'], 
-                    $_POST['message']
-                );
-                
-                if ($formValidation->isValid()) {
-                    $mail = new Email(
-                        $_POST['surname'], 
-                        $_POST['name'],
-                        "contact@blog.devcm.fr",
-                        "contact@blog.devcm.fr",  
-                        $_POST['email'], 
-                        "Nouveau contact !", 
-                        "Message envoyé depuis le formulaire de contact du Blog Devcm. \r\n" . 
-                        "Auteur : " . $_POST['surname'] . " " . $_POST['name'] . " - " . $_POST['email'] . "\r\n" . 
-                        $_POST['message']
-                        
-                    );
-
-                    if($mail->sendMail()) {
-                        $response = 'Le message a été envoyé.';
-                    } else {
-                        $response = 'Erreur de Mailer : ' . $mail->errorInfo;
-                    }
-
-                } else {
-                    $response = "Un ou plusieurs champs du formulaire sont invalides !";
-                }
-            }
-        }
-        return $response;
+        #endregion
     }
     #endregion
 }

@@ -9,79 +9,50 @@ use Application\Models\User;
 use Application\Lib\Session;
 use Application\Lib\DatabaseConnexion;
 use Application\Lib\TwigLoader;
+use Application\Lib\TwigWarning;
 
 class PostDisplay{
     #region Functions
     public function execute()
     {
-        $warningGeneral = "";
-        $warningLink = "";
-        $warningLinkMessage = "";
+        #region Variables
 
-        if(isset($_SESSION['userId'])){
-            $userRepository = new UserRepository(new DatabaseConnexion);
-            $user = $userRepository->getUser($_SESSION['userId']);
-            $userFunction = $user->userFunction;
-        } else {
-            $userFunction = "";
-        } 
+        $postRepository = new PostRepository(new DatabaseConnexion);
+        $post = "";
+        $twig = TwigLoader::getEnvironment();
 
-        if(isset($_GET['postId'])){
-            if(trim($_GET['postId']) !== ""){
-                if(is_numeric($_GET['postId'])){
-                    $postRepository = new PostRepository(new DatabaseConnexion);
-                    $post = $postRepository->getPost($_GET['postId']);
-
-                    $postIdList = $postRepository->getPostIdList();
-                    $actualPostIndex = array_search($post->id, $postIdList);
-
-                    $firstPostId = $postIdList[0];
-
-                    $lastPostId = $postIdList[count($postIdList) -1];
-
-                    if($post->id < $lastPostId ){
-                        $nextPostId = $postIdList[array_search($post->id, $postIdList) + 1];
-                    } else {
-                        $nextPostId = $lastPostId;
-                    }
-
-                    if($post->id > $firstPostId ){
-                        $previousPostId = $postIdList[array_search($post->id, $postIdList) - 1];
-                    } else {
-                        $previousPostId = $firstPostId;
-                    }
-                    
-                    if($post->id === intval($_GET['postId'])){
-                        $twig = TwigLoader::getEnvironment();
-                        
-                        echo $twig->render('Post\PostDisplay.html.twig', [  
-                            'firstPostId' => $firstPostId, 
-                            'previousPostId' => $previousPostId, 
-                            'nextPostId' => $nextPostId, 
-                            'lastPostId' => $lastPostId, 
-                            'post' => $post, 
-                            'activeUser' => Session::getActiveUser(), 
-                            'userFunction' => Session::getActiveUserFunction()
-                        ]);
-                        return;
-                    }
-                }
-            }
+        #endregion
+        
+        #region Conditions tests
+        if(! isset($_GET['postId'])){
+            TwigWarning::display(
+                "Un problème est survenu lors de l'affichage de l'article.", 
+                "index.php?action=Post\PostList", 
+                "Retour à la liste des articles");
+            return; 
         }
 
-        $warningGeneral = "Une erreur est survenue lors de l'affichage de l'article";
-        $warningLink = "index.php?action=Home\Home";
-        $warningLinkMessage = "Nous contacter";
+        if(trim($_GET['postId']) === ""){
+            TwigWarning::display(
+                "Un problème est survenu lors de l'affichage de l'article.", 
+                "index.php?action=Post\PostList", 
+                "Retour à la liste des articles");
+            return; 
+        }
 
-        $twig = TwigLoader::getEnvironment();
-        
-        echo $twig->render('Warning\NotAllowed.html.twig', [ 
-            'warningGeneral' => $warningGeneral, 
-            'warningLink' => $warningLink, 
-            'warningLinkMessage' => $warningLinkMessage,
-            'activeUser' => Session::getActiveUser(),
+        #endregion
+
+        #region Function execution
+                    
+        $post = $postRepository->getPost($_GET['postId']);
+
+        echo $twig->render('Post\PostDisplay.html.twig', [  
+            'post' => $post, 
+            'activeUser' => Session::getActiveUser(), 
             'userFunction' => Session::getActiveUserFunction()
         ]);
+
+        #endregion
     }
     #endregion
 }

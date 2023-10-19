@@ -15,17 +15,20 @@ class PostList
     #region Functions
     public function execute() 
     {
-        if(isset($_SESSION['userId'])){
-            $userRepository = new UserRepository(new DatabaseConnexion);
-            $user = $userRepository->getUser($_SESSION['userId']);
-            $userFunction = $user->userFunction;
-        } else {
-            $userFunction = "";
-        } 
+        #region Variables
 
         $postRepository = new PostRepository(new DatabaseConnexion);
-        $totalPages = $postRepository->getTotalPageNumber(4);
+        $posts = "";
+        $totalPages = 1;
         $pageNumber = 1;
+        $twig = TwigLoader::getEnvironment();
+
+        #endregion
+
+        #region Function execution
+
+        $totalPages = $postRepository->getTotalPageNumber(4);
+        
         if (isset($_GET['pageNumber'])){
             if($_GET['pageNumber'] !== 0){
                 $posts = $postRepository->getPosts($_GET['pageNumber'], 4);
@@ -34,8 +37,6 @@ class PostList
         } else {
             $posts = $postRepository->getPosts(1, 4);
         }
-
-        $twig = TwigLoader::getEnvironment();
         
         echo $twig->render('Post\PostList.html.twig', [ 
             'actualPage' => $pageNumber, 
@@ -44,6 +45,8 @@ class PostList
             'activeUser' => Session::getActiveUser(), 
             'userFunction' => Session::getActiveUserFunction()
         ]);
+
+        #endregion
     }
     #endregion
 }

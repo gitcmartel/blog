@@ -27,7 +27,7 @@ class AdminPostDeletion
         if(! UserActiveCheckValidity::check(array('Administrateur', 'Createur')) || ! isset($_GET['postId'])){
             TwigWarning::display(
                 "Vous n'avez pas les droits requis pour accéder à cette page. Contactez l'administrateur du site", 
-                "index.php/action=Home\Home", 
+                "index.php?action=Home\Home", 
                 "Nous contacter");
             return;  
         }
@@ -35,7 +35,7 @@ class AdminPostDeletion
         if($_GET['postId'] === ""){
             TwigWarning::display(
                 "Un problème est survenu lors de la suppression du post.", 
-                "index.php/action=Home\Home", 
+                "index.php?action=Home\Home", 
                 "Retour à l'accueil");
             return;  
         }
@@ -49,7 +49,7 @@ class AdminPostDeletion
         if (! $postRepository->deletePost($post)) {
             TwigWarning::display(
                 "Un problème est survenu lors de la suppression du post.", 
-                "index.php/action=Home\Home", 
+                "index.php?action=Home\Home", 
                 "Retour à l'accueil"); 
                 return;
         } else {

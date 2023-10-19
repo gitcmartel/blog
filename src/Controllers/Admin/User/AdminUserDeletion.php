@@ -28,7 +28,7 @@ class AdminUserDeletion
         if(! UserActiveCheckValidity::check(array('Administrateur')) || ! isset($_GET['userId'])){
             TwigWarning::display(
                 "Vous n'avez pas les droits requis pour accéder à cette page. Contactez l'administrateur du site", 
-                "index.php/action=Home\Home", 
+                "index.php?action=Home\Home", 
                 "Nous contacter");
             return; 
         }
@@ -36,7 +36,7 @@ class AdminUserDeletion
         if(trim($_GET['userId']) === ""){
             TwigWarning::display(
                 "Un problème est survenu lors de la suppression de l'utilisateur.", 
-                "index.php/action=Home\Home", 
+                "index.php?action=Home\Home", 
                 "Retour à l'accueil");
             return; 
         }
@@ -51,7 +51,7 @@ class AdminUserDeletion
         if (! $userRepository->deleteUser($user->getId())) {
             TwigWarning::display(
                 "Un problème est survenu lors de la suppression de l'utilisateur.", 
-                "index.php/action=Home\Home", 
+                "index.php?action=Home\Home", 
                 "Retour à l'accueil");
             return; 
         } else  {

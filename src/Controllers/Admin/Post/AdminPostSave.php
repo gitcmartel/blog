@@ -47,7 +47,7 @@ class AdminPostSave
             ! isset($_POST['postSummary']) || ! isset($_POST['postContent'])){
             TwigWarning::display(
                 "Vous n'avez pas les droits requis pour accéder à cette page. Contactez l'administrateur du site", 
-                "index.php/action=Home\Home", 
+                "index.php?action=Home\Home", 
                 "Nous contacter");
             return;   
         }
@@ -108,7 +108,7 @@ class AdminPostSave
         if(! isset($_POST['postId'])){
             TwigWarning::display(
                 "Un problème est survenu lors de l'enregistrement du post.", 
-                "index.php/action=Home\Home", 
+                "index.php?action=Home\Home", 
                 "Retour à l'accueil");
             return;  
         }
@@ -136,7 +136,7 @@ class AdminPostSave
             if (! $postRepository->updatePost($post)){
                 TwigWarning::display(
                     "Un problème est survenu lors de l'enregistrement du post.", 
-                    "index.php/action=Home\Home", 
+                    "index.php?action=Home\Home", 
                     "Retour à l'accueil");
                 return;  
             } else {
@@ -148,7 +148,7 @@ class AdminPostSave
                         if (! move_uploaded_file($tmp_name, dirname(__FILE__, 5) . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . $imagePath)) {
                             TwigWarning::display(
                                 "Un problème est survenu lors de l'enregistrement de l'image.", 
-                                "index.php/action=Home\Home", 
+                                "index.php?action=Home\Home", 
                                 "Retour à l'accueil");
                             return;  
                         }
@@ -177,7 +177,7 @@ class AdminPostSave
             if(! $postRepository->createPost($post)){
                 TwigWarning::display(
                     "Un problème est survenu lors de l'enregistrement du post.", 
-                    "index.php/action=Home\Home", 
+                    "index.php?action=Home\Home", 
                     "Retour à l'accueil");
                 return;  
             } else {

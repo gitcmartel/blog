@@ -29,7 +29,7 @@ class AdminCommentValidation
             !isset($_POST['devalidate'])) {
             TwigWarning::display(
                 "Vous n'avez pas le droits requis pour accéder a cette page.",
-                "index.php/action=Home\Home",
+                "index.php?action=Home\Home",
                 "Retour à la page d'accueil"
             );
             return;

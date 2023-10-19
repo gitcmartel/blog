@@ -38,7 +38,7 @@ class AdminUserSave
             || ! isset($_POST['userPwdConfirmation']) || ! isset($_POST['userFunction']) || ! isset($_POST['userValidity'])){
                 TwigWarning::display(
                     "Vous n'avez pas les droits requis pour accéder à cette page. Contactez l'administrateur du site", 
-                    "index.php/action=Home\Home", 
+                    "index.php?action=Home\Home", 
                     "Nous contacter");
                 return; 
         }
@@ -143,7 +143,7 @@ class AdminUserSave
             } else {
                 TwigWarning::display(
                     "Un problème est survenu lors de l'enregistrement de l'utilisateur.", 
-                    "index.php/action=Home\Home", 
+                    "index.php?action=Home\Home", 
                     "Retour à l'accueil");
                 return; 
             }
@@ -155,7 +155,7 @@ class AdminUserSave
             } else {
                 TwigWarning::display(
                     "Un problème est survenu lors de l'enregistrement de l'utilisateur.", 
-                    "index.php/action=Home\Home", 
+                    "index.php?action=Home\Home", 
                     "Retour à l'accueil");
                 return; 
             }
