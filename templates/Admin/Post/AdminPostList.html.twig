@@ -56,9 +56,9 @@
                         <td>{{ post.title }}</td>
                         <td>
                             {% if post.publicationDate != '' %}
-                                Publié
+                            <span class="text-success">Publié</span>
                             {% else %}
-                                Brouillon
+                            <span class="text-warning">Brouillon</span>
                             {% endif %}
                         </td>
                         <td>

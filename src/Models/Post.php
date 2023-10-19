@@ -12,7 +12,7 @@ class Post
     private string $title;
     private string $summary;
     private string $content;
-    private string $imagePath;
+    private ?string $imagePath;
     private string $creationDate;
     private ?string $publicationDate;
     private string $lastUpdateDate;

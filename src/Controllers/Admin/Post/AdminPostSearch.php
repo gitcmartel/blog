@@ -31,7 +31,7 @@ class AdminPostSearch
             return;
         }
 
-        if(trim($_POST['searchString']) !== ""){
+        if(trim($_POST['searchString']) === ""){
             return;
         }
         #endregion

@@ -7,12 +7,12 @@ class TwigWarning
     #region functions 
 
     //Display the warning page
-    public static function display(string $warninMessage, string $warningLink, string $warningLinkMessage)
+    public static function display(string $warningMessage, string $warningLink, string $warningLinkMessage)
     {
         $twig = TwigLoader::getEnvironment();
         
         echo $twig->render('Warning\NotAllowed.html.twig', [ 
-            'warningMessage' => $warningGeneral, 
+            'warningMessage' => $warningMessage, 
             'warningLink' => $warningLink, 
             'warningLinkMessage' => $warningLinkMessage,
             'userFunction' => Session::getActiveUserFunction(),

@@ -43,12 +43,10 @@ class AdminPostPublish
         $postsToPublish = is_array($_POST['postPublish']) ? $_POST['postPublish'] : [$_POST['postPublish']];
 
         //Updates the status post field
-        foreach($_POST['postPublish'] as $postId){
+        foreach($postsToPublish as $postId){
             $post = $postRepository->getPost($postId);
             if($_POST['unpublish'] === "false"){
-                if($post->getPublicationDate() === null){
-                    $postRepository->setPublicationDate($postId);
-                }
+                $postRepository->setPublicationDate($postId);
             } else {
                 $postRepository->setPublicationDateToNull($postId);
             }
@@ -68,6 +66,7 @@ class AdminPostPublish
             'actualPage' => "1", 
             'totalPages' => $totalPages, 
             'posts' => $posts, 
+            'userFunction' => Session::getActiveUserFunction(),
             'activeUser' => Session::getActiveUser()
         ]);
 

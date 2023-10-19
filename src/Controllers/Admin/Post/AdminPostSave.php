@@ -129,7 +129,7 @@ class AdminPostSave
             $post->setId($_POST['postId']);
             $actualPost = $postRepository->getPost($_POST['postId']);  //Get the data from the database
             //If the stored image path is different from the default image path
-            $post->setCreationDate($actualPost->creationDate);
+            $post->setCreationDate($actualPost->getCreationDate());
             if($actualPost->getImagePath() !== Path::fileBuildPath(array("img", "blog-post.svg")) && $post->getImagePath() === Path::fileBuildPath(array("img", "blog-post.svg")) && $_POST["resetImage"] === "false"){
                 $post->setImagePath($actualPost->getImagePath());
             }
@@ -146,7 +146,11 @@ class AdminPostSave
                         //We move the image into the img-posts folder
                         $tmp_name = $_FILES["imagePath"]["tmp_name"];
                         if (! move_uploaded_file($tmp_name, dirname(__FILE__, 5) . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . $imagePath)) {
-                            $warningImage =  "Le fichier est invalide";
+                            TwigWarning::display(
+                                "Un problème est survenu lors de l'enregistrement de l'image.", 
+                                "index.php/action=Home\Home", 
+                                "Retour à l'accueil");
+                            return;  
                         }
                         //If the original image is not the default image
                         if ($actualPost->getImagePath() !== Path::fileBuildPath(array("img", "blog-post.svg"))){
@@ -169,7 +173,7 @@ class AdminPostSave
                 return;
             }
         } else { //Else we have to create a new post
-            $post->user = $user;
+            $post->setUser($user);
             if(! $postRepository->createPost($post)){
                 TwigWarning::display(
                     "Un problème est survenu lors de l'enregistrement du post.", 

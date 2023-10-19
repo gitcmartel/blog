@@ -8,45 +8,44 @@ use Application\Lib\UserActiveCheckValidity;
 use Application\Lib\DatabaseConnexion;
 use Application\Lib\Session;
 use Application\Lib\TwigLoader;
+use Application\Lib\TwigWarning;
 
 class AdminUserModification
 {
     #region Functions
     public function execute()
     {
-        $warningGeneral = "";
-        $warningLink = "";
-        $warningLinkMessage = "";
+        #region Variables
 
-        if(UserActiveCheckValidity::check(array('Administrateur'))){
-            if (isset($_GET['userId'])){
-                $userRepository = new UserRepository(new DatabaseConnexion);
-                $user = $userRepository->getUser($_GET['userId']);
+        $userRepository = new UserRepository(new DatabaseConnexion);
+        $user = "";
+        $twig = TwigLoader::getEnvironment();
 
-                $twig = TwigLoader::getEnvironment();
-                
-                echo $twig->render('Admin\User\AdminUser.html.twig', [  
-                    'user' => $user, 
-                    'activeUser' => Session::getActiveUser(), 
-                    'userFunction' => Session::getActiveUserFunction()
-                ]);
-                return;
-            }
-        } else {
-            $warningGeneral = "Vous n'avez pas les droits requis pour accéder à cette page. Contactez l'administrateur du site";
-            $warningLink = "index.php/action=Home\Home";
-            $warningLinkMessage = "Nous contacter";
+        #endregion
+
+        #region Conditions tests
+
+        if(! UserActiveCheckValidity::check(array('Administrateur')) || ! isset($_GET['userId'])){
+            TwigWarning::display(
+                "Vous n'avez pas les droits requis pour accéder à cette page. Contactez l'administrateur du site", 
+                "index.php/action=Home\Home", 
+                "Nous contacter");
+            return; 
         }
 
-        $twig = TwigLoader::getEnvironment();
-        
-        echo $twig->render('Warning\NotAllowed.html.twig', [ 
-            'warningGeneral' => $warningGeneral, 
-            'warningLink' => $warningLink, 
-            'warningLinkMessage' => $warningLinkMessage,
+        #endregion
+
+        #region Function execution
+
+        $user = $userRepository->getUser($_GET['userId']);
+
+        echo $twig->render('Admin\User\AdminUser.html.twig', [  
+            'user' => $user, 
             'activeUser' => Session::getActiveUser(), 
             'userFunction' => Session::getActiveUserFunction()
         ]);
+
+        #endregion
     }
     #endregion
 }

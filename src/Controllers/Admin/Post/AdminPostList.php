@@ -52,7 +52,7 @@ class AdminPostList
             'totalPages' => $totalPages, 
             'posts' => $posts, 
             'activeUser' => Session::getActiveUser(), 
-            'userFunction' => (isset($_SESSION['activeUserFunction'])? $_SESSION['activeUserFunction']:'')
+            'userFunction' => Session::getActiveUserFunction()
         ]);
         return;
 

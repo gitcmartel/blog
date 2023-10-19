@@ -55,7 +55,7 @@ class User
      * Getters and setters
      */
 
-    function getId() : int
+    function getId() : ?int
     {
         if(isset($this->id)){
             return $this->id;

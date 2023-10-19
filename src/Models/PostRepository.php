@@ -143,7 +143,7 @@ class PostRepository
             "DELETE FROM post WHERE postId = ?"
         );
 
-        $affectedLines = $statement->execute([$post->id]);
+        $affectedLines = $statement->execute([$post->getId()]);
 
         return ($affectedLines > 0);
     }

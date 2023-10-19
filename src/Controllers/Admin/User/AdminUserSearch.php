@@ -8,49 +8,50 @@ use Application\Lib\UserActiveCheckValidity;
 use Application\Lib\DatabaseConnexion;
 use Application\Lib\Session;
 use Application\Lib\TwigLoader;
+use Application\Lib\TwigWarning;
 
 class AdminUserSearch
 {
     #region Functions
     public function execute()
     {
-        $warningGeneral = "";
-        $warningLink = "";
-        $warningLinkMessage = "";
+        #region Variables
 
-        if(UserActiveCheckValidity::check(array('Administrateur'))){
-            if(isset($_POST['searchString'])){
-                if(trim($_POST['searchString']) !== ""){
-                    $userRepository = new UserRepository(new DatabaseConnexion);
-                    $users = $userRepository->searchUsers(trim($_POST['searchString']));
+        $userRepository = new UserRepository(new DatabaseConnexion);
+        $user = "";
+        $twig = TwigLoader::getEnvironment();
 
-                    $twig = TwigLoader::getEnvironment();
-                    
-                    echo $twig->render('Admin\User\AdminUserList.html.twig', [ 
-                        'actualPage' => "1", 
-                        'totalPages' => "1", 
-                        'users' => $users, 
-                        'userFunction' => Session::getActiveUserFunction(),
-                        'activeUser' => Session::getActiveUser()
-                    ]);
-                    return;
-                }
-            }
-        } else {
-            $warningGeneral = "Vous n'avez pas les droits requis pour accéder à cette page. Contactez l'administrateur du site";
-            $warningLink = "index.php/action=Home\Home";
-            $warningLinkMessage = "Nous contacter";
+        #endregion
+
+        #region Conditions tests
+
+        if(! UserActiveCheckValidity::check(array('Administrateur')) || ! isset($_POST['searchString'])){
+            TwigWarning::display(
+                "Vous n'avez pas les droits requis pour accéder à cette page. Contactez l'administrateur du site", 
+                "index.php/action=Home\Home", 
+                "Nous contacter");
+            return; 
         }
 
-        $twig = TwigLoader::getEnvironment();
+        if(trim($_POST['searchString']) === ""){
+            return;
+        }
+
+        #endregion
+
+        #region Function execution
         
-        echo $twig->render('Warning\NotAllowed.html.twig', [ 
-            'warningGeneral' => $warningGeneral, 
-            'warningLink' => $warningLink, 
-            'warningLinkMessage' => $warningLinkMessage,
+        $users = $userRepository->searchUsers(trim($_POST['searchString']));
+
+        echo $twig->render('Admin\User\AdminUserList.html.twig', [ 
+            'actualPage' => "1", 
+            'totalPages' => "1", 
+            'users' => $users, 
             'userFunction' => Session::getActiveUserFunction(),
             'activeUser' => Session::getActiveUser()
-        ]);    
+        ]);
+
+        #endregion
     }
     #endregion
 }

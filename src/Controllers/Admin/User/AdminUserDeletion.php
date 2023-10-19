@@ -8,49 +8,59 @@ use Application\Lib\UserActiveCheckValidity;
 use Application\Lib\DatabaseConnexion;
 use Application\Lib\Session;
 use Application\Lib\TwigLoader;
+use Application\Lib\TwigWarning;
 
 class AdminUserDeletion
 {
     #region Function
     public function execute()
     {
-        $warningGeneral = "";
-        $warningLink = "";
-        $warningLinkMessage = "";
+        #region Variables
 
-        if(UserActiveCheckValidity::check(array('Administrateur'))){
-            if (isset($_GET['userId'])){
-                if(trim($_GET['userId']) !== ""){
-                    $userRepository = new UserRepository(new DatabaseConnexion);
-                    $user = $userRepository->getUser(trim($_GET['userId']));
-                    if($user->getId() !== null){
-                        if (! $userRepository->deleteUser($user->getId())) {
-                            $warningGeneral = "Un problème est survenu lors de la suppression de l'utilisateur";
-                            $warningLink = "index.php?action=Admin\User\AdminUserList&pageNumber=1";
-                            $warningLinkMessage = "Retour à la liste des utilisateurs";
-                        } else  {
-                            //We display the updated user list
-                            header("Location:index.php?action=Admin\User\AdminUserList&pageNumber=1");
-                            return;
-                        }
-                    }
-                }
-            }
-        } else {
-            $warningGeneral = "Vous n'avez pas les droits requis pour accéder à cette page. Contactez l'administrateur du site";
-            $warningLink = "index.php/action=Home\Home";
-            $warningLinkMessage = "Nous contacter";
+        $userRepository = new UserRepository(new DatabaseConnexion);
+        $user = "";
+        $twig = TwigLoader::getEnvironment();
+
+        #endregion
+
+        #region Conditions tests
+        
+        if(! UserActiveCheckValidity::check(array('Administrateur')) || ! isset($_GET['userId'])){
+            TwigWarning::display(
+                "Vous n'avez pas les droits requis pour accéder à cette page. Contactez l'administrateur du site", 
+                "index.php/action=Home\Home", 
+                "Nous contacter");
+            return; 
         }
 
-        $twig = TwigLoader::getEnvironment();
-        
-        echo $twig->render('Warning\NotAllowed.html.twig', [ 
-            'warningGeneral' => $warningGeneral, 
-            'warningLink' => $warningLink, 
-            'warningLinkMessage' => $warningLinkMessage,
-            'userFunction' => Session::getActiveUserFunction(),
-            'activeUser' => Session::getActiveUser()
-        ]);
+        if(trim($_GET['userId']) === ""){
+            TwigWarning::display(
+                "Un problème est survenu lors de la suppression de l'utilisateur.", 
+                "index.php/action=Home\Home", 
+                "Retour à l'accueil");
+            return; 
+        }
+
+        #endregion
+
+
+        #region Function execution
+                    
+        $user = $userRepository->getUser(trim($_GET['userId']));
+
+        if (! $userRepository->deleteUser($user->getId())) {
+            TwigWarning::display(
+                "Un problème est survenu lors de la suppression de l'utilisateur.", 
+                "index.php/action=Home\Home", 
+                "Retour à l'accueil");
+            return; 
+        } else  {
+            //We display the updated user list
+            header("Location:index.php?action=Admin\User\AdminUserList&pageNumber=1");
+            return;
+        }
+
+        #endregion
     }
     #endregion
 }
