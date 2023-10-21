@@ -3,11 +3,7 @@
 namespace Application\Controllers\Admin\Comment;
 
 use Application\Lib\UserActiveCheckValidity;
-use Application\Models\Comment;
 use Application\Models\CommentRepository;
-use Application\Lib\Session;
-use Application\Lib\DatabaseConnexion;
-use Application\Lib\TwigLoader;
 use Application\Lib\TwigWarning;
 
 class AdminCommentDeletion
@@ -37,16 +33,7 @@ class AdminCommentDeletion
         }
 
         //If the commentId variable is not set
-        if (! isset($_GET['commentId'])){
-            TwigWarning::display(
-                "Une erreur est survenue lors du chargement de la page.", 
-                "index.php?action=Home\Home", 
-                "Retour à la page d'accueil");
-            return;
-        }
-
-        //If the commentId variable is empty
-        if(trim($_GET['commentId']) === ""){
+        if (! isset($_GET['commentId']) || trim($_GET['commentId']) === ""){
             TwigWarning::display(
                 "Une erreur est survenue lors du chargement de la page.", 
                 "index.php?action=Home\Home", 
