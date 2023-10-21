@@ -31,7 +31,7 @@ class PostRepository
 
         $row = $statement->fetch();
 
-        $userRepository = new UserRepository(new DatabaseConnexion);
+        $userRepository = new UserRepository($this->connexion);
         $user = $userRepository->getUser($row['userId']);
 
         if($row['userIdModifier'] !== null){
@@ -83,7 +83,7 @@ class PostRepository
         $posts = array();
 
         while($row = $statement->fetch()) {
-            $userRepository = new UserRepository(new DatabaseConnexion);
+            $userRepository = new UserRepository($this->connexion);
             $user = $userRepository->getUser($row['userId']);
 
             if($row['userIdModifier'] !== null){
@@ -212,7 +212,7 @@ class PostRepository
         $posts = array();
 
         while($row = $statement->fetch()) {
-            $userRepository = new UserRepository(new DatabaseConnexion);
+            $userRepository = new UserRepository($this->connexion);
             $user = $userRepository->getUser($row['userId']);
 
             if($row['userIdModifier'] !== null){
