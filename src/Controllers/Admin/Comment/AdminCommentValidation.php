@@ -4,10 +4,9 @@ namespace Application\Controllers\Admin\Comment;
 
 use Application\Lib\UserActiveCheckValidity;
 use Application\Models\CommentRepository;
-use Application\Models\Comment;
 use Application\Lib\Session;
-use Application\Lib\DatabaseConnexion;
 use Application\Lib\TwigLoader;
+use Application\Lib\TwigWarning;
 
 class AdminCommentValidation
 {
@@ -35,10 +34,8 @@ class AdminCommentValidation
             return;
         }
     
-        if (isset($_GET['pageNumber'])){
-            if($_GET['pageNumber'] !== 0){
-                $comments = $commentRepository->getComments($_GET['pageNumber'], 10);
-            }
+        if (isset($_GET['pageNumber']) || $_GET['pageNumber'] !== 0){
+            $comments = $commentRepository->getComments($_GET['pageNumber'], 10);
         } else {
             $comments = $commentRepository->getComments(1, 10);
         }
