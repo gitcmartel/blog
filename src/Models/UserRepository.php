@@ -4,24 +4,10 @@ namespace Application\Models;
 
 use Application\Lib\DatabaseConnexion;
 use Application\Lib\Password;
-use DateTime;
 use PDO;
 
-class UserRepository
+class UserRepository extends Repository
 {
-    #region Properties
-    private DatabaseConnexion $connexion;
-
-    #endregion
-
-    #region Constructor
-    function __construct(DatabaseConnexion $dbConnexion)
-    {
-        $this->connexion = $dbConnexion;
-    }
-    
-    #endregion
-
     #region Functions
     //Returns a User object
     public function getUser(int $userId) : User
@@ -248,7 +234,7 @@ class UserRepository
     /**
      * Checks the token validity and returns the corresponding user
      */
-     public function isTokenValid(string $token, string $email) : User
+     public function getUserFromToken(string $token, string $email) : User
      {
         $statement = $this->connexion->getConnexion()->prepare(
             "SELECT * FROM user WHERE tokenForgotPassword = ? and email = ?;"
