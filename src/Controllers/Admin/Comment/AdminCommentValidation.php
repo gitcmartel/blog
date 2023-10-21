@@ -16,7 +16,8 @@ class AdminCommentValidation
         #region Variables
 
         $commentRepository = new CommentRepository();
-        $comment = "";
+        $comments = "";
+        $pageNumber = 1;
         $totalPages = $commentRepository->getTotalPageNumber(10);
         $twig = TwigLoader::getEnvironment();
         
@@ -33,11 +34,9 @@ class AdminCommentValidation
             );
             return;
         }
-    
-        if (isset($_GET['pageNumber']) || $_GET['pageNumber'] !== 0){
-            $comments = $commentRepository->getComments($_GET['pageNumber'], 10);
-        } else {
-            $comments = $commentRepository->getComments(1, 10);
+
+        if (isset($_GET['pageNumber']) && $_GET['pageNumber'] !== 0){
+            $pageNumber = $_GET['pageNumber'];
         }
 
         #endregion
@@ -48,14 +47,14 @@ class AdminCommentValidation
         $commentIds = is_array($_POST['commentValidation']) ? $_POST['commentValidation'] : [$_POST['commentValidation']];
 
         foreach ($commentIds as $commentId) {
-            $comment = $commentRepository->getComment($commentId);
-        
             if ($_POST['devalidate'] === 'true') {
                 $commentRepository->setPublicationDateToNull($commentId);
             } elseif ($_POST['devalidate'] === 'false') {
                 $commentRepository->setPublicationDate($commentId);
             }
         }
+
+        $comments = $commentRepository->getComments($pageNumber, 10);
 
         echo $twig->render('Admin\Comment\AdminCommentList.html.twig', [ 
             'actualPage' => "1", 
