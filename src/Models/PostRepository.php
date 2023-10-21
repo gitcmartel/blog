@@ -6,19 +6,8 @@ use Application\Lib\DatabaseConnexion;
 use DateTime;
 use PDO;
 
-class PostRepository
+class PostRepository extends Repository
 {
-    #region Properties
-    private DatabaseConnexion $connexion;
-    #endregion
-
-    #region Constructor
-    function __construct(DatabaseConnexion $dbConnexion)
-    {
-        $this->connexion = $dbConnexion;
-    }
-    #endregion
-
     #region Functions
     //Returns a Post
     public function getPost($postId) : Post
