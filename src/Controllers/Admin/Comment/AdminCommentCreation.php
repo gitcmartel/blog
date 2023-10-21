@@ -3,7 +3,6 @@
 namespace Application\Controllers\Admin\Comment;
 
 use Application\Models\PostRepository;
-use Application\Models\Post;
 use Application\Lib\UserActiveCheckValidity;
 use Application\Models\Comment;
 use Application\Lib\Session;
@@ -30,16 +29,7 @@ class AdminCommentCreation
         }
 
         //If the postId variable is not set
-        if (! isset($_GET['postId'])){
-            TwigWarning::display(
-                "Une erreur est survenue lors du chargement de la page.", 
-                "index.php?action=Home\Home", 
-                "Retour à la page d'accueil");
-            return;
-        }
-
-        //If the postId variable is empty
-        if(trim($_GET['postId']) === ""){
+        if (! isset($_GET['postId']) || trim($_GET['postId']) === ""){
             TwigWarning::display(
                 "Une erreur est survenue lors du chargement de la page.", 
                 "index.php?action=Home\Home", 
