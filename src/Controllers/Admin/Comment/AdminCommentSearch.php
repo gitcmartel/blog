@@ -3,11 +3,10 @@
 namespace Application\Controllers\Admin\Comment;
 
 use Application\Lib\UserActiveCheckValidity;
-use Application\Models\Comment;
 use Application\Models\CommentRepository;
 use Application\Lib\Session;
-use Application\Lib\DatabaseConnexion;
 use Application\Lib\TwigLoader;
+use Application\Lib\TwigWarning;
 
 class AdminCommentSearch
 {
@@ -32,16 +31,11 @@ class AdminCommentSearch
         }
 
         //If the searchString variable is not set
-        if (! isset($_POST['searchString'])){
+        if (! isset($_POST['searchString']) || trim($_POST['searchString']) === ""){
             TwigWarning::display(
                 "Une erreur est survenue lors du chargement de la page.", 
                 "index.php?action=Home\Home", 
                 "Retour à la page d'accueil");
-            return;
-        }
-
-        //If the searchString variable is empty
-        if (trim($_POST['searchString']) === ""){
             return;
         }
 
