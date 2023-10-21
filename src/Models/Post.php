@@ -5,10 +5,10 @@ namespace Application\Models;
 use Application\Lib\Constants;
 use Application\Lib\Path;
 
-class Post 
+class Post extends Table
 {
     #region Properties
-    private ?int $id;
+
     private string $title;
     private string $summary;
     private string $content;
@@ -18,6 +18,7 @@ class Post
     private string $lastUpdateDate;
     private User $user;
     private User $modifier;
+
     #endregion
 
     #region Functions
@@ -39,19 +40,6 @@ class Post
     #endregion
 
     #region Getters and Setters
-    function getId() : ?int
-    {
-        if(isset($this->id)){
-            return $this->id;
-        } else {
-            return null;
-        } 
-    }
-
-    function setId(int $id)
-    {
-        $this->id = $id;
-    }
 
     function getTitle() : string 
     {

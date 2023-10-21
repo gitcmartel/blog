@@ -3,10 +3,10 @@
 namespace Application\Models;
 
 
-class Comment
+class Comment extends Table
 {
     #region properties
-    private ?int $id;
+
     private string $creationDate;
     private ?string $publicationDate;
     private string $comment;
@@ -15,19 +15,6 @@ class Comment
     #endregion
 
     #region getters and setters
-    function getId() : ?int
-    {
-        if(isset($this->id)){
-            return $this->id;
-        } else {
-            return  null;
-        }  
-    }
-
-    function setId(int $id)
-    {
-        $this->id = $id;
-    }
 
     function getCreationDate() : string 
     {

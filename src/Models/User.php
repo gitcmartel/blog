@@ -5,10 +5,10 @@ namespace Application\Models;
 use DateTime;
 
 
-class User
+class User extends Table
 {
     #region properties
-    private ?int $id;
+
     private string $name;
     private string $surname;
     private string $pseudo;
@@ -75,20 +75,6 @@ class User
     /**
      * Getters and setters
      */
-
-    function getId() : ?int
-    {
-        if(isset($this->id)){
-            return $this->id;
-        } else {
-            return null;
-        } 
-    }
-
-    function setId(int $id)
-    {
-        $this->id = $id;
-    }
 
     function getName() : string 
     {
