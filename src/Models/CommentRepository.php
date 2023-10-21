@@ -5,19 +5,8 @@ namespace Application\Models;
 use Application\Lib\DatabaseConnexion;
 use PDO;
 
-class CommentRepository
+class CommentRepository extends Repository 
 {
-    #region Properties
-    private DatabaseConnexion $connexion;
-    #endregion
-
-    #region Constructor
-    function __construct()
-    {
-        $this->connexion = new DatabaseConnexion();
-    }
-    #endregion
-
     #region Functions
     /**
      * Returns a comment object
