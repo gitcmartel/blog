@@ -34,19 +34,16 @@ class AdminPostList
             return;  
         }
 
+        if (isset($_GET['pageNumber']) && $_GET['pageNumber'] !== 0){
+            $pageNumber = $_GET['pageNumber'];
+        }
+        
         #endregion
 
         #region Function execution
-
-        if (isset($_GET['pageNumber'])){
-            if($_GET['pageNumber'] !== 0){
-                $posts = $postRepository->getPosts($_GET['pageNumber'], 10);
-                $pageNumber = $_GET['pageNumber'];
-            }
-        } else {
-            $posts = $postRepository->getPosts(1, 10);
-        }
         
+        $posts = $postRepository->getPosts($pageNumber, 10);
+
         echo $twig->render('Admin\Post\AdminPostList.html.twig', [ 
             'actualPage' => $pageNumber, 
             'totalPages' => $totalPages, 
