@@ -3,7 +3,6 @@
 namespace Application\Controllers\Admin\Post;
 
 use Application\Models\PostRepository;
-use Application\Models\Post;
 use Application\Lib\UserActiveCheckValidity;
 use Application\Lib\Session;
 use Application\Lib\DatabaseConnexion;
