@@ -3,7 +3,6 @@
 namespace Application\Controllers\Admin\User;
 
 use Application\Models\UserRepository;
-use Application\Models\User;
 use Application\Lib\UserActiveCheckValidity;
 use Application\Lib\DatabaseConnexion;
 use Application\Lib\Session;
@@ -18,7 +17,6 @@ class AdminUser
         #region Variables
 
         $userRepository = new UserRepository(new DatabaseConnexion);
-        $user = "";
         $twig = TwigLoader::getEnvironment();
 
         #endregion
