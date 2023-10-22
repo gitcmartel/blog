@@ -2,7 +2,6 @@
 
 namespace Application\Controllers\Admin\Post;
 
-use Application\Models\Post;
 use Application\Models\PostRepository;
 use Application\Lib\UserActiveCheckValidity;
 use Application\Lib\Session;
@@ -24,19 +23,12 @@ class AdminPostModification
 
         #region Conditions tests
         
-        if(! UserActiveCheckValidity::check(array('Administrateur', 'Createur')) || ! isset($_GET['postId'])){
+        if(! UserActiveCheckValidity::check(array('Administrateur', 'Createur')) || ! isset($_GET['postId']) 
+        || trim($_GET['postId']) === ""){
             TwigWarning::display(
                 "Vous n'avez pas les droits requis pour accéder à cette page. Contactez l'administrateur du site", 
                 "index.php?action=Home\Home", 
                 "Nous contacter");
-            return;  
-        }
-
-        if(trim($_GET['postId']) === ""){
-            TwigWarning::display(
-                "Une erreur est survenue lors de la modification du post.", 
-                "index.php?action=Home\Home", 
-                "Retour à l'accueil");
             return;  
         }
 
