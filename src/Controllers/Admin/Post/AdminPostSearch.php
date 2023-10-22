@@ -4,7 +4,6 @@ namespace Application\Controllers\Admin\Post;
 
 use Application\Lib\UserActiveCheckValidity;
 use Application\Models\PostRepository;
-use Application\Models\Post;
 use Application\Lib\Session;
 use Application\Lib\DatabaseConnexion;
 use Application\Lib\TwigLoader;
@@ -23,17 +22,15 @@ class AdminPostSearch
         #endregion
 
         #region Conditions tests
-        if(! UserActiveCheckValidity::check(array('Administrateur', 'Createur')) || ! isset($_POST['searchString'])){
+        if(! UserActiveCheckValidity::check(array('Administrateur', 'Createur')) || ! isset($_POST['searchString'])
+        || trim($_POST['searchString']) === ""){
             TwigWarning::display(
                 "Vous n'avez pas les droits requis pour accéder à cette page. Contactez l'administrateur du site", 
                 "index.php?action=Home\Home", 
                 "Nous contacter");
             return;
         }
-
-        if(trim($_POST['searchString']) === ""){
-            return;
-        }
+        
         #endregion
 
         #region Function execution
