@@ -3,7 +3,6 @@
 namespace Application\Controllers\Admin\Post;
 
 use Application\Models\PostRepository;
-use Application\Models\Post;
 use Application\Lib\UserActiveCheckValidity;
 use Application\Lib\Session;
 use Application\Lib\DatabaseConnexion;
@@ -18,7 +17,7 @@ class AdminPostPublish
 
         $postRepository = new PostRepository(new DatabaseConnexion);
         $postsToPublish = "";
-        $post =  "";
+        $pageNumber = 1;
         $posts = "";
         $totalPages = $postRepository->getTotalPageNumber(10);
         $twig = TwigLoader::getEnvironment();
@@ -36,10 +35,15 @@ class AdminPostPublish
             return;  
         }
 
+        //Paging
+        if (isset($_GET['pageNumber']) && $_GET['pageNumber'] !== 0){
+            $pageNumber = $_GET['pageNumber'];
+        }
+
         #endregion
 
         #region Function execution
-
+        
         $postsToPublish = is_array($_POST['postPublish']) ? $_POST['postPublish'] : [$_POST['postPublish']];
 
         //Updates the status post field
@@ -51,16 +55,9 @@ class AdminPostPublish
                 $postRepository->setPublicationDateToNull($postId);
             }
         }
-
-        //Paging
-        if (isset($_GET['pageNumber'])){
-            if($_GET['pageNumber'] !== 0){
-                $posts = $postRepository->getPosts($_GET['pageNumber'], 10);
-            }
-        } else {
-            $posts = $postRepository->getPosts(1, 10);
-        }
         
+        $posts = $postRepository->getPosts($pageNumber, 10);
+
         //Page display
         echo $twig->render('Admin\Post\AdminPostList.html.twig', [ 
             'actualPage' => "1", 
