@@ -3,7 +3,6 @@
 namespace Application\Controllers\Admin\User;
 
 use Application\Models\UserRepository;
-use Application\Models\User;
 use Application\Lib\UserActiveCheckValidity;
 use Application\Lib\DatabaseConnexion;
 use Application\Lib\Session;
@@ -18,17 +17,16 @@ class AdminUserValidation
         #region Variables
 
         $userRepository = new UserRepository(new DatabaseConnexion);
-        $user = "";
         $twig = TwigLoader::getEnvironment();
-        $usersToValidate = "";
-        $totalPages = "";
+        $totalPages = 1;
+        $pageNumber = 1;
 
         #endregion
 
         #region Conditions tests
 
         if(! UserActiveCheckValidity::check(array('Administrateur')) || ! isset($_POST['userValidation']) 
-            || ! isset($_POST['devalidate'])){
+            || ! isset($_POST['validation']) || $_POST['validation'] === ""){
             TwigWarning::display(
                 "Vous n'avez pas les droits requis pour accéder à cette page. Contactez l'administrateur du site", 
                 "index.php?action=Home\Home", 
@@ -36,9 +34,15 @@ class AdminUserValidation
             return; 
         }
 
+        if (isset($_GET['pageNumber']) && $_GET['pageNumber'] !== 0){
+            $pageNumber = $_GET['pageNumber'];
+        }
+
         #endregion
  
         #region Function execution
+        
+        $validation = boolval($_POST["validation"]);
 
         $usersToValidate = is_array($_POST['userValidation']) ? $_POST['userValidation'] : [$_POST['userValidation']];
 
@@ -46,26 +50,14 @@ class AdminUserValidation
 
         foreach($usersToValidate as $userId){
             $user = $userRepository->getUser($userId);
-            if($_POST['devalidate'] === 'true'){
-                if($user->getIsValid()){
-                    $userRepository->setValidation($userId, 0);
-                }
-            } elseif($_POST['devalidate'] === 'false') {
-                if(! $user->getIsValid()){
-                    $userRepository->setValidation($userId, -1);
-                }
+            if($user->getId() !== null){
+                $userRepository->setValidation($userId, $validation);
             }
         }
+
+        $users = $userRepository->getUsers($pageNumber, 10);
 
         $totalPages = $userRepository->getTotalPageNumber(10);
-
-        if (isset($_GET['pageNumber'])){
-            if($_GET['pageNumber'] !== 0){
-                $users = $userRepository->getUsers($_GET['pageNumber'], 10);
-            }
-        } else {
-            $users = $userRepository->getUsers(1, 10);
-        }
         
         echo $twig->render('Admin\User\AdminUserList.html.twig', [ 
             'actualPage' => "1", 
