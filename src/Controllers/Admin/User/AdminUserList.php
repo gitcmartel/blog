@@ -3,7 +3,6 @@
 namespace Application\Controllers\Admin\User;
 
 use Application\Models\UserRepository;
-use Application\Models\User;
 use Application\Lib\UserActiveCheckValidity;
 use Application\Lib\DatabaseConnexion;
 use Application\Lib\Session;
@@ -25,6 +24,7 @@ class AdminUserList
         #endregion
 
         #region Conditions tests
+        
         if(! UserActiveCheckValidity::check(array('Administrateur'))){
             TwigWarning::display(
                 "Vous n'avez pas les droits requis pour accéder à cette page. Contactez l'administrateur du site", 
@@ -33,21 +33,19 @@ class AdminUserList
             return; 
         }
 
+        if (isset($_GET['pageNumber']) && $_GET['pageNumber'] !== 0){
+            $pageNumber = $_GET['pageNumber'];
+
+        }
+
         #endregion
 
         #region Function execution
             
         $totalPages = $userRepository->getTotalPageNumber(10);;
 
-        if (isset($_GET['pageNumber'])){
-            if($_GET['pageNumber'] !== 0){
-                $users = $userRepository->getUsers($_GET['pageNumber'], 10);
-                $pageNumber = $_GET['pageNumber'];
-            }
-        } else {
-            $users = $postRepository->getUsers(1, 10);
-        }
-        
+        $users = $userRepository->getUsers($pageNumber, 10);
+
         echo $twig->render('Admin\User\AdminUserList.html.twig', [ 
             'actualPage' => $pageNumber, 
             'totalPages' => $totalPages, 
