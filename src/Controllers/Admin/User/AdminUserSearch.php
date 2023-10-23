@@ -3,7 +3,6 @@
 namespace Application\Controllers\Admin\User;
 
 use Application\Models\UserRepository;
-use Application\Models\User;
 use Application\Lib\UserActiveCheckValidity;
 use Application\Lib\DatabaseConnexion;
 use Application\Lib\Session;
@@ -18,7 +17,6 @@ class AdminUserSearch
         #region Variables
 
         $userRepository = new UserRepository(new DatabaseConnexion);
-        $user = "";
         $twig = TwigLoader::getEnvironment();
 
         #endregion
@@ -31,10 +29,6 @@ class AdminUserSearch
                 "index.php?action=Home\Home", 
                 "Nous contacter");
             return; 
-        }
-
-        if(trim($_POST['searchString']) === ""){
-            return;
         }
 
         #endregion
