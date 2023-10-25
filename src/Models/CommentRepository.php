@@ -128,18 +128,42 @@ class CommentRepository extends Repository
     /**
      * Updates a comment record
      */
-    public function updateComment(Comment $comment) : bool 
+    public function updateComment(string $comment, ?string $publicationDate, int $commentId) : bool 
     {
+        $publicationDate = self::checkPublicationDate($commentId, $publicationDate);
+        
         $statement = $this->connexion->getConnexion()->prepare(
             "UPDATE comment SET comment = ?, publicationDate = ? WHERE commentId = ?;"
         );
 
         $affectedLines = $statement->execute([
-            htmlspecialchars($comment->getComment()), 
-            $comment->getPublicationDate(), 
-            $comment->getId()]);
+            htmlspecialchars($comment), 
+            $publicationDate, 
+            $commentId]);
 
         return ($affectedLines > 0);
+    }
+
+    /**
+     * Checks if there is a publicationDate
+     * If yes we return the publicationDate that is actually stored in the database
+     * If no we return the publicationDate function parameter
+     */
+    private function checkPublicationDate(int $commentId, ?string $publicationDate) : ?string
+    {
+        $statement = $this->connexion->getConnexion()->prepare(
+            "SELECT publicationDate FROM comment WHERE commentId = ? ;"
+        );
+
+        $statement->execute([$commentId]);
+
+        $row = $statement->fetch();
+
+        if($row['publicationDate'] !== null && $publicationDate !== null){
+            return $row['publicationDate'];
+        } else {
+            return $publicationDate;
+        }
     }
 
     /**
@@ -239,5 +263,6 @@ class CommentRepository extends Repository
         }
         return $comments;
     }
+
     #endregion
 }
