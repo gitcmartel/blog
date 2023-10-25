@@ -8,6 +8,15 @@ abstract class Table
     protected ?int $id = null;
     #endregion
 
+    #region Constructor 
+    function __construct($values = array())
+    {
+        if(! empty($values)){
+            $this->hydrate($values);
+        }
+    }
+    #endregion
+
     #region Functions
     
     function getId() : ?int
