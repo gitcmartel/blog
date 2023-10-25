@@ -12,6 +12,7 @@ class Comment extends Table
     private string $comment;
     private User $user;
     private Post $post;
+    
     #endregion
 
     #region getters and setters
@@ -39,7 +40,7 @@ class Comment extends Table
         }
     }
 
-    function setPublicationDate($publicationDate)
+    function setPublicationDate(?string $publicationDate)
     {
         $this->publicationDate = $publicationDate;
     }
