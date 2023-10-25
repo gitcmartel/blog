@@ -8,18 +8,18 @@
         <div class="m-4 p-3 shadow rounded w-50">
             <form method="post" action="index.php?action=Admin\Comment\AdminCommentSave" id="formComment">
                 <div class="d-flex">
-                    <input type="hidden" name="postId" value="{{ post.id }}">
-                    <input type="hidden" name="commentId" value="{{ comment.id }}">
+                    <input type="hidden" name="postId" value="{{ postId }}">
+                    <input type="hidden" name="commentId" value="{{ commentId }}">
                     <div class="d-flex flex-column w-100">
                         <div>
                             <label class="form-label font-size3" for="comment">Commentaire :</label>
-                            <textarea class="form-control" name="comment" id="comment" rows="10">{{ comment.comment }}</textarea>
+                            <textarea class="form-control" name="comment" id="comment" rows="10">{{ commentString }}</textarea>
                             <div class="text-danger">{{ warningComment }}</div>
                         </div>
                         <div class="mt-3">
                             <label class="form-check-label font-size3" for="validation">Validé</label>
                             <input type="checkbox" class="form-check-input" name="validation" id="validation" value="true"
-                                {% if comment.publicationDate != null %}
+                                {% if publicationDate != null %}
                                     checked
                                 {% endif %}
                             >

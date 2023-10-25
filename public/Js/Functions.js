@@ -219,9 +219,9 @@ function unPublish()
 
 function userDevalidation()
 {
-    let inputDevalidate = document.getElementById("devalidate");
-    if(inputDevalidate !== null){
-        inputDevalidate.setAttribute('value', 'true');
+    let inputValidation = document.getElementById("validation");
+    if(inputValidation !== null){
+        inputValidation.setAttribute('value', '0');
     }
 }
 

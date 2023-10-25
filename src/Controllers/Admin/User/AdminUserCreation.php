@@ -15,7 +15,6 @@ class AdminUserCreation
     {
         #region Variables
 
-        $user = "";
         $twig = TwigLoader::getEnvironment();
 
         #endregion
