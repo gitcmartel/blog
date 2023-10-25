@@ -48,10 +48,12 @@ class AdminCommentModification
         $comment = $commentRepository->getComment($_GET['commentId']);
 
         $twig = TwigLoader::getEnvironment();
-        
+
         echo $twig->render('Admin\Comment\AdminComment.html.twig', [  
-            'comment' => $comment,
-            'post' => $post,  
+            'commentId' => $comment->getId(),
+            'postId' => $comment->getPost()->getId(),  
+            'commentString' => $comment->getComment(),
+            'publicationDate' => $comment->getPublicationDate(),
             'activeUser' => Session::getActiveUser(), 
             'userFunction' => Session::getActiveUserFunction()
         ]);

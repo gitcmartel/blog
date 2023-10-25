@@ -53,6 +53,7 @@ class AdminCommentCreation
             'activeUser' => Session::getActiveUser(), 
             'userFunction' => Session::getActiveUserFunction()
         ]);
+        
         #endregion
     }  
     #endregion   
