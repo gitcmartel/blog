@@ -49,5 +49,22 @@ class Password
     return bin2hex(random_bytes(100));
     }
 
+    public static function checkPasswordFormFields(string $password, string $passwordConfirmation, ?int $userId) : string
+    {
+        if(trim($password) !== trim($passwordConfirmation)){
+            return 'Les deux mot de passe ne sont pas identiques';
+        }
+
+        if(! self::checkPassword($password)){
+            return 'Le mot de passe doit être composé d\'au moins 8 caractères, 1 majuscule, 1 minuscule, 1 nombre et 1 caractère spécial';
+        }
+
+        if ((trim($password) === "" && trim($passwordConfirmation) === "") && $userId === null){
+            return 'Vous devez renseigner un mot de passe';
+        }
+
+        return '';
+    }
+
     #endregion
 }
