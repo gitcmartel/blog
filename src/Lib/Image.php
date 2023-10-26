@@ -2,6 +2,7 @@
 
 namespace Application\Lib;
 
+use DateTime;
 class Image 
 {
     /**
@@ -25,5 +26,10 @@ class Image
                 return unlink($rootPath . $pathImage);
             }
         }
+    }
+
+    public static function createImagePathName(int $postId, string $imagePath, DateTime $date) : string
+    {
+        return $imagePath . $postId . $date->format("YmdHis") . '.' . Upload::getExtension($imagePath);
     }
 }
