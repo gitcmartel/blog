@@ -62,6 +62,15 @@ class Email
         }
     }
 
+    public static function checkMailFormat(string $email) : bool
+    {
+        $emailRegExp = "/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix";
+        if (! (preg_match($emailRegExp, trim($email)) === 1)){
+            return false;
+        }
+        return true;
+    }
+    
     #endregion
 
     #region Getters and setters
