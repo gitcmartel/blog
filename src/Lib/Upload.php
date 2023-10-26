@@ -7,6 +7,18 @@ class Upload
 {
     #region Functions
 
+    public static function ckeckFile(string $fileName, int $fileSize) : string
+    {
+        if (! self::checkFileType($fileName)){
+            return 'Le type de fichier doit être une image (jpeg, jpg, png, svg)';
+        }
+
+        if (! self::checkSize($fileSize)) {
+            return 'La taille de l\'image ne doit pas excéder 2 Mo';
+        }
+
+        return '';
+    }
     /**
      * Checks if the file extension is one of thoses who are allowed
      */
