@@ -3,6 +3,9 @@
 namespace Application\Models;
 
 use Application\Lib\DatabaseConnexion;
+use Application\Lib\Constants;
+use Application\Lib\Image;
+use Application\Lib\Upload;
 use DateTime;
 use PDO;
 
@@ -227,42 +230,100 @@ class PostRepository extends Repository
     }
 
     //Concatenates the imagePath with the id of the row and updates the imagePath field
-    public function updateImagePath(Post $post, string $extension) : string
+    public function updateImagePath(Post $post, string $pathImage) : string
     {
-        $postId = 0;
-        $date = date('Y-m-d H:i:s');
+        $postIdAndDate = array(
+            'postId' => 0, 
+            'date' => date('Y-m-d H:i:s'),
+        );
 
         //If we create a new post the id might not be known yet
         if($post->getId() !== null){ //If the id is set
-            $postId = $post->getId();
-            $date = new DateTime($post->getCreationDate());
+            $postIdAndDate['postId'] = $post->getId();
+            $postIdAndDate['date'] = new DateTime($post->getCreationDate());
         } else {
-            //Get the id of the last inserted row
-            $statement = $this->connexion->getConnexion()->prepare(
-                "SELECT postId, creationDate FROM post WHERE postId=LAST_INSERT_ID();"
-            );
-
-            $statement->execute();
-
-            $row = $statement->fetch();
-            $postId = $row['postId'];
-            $date = new DateTime($row['creationDate']);
+            //Get the id and creation date of the last inserted row
+            $postIdAndDate = $this->getLastRowIdAndCreationDate();
         }
 
-        if ($postId > 0){
-            $imagePath = $post->getImagePath() . $postId . $date->format("YmdHis") . $extension;
+        if ($postIdAndDate['postId'] > 0){
+            $imagePath = $post->getImagePath() . $postIdAndDate['postId'] . $postIdAndDate['date']->format("YmdHis") . '.' . Upload::getExtension($pathImage);
 
             //Updates the imagePath field by adding the id of the new row to the image file name
             $statement = $this->connexion->getConnexion()->prepare(
                 "UPDATE post SET imagePath=? WHERE postId=?;"
             );
 
-            $affectedLines = $statement->execute([$imagePath, $postId]);
+            $statement->execute([$imagePath, $postIdAndDate['postId']]);
 
             return $imagePath;
         }
         return "";
     }
+
+    private function checkImage(?int $postId, bool $resetImage, string $pathImage) : string
+    {
+        if($postId === null){
+            if($pathImage === Constants::DEFAULT_IMAGE_POST_PATH){
+                return Constants::DEFAULT_IMAGE_POST_PATH;
+            } else {
+                Image::moveTempImageIntoImagePostFolder($pathImage, Constants::IMAGE_POST_PATH);
+                return $pathImage;
+            }
+        }
+
+        $post = self::getPost($postId);
+
+        if($resetImage){
+            Image::deleteImagePost($post->getImagePath());
+            return Constants::DEFAULT_IMAGE_POST_PATH;
+        }
+
+        if($pathImage === $post->getImagePath()){
+            return $pathImage;
+        } else {
+            Image::deleteImagePost($post->getImagePath());
+            return $pathImage;
+        }
+
+    }
+
+
+    /**
+     * Checks if the stored image corresponds to the default image path
+     */
+    private function isImageDefault(int $postId) : bool
+    {
+        $statement = $this->connexion->getConnexion()->prepare(
+            "SELECT imagePath FROM post WHERE imagePath=?;"
+        );
+
+        $statement->execute([$postId]);
+
+        $row = $statement->fetch();
+
+        return ($row['imagePath'] === Constants::IMAGE_POST_PATH . Constants::DEFAULT_IMAGE_POST);
+    }
+
+    /**
+     * Get the id and creation date of the last inserted row
+     */
+    private function getLastRowIdAndCreationDate() : array
+    {
+        $statement = $this->connexion->getConnexion()->prepare(
+            "SELECT postId, creationDate FROM post WHERE postId=LAST_INSERT_ID();"
+        );
+
+        $statement->execute();
+
+        $row = $statement->fetch();
+
+        return array(
+            'postId' => $row['postId'], 
+            'date' => new DateTime($row['creationDate'])
+        );
+    }
+    
 
     /**
      * Returns an id's array
