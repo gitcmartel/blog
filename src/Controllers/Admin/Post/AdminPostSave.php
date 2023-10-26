@@ -14,7 +14,7 @@ use Application\Lib\Path;
 use Application\Lib\DatabaseConnexion;
 use Application\Lib\TwigLoader;
 use Application\Lib\Image;
-
+use DateTime;
 
 class AdminPostSave
 {
@@ -22,9 +22,7 @@ class AdminPostSave
     public function execute()
     {
         #region Variables
-        var_dump($_POST);
-        var_dump($_FILES);
-        exit;
+
         $postRepository = new PostRepository(new DatabaseConnexion);
         $userRepository = new UserRepository(new DatabaseConnexion);
         $warningImage = '';
@@ -58,7 +56,7 @@ class AdminPostSave
         }
 
         $pageVariables = array(
-            'id' => trim($_POST["postId"]),
+            'id' => trim($_POST["postId"]) === '' ? null : intval(trim($_POST["postId"])),
             'title' => trim($_POST["postTitle"]), 
             'summary' => trim($_POST['comment']), 
             'content' => trim($_POST['content']), 
@@ -90,10 +88,11 @@ class AdminPostSave
         #endregion
 
         #region Function execution
+
         $post = new Post($pageVariables);
 
         //If there is a Post Id then we have to make an update
-        if($pageVariables['id'] !== ""){ 
+        if($pageVariables['id'] !== null){ 
             if (! $postRepository->updatePost($post)){
                 TwigWarning::display(
                     "Un problème est survenu lors de l'enregistrement du post.", 
@@ -102,7 +101,25 @@ class AdminPostSave
                 return; 
             }
 
-            $postRepository->updateImagePath($post, $pageVariables["tmpImagePath"]);
+            //If we have to reset the image
+            if($pageVariables['resetImage']){
+                $postRepository->resetImage($post->getId());
+            }
+            
+            //If there is an image to update
+            if($pageVariables['tmpImagePath'] !== ''){
+                Image::deleteImagePost($post->getImagePath());
+
+                $pathImage = Image::createImagePathName(
+                    $post->getId(), 
+                    $pageVariables['tmpImagePath'], 
+                    new DateTime($post->getCreationDate())
+                );
+
+                Image::moveTempImageIntoImagePostFolder($pageVariables['tmpImagePath'], $pathImage);
+
+                $postRepository->updateImagePath($post->getId(), $pathImage);
+            }
 
             //We display the updated post list
             header("Location:index.php?action=Admin\Post\AdminPostList&pageNumber=1");
@@ -119,7 +136,18 @@ class AdminPostSave
             return;  
         } 
 
-        $postRepository->updateImagePath($post, $pageVariables["tmpImagePath"]);
+        if($pageVariables['tmpImagePath'] !== ''){
+            $postIdAndCreationDate = $postRepository->getLastRowIdAndCreationDate();
+            $pathImage = Image::createImagePathName(
+                $postIdAndCreationDate['postId'], 
+                $pageVariables['tmpImagePath'], 
+                $postIdAndCreationDate['creationDate']
+            );
+
+            Image::moveTempImageIntoImagePostFolder($pageVariables['tmpImagePath'], $pathImage);
+
+            $postRepository->updateImagePath($postIdAndCreationDate['postId'], $pathImage);
+        }
 
         //We display the updated post list
         header("Location:index.php?action=Admin\Post\AdminPostList&pageNumber=1");
