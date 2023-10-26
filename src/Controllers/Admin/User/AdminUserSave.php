@@ -48,7 +48,7 @@ class AdminUserSave
             'name' => trim($_POST['userName']), 
             'surname' => trim($_POST['surname']), 
             'pseudo' => trim($_POST['pseudo']), 
-            'email' => trim($_POST['email']),
+            'email' => trim($_POST['userMail']),
             'function' => trim($_POST['userFunction']), 
             'isValid' => trim($_POST['userValidity']),
             'password' => trim($_POST['userPwd']),
@@ -65,6 +65,8 @@ class AdminUserSave
             'validity' => 'Vous devez selectionner une option'
         );
 
+        $user = new User($pageVariables);
+
         //If there is an incorrect field we display the error message
         if($pageVariables['name'] !== "" || $pageVariables['surname'] !== "" || $pageVariables['pseudo'] !== "" || $pageVariables['email'] !== "" || 
         $pageVariables['password'] !== "" || $pageVariables['function'] !== "" || $pageVariables['isValid'] !== ""){
@@ -76,7 +78,7 @@ class AdminUserSave
                 'warningPassword' => $fieldsWarnings['password'], 
                 'warningFunction' => $fieldsWarnings['function'], 
                 'warningValidity' => $fieldsWarnings['validity'],  
-                'user' => $pageVariables['id'],
+                'user' => $user,
                 'userFunction' => Session::getActiveUserFunction(),
                 'activeUser' => Session::getActiveUser()
             ]);
@@ -85,8 +87,7 @@ class AdminUserSave
         #endregion
 
         #region Function execution
-        $user = new User($pageVariables);
-
+        
         if ($pageVariables['id'] !== null){
             //If there is a userId we update
             if ($userRepository->updateUser($user)) {
