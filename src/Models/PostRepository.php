@@ -116,14 +116,14 @@ class PostRepository extends Repository
         return $affectedLines > 0;
     }
 
-    //Updates a post
+    //Updates a post (except the imagePath field)
     public function updatePost($post) : bool 
     {
         $statement = $this->connexion->getConnexion()->prepare(
-            "UPDATE post SET title = ?, summary = ?, content = ?, imagePath = ?, userIdModifier = ?, lastUpdateDate = now() WHERE postId=?;"
+            "UPDATE post SET title = ?, summary = ?, content = ?, userIdModifier = ?, lastUpdateDate = now() WHERE postId=?;"
         );
 
-        $affectedLines = $statement->execute([$post->getTitle(), $post->getSummary(), $post->getContent(), $post->getImagePath(), $post->getModifier()->getId(), $post->getId()]);
+        $affectedLines = $statement->execute([$post->getTitle(), $post->getSummary(), $post->getContent(), $post->getModifier()->getId(), $post->getId()]);
 
         return ($affectedLines > 0);
     }
@@ -230,35 +230,31 @@ class PostRepository extends Repository
     }
 
     //Concatenates the imagePath with the id of the row and updates the imagePath field
-    public function updateImagePath(Post $post, string $pathImage) : string
+    public function updateImagePath(?int $postId, string $pathImage) : bool
     {
-        $postIdAndDate = array(
-            'postId' => 0, 
-            'date' => date('Y-m-d H:i:s'),
+        if ($postId === null){
+            return false;
+        }
+
+        //Updates the imagePath field by adding the id of the new row to the image file name
+
+        $statement = $this->connexion->getConnexion()->prepare(
+            "UPDATE post SET imagePath=? WHERE postId=?;"
         );
 
-        //If we create a new post the id might not be known yet
-        if($post->getId() !== null){ //If the id is set
-            $postIdAndDate['postId'] = $post->getId();
-            $postIdAndDate['date'] = new DateTime($post->getCreationDate());
-        } else {
-            //Get the id and creation date of the last inserted row
-            $postIdAndDate = $this->getLastRowIdAndCreationDate();
-        }
+        $affectedLines = $statement->execute([$pathImage, $postId]);
 
-        if ($postIdAndDate['postId'] > 0){
-            $imagePath = $post->getImagePath() . $postIdAndDate['postId'] . $postIdAndDate['date']->format("YmdHis") . '.' . Upload::getExtension($pathImage);
+        return ($affectedLines > 0);
 
-            //Updates the imagePath field by adding the id of the new row to the image file name
-            $statement = $this->connexion->getConnexion()->prepare(
-                "UPDATE post SET imagePath=? WHERE postId=?;"
-            );
+    }
 
-            $statement->execute([$imagePath, $postIdAndDate['postId']]);
-
-            return $imagePath;
-        }
-        return "";
+    /**
+     * Reset an imagePath field and deletes the physical image file
+     */
+    public function resetImage(int $postId)
+    {
+        Image::deleteImagePost($this->getImagePath($postId));
+        $this->updateImagePath($postId, Constants::DEFAULT_IMAGE_POST_PATH);
     }
 
     private function checkImage(?int $postId, bool $resetImage, string $pathImage) : string
@@ -320,7 +316,7 @@ class PostRepository extends Repository
 
         return array(
             'postId' => $row['postId'], 
-            'date' => new DateTime($row['creationDate'])
+            'creatonDate' => new DateTime($row['creationDate'])
         );
     }
     
@@ -338,6 +334,22 @@ class PostRepository extends Repository
         $statement->execute();
 
         return $statement->fetchAll(PDO::FETCH_COLUMN);
+    }
+
+    /**
+     * Get the imagePath field of a post
+     */
+    public function getImagePath(int $postId) : string
+    {
+        $statement = $this->connexion->getConnexion()->prepare(
+            "SELECT imagePath FROM post WHERE postId= ?;"
+        );
+
+        $statement->execute([$postId]);
+
+        $row = $statement->fetch();
+
+        return $row["imagePath"];
     }
     #endregion
 }
