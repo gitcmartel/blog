@@ -50,7 +50,7 @@ class AdminPostSave
         return;   
         }
 
-        if(isset($_FILES['imagePath']) && $_FILES['imagePath']['size'] > 0){
+        if(isset($_FILES['imagePath']) && $_FILES['imagePath']['error'] === UPLOAD_ERR_OK && $_FILES['imagePath']['size'] > 0){
             $warningImage = upload::ckeckFile($_FILES['imagePath']['name'], $_FILES['imagePath']['size']);
             $tmpImagePath = $_FILES["imagePath"]["tmp_name"];
         }
@@ -58,7 +58,7 @@ class AdminPostSave
         $pageVariables = array(
             'id' => trim($_POST["postId"]) === '' ? null : intval(trim($_POST["postId"])),
             'title' => trim($_POST["postTitle"]), 
-            'summary' => trim($_POST['comment']), 
+            'summary' => trim($_POST['summary']), 
             'content' => trim($_POST['content']), 
             'tmpImagePath' => $tmpImagePath,
             'resetImage' => $_POST['resetImage'], 
@@ -73,7 +73,7 @@ class AdminPostSave
             'image' => $warningImage, 
         );
 
-        if($pageVariables['title'] !== "" || $pageVariables['summary'] !== "" || $pageVariables['content'] !=="" || $pageVariables['image'] !== ""){
+        if($pageVariables['title'] === "" || $pageVariables['summary'] === "" || $pageVariables['content'] ==="" || $pageVariables['image'] === ""){
             echo $twig->render('Admin\Post\AdminPost.html.twig', [ 
                 'warningTitle' => $pageVariables['title'] === '' ? $fieldsWarnings['title'] : '', 
                 'warningSummary' => $pageVariables['summary'] === '' ? $fieldsWarnings['summary'] : '',
@@ -113,7 +113,7 @@ class AdminPostSave
                 $pathImage = Image::createImagePathName(
                     $post->getId(), 
                     $pageVariables['tmpImagePath'], 
-                    new DateTime($post->getCreationDate())
+                    DateTime::createFromFormat('Y-m-d H:i:s', $post->getCreationDate())
                 );
 
                 Image::moveTempImageIntoImagePostFolder($pageVariables['tmpImagePath'], $pathImage);
@@ -137,16 +137,15 @@ class AdminPostSave
         } 
 
         if($pageVariables['tmpImagePath'] !== ''){
-            $postIdAndCreationDate = $postRepository->getLastRowIdAndCreationDate();
             $pathImage = Image::createImagePathName(
-                $postIdAndCreationDate['postId'], 
+                $post->getId(), 
                 $pageVariables['tmpImagePath'], 
-                $postIdAndCreationDate['creationDate']
+                DateTime::createFromFormat('Y-m-d H:i:s', $post->getCreationDate())
             );
 
             Image::moveTempImageIntoImagePostFolder($pageVariables['tmpImagePath'], $pathImage);
 
-            $postRepository->updateImagePath($postIdAndCreationDate['postId'], $pathImage);
+            $postRepository->updateImagePath($post->getId(), $pathImage);
         }
 
         //We display the updated post list
