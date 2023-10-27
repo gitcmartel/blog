@@ -7,6 +7,7 @@ use Application\Lib\Constants;
 use Application\Lib\Image;
 use Application\Lib\Upload;
 use DateTime;
+use DateTimeInterface;
 use PDO;
 
 class PostRepository extends Repository
@@ -102,7 +103,7 @@ class PostRepository extends Repository
     }
 
     //Creates a new post and returns the id of the inserted row if there is an image to insert
-    public function createPost(Post $post) : bool
+    public function createPost(Post $post)
     {
         //Inserts the new post
         $statement = $this->connexion->getConnexion()->prepare(
@@ -110,10 +111,11 @@ class PostRepository extends Repository
             VALUES (?, ?, ?, ?, now(), now(), ?);"
         );
 
-        $affectedLines = $statement->execute([htmlspecialchars($post->getTitle()), htmlspecialchars($post->getSummary()), 
+        $statement->execute([htmlspecialchars($post->getTitle()), htmlspecialchars($post->getSummary()), 
         htmlspecialchars($post->getContent()), $post->getImagePath(), $post->getUser()->getId()]);
 
-        return $affectedLines > 0;
+        $post->setId($this->connexion->getConnexion()->lastInsertId());
+        $post->setCreationDate(Date(DateTimeInterface::ATOM));
     }
 
     //Updates a post (except the imagePath field)
@@ -299,25 +301,6 @@ class PostRepository extends Repository
         $row = $statement->fetch();
 
         return ($row['imagePath'] === Constants::IMAGE_POST_PATH . Constants::DEFAULT_IMAGE_POST);
-    }
-
-    /**
-     * Get the id and creation date of the last inserted row
-     */
-    private function getLastRowIdAndCreationDate() : array
-    {
-        $statement = $this->connexion->getConnexion()->prepare(
-            "SELECT postId, creationDate FROM post WHERE postId=LAST_INSERT_ID();"
-        );
-
-        $statement->execute();
-
-        $row = $statement->fetch();
-
-        return array(
-            'postId' => $row['postId'], 
-            'creatonDate' => new DateTime($row['creationDate'])
-        );
     }
     
 
