@@ -259,31 +259,26 @@ class PostRepository extends Repository
         $this->updateImagePath($postId, Constants::DEFAULT_IMAGE_POST_PATH);
     }
 
-    private function checkImage(?int $postId, bool $resetImage, string $pathImage) : string
+    private function checkImage(bool $resetImage, string $tmpImagePath, Post $post)
     {
-        if($postId === null){
-            if($pathImage === Constants::DEFAULT_IMAGE_POST_PATH){
-                return Constants::DEFAULT_IMAGE_POST_PATH;
-            } else {
-                Image::moveTempImageIntoImagePostFolder($pathImage, Constants::IMAGE_POST_PATH);
-                return $pathImage;
-            }
-        }
-
-        $post = self::getPost($postId);
-
+        //If we have to reset the image
         if($resetImage){
-            Image::deleteImagePost($post->getImagePath());
-            return Constants::DEFAULT_IMAGE_POST_PATH;
+            $this->resetImage($post->getId());
         }
-
-        if($pathImage === $post->getImagePath()){
-            return $pathImage;
-        } else {
+        
+        //If there is a new image
+        if($tmpImagePath !== ''){
             Image::deleteImagePost($post->getImagePath());
-            return $pathImage;
-        }
+            $pathImage = Image::createImagePathName(
+                $post->getId(), 
+                $tmpImagePath, 
+                DateTime::createFromFormat('Y-m-d H:i:s', $post->getCreationDate())
+            );
 
+            Image::moveTempImageIntoImagePostFolder($tmpImagePath, $pathImage);
+
+            $this->updateImagePath($post->getId(), $pathImage);
+        }
     }
 
 
