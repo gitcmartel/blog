@@ -105,6 +105,7 @@ class AdminPostSave
         //If there is a Post Id then we have to make an update
         if($pageVariables['id'] !== null){ 
             $post->setCreationDate($postDatabase->getCreationDate());
+            $post->setImagePath($postDatabase->getImagePath());
             if (! $postRepository->updatePost($post)){
                 TwigWarning::display(
                     "Un problème est survenu lors de l'enregistrement du post.", 
