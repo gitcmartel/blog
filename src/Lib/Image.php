@@ -19,17 +19,17 @@ class Image
     public static function deleteImagePost(string $pathImage)
     {
         //If the image post is not the default image we delete it
-        $rootPath = dirname(__FILE__, 3) . DIRECTORY_SEPARATOR;
+        $rootPath = dirname(__FILE__, 3) . DIRECTORY_SEPARATOR . 'public\\';
 
-        if ($pathImage !== Path::fileBuildPath(array("img", Constants::DEFAULT_IMAGE_POST))){
+        if ($pathImage !== Path::fileBuildPath(array("img", Constants::DEFAULT_IMAGE_POST)) && $pathImage !== ''){
             if (file_exists($rootPath . $pathImage)){
                 return unlink($rootPath . $pathImage);
             }
         }
     }
 
-    public static function createImagePathName(int $postId, string $imagePath, DateTime $date) : string
+    public static function createImagePathName(int $postId, string $imagePath, string $imageName, DateTime $date) : string
     {
-        return $imagePath . $postId . $date->format("YmdHis") . '.' . Upload::getExtension($imagePath);
+        return $postId . $date->format("YmdHis") . '.' . Upload::getExtension($imageName);
     }
 }
