@@ -28,7 +28,7 @@ abstract class Table
         } 
     }
 
-    function setId(int $id)
+    function setId(?int $id)
     {
         $this->id = $id;
     }
