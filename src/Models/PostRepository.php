@@ -16,6 +16,10 @@ class PostRepository extends Repository
     //Returns a Post
     public function getPost($postId) : Post
     {
+        if($postId === null){
+            return new Post();
+        }
+        
         $statement = $this->connexion->getConnexion()->prepare(
             "SELECT * FROM post WHERE postId = ?;"
         );
@@ -24,7 +28,7 @@ class PostRepository extends Repository
 
         $row = $statement->fetch();
 
-        $userRepository = new UserRepository($this->connexion);
+        $userRepository = new UserRepository();
         $user = $userRepository->getUser($row['userId']);
 
         if($row['userIdModifier'] !== null){
@@ -76,7 +80,7 @@ class PostRepository extends Repository
         $posts = array();
 
         while($row = $statement->fetch()) {
-            $userRepository = new UserRepository($this->connexion);
+            $userRepository = new UserRepository();
             $user = $userRepository->getUser($row['userId']);
 
             if($row['userIdModifier'] !== null){
@@ -206,7 +210,7 @@ class PostRepository extends Repository
         $posts = array();
 
         while($row = $statement->fetch()) {
-            $userRepository = new UserRepository($this->connexion);
+            $userRepository = new UserRepository();
             $user = $userRepository->getUser($row['userId']);
 
             if($row['userIdModifier'] !== null){
