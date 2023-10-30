@@ -9,7 +9,7 @@ abstract class Table
     #endregion
 
     #region Constructor 
-    function __construct($values = array())
+    function __construct(array $values = array())
     {
         if(! empty($values)){
             $this->hydrate($values);
