@@ -85,16 +85,16 @@ class AdminPostSave
         }
 
         //Check if the postId variable is present in the database
-        if($pageVariables['id'] !== null){ 
-            $postDatabase = $postRepository->getPost($pageVariables['id']);
-            if($postDatabase->getId() !== (int)$pageVariables['id']){
-                TwigWarning::display(
-                    "Un problème est survenu lors de l'enregistrement du post.", 
-                    "index.php?action=Home\Home", 
-                    "Retour à la page d'accueil");
-                return; 
-            }
+        $postDatabase = $postRepository->getPost($pageVariables['id']);
+
+        if($pageVariables['id'] !== null && ($postDatabase->getId() !== (int)$pageVariables['id'])){
+            TwigWarning::display(
+                "Un problème est survenu lors de l'enregistrement du post.", 
+                "index.php?action=Home\Home", 
+                "Retour à la page d'accueil");
+            return; 
         }
+
         
         #endregion
 
@@ -104,6 +104,7 @@ class AdminPostSave
 
         //If there is a Post Id then we have to make an update
         if($pageVariables['id'] !== null){ 
+            //Fetching creationDate and imagePath from the database
             $post->setCreationDate($postDatabase->getCreationDate());
             $post->setImagePath($postDatabase->getImagePath());
             if (! $postRepository->updatePost($post)){
@@ -115,13 +116,7 @@ class AdminPostSave
             }
         } else {
             //Else we have to create a new post
-            if(! $postRepository->createPost($post)){
-                TwigWarning::display(
-                    "Un problème est survenu lors de l'enregistrement du post.", 
-                    "index.php?action=Home\Home", 
-                    "Retour à l'accueil");
-                return;  
-            } 
+            $postRepository->createPost($post);
         }
 
         //Image management function (deletes, update, move physical tmp image etc...)
