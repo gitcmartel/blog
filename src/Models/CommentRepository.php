@@ -13,6 +13,10 @@ class CommentRepository extends Repository
      */
     public function getComment($commentId) : Comment
     {
+        if($commentId === null){
+            return new Comment();
+        }
+
         $statement = $this->connexion->getConnexion()->prepare(
             "SELECT * FROM comment WHERE commentId = ?;"
         );
@@ -20,9 +24,9 @@ class CommentRepository extends Repository
         $statement->execute([$commentId]);
 
         $row = $statement->fetch();
-        $userRepository = new UserRepository($this->connexion);
+        $userRepository = new UserRepository();
         $user = $userRepository->getUser($row['userId']);
-        $postRepository = new PostRepository($this->connexion);
+        $postRepository = new PostRepository();
         $post = $postRepository->getPost($row['postId']);
 
         $comment = new Comment();
@@ -59,8 +63,8 @@ class CommentRepository extends Repository
         }
 
         $comments = array();
-        $userRepository = new UserRepository($this->connexion);
-        $postRepository = new PostRepository($this->connexion);
+        $userRepository = new UserRepository();
+        $postRepository = new PostRepository();
 
         while($row = $statement->fetch()) {
             $comment = new Comment();
@@ -89,8 +93,8 @@ class CommentRepository extends Repository
         $statement->execute([$postId]);
 
         $comments = array();
-        $userRepository = new UserRepository($this->connexion);
-        $postRepository = new PostRepository($this->connexion);
+        $userRepository = new UserRepository();
+        $postRepository = new PostRepository();
         while ($row = $statement->fetch()) {
             $user = $userRepository->getUser($row['userId']);
             $post = $postRepository->getPost($row['postId']);
@@ -109,7 +113,7 @@ class CommentRepository extends Repository
     /**
      * Creates a new comment record in the database
      */
-    public function createComment(Comment $comment) : bool
+    public function createComment(Comment $comment)
     {
         $statement = $this->connexion->getConnexion()->prepare(
             "INSERT INTO comment (creationDate, publicationDate, comment, userId, postId) 
@@ -121,8 +125,6 @@ class CommentRepository extends Repository
             htmlspecialchars($comment->getComment()), 
             $comment->getUser()->getId(), 
             $comment->getPost()->getId()]);
-
-        return($affectedRows > 0);
     }
 
     /**
