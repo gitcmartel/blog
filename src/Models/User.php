@@ -192,13 +192,13 @@ class User extends Table
     {
         switch ($function){
             case 'Administrateur':
-                $this->userFunction = UserFunction::Administrator;
+                $this->userFunction = UserFunction::Administrateur;
                 break;
             case 'Createur':
-                $this->userFunction = UserFunction::Creator;
+                $this->userFunction = UserFunction::Createur;
                 break;
             case 'Lecteur':
-                $this->userFunction = UserFunction::Reader;
+                $this->userFunction = UserFunction::Lecteur;
                 break;
         }
     }
@@ -209,7 +209,7 @@ class User extends Table
         if(isset($this->userFunction)){
             return $this->userFunction;
         }else{
-            return UserFunction::Else;
+            return UserFunction::Autre;
         }
     }
 
