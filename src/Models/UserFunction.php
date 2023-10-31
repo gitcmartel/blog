@@ -3,20 +3,20 @@
 namespace Application\Models;
 
 enum UserFunction {
-    case Administrator;
-    case Creator;
-    case Reader;
-    case Else;
+    case Administrateur;
+    case Createur;
+    case Lecteur;
+    case Autre;
 
     #region Functions
 
     public function toString() : string
     {
         return match($this){
-            self::Administrator => 'Administrateur', 
-            self::Creator => 'Createur', 
-            self::Reader => 'Lecteur',
-            self::Else => ''
+            self::Administrateur => 'Administrateur', 
+            self::Createur => 'Createur', 
+            self::Lecteur => 'Lecteur',
+            self::Autre => ''
         };
     }
 
