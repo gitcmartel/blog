@@ -10,6 +10,7 @@ use Application\Models\PostRepository;
 use Application\Lib\Session;
 use Application\Lib\DatabaseConnexion;
 use Application\Lib\TwigLoader;
+use Application\Lib\TwigWarning;
 
 class AdminCommentSave
 {
@@ -18,8 +19,8 @@ class AdminCommentSave
     {
         #region variables
         $commentRepository = new CommentRepository();
-        $postRepository = new PostRepository(new DatabaseConnexion);
-        $userRepository = new UserRepository(new DatabaseConnexion);
+        $postRepository = new PostRepository();
+        $userRepository = new UserRepository();
 
         #endregion
 
@@ -44,7 +45,7 @@ class AdminCommentSave
         }
 
         $pageVariables = array(
-            'id' => trim($_POST["commentId"]), 
+            'id' => trim($_POST["commentId"]) === '' ? null : intval(trim($_POST["commentId"])),
             'publicationDate' => isset($_POST['validation']) ? date('Y-m-d H:i:s') : null,
             'comment' => trim($_POST['comment']), 
             'user' => $userRepository->getUser(Session::getActiveUserId()), 
@@ -67,12 +68,23 @@ class AdminCommentSave
             return;
         }
 
+        //Check if the commentId and postId variables are present in the database
+        $commentDatabase = $commentRepository->getComment($pageVariables['id']);
+
+        if($commentDatabase->getId() !== null && $pageVariables['post']->getId() !== null){
+            TwigWarning::display(
+                "Un problème est survenu lors de l'enregistrement du commentaire.", 
+                "index.php?action=Home\Home", 
+                "Retour à la page d'accueil");
+            return; 
+        }
+
         #endregion
 
         #region Function executions
 
         //If there is a commentId we update the comment field
-        if ($pageVariables['id'] !== ""){
+        if ($pageVariables['id'] !== null){
             if ($commentRepository->updateComment($pageVariables['comment'], 
                 $pageVariables['publicationDate'], $pageVariables['id'])) {
                 //We display the updated user list
@@ -90,19 +102,13 @@ class AdminCommentSave
         //If there is no commentId we create a new comment
         $comment = new Comment($pageVariables);
 
-        if ($commentRepository->createComment($comment)){
-            //We display the updated comment list
-            header("Location:index.php?action=Admin\Comment\AdminCommentList&pageNumber=1");
-            return;
-        } else {
-            TwigWarning::display(
-                "Une erreur est survenue lors de l'enregistrement des données.", 
-                "index.php?action=Home\Home", 
-                "Retour à la page d'accueil");
-            return;
-        }
+        $commentRepository->createComment($comment);
+
+        //We display the updated comment list
+        header("Location:index.php?action=Admin\Comment\AdminCommentList&pageNumber=1");
 
         #endregion
     }
+
     #endregion
 }
