@@ -12,6 +12,10 @@ class UserRepository extends Repository
     //Returns a User object
     public function getUser(int $userId) : User
     {
+        if($userId === null){
+            return new User();
+        }
+
         $statement = $this->connexion->getConnexion()->prepare(
             "SELECT * FROM user WHERE userId = ?;"
         );
