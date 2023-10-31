@@ -4,6 +4,7 @@ namespace Application\Controllers\Admin\User;
 
 use Application\Models\UserRepository;
 use Application\Models\User;
+use Application\Models\UserFunction;
 use Application\Lib\UserActiveCheckValidity;
 use Application\Lib\DatabaseConnexion;
 use Application\Lib\Session;
@@ -19,7 +20,7 @@ class AdminUserSave
     {
         #region Variables
 
-        $userRepository = new UserRepository(new DatabaseConnexion);
+        $userRepository = new UserRepository();
         $twig = TwigLoader::getEnvironment();
 
         #endregion
@@ -49,7 +50,7 @@ class AdminUserSave
             'surname' => trim($_POST['surname']), 
             'pseudo' => trim($_POST['pseudo']), 
             'email' => trim($_POST['userMail']),
-            'function' => trim($_POST['userFunction']), 
+            'userFunction' => trim($_POST['userFunction']), 
             'isValid' => trim($_POST['userValidity']),
             'password' => trim($_POST['userPwd']),
             'passwordConfirmation' => trim($_POST['userPwdConfirmation'])
@@ -59,8 +60,8 @@ class AdminUserSave
             'name' => 'Vous devez renseigner un prénom', 
             'surname' => 'Vous devez renseigner un nom', 
             'pseudo' => 'Vous devez renseigner un pseudo', 
-            'email' => Email::checkMailFormat($pageVariables['email']) ? 'Vous devez renseigner un email' : 'L\'adresse email est incorrecte',  
-            'function' => 'Vous devez renseigner une fonction', 
+            'email' => Email::checkMailFormat($pageVariables['email']) ? '' : 'L\'adresse email est incorrecte',  
+            'userFunction' => 'Vous devez renseigner une fonction', 
             'password' => Password::checkPasswordFormFields($pageVariables['password'], $pageVariables['passwordConfirmation'], $pageVariables['id']), 
             'validity' => 'Vous devez selectionner une option'
         );
@@ -68,20 +69,32 @@ class AdminUserSave
         $user = new User($pageVariables);
 
         //If there is an incorrect field we display the error message
-        if($pageVariables['name'] !== "" || $pageVariables['surname'] !== "" || $pageVariables['pseudo'] !== "" || $pageVariables['email'] !== "" || 
-        $pageVariables['password'] !== "" || $pageVariables['function'] !== "" || $pageVariables['isValid'] !== ""){
-            echo $twig->render('Admin\User\User.html.twig', [ 
-                'warningName' => $fieldsWarnings['name'], 
-                'warningSurname' => $fieldsWarnings['surname'], 
-                'warningPseudo' => $fieldsWarnings['pseudo'], 
+        if($pageVariables['name'] === "" || $pageVariables['surname'] === "" || $pageVariables['pseudo'] === "" || $pageVariables['email'] === "" || 
+        $pageVariables['userFunction'] === "" || $pageVariables['isValid'] === "" || $fieldsWarnings['email'] !== '' || $fieldsWarnings['password'] !== ''){
+            echo $twig->render('Admin\User\AdminUser.html.twig', [ 
+                'warningName' => $pageVariables['name'] === "" ? $fieldsWarnings['name'] : '', 
+                'warningSurname' => $pageVariables['surname'] === "" ? $fieldsWarnings['surname'] : '', 
+                'warningPseudo' => $pageVariables['pseudo'] === "" ? $fieldsWarnings['pseudo'] : '', 
                 'warningEmail' => $fieldsWarnings['email'], 
                 'warningPassword' => $fieldsWarnings['password'], 
-                'warningFunction' => $fieldsWarnings['function'], 
-                'warningValidity' => $fieldsWarnings['validity'],  
+                'warningFunction' => $pageVariables['userFunction'] === "" ? $fieldsWarnings['userFunction'] : '', 
+                'warningValidity' => $pageVariables['isValid'] === "" ? $fieldsWarnings['validity'] : '',  
                 'user' => $user,
                 'userFunction' => Session::getActiveUserFunction(),
                 'activeUser' => Session::getActiveUser()
             ]);
+            return;
+        }
+
+        //Check if the userId variable is present in the database
+        $userDatabase = $userRepository->getUser($pageVariables['id']);
+
+        if($pageVariables['id'] !== null && ($userDatabase->getId() !== (int)$pageVariables['id'])){
+            TwigWarning::display(
+                "Un problème est survenu lors de l'enregistrement de l'utilisateur.", 
+                "index.php?action=Home\Home", 
+                "Retour à la page d'accueil");
+            return; 
         }
 
         #endregion
