@@ -10,7 +10,7 @@ class UserRepository extends Repository
 {
     #region Functions
     //Returns a User object
-    public function getUser(int $userId) : User
+    public function getUser(?int $userId) : User
     {
         if($userId === null){
             return new User();
