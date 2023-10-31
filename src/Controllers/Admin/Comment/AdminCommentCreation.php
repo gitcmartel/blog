@@ -41,7 +41,7 @@ class AdminCommentCreation
 
         #region Function execution
 
-        $postRepository = new PostRepository(new DatabaseConnexion);
+        $postRepository = new PostRepository();
         $post = $postRepository->getPost($_GET['postId']);
         $comment = new Comment();
 
