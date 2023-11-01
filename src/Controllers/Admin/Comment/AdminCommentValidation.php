@@ -25,8 +25,7 @@ class AdminCommentValidation
 
         #region Conditions tests
 
-        if (!UserActiveCheckValidity::check(['Administrateur']) || !isset($_POST['commentValidation']) ||
-            !isset($_POST['devalidate'])) {
+        if (!UserActiveCheckValidity::check(['Administrateur']) || !isset($_POST['commentValidation'])) {
             TwigWarning::display(
                 "Vous n'avez pas le droits requis pour accéder a cette page.",
                 "index.php?action=Home\Home",
@@ -39,17 +38,30 @@ class AdminCommentValidation
             $pageNumber = $_GET['pageNumber'];
         }
 
+        $commentIds = is_array($_POST['commentValidation']) ? $_POST['commentValidation'] : [$_POST['commentValidation']];
+
+        //Check if all the commentid's are present in the database and if the validation variable is present
+        if(! $commentRepository->checkCommentIds($commentIds) || ! isset($_POST['validation'])){
+            TwigWarning::display(
+                "Une erreur est survenue lors de la validation du ou des commentaires.",
+                "index.php?action=Admin\Comment\AdminCommentList&pageNumber=1",
+                "Retour à la page des commentaires"
+            );
+            return;
+        }
+
+        $validation = boolval($_POST["validation"]);
+
         #endregion
 
         #region Function execution
     
         //Updates the comment publicationDate field
-        $commentIds = is_array($_POST['commentValidation']) ? $_POST['commentValidation'] : [$_POST['commentValidation']];
-
+        
         foreach ($commentIds as $commentId) {
-            if ($_POST['devalidate'] === 'true') {
+            if (! $validation) {
                 $commentRepository->setPublicationDateToNull($commentId);
-            } elseif ($_POST['devalidate'] === 'false') {
+            } elseif ($validation) {
                 $commentRepository->setPublicationDate($commentId);
             }
         }
