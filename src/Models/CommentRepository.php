@@ -269,5 +269,20 @@ class CommentRepository extends Repository
         return $comments;
     }
 
+    public function checkCommentIds(array $commentIds) : bool
+    {
+        $idsString = implode(',', $commentIds);
+
+        $statement = $this->connexion->getConnexion()->prepare(
+            "SELECT count(*) as count FROM comment WHERE commentId IN ($idsString);"
+        );
+
+        $statement->execute();
+
+        $row = $statement->fetch();
+
+        return ($row['count'] === count($commentIds));
+    }
+
     #endregion
 }
