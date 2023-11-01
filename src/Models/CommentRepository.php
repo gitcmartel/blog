@@ -21,22 +21,25 @@ class CommentRepository extends Repository
             "SELECT * FROM comment WHERE commentId = ?;"
         );
 
+        $comment = new Comment();
+
         $statement->execute([$commentId]);
 
-        $row = $statement->fetch();
-        $userRepository = new UserRepository();
-        $user = $userRepository->getUser($row['userId']);
-        $postRepository = new PostRepository();
-        $post = $postRepository->getPost($row['postId']);
+        while($row = $statement->fetch()) {
+            $userRepository = new UserRepository();
+            $user = $userRepository->getUser($row['userId']);
+            $postRepository = new PostRepository();
+            $post = $postRepository->getPost($row['postId']);
 
-        $comment = new Comment();
-        $comment->setId($row['commentId']);
-        $comment->setCreationDate($row['creationDate'] !== null ? $row['creationDate'] : '');
-        $comment->setPublicationDate($row['publicationDate'] !== null ? $row['publicationDate'] : '');
-        $comment->setComment($row['comment']);
-        $comment->setUser($user);
-        $comment->setPost($post);
-
+            
+            $comment->setId($row['commentId']);
+            $comment->setCreationDate($row['creationDate'] !== null ? $row['creationDate'] : '');
+            $comment->setPublicationDate($row['publicationDate'] !== null ? $row['publicationDate'] : '');
+            $comment->setComment($row['comment']);
+            $comment->setUser($user);
+            $comment->setPost($post);
+        }
+        
         return $comment;
     }
 
