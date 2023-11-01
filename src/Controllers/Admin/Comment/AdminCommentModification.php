@@ -4,7 +4,6 @@ namespace Application\Controllers\Admin\Comment;
 
 use Application\Lib\UserActiveCheckValidity;
 use Application\Models\CommentRepository;
-use Application\Models\Post;
 use Application\Lib\Session;
 use Application\Lib\TwigLoader;
 use Application\Lib\TwigWarning;
@@ -18,7 +17,6 @@ class AdminCommentModification
         #region variables
         $commentRepository = new CommentRepository();
         $comment = "";
-        $post = new Post();
 
         #endregion
 
@@ -42,10 +40,21 @@ class AdminCommentModification
             return;
         }
 
+        $comment = $commentRepository->getComment($_GET['commentId'] === '' ? null : $_GET['commentId']);
+
+        //Check if the comment is present in the database
+        if($comment->getid() === null){
+            TwigWarning::display(
+                "Une erreur est survenue lors du chargement du commentaire.", 
+                "index.php?action=Home\Home", 
+                "Retour à la page d'accueil");
+            return;
+        }
+
         #endregion
 
         #region Function execution
-        $comment = $commentRepository->getComment($_GET['commentId']);
+        
 
         $twig = TwigLoader::getEnvironment();
 
