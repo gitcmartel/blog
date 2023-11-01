@@ -217,7 +217,7 @@ function unPublish()
  * validation or not
  */
 
-function userDevalidation()
+function devalidation()
 {
     let inputValidation = document.getElementById("validation");
     if(inputValidation !== null){
