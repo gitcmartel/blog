@@ -71,7 +71,8 @@ class AdminCommentSave
         //Check if the commentId and postId variables are present in the database
         $commentDatabase = $commentRepository->getComment($pageVariables['id']);
 
-        if($commentDatabase->getId() !== null && $pageVariables['post']->getId() !== null){
+        if(($pageVariables['id'] !== null && ($commentDatabase->getId() === null || $pageVariables['post']->getId() === null)) || 
+            ($pageVariables['id'] === null && $pageVariables['post']->getId() === null)){
             TwigWarning::display(
                 "Un problème est survenu lors de l'enregistrement du commentaire.", 
                 "index.php?action=Home\Home", 
