@@ -5,9 +5,8 @@ namespace Application\Controllers\Admin\Post;
 use Application\Models\Post;
 use Application\Models\PostRepository;
 use Application\Lib\UserActiveCheckValidity;
-use Application\Lib\Session;
 use Application\Lib\DatabaseConnexion;
-use Application\Lib\TwigLoader;
+use Application\Lib\TwigWarning;
 
 class AdminPostDeletion
 {
@@ -33,11 +32,22 @@ class AdminPostDeletion
             return;  
         }
 
+        $post = $postRepository->getPost($_GET['postId']);
+
+        //Check if the postId exists in the database
+        if($post->getId() === null){
+            TwigWarning::display(
+                "Un problème est survenu lors de la suppression du post.", 
+                "index.php?action=Home\Home", 
+                "Nous contacter");
+            return;  
+        }
+        
         #endregion
 
         #region Function execution
 
-        $post = $postRepository->getPost($_GET['postId']);
+        
 
         if (! $postRepository->deletePost($post)) {
             TwigWarning::display(
