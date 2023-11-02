@@ -53,17 +53,18 @@ class AdminPostSave
             $imageName = $_FILES["imagePath"]["name"];
         }
 
-        $pageVariables = array(
+        $post = new Post();
+
+        $post->hydrate(array(
             'id' => trim($_POST["postId"]) === '' ? null : intval(trim($_POST["postId"])),
             'title' => trim($_POST["postTitle"]), 
             'summary' => trim($_POST['postSummary']), 
             'content' => trim($_POST['postContent']), 
-            'tmpImagePath' => $tmpImagePath,
-            'imageName' => $imageName, 
-            'resetImage' => $_POST['resetImage'], 
             'user' => $userRepository->getUser(Session::getActiveUserId()), 
             'modifier' => $userRepository->getUser(Session::getActiveUserId())
-        );
+        ));
+
+        $resetImage = $_POST['resetImage'];
 
         $fieldsWarnings = array(
             'title' => 'Vous devez renseigner un titre', 
@@ -72,11 +73,11 @@ class AdminPostSave
             'image' => $warningImage, 
         );
 
-        if($pageVariables['title'] === "" || $pageVariables['summary'] === "" || $pageVariables['content'] ===""){
+        if($post->getTitle() === "" || $post->getSummary() === "" || $post->getContent() ===""){
             echo $twig->render('Admin\Post\AdminPost.html.twig', [ 
-                'warningTitle' => $pageVariables['title'] === '' ? $fieldsWarnings['title'] : '', 
-                'warningSummary' => $pageVariables['summary'] === '' ? $fieldsWarnings['summary'] : '',
-                'warningContent' => $pageVariables['content'] === '' ? $fieldsWarnings['content'] : '',
+                'warningTitle' => $post->getTitle() === '' ? $fieldsWarnings['title'] : '', 
+                'warningSummary' => $post->getSummary() === '' ? $fieldsWarnings['summary'] : '',
+                'warningContent' => $post->getContent() === '' ? $fieldsWarnings['content'] : '',
                 'warningImage' => $fieldsWarnings['image'], 
                 'activeUser' => Session::getActiveUser(), 
                 'userFunction' => Session::getActiveUserFunction()
@@ -85,9 +86,9 @@ class AdminPostSave
         }
 
         //Check if the postId variable is present in the database
-        $postDatabase = $postRepository->getPost($pageVariables['id']);
+        $postDatabase = $postRepository->getPost($post->getId());
 
-        if($pageVariables['id'] !== null && ($postDatabase->getId() !== (int)$pageVariables['id'])){
+        if($post->getId() !== null && ($postDatabase->getId() !== (int)$post->getId())){
             TwigWarning::display(
                 "Un problème est survenu lors de l'enregistrement du post.", 
                 "index.php?action=Home\Home", 
@@ -100,10 +101,8 @@ class AdminPostSave
 
         #region Function execution
 
-        $post = new Post($pageVariables);
-
         //If there is a Post Id then we have to make an update
-        if($pageVariables['id'] !== null){ 
+        if($post->getId() !== null){ 
             //Fetching creationDate and imagePath from the database
             $post->setCreationDate($postDatabase->getCreationDate());
             $post->setImagePath($postDatabase->getImagePath());
@@ -121,8 +120,8 @@ class AdminPostSave
 
         //Image management function (deletes, update, move physical tmp image etc...)
         try {
-            $postRepository->checkImage(($pageVariables['resetImage']), $pageVariables['tmpImagePath'], 
-            $pageVariables['imageName'], $post);
+            $postRepository->checkImage($resetImage, $tmpImagePath, 
+            $imageName, $post);
         } catch (Exception $exception) {
             TwigWarning::display(
                 "Un problème est survenu lors de l'enregistrement de l'image. \n 
