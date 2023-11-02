@@ -9,7 +9,7 @@ use Application\Lib\DatabaseConnexion;
 use Application\Lib\TwigLoader;
 use Application\Lib\TwigWarning;
 
-class AdminPost
+class AdminPostCreation
 {
     #region Functions
     public function execute() 
