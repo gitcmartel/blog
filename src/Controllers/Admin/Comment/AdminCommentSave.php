@@ -44,24 +44,26 @@ class AdminCommentSave
             return;
         }
 
-        $pageVariables = array(
+        $comment = new Comment();
+
+        $comment->hydrate(array (
             'id' => trim($_POST["commentId"]) === '' ? null : intval(trim($_POST["commentId"])),
             'publicationDate' => isset($_POST['validation']) ? date('Y-m-d H:i:s') : null,
             'comment' => trim($_POST['comment']), 
             'user' => $userRepository->getUser(Session::getActiveUserId()), 
             'post' => $postRepository->getPost($_POST["postId"])
-        );
+        ));
 
         $twig = TwigLoader::getEnvironment();
 
         //If the comment variable is empty
-        if($pageVariables['comment'] === ""){
+        if($comment->getComment() === ""){
             echo $twig->render('Admin\Comment\AdminComment.html.twig', [ 
                 'warningComment' => "Vous devez renseigner un commentaire", 
-                'commentId' => $pageVariables['id'], 
-                'postId' => $pageVariables['post']->getId(), 
-                'commentString' => $pageVariables['comment'], 
-                'publicationDate' => $pageVariables['publicationDate'],
+                'commentId' => $comment->getId(), 
+                'postId' => $comment->getPost()->getId(), 
+                'commentString' => $comment->getComment(), 
+                'publicationDate' => $comment->getPublicationDate(),
                 'userFunction' => Session::getActiveUserFunction(),
                 'activeUser' => Session::getActiveUser()
             ]);
@@ -69,10 +71,10 @@ class AdminCommentSave
         }
 
         //Check if the commentId and postId variables are present in the database
-        $commentDatabase = $commentRepository->getComment($pageVariables['id']);
+        $commentDatabase = $commentRepository->getComment($comment->getId());
 
-        if(($pageVariables['id'] !== null && ($commentDatabase->getId() === null || $pageVariables['post']->getId() === null)) || 
-            ($pageVariables['id'] === null && $pageVariables['post']->getId() === null)){
+        if(($comment->getId() !== null && ($commentDatabase->getId() === null || $comment->getPost()->getId() === null)) || 
+            ($comment->getId() === null && $comment->getPost()->getId() === null)){
             TwigWarning::display(
                 "Un problème est survenu lors de l'enregistrement du commentaire.", 
                 "index.php?action=Home\Home", 
@@ -85,9 +87,9 @@ class AdminCommentSave
         #region Function executions
 
         //If there is a commentId we update the comment field
-        if ($pageVariables['id'] !== null){
-            if ($commentRepository->updateComment($pageVariables['comment'], 
-                $pageVariables['publicationDate'], $pageVariables['id'])) {
+        if ($comment->getId() !== null){
+            if ($commentRepository->updateComment($comment->getComment(), 
+            $comment->getPublicationDate(), $comment->getId())) {
                 //We display the updated user list
                 header("Location:index.php?action=Admin\Comment\AdminCommentList&pageNumber=1");
                 return;
@@ -101,7 +103,6 @@ class AdminCommentSave
         }
 
         //If there is no commentId we create a new comment
-        $comment = new Comment($pageVariables);
 
         $commentRepository->createComment($comment);
 
