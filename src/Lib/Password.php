@@ -55,7 +55,7 @@ class Password
             return 'Les deux mot de passe ne sont pas identiques';
         }
 
-        if(! self::checkPassword($password) & ((trim($password) !== "" && trim($passwordConfirmation) !== ""))){
+        if(! self::checkPassword($password) || ((trim($password) === "" && trim($passwordConfirmation) === ""))){
             return 'Le mot de passe doit être composé d\'au moins 8 caractères, 1 majuscule, 1 minuscule, 1 nombre et 1 caractère spécial';
         }
 
