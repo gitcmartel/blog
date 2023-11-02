@@ -33,7 +33,7 @@ class AdminUserModification
 
         $user = $userRepository->getUser($_GET['userId']);
 
-        //Check if the postId exists in the database
+        //Check if the userId exists in the database
         if($user->getId() === null){
             TwigWarning::display(
                 "Un problème est survenu lors de l'affichage de l'utilisateur.", 
