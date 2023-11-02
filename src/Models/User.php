@@ -21,21 +21,6 @@ class User extends Table
     private bool $isValid;
     #endregion
 
-    #region Constructor
-    public function constructWithParameters(string $name, string $surname, string $pseudo, string $email, string $password, 
-        string $creationDate, string $userFunction, bool $isValid)
-    {
-        $this->name = $name;
-        $this->surname = $surname;
-        $this->pseudo = $pseudo;
-        $this->email = $email;
-        $this->password = $password;
-        $this->creationDate = $creationDate;
-        $this->setUserFunction($userFunction);
-        $this->isValid = $isValid;
-    }
-    #endregion
-
     #region Functions
     /**
      * Checks if the user is valid and has the proper function
