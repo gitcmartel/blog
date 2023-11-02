@@ -36,9 +36,9 @@ class PasswordRenewalSubscription
         }
 
         //We check if the token and it's date are valid
-        $user = $userRepository->isTokenValid($_GET['token'], $_GET['email']);
+        $user = $userRepository->getUserFromToken($_GET['token'], $_GET['email']);
 
-        if(! $user->tokenCheckValidity($user)) {
+        if(! $user->tokenCheckValidity()) {
             TwigWarning::display(
                 "Ce lien n'est plus valide, veuillez générer une nouvelle demande de renouvellement de mot de passe.", 
                 "index.php?action=Password\PasswordRenewal", 
