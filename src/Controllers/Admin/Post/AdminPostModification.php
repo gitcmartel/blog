@@ -7,6 +7,7 @@ use Application\Lib\UserActiveCheckValidity;
 use Application\Lib\Session;
 use Application\Lib\DatabaseConnexion;
 use Application\Lib\TwigLoader;
+use Application\Lib\TwigWarning;
 
 class AdminPostModification
 {
@@ -32,11 +33,22 @@ class AdminPostModification
             return;  
         }
 
+        $post = $postRepository->getPost($_GET['postId']);
+
+        //Check if the postId exists in the database
+        if($post->getId() === null){
+            TwigWarning::display(
+                "Un problème est survenu lors de l'affichage du post.", 
+                "index.php?action=Home\Home", 
+                "Nous contacter");
+            return;  
+        }
+
         #endregion
   
         #region Function execution
 
-        $post = $postRepository->getPost($_GET['postId']);
+        
 
         echo $twig->render('Admin\Post\AdminPost.html.twig', [ 
             'post' => $post, 
