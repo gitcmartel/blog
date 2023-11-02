@@ -57,7 +57,7 @@ class Email
         if ($mail->send()){
             return true;
         } else {
-            $this->errorInfo = $mail->getErrorInfo();
+            $this->errorInfo = $mail->ErrorInfo;
             return false;
         }
     }
