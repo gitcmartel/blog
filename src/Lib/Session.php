@@ -28,7 +28,7 @@ class Session
         }
     }
 
-    public static function getActiveUserId() : int
+    public static function getActiveUserId() : ?int
     {
         if (isset($_SESSION['userId'])){
             return $_SESSION['userId'];
