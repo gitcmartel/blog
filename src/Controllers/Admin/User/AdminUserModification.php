@@ -31,11 +31,20 @@ class AdminUserModification
             return; 
         }
 
+        $user = $userRepository->getUser($_GET['userId']);
+
+        //Check if the postId exists in the database
+        if($user->getId() === null){
+            TwigWarning::display(
+                "Un problème est survenu lors de l'affichage de l'utilisateur.", 
+                "index.php?action=Home\Home", 
+                "Nous contacter");
+            return;  
+        }
+        
         #endregion
 
         #region Function execution
-
-        $user = $userRepository->getUser($_GET['userId']);
 
         echo $twig->render('Admin\User\AdminUser.html.twig', [  
             'user' => $user, 
