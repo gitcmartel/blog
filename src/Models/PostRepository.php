@@ -335,5 +335,6 @@ class PostRepository extends Repository
 
         return $row["imagePath"];
     }
+
     #endregion
 }

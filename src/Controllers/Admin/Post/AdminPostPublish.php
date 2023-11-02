@@ -7,6 +7,7 @@ use Application\Lib\UserActiveCheckValidity;
 use Application\Lib\Session;
 use Application\Lib\DatabaseConnexion;
 use Application\Lib\TwigLoader;
+use Application\Lib\TwigWarning;
 
 class AdminPostPublish 
 {
@@ -40,11 +41,23 @@ class AdminPostPublish
             $pageNumber = $_GET['pageNumber'];
         }
 
+        $postsToPublish = is_array($_POST['postPublish']) ? $_POST['postPublish'] : [$_POST['postPublish']];
+
+        //Check if all the commentid's are present in the database and if the validation variable is present
+        if(! $postRepository->checkIds($postsToPublish, 'post', 'postId')){
+            TwigWarning::display(
+                "Une erreur est survenue lors de la publication du ou des posts.",
+                "index.php?action=Admin\Comment\AdminCommentList&pageNumber=1",
+                "Retour à la page des commentaires"
+            );
+            return;
+        }
+
         #endregion
 
         #region Function execution
         
-        $postsToPublish = is_array($_POST['postPublish']) ? $_POST['postPublish'] : [$_POST['postPublish']];
+        
 
         //Updates the status post field
         foreach($postsToPublish as $postId){
