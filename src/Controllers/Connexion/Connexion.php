@@ -19,7 +19,7 @@ class Connexion
         $warningLogin = "";
         $warningPassword = "";
         $loginValue = "";
-        $userRepository = new UserRepository(new DatabaseConnexion);
+        $userRepository = new UserRepository();
         $user = "";
         $twig = TwigLoader::getEnvironment();
 
