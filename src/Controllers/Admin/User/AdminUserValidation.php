@@ -24,7 +24,8 @@ class AdminUserValidation
         #endregion
 
         #region Conditions tests
-
+        var_dump($_POST);
+        exit;
         if(! UserActiveCheckValidity::check(array('Administrateur')) || ! isset($_POST['userValidation']) 
             || ! isset($_POST['validation']) || $_POST['validation'] === ""){
             TwigWarning::display(
@@ -38,13 +39,25 @@ class AdminUserValidation
             $pageNumber = $_GET['pageNumber'];
         }
 
+        $validation = boolval($_POST["validation"]);
+
+        $usersToValidate = is_array($_POST['userValidation']) ? $_POST['userValidation'] : [$_POST['userValidation']];
+
+        //Check if all the userId's are present in the database
+        if(! $userRepository->checkIds($usersToValidate, 'user', 'userId')){
+            TwigWarning::display(
+                "Une erreur est survenue lors de la validation du ou des utilisateurs.",
+                "index.php?action=Admin\Comment\AdminCommentList&pageNumber=1",
+                "Retour à la page des commentaires"
+            );
+            return;
+        }
+
         #endregion
  
         #region Function execution
         
-        $validation = boolval($_POST["validation"]);
 
-        $usersToValidate = is_array($_POST['userValidation']) ? $_POST['userValidation'] : [$_POST['userValidation']];
 
         //Updates the status user field
 
