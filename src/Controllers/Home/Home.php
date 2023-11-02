@@ -71,7 +71,6 @@ class Home
             $_POST['name'],
             "contact@blog.devcm.fr",
             "contact@blog.devcm.fr",  
-            $_POST['email'], 
             "Nouveau contact !", 
             "Message envoyé depuis le formulaire de contact du Blog Devcm. \r\n" . 
             "Auteur : " . $_POST['surname'] . " " . $_POST['name'] . " - " . $_POST['email'] . "\r\n" . 
