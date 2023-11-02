@@ -7,6 +7,7 @@ use Application\Models\CommentRepository;
 use Application\Lib\Session;
 use Application\Lib\TwigLoader;
 use Application\Lib\TwigWarning;
+use Application\Lib\Constants;
 
 class AdminCommentList
 {
@@ -46,13 +47,13 @@ class AdminCommentList
         #endregion
 
         #region Function execution
-        $totalPages = $commentRepository->getTotalPageNumber(10);
+        $totalPages = $commentRepository->getTotalPageNumber(Constants::NUMBER_OF_COMMENTS_PER_PAGE);
 
         if($_GET['pageNumber'] !== 0){
-            $comments = $commentRepository->getComments($_GET['pageNumber'], 10);
+            $comments = $commentRepository->getComments($_GET['pageNumber'], Constants::NUMBER_OF_COMMENTS_PER_PAGE);
             $pageNumber = $_GET['pageNumber'];
         }else {
-            $comments = $commentRepository->getComments(1, 10);
+            $comments = $commentRepository->getComments(1, Constants::NUMBER_OF_COMMENTS_PER_PAGE);
         } 
 
         $twig = TwigLoader::getEnvironment();

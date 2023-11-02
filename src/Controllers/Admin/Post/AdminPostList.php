@@ -7,6 +7,8 @@ use Application\Lib\UserActiveCheckValidity;
 use Application\Lib\Session;
 use Application\Lib\DatabaseConnexion;
 use Application\Lib\TwigLoader;
+use Application\Lib\Constants;
+use Application\Lib\TwigWarning;
 
 class AdminPostList 
 {
@@ -15,8 +17,8 @@ class AdminPostList
     {
         #region Variables
 
-        $postRepository = new PostRepository(new DatabaseConnexion);
-        $totalPages = $postRepository->getTotalPageNumber(10);;
+        $postRepository = new PostRepository();
+        $totalPages = $postRepository->getTotalPageNumber(Constants::NUMBER_OF_POSTS_PER_PAGE);;
         $pageNumber = 1;
         $posts = "";
         $twig = TwigLoader::getEnvironment();
@@ -41,7 +43,7 @@ class AdminPostList
 
         #region Function execution
         
-        $posts = $postRepository->getPosts($pageNumber, 10);
+        $posts = $postRepository->getPosts($pageNumber, Constants::NUMBER_OF_POSTS_PER_PAGE);
 
         echo $twig->render('Admin\Post\AdminPostList.html.twig', [ 
             'actualPage' => $pageNumber, 

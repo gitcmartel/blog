@@ -8,6 +8,7 @@ use Application\Lib\DatabaseConnexion;
 use Application\Lib\Session;
 use Application\Lib\TwigLoader;
 use Application\Lib\TwigWarning;
+use Application\Lib\Constants;
 
 class AdminUserList 
 {
@@ -16,7 +17,7 @@ class AdminUserList
     {
         #region Variables
 
-        $userRepository = new UserRepository(new DatabaseConnexion);
+        $userRepository = new UserRepository();
         $totalPages = 1;
         $pageNumber = 1;
         $twig = TwigLoader::getEnvironment();
@@ -42,9 +43,9 @@ class AdminUserList
 
         #region Function execution
             
-        $totalPages = $userRepository->getTotalPageNumber(10);;
+        $totalPages = $userRepository->getTotalPageNumber(Constants::NUMBER_OF_USERS_PER_PAGE);;
 
-        $users = $userRepository->getUsers($pageNumber, 10);
+        $users = $userRepository->getUsers($pageNumber, Constants::NUMBER_OF_POSTS_PER_PAGE);
 
         echo $twig->render('Admin\User\AdminUserList.html.twig', [ 
             'actualPage' => $pageNumber, 
