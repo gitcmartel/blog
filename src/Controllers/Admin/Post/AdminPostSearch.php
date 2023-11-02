@@ -5,8 +5,8 @@ namespace Application\Controllers\Admin\Post;
 use Application\Lib\UserActiveCheckValidity;
 use Application\Models\PostRepository;
 use Application\Lib\Session;
-use Application\Lib\DatabaseConnexion;
 use Application\Lib\TwigLoader;
+use Application\Lib\TwigWarning;
 
 class AdminPostSearch
 {
@@ -15,7 +15,7 @@ class AdminPostSearch
     {
         #region Variables
 
-        $postRepository = new PostRepository(new DatabaseConnexion);
+        $postRepository = new PostRepository();
         $posts = "";
         $twig = TwigLoader::getEnvironment();
 
