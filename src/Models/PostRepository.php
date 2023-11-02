@@ -26,28 +26,29 @@ class PostRepository extends Repository
 
         $statement->execute([$postId]);
 
-        $row = $statement->fetch();
-
-        $userRepository = new UserRepository();
-        $user = $userRepository->getUser($row['userId']);
-
-        if($row['userIdModifier'] !== null){
-            $modifier = $userRepository->getUser($row['userIdModifier']);
-        } else {
-            $modifier = new User();
-        }
-
         $post = new Post();
-        $post->setId($row['postId']);
-        $post->setTitle($row['title']);
-        $post->setSummary($row['summary']);
-        $post->setContent($row['content']);
-        $post->setImagePath($row['imagePath']);
-        $post->setCreationDate($row['creationDate'] !== null ? $row['creationDate'] : '');
-        $post->setPublicationDate($row['publicationDate'] !== null ? $row['publicationDate'] : '');
-        $post->setLastUpdateDate($row['lastUpdateDate'] !== null ? $row['lastUpdateDate'] : '');
-        $post->setUser($user);
-        $post->setModifier($modifier);
+        $userRepository = new UserRepository();
+
+        while($row = $statement->fetch()) {
+            $user = $userRepository->getUser($row['userId']);
+
+            if($row['userIdModifier'] !== null){
+                $modifier = $userRepository->getUser($row['userIdModifier']);
+            } else {
+                $modifier = new User();
+            }
+    
+            $post->setId($row['postId']);
+            $post->setTitle($row['title']);
+            $post->setSummary($row['summary']);
+            $post->setContent($row['content']);
+            $post->setImagePath($row['imagePath']);
+            $post->setCreationDate($row['creationDate'] !== null ? $row['creationDate'] : '');
+            $post->setPublicationDate($row['publicationDate'] !== null ? $row['publicationDate'] : '');
+            $post->setLastUpdateDate($row['lastUpdateDate'] !== null ? $row['lastUpdateDate'] : '');
+            $post->setUser($user);
+            $post->setModifier($modifier);
+        }
 
         return $post;
     }
