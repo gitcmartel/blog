@@ -14,7 +14,7 @@ class AdminUserDeletion
     {
         #region Variables
 
-        $userRepository = new UserRepository(new DatabaseConnexion);
+        $userRepository = new UserRepository();
 
         #endregion
 
@@ -28,12 +28,23 @@ class AdminUserDeletion
             return; 
         }
 
+        $user = $userRepository->getUser(trim($_GET['userId']));
+
+        //If the user id is null
+        if($user->getid() === null){
+            TwigWarning::display(
+                "Une erreur est survenue lors de la suppression de l'utilisateur.", 
+                "index.php?action=Home\Home", 
+                "Retour à la page d'accueil");
+            return;
+        }
+
         #endregion
 
 
         #region Function execution
                     
-        $user = $userRepository->getUser(trim($_GET['userId']));
+
 
         if (! $userRepository->deleteUser($user->getId())) {
             TwigWarning::display(
