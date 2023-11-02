@@ -33,11 +33,15 @@
                     <input type="text" class="form-control" name="userMail" id="userMail" value="{{ user.email }}">
                     <div class="text-danger">{{ warningEmail }}</div>
                 </div>
-                <div class="mt-2">
+                <div class="mt-3 mb-2">
+                    <input type="checkbox" class="form-check-input" name="passwordChange" id="passwordChange" onclick="displayPwdFields()" value="-1" {{ pwdChangeCheckedValue }}>
+                    <label class="form-check-label font-size3" for="passwordChange">Modifier le mot de passe</label>
+                </div>
+                <div class="mt-2 d-none" id="grpUserPwd">
                     <label class="form-label font-size3" for="userPwd">Mot de passe</label>
                     <input type="password" class="form-control" name="userPwd" id="userPwd">
                 </div>
-                <div class="mt-2">
+                <div class="mt-2 d-none" id="grpUserPwdConfirmation">
                     <label class="form-label font-size3" for="userPwdConfirmation">Confirmation du mot de passe</label>
                     <input type="password" class="form-control" name="userPwdConfirmation" id="userPwdConfirmation">
                     <div class="text-danger">{{ warningPassword }}</div>
@@ -67,13 +71,13 @@
                     <p>Compte utilisateur valide :</p>
                     <div class="d-flex">
                         <label class="form-check-label font-size3" for="userValidity">Oui</label>
-                        <input class="form-check-input ms-2" type="radio" id="userValidity" name="userValidity" value="-1" 
+                        <input class="form-check-input ms-2" type="radio" id="userValidityYes" name="userValidity" value="-1" 
                             {% if user.isValid == true%}
                                 checked
                             {% endif %}
                         >
                         <label class="form-check-label font-size3 ms-2" for="userValidity">Non</label>
-                        <input class="form-check-input ms-2" type="radio" id="userValidity" name="userValidity" value="0"
+                        <input class="form-check-input ms-2" type="radio" id="userValidityNo" name="userValidity" value="0"
                             {% if user.isValid == false%}
                                 checked
                             {% endif %}
@@ -88,4 +92,8 @@
         </div>
         
     </section>
+{% endblock %}
+
+{% block js %}
+    <script src="Js/AdminUserSave.js"></script>
 {% endblock %}

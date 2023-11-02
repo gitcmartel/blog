@@ -49,7 +49,7 @@ class Password
     return bin2hex(random_bytes(100));
     }
 
-    public static function checkPasswordFormFields(string $password, string $passwordConfirmation, ?int $userId) : string
+    public static function checkPasswordFormFields(string $password, string $passwordConfirmation) : string
     {
         if(trim($password) !== trim($passwordConfirmation)){
             return 'Les deux mot de passe ne sont pas identiques';

@@ -66,7 +66,7 @@ class AdminUserSave
             'pseudo' => 'Vous devez renseigner un pseudo', 
             'email' => Email::checkMailFormat($user->getEmail()) ? '' : 'L\'adresse email est incorrecte',  
             'userFunction' => 'Vous devez renseigner une fonction', 
-            'password' => Password::checkPasswordFormFields($user->getPassword(), $passwordConfirmation, $user->getId()), 
+            'password' => isset($_POST['passwordChange']) ? Password::checkPasswordFormFields($user->getPassword(), $passwordConfirmation) : '', 
             'validity' => 'Vous devez selectionner une option'
         );
 
@@ -82,6 +82,7 @@ class AdminUserSave
                 'warningFunction' => $user->getUserFunction() === "" ? $fieldsWarnings['userFunction'] : '', 
                 'warningValidity' => $user->getIsValid() === "" ? $fieldsWarnings['validity'] : '',  
                 'user' => $user,
+                'pwdChangeCheckedValue' => isset($_POST['passwordChange']) ? 'checked' : '',
                 'userFunction' => Session::getActiveUserFunction(),
                 'activeUser' => Session::getActiveUser()
             ]);
