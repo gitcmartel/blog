@@ -18,12 +18,13 @@ class CommentRepository extends Repository
         }
 
         $statement = $this->connexion->getConnexion()->prepare(
-            "SELECT * FROM comment WHERE commentId = ?;"
+            "SELECT * FROM comment WHERE commentId = :commentId;"
         );
 
         $comment = new Comment();
 
-        $statement->execute([$commentId]);
+        $statement->bindValue("commentId", $commentId, PDO::PARAM_INT);
+        $statement->execute();
 
         while($row = $statement->fetch()) {
             $userRepository = new UserRepository();
