@@ -28,7 +28,7 @@ class Comment extends Table
 
     function setCreationDate(?string $creationDate)
     {
-        $this->creationDate = $creationDate !== null ? $creationDate : '';
+        $this->creationDate = $creationDate;
     }
 
     function getPublicationDate() : ?string
@@ -42,7 +42,7 @@ class Comment extends Table
 
     function setPublicationDate(?string $publicationDate)
     {
-        $this->publicationDate = $publicationDate !== null ? $publicationDate : '';
+        $this->publicationDate = $publicationDate;
     }
 
     function getComment() : string 
@@ -59,7 +59,7 @@ class Comment extends Table
         $this->comment = $comment;
     }
 
-    function getUser() : User 
+    function getUser() : ?User 
     {
         if (isset($this->user)){
             return $this->user;
@@ -73,7 +73,7 @@ class Comment extends Table
         $this->user = $user;
     }
 
-    function getPost() : Post 
+    function getPost() : ?Post 
     {
         if (isset($this->post)){
             return $this->post;
