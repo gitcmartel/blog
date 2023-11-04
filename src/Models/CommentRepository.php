@@ -155,15 +155,15 @@ class CommentRepository extends Repository
     /**
      * Deletes a comment record
      */
-    public function deleteComment(Comment $comment) : bool 
+    public function deleteComment(Comment $comment)
     {
         $statement = $this->connexion->getConnexion()->prepare(
-            "DELETE FROM comment WHERE commentId = ?;"
+            "DELETE FROM comment WHERE commentId = :commentId;"
         );
 
-        $affectedLines = $statement->execute([$comment->getId()]);
+        $statement->bindValue("commentId", $comment->getId(), PDO::PARAM_INT);
 
-        return ($affectedLines > 0);
+        $statement->execute();
     }
 
     /**
@@ -186,15 +186,15 @@ class CommentRepository extends Repository
     /**
      * Set the publicationDate field to now
      */
-    public function setPublicationDate(int $commentId) : bool
+    public function setPublicationDate(int $commentId)
     {
         $statement = $this->connexion->getConnexion()->prepare(
-            "UPDATE comment SET publicationDate = now() WHERE commentId = ?;"
+            "UPDATE comment SET publicationDate = now() WHERE commentId = :commentId;"
         );
 
-        $affectedLines = $statement->execute([$commentId]);
-
-        return ($affectedLines > 0);
+        $statement->bindValue("commentId", $commentId, PDO::PARAM_INT);
+        
+        $statement->execute();
     }
 
     /**
