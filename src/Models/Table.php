@@ -37,9 +37,11 @@ abstract class Table
     function hydrate(array $data) 
     {
         foreach ($data as $key => $value) {
-            $method = 'set' . mb_strtoupper($key[0]) . substr($key,1);
-            if (method_exists($this, $method)) {
-                $this->$method($value);
+            if(gettype($key) === "string"){
+                $method = 'set' . mb_strtoupper($key[0]) . substr($key,1);
+                if (method_exists($this, $method)) {
+                    $this->$method($value);
+                }
             }
         }
     }
