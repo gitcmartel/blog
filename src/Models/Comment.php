@@ -26,9 +26,9 @@ class Comment extends Table
         }
     }
 
-    function setCreationDate(string $creationDate)
+    function setCreationDate(?string $creationDate)
     {
-        $this->creationDate = $creationDate;
+        $this->creationDate = $creationDate !== null ? $creationDate : '';
     }
 
     function getPublicationDate() : ?string
@@ -42,7 +42,7 @@ class Comment extends Table
 
     function setPublicationDate(?string $publicationDate)
     {
-        $this->publicationDate = $publicationDate;
+        $this->publicationDate = $publicationDate !== null ? $publicationDate : '';
     }
 
     function getComment() : string 
