@@ -193,22 +193,21 @@ class CommentRepository extends Repository
         );
 
         $statement->bindValue("commentId", $commentId, PDO::PARAM_INT);
-        
+
         $statement->execute();
     }
 
     /**
      * Set the publicationDate field to null
      */
-    public function setPublicationDateToNull(int $commentId) : bool 
+    public function setPublicationDateToNull(int $commentId)
     {
         $statement = $this->connexion->getConnexion()->prepare(
-            "UPDATE comment SET publicationDate = null WHERE commentId = ?;"
+            "UPDATE comment SET publicationDate = null WHERE commentId = :commentId;"
         );
 
-        $affectedLines = $statement->execute([$commentId]);
-
-        return ($affectedLines > 0);
+        $statement->bindValue("commentId", $commentId, PDO::PARAM_INT);
+        $statement->execute();
     }
 
     /**
