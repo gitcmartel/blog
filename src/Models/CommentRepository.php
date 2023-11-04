@@ -125,14 +125,15 @@ class CommentRepository extends Repository
     {
         $statement = $this->connexion->getConnexion()->prepare(
             "INSERT INTO comment (creationDate, publicationDate, comment, userId, postId) 
-            VALUES (now(), ?, ?, ?, ?);"
+            VALUES (now(), :publicationDate, :comment, :userId, :postId);"
         );
 
-        $affectedRows = $statement->execute([
-            $comment->getPublicationDate(), 
-            htmlspecialchars($comment->getComment()), 
-            $comment->getUser()->getId(), 
-            $comment->getPost()->getId()]);
+        $statement->bindValue("publicationDate", $comment->getPublicationDate(), PDO::PARAM_STR);
+        $statement->bindValue("comment", $comment->getComment(), PDO::PARAM_STR);
+        $statement->bindValue("userId", $comment->getUser()->getId(), PDO::PARAM_INT);
+        $statement->bindValue("postId", $comment->getPost()->getId(), PDO::PARAM_INT);
+
+        $statement->execute();
     }
 
     /**
