@@ -15,7 +15,7 @@ class Post extends Table
     private ?string $imagePath;
     private string $creationDate;
     private ?string $publicationDate;
-    private string $lastUpdateDate;
+    private ?string $lastUpdateDate;
     private User $user;
     private User $modifier;
 

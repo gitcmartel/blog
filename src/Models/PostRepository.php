@@ -2,7 +2,6 @@
 
 namespace Application\Models;
 
-use Application\Lib\DatabaseConnexion;
 use Application\Lib\Constants;
 use Application\Lib\Image;
 use Application\Lib\Upload;
@@ -21,10 +20,11 @@ class PostRepository extends Repository
         }
         
         $statement = $this->connexion->getConnexion()->prepare(
-            "SELECT * FROM post WHERE postId = ?;"
+            "SELECT * FROM post WHERE postId = :postId;"
         );
 
-        $statement->execute([$postId]);
+        $statement->bindValue("postId", $postId, PDO::PARAM_INT);
+        $statement->execute();
 
         $post = new Post();
         $userRepository = new UserRepository();
@@ -38,16 +38,18 @@ class PostRepository extends Repository
                 $modifier = new User();
             }
     
-            $post->setId($row['postId']);
-            $post->setTitle($row['title']);
-            $post->setSummary($row['summary']);
-            $post->setContent($row['content']);
-            $post->setImagePath($row['imagePath']);
-            $post->setCreationDate($row['creationDate'] !== null ? $row['creationDate'] : '');
-            $post->setPublicationDate($row['publicationDate'] !== null ? $row['publicationDate'] : '');
-            $post->setLastUpdateDate($row['lastUpdateDate'] !== null ? $row['lastUpdateDate'] : '');
-            $post->setUser($user);
-            $post->setModifier($modifier);
+            $post->hydrate(array(
+                'id'=> $row['postId'],
+                'title' => $row['title'],
+                'summary'=> $row['summary'], 
+                'content'=> $row['content'],
+                'imagePath'=> $row['imagePath'], 
+                'creationDate'=> $row['creationDate'], 
+                'publicationDate'=> $row['publicationDate'], 
+                'lastUpdateDate'=> $row['lastUpdateDate'], 
+                'user'=> $user,
+                'modifier'=> $modifier
+            ));
         }
 
         return $post;
