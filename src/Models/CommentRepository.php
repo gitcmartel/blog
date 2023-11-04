@@ -139,19 +139,17 @@ class CommentRepository extends Repository
     /**
      * Updates a comment record
      */
-    public function updateComment(string $comment, ?string $publicationDate, int $commentId) : bool 
-    {
-        
+    public function updateComment(string $comment, ?string $publicationDate, int $commentId)
+    {   
         $statement = $this->connexion->getConnexion()->prepare(
-            "UPDATE comment SET comment = ?, publicationDate = ? WHERE commentId = ?;"
+            "UPDATE comment SET comment = :comment, publicationDate = :publicationDate WHERE commentId = :commentId;"
         );
 
-        $affectedLines = $statement->execute([
-            htmlspecialchars($comment), 
-            $publicationDate, 
-            $commentId]);
+        $statement->bindValue("comment", $comment, PDO::PARAM_STR);
+        $statement->bindValue("publicationDate", $publicationDate, PDO::PARAM_STR);
+        $statement->bindValue("commentId", $commentId, PDO::PARAM_INT);
 
-        return ($affectedLines > 0);
+        $statement->execute();
     }
 
     /**
