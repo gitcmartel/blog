@@ -56,17 +56,11 @@ class AdminCommentDeletion
 
         #region Function execution
 
-        if (! $commentRepository->deleteComment($comment)) {
-            TwigWarning::display(
-                "Un problème est survenu lors de la suppression du commentaire.", 
-                "index.php?action=AdminCommentList&pageNumber=1", 
-                "Retour à la liste des commentaires");
-            return;
-        } else  {
-            //We display the updated comment list
-            header('Location:index.php?action=Admin\Comment\AdminCommentList&pageNumber=1');
-            return;
-        }
+        $commentRepository->deleteComment($comment);
+
+        //We display the updated comment list
+        header('Location:index.php?action=Admin\Comment\AdminCommentList&pageNumber=1');
+        return;
 
         #endregion
     }
