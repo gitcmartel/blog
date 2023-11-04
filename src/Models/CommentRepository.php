@@ -91,23 +91,27 @@ class CommentRepository extends Repository
     public function getCommentsPost(int $postId) : array 
     {
         $statement = $this->connexion->getConnexion()->prepare(
-            "SELECT * FROM comment WHERE postId = ? ;"
+            "SELECT * FROM comment WHERE postId = :postId ;"
         );
 
+        $statement->bindValue("postId", $postId, PDO::PARAM_INT);
         $statement->execute([$postId]);
 
         $comments = array();
         $userRepository = new UserRepository();
         $postRepository = new PostRepository();
+
         while ($row = $statement->fetch()) {
-            $user = $userRepository->getUser($row['userId']);
-            $post = $postRepository->getPost($row['postId']);
             $comment = new Comment();
-            $comment->setId($row['commentId']);
-            $comment->setPublicationDate($row['publicationDate'] !== null ? $row['publicationDate'] : '');
-            $comment->setComment($row['comment']);
-            $comment->setUser($userRepository->getUser($row['userId']));
-            $comment->setPost($postRepository->getPost($row['postId']));
+
+            $comment->hydrate(array (
+                'id' => $row['commentId'], 
+                'publicationDate' => $row['publicationDate'], 
+                'comment' => $row['comment'], 
+                'user' => $userRepository->getUser($row['userId']), 
+                'post' => $postRepository->getPost($row['postId'])
+            ));            
+
             $comments[] = $comment;
         }
 
