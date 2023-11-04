@@ -4,7 +4,6 @@ namespace Application\Models;
 
 use Application\Lib\Constants;
 use Application\Lib\Image;
-use Application\Lib\Upload;
 use DateTime;
 use DateTimeInterface;
 use PDO;
@@ -20,7 +19,7 @@ class PostRepository extends Repository
         }
         
         $statement = $this->connexion->getConnexion()->prepare(
-            "SELECT * FROM post WHERE postId = :postId;"
+            "SELECT * FROM post WHERE id = :postId;"
         );
 
         $statement->bindValue("postId", $postId, PDO::PARAM_INT);
@@ -30,26 +29,15 @@ class PostRepository extends Repository
         $userRepository = new UserRepository();
 
         while($row = $statement->fetch()) {
-            $user = $userRepository->getUser($row['userId']);
+            $row['user'] = $userRepository->getUser($row['user']);
 
-            if($row['userIdModifier'] !== null){
-                $modifier = $userRepository->getUser($row['userIdModifier']);
+            if($row['modifier'] !== null){
+                $row['modifier'] = $userRepository->getUser($row['modifier']);
             } else {
-                $modifier = new User();
+                $row['modifier']= new User();
             }
     
-            $post->hydrate(array(
-                'id'=> $row['postId'],
-                'title' => $row['title'],
-                'summary'=> $row['summary'], 
-                'content'=> $row['content'],
-                'imagePath'=> $row['imagePath'], 
-                'creationDate'=> $row['creationDate'], 
-                'publicationDate'=> $row['publicationDate'], 
-                'lastUpdateDate'=> $row['lastUpdateDate'], 
-                'user'=> $user,
-                'modifier'=> $modifier
-            ));
+            $post->hydrate($row);
         }
 
         return $post;
@@ -84,25 +72,17 @@ class PostRepository extends Repository
 
         while($row = $statement->fetch()) {
             $userRepository = new UserRepository();
-            $user = $userRepository->getUser($row['userId']);
+            $row['user'] = $userRepository->getUser($row['user']);
 
-            if($row['userIdModifier'] !== null){
-                $modifier = $userRepository->getUser($row['userIdModifier']);
+            if($row['modifier'] !== null){
+                $row['modifier'] = $userRepository->getUser($row['modifier']);
             } else {
-                $modifier = new User();
+                $row['modifier'] = new User();
             }
 
             $post = new Post();
-            $post->setId($row['postId']);
-            $post->setTitle($row['title']);
-            $post->setSummary($row['summary']);
-            $post->setContent($row['content']);
-            $post->setImagePath($row['imagePath']);
-            $post->setCreationDate($row['creationDate'] !== null ? $row['creationDate'] : '');
-            $post->setPublicationDate($row['publicationDate'] !== null ? $row['publicationDate'] : '');
-            $post->setLastUpdateDate($row['lastUpdateDate'] !== null ? $row['lastUpdateDate'] : '');
-            $post->setUser($user);
-            $post->setModifier($modifier);
+
+            $post->hydrate($row);
 
             $posts[] = $post; 
         }
@@ -114,7 +94,7 @@ class PostRepository extends Repository
     {
         //Inserts the new post
         $statement = $this->connexion->getConnexion()->prepare(
-            "INSERT INTO post (title, summary, content, imagePath, creationDate, lastUpdateDate, userId) 
+            "INSERT INTO post (title, summary, content, imagePath, creationDate, lastUpdateDate, user) 
             VALUES (?, ?, ?, ?, now(), now(), ?);"
         );
 
@@ -129,7 +109,7 @@ class PostRepository extends Repository
     public function updatePost($post) : bool 
     {
         $statement = $this->connexion->getConnexion()->prepare(
-            "UPDATE post SET title = ?, summary = ?, content = ?, userIdModifier = ?, lastUpdateDate = now() WHERE postId=?;"
+            "UPDATE post SET title = ?, summary = ?, content = ?, modifier = ?, lastUpdateDate = now() WHERE id=?;"
         );
 
         $affectedLines = $statement->execute([$post->getTitle(), $post->getSummary(), $post->getContent(), $post->getModifier()->getId(), $post->getId()]);
@@ -141,7 +121,7 @@ class PostRepository extends Repository
     public function deletePost($post) : bool 
     {
         $statement = $this->connexion->getConnexion()->prepare(
-            "DELETE FROM post WHERE postId = ?"
+            "DELETE FROM post WHERE id = ?"
         );
 
         $affectedLines = $statement->execute([$post->getId()]);
@@ -155,7 +135,7 @@ class PostRepository extends Repository
     public function setPublicationDate(int $postId) : bool
     {
         $statement = $this->connexion->getConnexion()->prepare(
-            "UPDATE post SET publicationDate = now() WHERE postId = ?;"
+            "UPDATE post SET publicationDate = now() WHERE id = ?;"
         );
 
         $affectedLines = $statement->execute([$postId]);
@@ -169,7 +149,7 @@ class PostRepository extends Repository
     public function setPublicationDateToNull(int $postId) : bool 
     {
         $statement = $this->connexion->getConnexion()->prepare(
-            "UPDATE post SET publicationDate = null WHERE postId = ?;"
+            "UPDATE post SET publicationDate = null WHERE id = ?;"
         );
 
         $affectedLines = $statement->execute([$postId]);
@@ -184,7 +164,7 @@ class PostRepository extends Repository
     public function getTotalPageNumber(int $numberOfPostsPerPage) : int
     {
         $statement = $this->connexion->getConnexion()->prepare(
-            "SELECT COUNT(postId) AS TotalPosts FROM post;"
+            "SELECT COUNT(id) AS TotalPosts FROM post;"
         );
 
         $statement->execute();
@@ -214,24 +194,17 @@ class PostRepository extends Repository
 
         while($row = $statement->fetch()) {
             $userRepository = new UserRepository();
-            $user = $userRepository->getUser($row['userId']);
+            $row['user'] = $userRepository->getUser($row['user']);
 
-            if($row['userIdModifier'] !== null){
-                $modifier = $userRepository->getUser($row['userIdModifier']);
+            if($row['modifier'] !== null){
+                $row['modifier'] = $userRepository->getUser($row['modifier']);
             } else {
-                $modifier = new User();
+                $row['modifier'] = new User();
             }
 
             $post = new Post();
-            $post->setId($row['postId']);
-            $post->setTitle($row['title']);
-            $post->setSummary($row['summary']);
-            $post->setContent($row['content']);
-            $post->setCreationDate($row['creationDate'] !== null ? $row['creationDate'] : '');
-            $post->setPublicationDate($row['publicationDate'] !== null ? $row['publicationDate'] : '');
-            $post->setLastUpdateDate($row['lastUpdateDate'] !== null ? $row['lastUpdateDate'] : '');
-            $post->setUser($user);
-            $post->setModifier($modifier);
+
+            $post->hydrate($row);
 
             $posts[] = $post; 
         }
@@ -248,7 +221,7 @@ class PostRepository extends Repository
         //Updates the imagePath field by adding the id of the new row to the image file name
 
         $statement = $this->connexion->getConnexion()->prepare(
-            "UPDATE post SET imagePath=? WHERE postId=?;"
+            "UPDATE post SET imagePath=? WHERE id=?;"
         );
 
         $affectedLines = $statement->execute([$pathImage, $postId]);
@@ -314,7 +287,7 @@ class PostRepository extends Repository
     public function getPostIdList() : array
     {
         $statement = $this->connexion->getConnexion()->prepare(
-            "SELECT postId FROM post ORDER BY postId ASC;"
+            "SELECT id FROM post ORDER BY id ASC;"
         );
 
         $statement->execute();
@@ -328,7 +301,7 @@ class PostRepository extends Repository
     public function getImagePath(int $postId) : string
     {
         $statement = $this->connexion->getConnexion()->prepare(
-            "SELECT imagePath FROM post WHERE postId= ?;"
+            "SELECT imagePath FROM post WHERE id= ?;"
         );
 
         $statement->execute([$postId]);
