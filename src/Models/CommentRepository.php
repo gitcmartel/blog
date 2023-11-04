@@ -27,19 +27,18 @@ class CommentRepository extends Repository
 
         while($row = $statement->fetch()) {
             $userRepository = new UserRepository();
-            $user = $userRepository->getUser($row['userId']);
             $postRepository = new PostRepository();
-            $post = $postRepository->getPost($row['postId']);
 
-            
-            $comment->setId($row['commentId']);
-            $comment->setCreationDate($row['creationDate'] !== null ? $row['creationDate'] : '');
-            $comment->setPublicationDate($row['publicationDate'] !== null ? $row['publicationDate'] : '');
-            $comment->setComment($row['comment']);
-            $comment->setUser($user);
-            $comment->setPost($post);
+            $comment->hydrate(array (
+                'id' => $row['commentId'], 
+                'creationDate' => $row['creationDate'], 
+                'publicationDate' => $row['publicationDate'], 
+                'comment' => $row['comment'], 
+                'user' => $userRepository->getUser($row['userId']), 
+                'post' => $postRepository->getPost($row['postId'])
+            ));
         }
-        
+
         return $comment;
     }
 
