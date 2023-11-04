@@ -139,7 +139,7 @@ class Post extends Table
         $this->lastUpdateDate = $lastUpdateDate;
     }
 
-    function getUser() : User 
+    function getUser() : ?User 
     {
         if (isset($this->user)){
             return $this->user;
@@ -153,7 +153,7 @@ class Post extends Table
         $this->user = $user;
     }
 
-    function getModifier() : User 
+    function getModifier() : ?User 
     {
         if (isset($this->modifier)){
             return $this->modifier;
