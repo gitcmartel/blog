@@ -88,18 +88,11 @@ class AdminCommentSave
 
         //If there is a commentId we update the comment field
         if ($comment->getId() !== null){
-            if ($commentRepository->updateComment($comment->getComment(), 
-            $comment->getPublicationDate(), $comment->getId())) {
-                //We display the updated user list
-                header("Location:index.php?action=Admin\Comment\AdminCommentList&pageNumber=1");
-                return;
-            } else {
-                TwigWarning::display(
-                    "Une erreur est survenue lors de l'enregistrement des données.", 
-                    "index.php?action=Home\Home", 
-                    "Retour à la page d'accueil");
-                return;
-            }
+            $commentRepository->updateComment($comment->getComment(), 
+            $comment->getPublicationDate(), $comment->getId());
+            //We display the updated user list
+            header("Location:index.php?action=Admin\Comment\AdminCommentList&pageNumber=1");
+            return;
         }
 
         //If there is no commentId we create a new comment
