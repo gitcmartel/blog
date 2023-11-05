@@ -14,8 +14,8 @@ class User extends Table
     private string $pseudo;
     private string $email;
     private string $password;
-    private string $tokenForgotPassword;
-    private string $forgotPasswordDate;
+    private ?string $tokenForgotPassword;
+    private ?string $forgotPasswordDate;
     private string $creationDate;
     private UserFunction $userFunction;
     private bool $isValid;
@@ -140,7 +140,7 @@ class User extends Table
         }
     }
 
-    function setTokenForgotPassword(string $tokenForgotPassword)
+    function setTokenForgotPassword(?string $tokenForgotPassword)
     {
         $this->tokenForgotPassword = $tokenForgotPassword;
     }
@@ -154,7 +154,7 @@ class User extends Table
         }
     }
 
-    function setForgotPasswordDate(string $forgotPasswordDate)
+    function setForgotPasswordDate(?string $forgotPasswordDate)
     {
         $this->forgotPasswordDate = $forgotPasswordDate;
     }
