@@ -16,10 +16,12 @@ class UserRepository extends Repository
         }
 
         $statement = $this->connexion->getConnexion()->prepare(
-            "SELECT * FROM user WHERE id = ?;"
+            "SELECT * FROM user WHERE id = :userId;"
         );
 
-        $statement->execute([$userId]);
+        $statement->bindValue("userId", $userId, PDO::PARAM_INT);
+
+        $statement->execute();
 
         $user = new User();
 
@@ -34,10 +36,11 @@ class UserRepository extends Repository
     public function getUserByMail(string $userEmail) : User
     {
         $statement = $this->connexion->getConnexion()->prepare(
-            "SELECT * FROM user WHERE email = ?;"
+            "SELECT * FROM user WHERE email = :email;"
         );
 
-        $statement->execute([$userEmail]);
+        $statement->bindValue("email", $userEmail, PDO::PARAM_STR);
+        $statement->execute();
 
         $user = new User();
 
@@ -92,17 +95,18 @@ class UserRepository extends Repository
     {
         $statement = $this->connexion->getConnexion()->prepare (
             "INSERT INTO user (name, surname, pseudo, email, password, creationDate, userFunction, isValid) 
-            VALUES(?, ?, ?, ?, ?, now(), ?, ?);"
+            VALUES(:name, :surname, :pseudo, :email, :password, now(), :userFunction, :isValid);"
         );
 
-        if ($statement->execute([
-            htmlspecialchars($user->getName()), 
-            htmlspecialchars($user->getSurname()), 
-            htmlspecialchars($user->getPseudo()), 
-            htmlspecialchars($user->getEmail()), 
-            Password::encrypt($user->getPassword()), 
-            htmlspecialchars($user->getUserFunction()->toString()), 
-            htmlspecialchars($user->getIsValid())])) 
+        $statement->bindValue("name", htmlspecialchars($user->getName()), PDO::PARAM_STR);
+        $statement->bindValue("surname", htmlspecialchars($user->getSurname()), PDO::PARAM_STR);
+        $statement->bindValue("pseudo", htmlspecialchars($user->getPseudo()), PDO::PARAM_STR);
+        $statement->bindValue("email", htmlspecialchars($user->getEmail()), PDO::PARAM_STR);
+        $statement->bindValue("password", htmlspecialchars($user->getPassword()), PDO::PARAM_STR);
+        $statement->bindValue("userFunction", htmlspecialchars($user->getUserFunction()->toString()), PDO::PARAM_STR);
+        $statement->bindValue("isValid", htmlspecialchars($user->getIsValid()), PDO::PARAM_BOOL);
+
+        if ($statement->execute()) 
         {
             return true;
         } else {
@@ -116,24 +120,24 @@ class UserRepository extends Repository
         $result = false;
 
         $statement = $this->connexion->getConnexion()->prepare(
-            "UPDATE user SET name = :name, surname = :surname, pseudo = :pseudo, email = :email, userFunction = :function, isValid = :isvalid 
-            WHERE id = :id;"
+            "UPDATE user SET name = :name, surname = :surname, pseudo = :pseudo, email = :email, userFunction = :userFunction, isValid = :isValid 
+            WHERE id = :userId;"
         );
 
         $statement->bindValue(':name', $user->getName(), PDO::PARAM_STR);
         $statement->bindValue(':surname', $user->getSurname(), PDO::PARAM_STR);
         $statement->bindValue(':pseudo', $user->getPseudo(), PDO::PARAM_STR);
         $statement->bindValue(':email', $user->getEmail(), PDO::PARAM_STR);
-        $statement->bindValue(':function', $user->getUserFunction()->toString(), PDO::PARAM_STR);
-        $statement->bindValue(':isvalid', $user->getIsValid(), PDO::PARAM_BOOL);
-        $statement->bindValue(':id', $user->getId(), PDO::PARAM_INT);
+        $statement->bindValue(':userFunction', $user->getUserFunction()->toString(), PDO::PARAM_STR);
+        $statement->bindValue(':isValid', $user->getIsValid(), PDO::PARAM_BOOL);
+        $statement->bindValue(':userId', $user->getId(), PDO::PARAM_INT);
 
         if ($statement->execute()) {
             $result = true;
         }
 
         //If there is a password we have to change it
-        if($user->getPassword() === ""){
+        if($user->getPassword() !== ""){
             $result = $this->changePassword($user->getId(), $user->getPassword());
         }
 
@@ -144,10 +148,11 @@ class UserRepository extends Repository
     public function deleteUser(int $userId) : bool 
     {
         $statement = $this->connexion->getConnexion()->prepare(
-            "DELETE FROM user WHERE id = ?;"
+            "DELETE FROM user WHERE id = :userId;"
         );
 
-        if ($statement->execute([$userId])) {
+        $statement->bindValue("userId", $userId, PDO::PARAM_INT);
+        if ($statement->execute()) {
             return true;
         } else {
             return false;
@@ -159,9 +164,10 @@ class UserRepository extends Repository
     public function exists(string $value, string $field) : bool
     {
         $statement = $this->connexion->getConnexion()->prepare(
-            "SELECT " . $field . " FROM user WHERE " . $field . "=?;"
+            "SELECT " . $field . " FROM user WHERE " . $field . "=:fieldName;"
         );
 
+        $statement->bindValue("fieldName", $field, PDO::PARAM_STR);
         $statement->execute([$value]);
 
         if ($statement->rowCount() > 0){
@@ -199,9 +205,12 @@ class UserRepository extends Repository
     public function updateToken(int $userId, string $token) : bool
     {
         $statement = $this->connexion->getConnexion()->prepare(
-            "UPDATE user SET tokenForgotPassword = ?, forgotPasswordDate = now() 
-            WHERE id = ?;"
+            "UPDATE user SET tokenForgotPassword = :token, forgotPasswordDate = now() 
+            WHERE id = :userId;"
         );
+
+        $statement->bindValue("token", $token, PDO::PARAM_STR);
+        $statement->bindValue("userId", $userId, PDO::PARAM_INT);
 
         if ($statement->execute([$token, $userId])) {
             return true;
@@ -216,10 +225,12 @@ class UserRepository extends Repository
      public function getUserFromToken(string $token, string $email) : User
      {
         $statement = $this->connexion->getConnexion()->prepare(
-            "SELECT * FROM user WHERE tokenForgotPassword = ? and email = ?;"
+            "SELECT * FROM user WHERE tokenForgotPassword = :token and email = :email;"
         );
 
-        $statement->execute([$token, $email]);
+        $statement->bindValue("token", $token, PDO::PARAM_STR);
+        $statement->bindValue("email", $email, PDO::PARAM_STR);
+        $statement->execute();
 
         $user = new User();
 
@@ -233,9 +244,12 @@ class UserRepository extends Repository
      public function changePassword(int $userId, string $password)
      {
         $statement = $this->connexion->getConnexion()->prepare(
-            "UPDATE user SET tokenForgotPassword = '', forgotPasswordDate = null, password = ? 
-            WHERE id = ?;"
+            "UPDATE user SET tokenForgotPassword = '', forgotPasswordDate = null, password = :password 
+            WHERE id = :userId;"
         );
+
+        $statement->bindValue("userId", $userId, PDO::PARAM_INT);
+        $statement->bindValue("password", $password, PDO::PARAM_STR);
 
         if ($statement->execute([Password::encrypt($password), $userId])) {
             return true;
