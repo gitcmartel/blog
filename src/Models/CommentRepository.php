@@ -2,7 +2,6 @@
 
 namespace Application\Models;
 
-use Application\Lib\DatabaseConnexion;
 use PDO;
 
 class CommentRepository extends Repository 
@@ -18,7 +17,7 @@ class CommentRepository extends Repository
         }
 
         $statement = $this->connexion->getConnexion()->prepare(
-            "SELECT * FROM comment WHERE commentId = :commentId;"
+            "SELECT * FROM comment WHERE id = :commentId;"
         );
 
         $comment = new Comment();
@@ -29,15 +28,10 @@ class CommentRepository extends Repository
         while($row = $statement->fetch()) {
             $userRepository = new UserRepository();
             $postRepository = new PostRepository();
+            $row['user'] = $userRepository->getUser($row['user']);
+            $row['post'] = $postRepository->getPost($row['post']);
 
-            $comment->hydrate(array (
-                'id' => $row['commentId'], 
-                'creationDate' => $row['creationDate'], 
-                'publicationDate' => $row['publicationDate'], 
-                'comment' => $row['comment'], 
-                'user' => $userRepository->getUser($row['userId']), 
-                'post' => $postRepository->getPost($row['postId'])
-            ));
+            $comment->hydrate($row);
         }
 
         return $comment;
@@ -72,14 +66,10 @@ class CommentRepository extends Repository
         while($row = $statement->fetch()) {
             $comment = new Comment();
 
-            $comment->hydrate(array (
-                'id' => $row['commentId'], 
-                'creationDate' => $row['creationDate'], 
-                'publicationDate' => $row['publicationDate'], 
-                'comment' => $row['comment'], 
-                'user' => $userRepository->getUser($row['userId']), 
-                'post' => $postRepository->getPost($row['postId'])
-            ));
+            $row['user'] = $userRepository->getUser($row['user']);
+            $row['post'] = $postRepository->getPost($row['post']);
+
+            $comment->hydrate($row);
 
             $comments[] = $comment; 
         }
@@ -105,13 +95,10 @@ class CommentRepository extends Repository
         while ($row = $statement->fetch()) {
             $comment = new Comment();
 
-            $comment->hydrate(array (
-                'id' => $row['commentId'], 
-                'publicationDate' => $row['publicationDate'], 
-                'comment' => $row['comment'], 
-                'user' => $userRepository->getUser($row['userId']), 
-                'post' => $postRepository->getPost($row['postId'])
-            ));            
+            $row['user'] = $userRepository->getUser($row['user']);
+            $row['post'] = $postRepository->getPost($row['post']);
+
+            $comment->hydrate($row);            
 
             $comments[] = $comment;
         }
@@ -125,7 +112,7 @@ class CommentRepository extends Repository
     public function createComment(Comment $comment)
     {
         $statement = $this->connexion->getConnexion()->prepare(
-            "INSERT INTO comment (creationDate, publicationDate, comment, userId, postId) 
+            "INSERT INTO comment (creationDate, publicationDate, comment, user, post) 
             VALUES (now(), :publicationDate, :comment, :userId, :postId);"
         );
 
@@ -143,7 +130,7 @@ class CommentRepository extends Repository
     public function updateComment(string $comment, ?string $publicationDate, int $commentId)
     {   
         $statement = $this->connexion->getConnexion()->prepare(
-            "UPDATE comment SET comment = :comment, publicationDate = :publicationDate WHERE commentId = :commentId;"
+            "UPDATE comment SET comment = :comment, publicationDate = :publicationDate WHERE id = :commentId;"
         );
 
         $statement->bindValue("comment", $comment, PDO::PARAM_STR);
@@ -159,7 +146,7 @@ class CommentRepository extends Repository
     public function deleteComment(Comment $comment)
     {
         $statement = $this->connexion->getConnexion()->prepare(
-            "DELETE FROM comment WHERE commentId = :commentId;"
+            "DELETE FROM comment WHERE id = :commentId;"
         );
 
         $statement->bindValue("commentId", $comment->getId(), PDO::PARAM_INT);
@@ -174,7 +161,7 @@ class CommentRepository extends Repository
     public function getTotalPageNumber(int $numberOfCommentsPerPage) : int
     {
         $statement = $this->connexion->getConnexion()->prepare(
-            "SELECT COUNT(commentId) AS TotalComments FROM comment;"
+            "SELECT COUNT(id) AS TotalComments FROM comment;"
         );
 
         $statement->execute();
@@ -190,7 +177,7 @@ class CommentRepository extends Repository
     public function setPublicationDate(int $commentId)
     {
         $statement = $this->connexion->getConnexion()->prepare(
-            "UPDATE comment SET publicationDate = now() WHERE commentId = :commentId;"
+            "UPDATE comment SET publicationDate = now() WHERE id = :commentId;"
         );
 
         $statement->bindValue("commentId", $commentId, PDO::PARAM_INT);
@@ -204,7 +191,7 @@ class CommentRepository extends Repository
     public function setPublicationDateToNull(int $commentId)
     {
         $statement = $this->connexion->getConnexion()->prepare(
-            "UPDATE comment SET publicationDate = null WHERE commentId = :commentId;"
+            "UPDATE comment SET publicationDate = null WHERE id = :commentId;"
         );
 
         $statement->bindValue("commentId", $commentId, PDO::PARAM_INT);
@@ -223,8 +210,8 @@ class CommentRepository extends Repository
         $searchString = htmlspecialchars($searchString); //Escape special characters
 
         $statement = $this->connexion->getConnexion()->prepare(
-            "SELECT c.comment, c.creationDate, c.commentId, p.title, u.name, u.surname, u.pseudo, u.email 
-            FROM comment c INNER JOIN user u ON c.userId = u.userId 
+            "SELECT c.comment, c.creationDate, c.id, p.title, u.name, u.surname, u.pseudo, u.email 
+            FROM comment c INNER JOIN user u ON c.user = u.id 
             INNER JOIN post p ON c.postId = p.postId
             WHERE u.name LIKE :searchString  
             OR u.surname LIKE :searchString 
@@ -244,7 +231,7 @@ class CommentRepository extends Repository
         $comments = array();
 
         while($row = $statement->fetch()) {
-            $comment = $this->getComment($row['commentId']);
+            $comment = $this->getComment($row['id']);
             $comments[] = $comment; 
         }
         return $comments;
