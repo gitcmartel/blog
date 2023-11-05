@@ -41,7 +41,7 @@ class AdminCommentValidation
         $commentIds = is_array($_POST['commentValidation']) ? $_POST['commentValidation'] : [$_POST['commentValidation']];
 
         //Check if all the commentid's are present in the database and if the validation variable is present
-        if(! $commentRepository->checkIds($commentIds, 'comment', 'commentId') || ! isset($_POST['validation'])){
+        if(! $commentRepository->checkIds($commentIds, 'comment', 'id') || ! isset($_POST['validation'])){
             TwigWarning::display(
                 "Une erreur est survenue lors de la validation du ou des commentaires.",
                 "index.php?action=Admin\Comment\AdminCommentList&pageNumber=1",

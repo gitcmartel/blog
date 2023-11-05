@@ -4,7 +4,6 @@ namespace Application\Controllers\Admin\User;
 
 use Application\Models\UserRepository;
 use Application\Lib\UserActiveCheckValidity;
-use Application\Lib\DatabaseConnexion;
 use Application\Lib\Session;
 use Application\Lib\TwigLoader;
 use Application\Lib\TwigWarning;
@@ -16,7 +15,7 @@ class AdminUserValidation
     {
         #region Variables
 
-        $userRepository = new UserRepository(new DatabaseConnexion);
+        $userRepository = new UserRepository();
         $twig = TwigLoader::getEnvironment();
         $totalPages = 1;
         $pageNumber = 1;
@@ -24,8 +23,7 @@ class AdminUserValidation
         #endregion
 
         #region Conditions tests
-        var_dump($_POST);
-        exit;
+
         if(! UserActiveCheckValidity::check(array('Administrateur')) || ! isset($_POST['userValidation']) 
             || ! isset($_POST['validation']) || $_POST['validation'] === ""){
             TwigWarning::display(
@@ -44,7 +42,7 @@ class AdminUserValidation
         $usersToValidate = is_array($_POST['userValidation']) ? $_POST['userValidation'] : [$_POST['userValidation']];
 
         //Check if all the userId's are present in the database
-        if(! $userRepository->checkIds($usersToValidate, 'user', 'userId')){
+        if(! $userRepository->checkIds($usersToValidate, 'user', 'id')){
             TwigWarning::display(
                 "Une erreur est survenue lors de la validation du ou des utilisateurs.",
                 "index.php?action=Admin\Comment\AdminCommentList&pageNumber=1",
