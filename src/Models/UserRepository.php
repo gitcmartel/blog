@@ -2,7 +2,6 @@
 
 namespace Application\Models;
 
-use Application\Lib\DatabaseConnexion;
 use Application\Lib\Password;
 use PDO;
 
@@ -17,7 +16,7 @@ class UserRepository extends Repository
         }
 
         $statement = $this->connexion->getConnexion()->prepare(
-            "SELECT * FROM user WHERE userId = ?;"
+            "SELECT * FROM user WHERE id = ?;"
         );
 
         $statement->execute([$userId]);
@@ -25,15 +24,7 @@ class UserRepository extends Repository
         $user = new User();
 
         while ($row = $statement->fetch()) {
-            $user->setId($row['userId']);
-            $user->setName($row['name']);
-            $user->setSurname($row['surname']);
-            $user->setPseudo($row['pseudo']);
-            $user->setEmail($row['email']);
-            $user->setPassword($row['password']);
-            $user->setCreationDate($row['creationDate'] !== null ? $row['creationDate'] : '');
-            $user->setUserFunction($row['userFunction']);
-            $user->setIsValid($row['isValid']);
+            $user->hydrate($row);
         }
 
         return $user;
@@ -51,15 +42,7 @@ class UserRepository extends Repository
         $user = new User();
 
         while ($row = $statement->fetch()) {
-            $user->setId($row['userId']);
-            $user->setName($row['name']);
-            $user->setSurname($row['surname']);
-            $user->setPseudo($row['pseudo']);
-            $user->setEmail($row['email']);
-            $user->setPassword($row['password']);
-            $user->setCreationDate($row['creationDate'] !== null ? $row['creationDate'] : '');
-            $user->setUserFunction($row['userFunction']);
-            $user->setIsValid($row['isValid']);
+            $user->hydrate($row);
         }
 
         return $user;
@@ -97,15 +80,7 @@ class UserRepository extends Repository
 
         while ($row = $statement->fetch()) {
             $user = new User();
-            $user->setId($row['userId']);
-            $user->setName($row['name']);
-            $user->setSurname($row['surname']);
-            $user->setPseudo($row['pseudo']);
-            $user->setEmail($row['email']);
-            $user->setPassword($row['password']);
-            $user->setCreationDate($row['creationDate'] !== null ? $row['creationDate'] : '');
-            $user->setUserFunction($row['userFunction']);
-            $user->setIsValid($row['isValid']);
+            $user->hydrate($row);
             $users[] = $user;
         }
 
@@ -142,7 +117,7 @@ class UserRepository extends Repository
 
         $statement = $this->connexion->getConnexion()->prepare(
             "UPDATE user SET name = :name, surname = :surname, pseudo = :pseudo, email = :email, userFunction = :function, isValid = :isvalid 
-            WHERE userId = :id;"
+            WHERE id = :id;"
         );
 
         $statement->bindValue(':name', $user->getName(), PDO::PARAM_STR);
@@ -169,7 +144,7 @@ class UserRepository extends Repository
     public function deleteUser(int $userId) : bool 
     {
         $statement = $this->connexion->getConnexion()->prepare(
-            "DELETE FROM user WHERE userId = ?;"
+            "DELETE FROM user WHERE id = ?;"
         );
 
         if ($statement->execute([$userId])) {
@@ -225,7 +200,7 @@ class UserRepository extends Repository
     {
         $statement = $this->connexion->getConnexion()->prepare(
             "UPDATE user SET tokenForgotPassword = ?, forgotPasswordDate = now() 
-            WHERE userId = ?;"
+            WHERE id = ?;"
         );
 
         if ($statement->execute([$token, $userId])) {
@@ -249,17 +224,7 @@ class UserRepository extends Repository
         $user = new User();
 
         while ($row = $statement->fetch()) {
-            $user->setId($row['userId']);
-            $user->setName($row['name']);
-            $user->setSurname($row['surname']);
-            $user->setPseudo($row['pseudo']);
-            $user->setEmail($row['email']);
-            $user->setPassword($row['password']);
-            $user->setTokenForgotPassword($row['tokenForgotPassword']);
-            $user->setForgotPasswordDate($row['creationDate'] !== null ? $row['forgotPasswordDate'] : '');
-            $user->setCreationDate($row['creationDate'] !== null ? $row['creationDate'] : '');
-            $user->setUserFunction($row['userFunction']);
-            $user->setIsValid($row['isValid']);
+            $user->hydrate($row);
         }
 
         return $user;
@@ -269,7 +234,7 @@ class UserRepository extends Repository
      {
         $statement = $this->connexion->getConnexion()->prepare(
             "UPDATE user SET tokenForgotPassword = '', forgotPasswordDate = null, password = ? 
-            WHERE userId = ?;"
+            WHERE id = ?;"
         );
 
         if ($statement->execute([Password::encrypt($password), $userId])) {
@@ -286,7 +251,7 @@ class UserRepository extends Repository
     public function getTotalPageNumber(int $numberOfUsersPerPage) : int
     {
         $statement = $this->connexion->getConnexion()->prepare(
-            "SELECT COUNT(userId) AS TotalUsers FROM user;"
+            "SELECT COUNT(id) AS TotalUsers FROM user;"
         );
 
         $statement->execute();
@@ -321,15 +286,7 @@ class UserRepository extends Repository
         while($row = $statement->fetch()) {
             $user = new User();
             
-            $user->setId($row['userId']);
-            $user->setName($row['name']);
-            $user->setSurname($row['surname']);
-            $user->setPseudo($row['pseudo']);
-            $user->setEmail($row['email']);
-            $user->setPassword($row['password']);
-            $user->setCreationDate($row['creationDate'] !== null ? $row['creationDate'] : '');
-            $user->setUserFunction($row['userFunction']);
-            $user->setIsValid($row['isValid']);
+            $user->hydrate($row);
 
             $users[] = $user; 
         }
@@ -342,7 +299,7 @@ class UserRepository extends Repository
      public function setValidation(int $userId, int $value) : bool
      {
         $statement = $this->connexion->getConnexion()->prepare(
-            "UPDATE user SET isValid = :value WHERE userId = :id;"
+            "UPDATE user SET isValid = :value WHERE id = :id;"
         );
 
         $statement->bindValue(':value', $value, PDO::PARAM_INT);
