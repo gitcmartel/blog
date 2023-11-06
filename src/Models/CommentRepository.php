@@ -79,14 +79,14 @@ class CommentRepository extends Repository
     /**
      * Returns an array of comment objects for a specific post
      */
-    public function getCommentsPost(int $postId) : array 
+    public function getCommentsPost(Post $post) : array 
     {
         $statement = $this->connexion->getConnexion()->prepare(
             "SELECT * FROM comment WHERE postId = :postId ;"
         );
 
-        $statement->bindValue("postId", $postId, PDO::PARAM_INT);
-        $statement->execute([$postId]);
+        $statement->bindValue("postId", $post->getId(), PDO::PARAM_INT);
+        $statement->execute();
 
         $comments = array();
         $userRepository = new UserRepository();
