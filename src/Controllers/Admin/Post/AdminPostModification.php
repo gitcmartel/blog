@@ -5,7 +5,6 @@ namespace Application\Controllers\Admin\Post;
 use Application\Models\PostRepository;
 use Application\Lib\UserActiveCheckValidity;
 use Application\Lib\Session;
-use Application\Lib\DatabaseConnexion;
 use Application\Lib\TwigLoader;
 use Application\Lib\TwigWarning;
 
@@ -16,7 +15,7 @@ class AdminPostModification
     {
         #region Variables
 
-        $postRepository = new PostRepository(new DatabaseConnexion);
+        $postRepository = new PostRepository();
         $post = "";
         $twig = TwigLoader::getEnvironment();
 
@@ -47,8 +46,6 @@ class AdminPostModification
         #endregion
   
         #region Function execution
-
-        
 
         echo $twig->render('Admin\Post\AdminPost.html.twig', [ 
             'post' => $post, 
