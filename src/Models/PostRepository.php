@@ -134,15 +134,14 @@ class PostRepository extends Repository
     }
 
     //Deletes a post
-    public function deletePost($post) : bool 
+    public function deletePost($post)
     {
         $statement = $this->connexion->getConnexion()->prepare(
-            "DELETE FROM post WHERE id = ?"
+            "DELETE FROM post WHERE id = :postId"
         );
 
-        $affectedLines = $statement->execute([$post->getId()]);
-
-        return ($affectedLines > 0);
+        $statement->bindValue("postId", $post->getId(), PDO::PARAM_INT);
+        $statement->execute();
     }
 
     /**
