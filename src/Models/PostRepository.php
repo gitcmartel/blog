@@ -92,17 +92,26 @@ class PostRepository extends Repository
     //Creates a new post and returns the id of the inserted row if there is an image to insert
     public function createPost(Post $post)
     {
+        $post->setCreationDate(Date(DateTimeInterface::ATOM));
+        $post->setLastUpdateDate($post->getCreationDate());
+
         //Inserts the new post
         $statement = $this->connexion->getConnexion()->prepare(
             "INSERT INTO post (title, summary, content, imagePath, creationDate, lastUpdateDate, user) 
-            VALUES (?, ?, ?, ?, now(), now(), ?);"
+            VALUES (:title, :summary, :content, :imagePath, :creationDate, :lastUpdateDate, :userId);"
         );
 
-        $statement->execute([htmlspecialchars($post->getTitle()), htmlspecialchars($post->getSummary()), 
-        htmlspecialchars($post->getContent()), $post->getImagePath(), $post->getUser()->getId()]);
+        $statement->bindValue("title", htmlspecialchars($post->getTitle()), PDO::PARAM_STR);
+        $statement->bindValue("summary", htmlspecialchars($post->getSummary()), PDO::PARAM_STR);
+        $statement->bindValue("content", htmlspecialchars($post->getContent()), PDO::PARAM_STR);
+        $statement->bindValue("imagePath", htmlspecialchars($post->getImagePath()), PDO::PARAM_STR);
+        $statement->bindValue("creationDate", htmlspecialchars($post->getCreationDate()), PDO::PARAM_STR);
+        $statement->bindValue("lastUpdateDate", htmlspecialchars($post->getLastUpdateDate()), PDO::PARAM_STR);
+        $statement->bindValue("userId", htmlspecialchars($post->getUser()->getId()), PDO::PARAM_INT);
+
+        $statement->execute();
 
         $post->setId($this->connexion->getConnexion()->lastInsertId());
-        $post->setCreationDate(Date(DateTimeInterface::ATOM));
     }
 
     //Updates a post (except the imagePath field)
