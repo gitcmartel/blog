@@ -44,7 +44,7 @@ class AdminPostPublish
         $postsToPublish = is_array($_POST['postPublish']) ? $_POST['postPublish'] : [$_POST['postPublish']];
 
         //Check if all the commentid's are present in the database and if the validation variable is present
-        if(! $postRepository->checkIds($postsToPublish, 'post', 'postId')){
+        if(! $postRepository->checkIds($postsToPublish, 'post', 'id')){
             TwigWarning::display(
                 "Une erreur est survenue lors de la publication du ou des posts.",
                 "index.php?action=Admin\Comment\AdminCommentList&pageNumber=1",
@@ -61,7 +61,7 @@ class AdminPostPublish
 
         //Updates the status post field
         foreach($postsToPublish as $postId){
-            $post = $postRepository->getPost($postId);
+            $postRepository->getPost($postId);
             if($_POST['unpublish'] === "false"){
                 $postRepository->setPublicationDate($postId);
             } else {
