@@ -106,13 +106,7 @@ class AdminPostSave
             //Fetching creationDate and imagePath from the database
             $post->setCreationDate($postDatabase->getCreationDate());
             $post->setImagePath($postDatabase->getImagePath());
-            if (! $postRepository->updatePost($post)){
-                TwigWarning::display(
-                    "Un problème est survenu lors de l'enregistrement du post.", 
-                    "index.php?action=Home\Home", 
-                    "Retour à l'accueil");
-                return; 
-            }
+            $postRepository->updatePost($post);
         } else {
             //Else we have to create a new post
             $postRepository->createPost($post);
