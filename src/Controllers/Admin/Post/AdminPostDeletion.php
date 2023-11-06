@@ -47,20 +47,14 @@ class AdminPostDeletion
 
         #region Function execution
 
-        
+        $postRepository->deletePost($post);
 
-        if (! $postRepository->deletePost($post)) {
-            TwigWarning::display(
-                "Un problème est survenu lors de la suppression du post.", 
-                "index.php?action=Home\Home", 
-                "Retour à l'accueil"); 
-                return;
-        } else {
-            //We delete the image if there is one
-            $post->deleteImage();
-            //We display the updated post list
-            header("Location:index.php?action=Admin\Post\AdminPostList&pageNumber=1");
-        }
+        //We delete the image if there is one
+        $post->deleteImage();
+
+        //We display the updated post list
+        header("Location:index.php?action=Admin\Post\AdminPostList&pageNumber=1");
+
         #endregion
     }
     #endregion
