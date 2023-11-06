@@ -147,29 +147,27 @@ class PostRepository extends Repository
     /**
      * Set the publicationDate field to now
      */
-    public function setPublicationDate(int $postId) : bool
+    public function setPublicationDate(int $postId)
     {
         $statement = $this->connexion->getConnexion()->prepare(
-            "UPDATE post SET publicationDate = now() WHERE id = ?;"
+            "UPDATE post SET publicationDate = now() WHERE id = :postId;"
         );
 
-        $affectedLines = $statement->execute([$postId]);
-
-        return ($affectedLines > 0);
+        $statement->bindValue("postId", $postId, PDO::PARAM_INT);
+        $statement->execute();
     }
 
     /**
      * Set the publicationDate field to null
      */
-    public function setPublicationDateToNull(int $postId) : bool 
+    public function setPublicationDateToNull(int $postId)
     {
         $statement = $this->connexion->getConnexion()->prepare(
-            "UPDATE post SET publicationDate = null WHERE id = ?;"
+            "UPDATE post SET publicationDate = null WHERE id = :postId;"
         );
 
-        $affectedLines = $statement->execute([$postId]);
-
-        return ($affectedLines > 0);
+        $statement->bindValue("postId", $postId, PDO::PARAM_INT);
+        $statement->execute();
     }
 
     /**
