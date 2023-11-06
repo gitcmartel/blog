@@ -88,8 +88,7 @@ class AdminCommentSave
 
         //If there is a commentId we update the comment field
         if ($comment->getId() !== null){
-            $commentRepository->updateComment($comment->getComment(), 
-            $comment->getPublicationDate(), $comment->getId());
+            $commentRepository->updateComment($comment);
             //We display the updated user list
             header("Location:index.php?action=Admin\Comment\AdminCommentList&pageNumber=1");
             return;
