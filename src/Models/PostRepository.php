@@ -115,15 +115,22 @@ class PostRepository extends Repository
     }
 
     //Updates a post (except the imagePath field)
-    public function updatePost($post) : bool 
+    public function updatePost($post)
     {
+        $post->setLastUpdateDate(Date(DateTimeInterface::ATOM));
+
         $statement = $this->connexion->getConnexion()->prepare(
-            "UPDATE post SET title = ?, summary = ?, content = ?, modifier = ?, lastUpdateDate = now() WHERE id=?;"
+            "UPDATE post SET title = :title, summary = :summary, content = :content, modifier = :modifier, lastUpdateDate = :lastUpdateDate WHERE id= :postId;"
         );
 
-        $affectedLines = $statement->execute([$post->getTitle(), $post->getSummary(), $post->getContent(), $post->getModifier()->getId(), $post->getId()]);
+        $statement->bindValue("title", htmlspecialchars($post->getTitle()), PDO::PARAM_STR);
+        $statement->bindValue("summary", htmlspecialchars($post->getSummary()), PDO::PARAM_STR);
+        $statement->bindValue("content", htmlspecialchars($post->getContent()), PDO::PARAM_STR);
+        $statement->bindValue("modifier", htmlspecialchars($post->getModifier()->getId()), PDO::PARAM_INT);
+        $statement->bindValue("lastUpdateDate", htmlspecialchars($post->getLastUpdateDate()), PDO::PARAM_STR);
+        $statement->bindValue("postId", htmlspecialchars($post->getId()), PDO::PARAM_INT);
 
-        return ($affectedLines > 0);
+        $statement->execute();
     }
 
     //Deletes a post
