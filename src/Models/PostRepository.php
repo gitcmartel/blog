@@ -92,7 +92,7 @@ class PostRepository extends Repository
     //Creates a new post and returns the id of the inserted row if there is an image to insert
     public function createPost(Post $post)
     {
-        $post->setCreationDate(Date(DateTimeInterface::ATOM));
+        $post->setCreationDate(Date('Y-m-d H:i:s'));
         $post->setLastUpdateDate($post->getCreationDate());
 
         //Inserts the new post
@@ -117,7 +117,7 @@ class PostRepository extends Repository
     //Updates a post (except the imagePath field)
     public function updatePost($post)
     {
-        $post->setLastUpdateDate(Date(DateTimeInterface::ATOM));
+        $post->setLastUpdateDate(Date("Y-m-d H:i:s"));
 
         $statement = $this->connexion->getConnexion()->prepare(
             "UPDATE post SET title = :title, summary = :summary, content = :content, modifier = :modifier, lastUpdateDate = :lastUpdateDate WHERE id= :postId;"
@@ -225,40 +225,40 @@ class PostRepository extends Repository
     }
 
     //Concatenates the imagePath with the id of the row and updates the imagePath field
-    public function updateImagePath(?int $postId, string $pathImage) : bool
+    public function updateImagePath(Post $post, string $pathImage)
     {
-        if ($postId === null){
+        if ($post->getId() === null){
             return false;
         }
 
         //Updates the imagePath field by adding the id of the new row to the image file name
 
         $statement = $this->connexion->getConnexion()->prepare(
-            "UPDATE post SET imagePath=? WHERE id=?;"
+            "UPDATE post SET imagePath= :imagePath WHERE id= :postId;"
         );
 
-        $affectedLines = $statement->execute([$pathImage, $postId]);
+        $statement->bindValue("postId", $post->getId(), PDO::PARAM_INT);
+        $statement->bindValue("imagePath", $pathImage, PDO::PARAM_STR);
 
-        return ($affectedLines > 0);
-
+        $statement->execute();
     }
 
     /**
      * Reset an imagePath field and deletes the physical image file
      */
-    public function resetImage(int $postId)
+    public function resetImage(Post $post)
     {
-        Image::deleteImagePost($this->getImagePath($postId));
-        $this->updateImagePath($postId, Constants::DEFAULT_IMAGE_POST_PATH);
+        Image::deleteImagePost($this->getImagePath($post->getId()));
+        $this->updateImagePath($post, Constants::DEFAULT_IMAGE_POST_PATH);
     }
 
     public function checkImage(string $resetImage, string $tmpImagePath, string $imageName, Post $post)
     {
         //If we have to reset the image
         if($resetImage === 'true'){
-            $this->resetImage($post->getId());
+            $this->resetImage($post);
         }
-        
+
         //If there is a new image
         if($tmpImagePath !== ''){
             Image::deleteImagePost($post->getImagePath());
@@ -271,7 +271,7 @@ class PostRepository extends Repository
 
             Image::moveTempImageIntoImagePostFolder($tmpImagePath, $pathImage);
 
-            $this->updateImagePath($post->getId(), $pathImage);
+            $this->updateImagePath($post, $pathImage);
         }
     }
 
