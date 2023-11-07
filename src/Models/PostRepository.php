@@ -248,31 +248,28 @@ class PostRepository extends Repository
      */
     public function resetImage(Post $post)
     {
-        Image::deleteImagePost($post->getImagePath());
+        Image::deleteImagePost($post);
         $this->updateImagePath($post, Constants::DEFAULT_IMAGE_POST_PATH);
     }
 
-    public function checkImage(string $resetImage, string $tmpImagePath, string $imageName, Post $post)
+    /**
+     * Deletes physicaly the previous image
+     * Move the new image into the image path folder
+     * Updates the new image path into the imagePath post table field
+     */
+    public function updateImage(Post $post, string $tmpImagePath, string $imageName)
     {
-        //If we have to reset the image
-        if($resetImage === 'true'){
-            $this->resetImage($post);
-        }
+        Image::deleteImagePost($post);
+        $pathImage = Constants::IMAGE_POST_PATH . Image::createImagePathName(
+            $post->getId(), 
+            $tmpImagePath, 
+            $imageName, 
+            DateTime::createFromFormat('Y-m-d H:i:s', $post->getCreationDate())
+        );
 
-        //If there is a new image
-        if($tmpImagePath !== ''){
-            Image::deleteImagePost($post->getImagePath());
-            $pathImage = Constants::IMAGE_POST_PATH . Image::createImagePathName(
-                $post->getId(), 
-                $tmpImagePath, 
-                $imageName, 
-                DateTime::createFromFormat('Y-m-d H:i:s', $post->getCreationDate())
-            );
+        Image::moveTempImageIntoImagePostFolder($tmpImagePath, $pathImage);
 
-            Image::moveTempImageIntoImagePostFolder($tmpImagePath, $pathImage);
-
-            $this->updateImagePath($post, $pathImage);
-        }
+        $this->updateImagePath($post, $pathImage);
     }
     
 
