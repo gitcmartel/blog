@@ -279,13 +279,14 @@ class PostRepository extends Repository
     /**
      * Checks if the stored image corresponds to the default image path
      */
-    private function isImageDefault(int $postId) : bool
+    private function isImageDefault(Post $post) : bool
     {
         $statement = $this->connexion->getConnexion()->prepare(
-            "SELECT imagePath FROM post WHERE imagePath=?;"
+            "SELECT imagePath FROM post WHERE imagePath= :postId;"
         );
 
-        $statement->execute([$postId]);
+        $statement->bindValue("postId", $post->getId(), PDO::PARAM_INT);
+        $statement->execute();
 
         $row = $statement->fetch();
 
