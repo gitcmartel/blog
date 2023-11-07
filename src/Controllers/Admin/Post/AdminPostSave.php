@@ -114,8 +114,16 @@ class AdminPostSave
 
         //Image management function (deletes, update, move physical tmp image etc...)
         try {
-            $postRepository->checkImage($resetImage, $tmpImagePath, 
-            $imageName, $post);
+            //If we have to reset the image
+            if($resetImage === 'true'){
+                $postRepository->resetImage($post);
+            }
+
+            //If there is a new image we update it
+            if($tmpImagePath !== ''){
+                $postRepository->updateImage($post, $tmpImagePath, $imageName);
+            }
+
         } catch (Exception $exception) {
             TwigWarning::display(
                 "Un problème est survenu lors de l'enregistrement de l'image. \n 
