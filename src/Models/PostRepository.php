@@ -248,7 +248,7 @@ class PostRepository extends Repository
      */
     public function resetImage(Post $post)
     {
-        Image::deleteImagePost($this->getImagePath($post->getId()));
+        Image::deleteImagePost($post->getImagePath());
         $this->updateImagePath($post, Constants::DEFAULT_IMAGE_POST_PATH);
     }
 
@@ -274,24 +274,6 @@ class PostRepository extends Repository
             $this->updateImagePath($post, $pathImage);
         }
     }
-
-
-    /**
-     * Checks if the stored image corresponds to the default image path
-     */
-    private function isImageDefault(Post $post) : bool
-    {
-        $statement = $this->connexion->getConnexion()->prepare(
-            "SELECT imagePath FROM post WHERE imagePath= :postId;"
-        );
-
-        $statement->bindValue("postId", $post->getId(), PDO::PARAM_INT);
-        $statement->execute();
-
-        $row = $statement->fetch();
-
-        return ($row['imagePath'] === Constants::IMAGE_POST_PATH . Constants::DEFAULT_IMAGE_POST);
-    }
     
 
     /**
@@ -307,22 +289,6 @@ class PostRepository extends Repository
         $statement->execute();
 
         return $statement->fetchAll(PDO::FETCH_COLUMN);
-    }
-
-    /**
-     * Get the imagePath field of a post
-     */
-    public function getImagePath(int $postId) : string
-    {
-        $statement = $this->connexion->getConnexion()->prepare(
-            "SELECT imagePath FROM post WHERE id= ?;"
-        );
-
-        $statement->execute([$postId]);
-
-        $row = $statement->fetch();
-
-        return $row["imagePath"];
     }
 
     #endregion
