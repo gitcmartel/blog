@@ -2,6 +2,7 @@
 
 namespace Application\Lib;
 
+use Application\Models\Post;
 use DateTime;
 class Image 
 {
@@ -18,14 +19,14 @@ class Image
         return true;
     }
 
-    public static function deleteImagePost(string $pathImage)
+    public static function deleteImagePost(Post $post)
     {
         //If the image post is not the default image we delete it
         $rootPath = dirname(__FILE__, 3) . DIRECTORY_SEPARATOR . 'public\\';
         
-        if ($pathImage !== Path::fileBuildPath(array("img", Constants::DEFAULT_IMAGE_POST)) && $pathImage !== ''){
-            if (file_exists($rootPath . $pathImage)){
-                return unlink($rootPath . $pathImage);
+        if ($post->getImagePath() !== Path::fileBuildPath(array("img", Constants::DEFAULT_IMAGE_POST)) && $post->getImagePath() !== ''){
+            if (file_exists($rootPath . $post->getImagePath())){
+                return unlink($rootPath . $post->getImagePath());
             }
         }
     }
