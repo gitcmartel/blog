@@ -248,7 +248,7 @@ class PostRepository extends Repository
      */
     public function resetImage(Post $post)
     {
-        Image::deleteImagePost($post);
+        Image::deleteImage($post->getImagePath());
         $this->updateImagePath($post, Constants::DEFAULT_IMAGE_POST_PATH);
     }
 
@@ -259,7 +259,7 @@ class PostRepository extends Repository
      */
     public function updateImage(Post $post, string $tmpImagePath, string $imageName)
     {
-        Image::deleteImagePost($post);
+        Image::deleteImage($post->getImagePath());
         $pathImage = Constants::IMAGE_POST_PATH . Image::createImagePathName(
             $post->getId(), 
             $tmpImagePath, 
