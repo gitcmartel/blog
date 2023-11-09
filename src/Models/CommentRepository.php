@@ -212,7 +212,7 @@ class CommentRepository extends Repository
         $statement = $this->connexion->getConnexion()->prepare(
             "SELECT c.comment, c.creationDate, c.id, p.title, u.name, u.surname, u.pseudo, u.email 
             FROM comment c INNER JOIN user u ON c.user = u.id 
-            INNER JOIN post p ON c.postId = p.postId
+            INNER JOIN post p ON c.post = p.id
             WHERE u.name LIKE :searchString  
             OR u.surname LIKE :searchString 
             OR u.pseudo LIKE :searchString 
