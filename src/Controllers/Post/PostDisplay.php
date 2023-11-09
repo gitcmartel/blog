@@ -3,6 +3,7 @@
 namespace Application\Controllers\Post;
 
 use Application\Models\PostRepository;
+use Application\Models\CommentRepository;
 use Application\Lib\Session;
 use Application\Lib\TwigLoader;
 use Application\Lib\TwigWarning;
@@ -14,6 +15,7 @@ class PostDisplay{
         #region Variables
 
         $postRepository = new PostRepository();
+        $commentRepository = new CommentRepository();
         $post = "";
         $twig = TwigLoader::getEnvironment();
 
@@ -41,10 +43,13 @@ class PostDisplay{
         #region Function execution
                     
         $post = $postRepository->getPost($_GET['postId']);
+        $comments = $commentRepository->getCommentsPost($post);
 
         echo $twig->render('Post\PostDisplay.html.twig', [  
             'post' => $post, 
+            'comments' => $comments,
             'activeUser' => Session::getActiveUser(), 
+            'activeUserId' => Session::getActiveUserId(),
             'userFunction' => Session::getActiveUserFunction()
         ]);
 
