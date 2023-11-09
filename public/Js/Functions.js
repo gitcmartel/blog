@@ -41,23 +41,30 @@ function confirmationAction(elementType, id, title)
     let deletionMessage = document.getElementById("confirmationMessage");
 
     switch (elementType) {
-        case "post" :
+        case "adminPost" :
             confirmationTitle.innerHTML = "Suppression"
             btnConfirmation.href = "index.php?action=Admin\\Post\\AdminPostDeletion&postId=" + id;
             deletionMessage.innerHTML = "Confirmez-vous la suppression du post " + title + " ?";
         break;
 
-        case "user" :
+        case "adminUser" :
             confirmationTitle.innerHTML = "Suppression"
             btnConfirmation.href = "index.php?action=Admin\\User\\AdminUserDeletion&userId=" + id;
             deletionMessage.innerHTML = "Confirmez-vous la suppression de l'utilisateur " + title + " ?";
         break;
 
-        case "comment" :
+        case "adminComment" :
             confirmationTitle.innerHTML = "Suppression"
             btnConfirmation.href = "index.php?action=Admin\\Comment\\AdminCommentDeletion&commentId=" + id;
             deletionMessage.innerHTML = "Confirmez-vous la suppression du commentaire de " + title + " ?";
         break;
+
+        case "comment" :
+            confirmationTitle.innerHTML = "Suppression"
+            btnConfirmation.href = "index.php?action=Comment\\CommentDeletion&commentId=" + id;
+            deletionMessage.innerHTML = "Confirmez-vous la suppression du commentaire de " + title + " ?";
+        break;
+
 
         case "disconnection" :
             confirmationTitle.innerHTML = "Déconnexion"
