@@ -20,4 +20,51 @@
             </div>
         </div>
     </section>
+    <section>
+        <div class="d-flex justify-content-end mt-2 me-4">
+            <a href="index.php?action=Comment\CommentCreation&postId={{ post.getId() }}">Ajouter un commentaire</a>
+        </div>
+        {% if comments | length > 0 %}
+            <div class="accordion m-4" id="accordionExample">
+                <div class="accordion-item">
+                <h2 class="accordion-header" id="headingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                    Voir les commentaires
+                    </button>
+                </h2>
+                <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        {% for comment in comments %}
+                            <div class="d-flex justify-content-between my-2">
+                                <div class="fst-italic fw-bold">
+                                    {{ comment.getUser().getPseudo() }} - {{ comment.getCreationDate() | date("j/m/Y - H:i")}}
+                                </div>
+                                {% if activeUserId == comment.getUser().getId() %}
+                                    <div class="d-flex">
+                                        <a class="border-0 bg-transparent px-2 d-flex align-items-center" href="index.php?action=Comment\CommentModification&commentId={{ comment.id }}">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                                <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                                <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                                            </svg>
+                                        </a>
+                                        <a class="btn border-0 bg-transparent px-2 d-flex align-items-center" onclick="confirmationAction('comment', '{{ comment.id }}', '{{ comment.user.name }} {{comment.user.surname}}')" data-bs-toggle="modal" data-bs-target="#confirmationModal">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#0d6efd" class="bi bi-trash" viewBox="0 0 16 16">
+                                                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z"/>
+                                                <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z"/>
+                                            </svg>
+                                        </a>
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="mb-4">
+                                {{ comment.getComment()}}
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                </div>
+            </div>
+        {% endif %}
+    </section>
+    
 {% endblock %}
