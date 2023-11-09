@@ -82,7 +82,7 @@ class CommentRepository extends Repository
     public function getCommentsPost(Post $post) : array 
     {
         $statement = $this->connexion->getConnexion()->prepare(
-            "SELECT * FROM comment WHERE postId = :postId ;"
+            "SELECT * FROM comment WHERE post = :postId and publicationDate IS NOT NULL ORDER BY creationDate DESC;"
         );
 
         $statement->bindValue("postId", $post->getId(), PDO::PARAM_INT);
