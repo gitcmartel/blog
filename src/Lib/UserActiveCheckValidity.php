@@ -13,7 +13,7 @@ class UserActiveCheckValidity
     {
         #region Variables
 
-        $userRepository = new UserRepository(new DatabaseConnexion);
+        $userRepository = new UserRepository();
         $user = "";
 
         #endregion
