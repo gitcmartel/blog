@@ -1,3 +1,11 @@
+//Adding the event listener to the search button
+
+btnSearchComment = document.getElementById("btnSearchComment");
+
+btnSearchComment.addEventListener("click", function(event) { 
+    searchComments(event);
+});
+
 /**
  * Changes the form action to trigger a comment search 
  */
