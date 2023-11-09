@@ -2,7 +2,6 @@
 
 btnSearchUser = document.getElementById("btnSearchUser");
 btnDevalidation = document.getElementById("btnDevalidation");
-btnDeleteUser = document.getElementById("btnDeleteUser");
 
 btnSearchUser.addEventListener("click", function(event) { 
     searchUsers(event);
@@ -12,9 +11,6 @@ btnDevalidation.addEventListener("click", function() {
     devalidation();
 });
 
-btnDeleteUser.addEventListener("click", function() { 
-    confirmationAction("user", btnDeleteUser.getAttribute('data-userId'), btnDeleteUser.getAttribute('data-userName'));
-});
 
 /**
  * Changes the form action to trigger a user search 
