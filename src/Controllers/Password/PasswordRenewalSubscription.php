@@ -20,7 +20,7 @@ class PasswordRenewalSubscription
         $errorMessage = "";
         $warningMessage = "";
         $user = "";
-        $userRepository = new UserRepository(new DatabaseConnexion);
+        $userRepository = new UserRepository();
         $twig = TwigLoader::getEnvironment();
 
         #endregion

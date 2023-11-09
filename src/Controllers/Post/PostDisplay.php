@@ -2,12 +2,8 @@
 
 namespace Application\Controllers\Post;
 
-use Application\Models\Post;
 use Application\Models\PostRepository;
-use Application\Models\UserRepository;
-use Application\Models\User;
 use Application\Lib\Session;
-use Application\Lib\DatabaseConnexion;
 use Application\Lib\TwigLoader;
 use Application\Lib\TwigWarning;
 
@@ -17,7 +13,7 @@ class PostDisplay{
     {
         #region Variables
 
-        $postRepository = new PostRepository(new DatabaseConnexion);
+        $postRepository = new PostRepository();
         $post = "";
         $twig = TwigLoader::getEnvironment();
 

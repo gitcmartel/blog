@@ -16,7 +16,7 @@ class AdminPostCreation
     {
         #region Variables
         $post = "";
-        $postRepository = new PostRepository(new DatabaseConnexion);
+        $postRepository = new PostRepository();
 
         #endregion
 

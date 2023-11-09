@@ -16,7 +16,7 @@ class AdminUserSearch
     {
         #region Variables
 
-        $userRepository = new UserRepository(new DatabaseConnexion);
+        $userRepository = new UserRepository();
         $twig = TwigLoader::getEnvironment();
 
         #endregion

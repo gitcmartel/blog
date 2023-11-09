@@ -16,7 +16,7 @@ class AdminPostPublish
     {
         #region Variables
 
-        $postRepository = new PostRepository(new DatabaseConnexion);
+        $postRepository = new PostRepository();
         $postsToPublish = "";
         $pageNumber = 1;
         $posts = "";
