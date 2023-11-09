@@ -1,0 +1,27 @@
+{% extends 'Layout/layout.html.twig' %}
+
+{% block body %}
+    <section class="container-fluid d-flex align-items-center flex-column">
+        {% block commentReturn %}{% endblock %}
+        <div class="m-4 p-3 shadow rounded w-50">
+            <form method="post" action={% block commentFormAction %}{% endblock %} id="formComment">
+                <div class="d-flex">
+                    <input type="hidden" name="postId" value="{{ post.getId() }}">
+                    <input type="hidden" name="commentId" value="{{ comment.getId() }}">
+                    <div class="d-flex flex-column w-100">
+                        <div>
+                            <label class="form-label font-size3" for="comment">Commentaire :</label>
+                            <textarea class="form-control" name="comment" id="comment" rows="10">{{ comment.getComment() }}</textarea>
+                            <div class="text-danger">{{ warningComment }}</div>
+                        </div>
+                        {% block commentValidation %}{% endblock %}
+                    </div>           
+                </div>
+                
+                <div class="d-flex justify-content-end mt-3">
+                    <button type="submit" class="btn button text-light me-3 w-20">Enregistrer</button>
+                </div>
+            </form>
+        </div>
+    </section>
+{% endblock %}
