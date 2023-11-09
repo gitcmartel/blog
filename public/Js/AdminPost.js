@@ -1,15 +1,21 @@
-/**
- * Set the hidden html input element to 1
- * Then when a sumbission is performed, the php controller can know if it's a
- * publication or not
- */
-function unPublish()
-{
-    let inputUnpublish = document.getElementById("unpublish");
-    if(inputUnpublish !== null){
-        inputUnpublish.setAttribute('value', 'true');
-    }
-}
+//Adding the event listener to the search button
+
+btnPublish = document.getElementById("btnPublish");
+btnResetImage = document.getElementById("btnResetImage");
+imagePath = document.getElementById("imagePath");
+
+btnPublish.addEventListener("click", function(event) { 
+    publish(event);
+});
+
+btnResetImage.addEventListener("click", function() { 
+    resetImagePost();
+});
+
+btnResetImage.addEventListener("change", function(event) { 
+    displayImagePost(event);
+});
+
 
 /**
  * Display the selected image post
