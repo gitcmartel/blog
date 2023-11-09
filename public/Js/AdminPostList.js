@@ -2,7 +2,6 @@
 
 btnSearchPost = document.getElementById("btnSearchPost");
 btnUnpublish = document.getElementById("btnUnpublish");
-btnDeletePost = document.getElementById("btnDeletePost");
 
 btnSearchPost.addEventListener("click", function(event) { 
     searchPosts(event);
@@ -12,9 +11,6 @@ btnUnpublish.addEventListener("click", function() {
     unPublish();
 });
 
-btnDeletePost.addEventListener("click", function() { 
-    confirmationAction("post", btnDeletePost.getAttribute('data-postId'), btnDeletePost.getAttribute('data-postTitle'));
-});
 
 /**
  * Changes the form action to trigger a post search 
