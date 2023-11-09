@@ -1,3 +1,21 @@
+//Adding the event listener to the search button
+
+btnSearchPost = document.getElementById("btnSearchPost");
+btnUnpublish = document.getElementById("btnUnpublish");
+btnDeletePost = document.getElementById("btnDeletePost");
+
+btnSearchPost.addEventListener("click", function(event) { 
+    searchPosts(event);
+});
+
+btnUnpublish.addEventListener("click", function() { 
+    unPublish();
+});
+
+btnDeletePost.addEventListener("click", function() { 
+    confirmationAction("post", btnDeletePost.getAttribute('data-postId'), btnDeletePost.getAttribute('data-postTitle'));
+});
+
 /**
  * Changes the form action to trigger a post search 
  */
@@ -19,18 +37,15 @@ function searchPosts(event)
 }
 
 /**
- * Change the action attribute of the form
- * to re-route the action to the AdminPostPublish Controller
+ * Set the hidden html input element to 1
+ * Then when a sumbission is performed, the php controller can know if it's a
+ * publication or not
  */
-
-function publish(event)
+function unPublish()
 {
-    let formPost = document.getElementById("formPost");
-
-    if(formPost !== null){
-        formPost.action = "index.php?action=Admin\\Post\\AdminPostPublish"
-    } else {
-        event.preventDefault(); //Cancel form submission
+    let inputUnpublish = document.getElementById("unpublish");
+    if(inputUnpublish !== null){
+        inputUnpublish.setAttribute('value', 'true');
     }
 }
 
