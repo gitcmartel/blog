@@ -75,7 +75,7 @@
                             {% if activeUser == "" %}
                             <li><a class="dropdown-item" href="#">Connexion</a></li>
                             {% else %}
-                            <li><a class="dropdown-item" onclick="confirmationAction('disconnection', '', '')"
+                            <li><a class="dropdown-item rowAction" data-action="Déconnection" data-id='index.php?action=Connexion\\Disconnection' data-message="Confirmez-vous la déconnexion ?" 
                                     data-bs-toggle="modal" data-bs-target="#confirmationModal">Déconnexion</a></li>
                             {% endif %}
                         </ul>
@@ -90,8 +90,25 @@
     </header>
     {% block body %}{% endblock %}
 
-    {% block message %}{% endblock %}
-    
+    <!-- Confirmation modal  -->
+    <div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmationModalLabel"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Oui"></button>
+                </div>
+                <div class="modal-body" id="confirmationMessage"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Non</button>
+                    <a class="btn btn-primary" id="btnConfirmationModal" href="">Oui</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End confirmation modal  -->
+
     <!-- Alert message -->
     <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
         <div id="toastAlert" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
