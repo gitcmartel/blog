@@ -4,9 +4,7 @@ namespace Application\Controllers\Admin\User;
 
 use Application\Models\UserRepository;
 use Application\Models\User;
-use Application\Models\UserFunction;
 use Application\Lib\UserActiveCheckValidity;
-use Application\Lib\DatabaseConnexion;
 use Application\Lib\Session;
 use Application\Lib\Password;
 use Application\Lib\TwigLoader;
@@ -36,8 +34,8 @@ class AdminUserSave
                 return; 
         }
 
-        if (! isset($_POST['userId']) || ! isset($_POST['userName']) || ! isset($_POST['surname']) || ! isset($_POST['pseudo']) || ! isset($_POST['userPwd'])
-        || ! isset($_POST['userPwdConfirmation']) || ! isset($_POST['userFunction']) || ! isset($_POST['userValidity'])){
+        if (! isset($_POST['userId']) || ! isset($_POST['userName']) || ! isset($_POST['surname']) || ! isset($_POST['pseudo']) || ! isset($_POST['password'])
+        || ! isset($_POST['passwordConfirmation']) || ! isset($_POST['userFunction']) || ! isset($_POST['userValidity'])){
             TwigWarning::display(
                 "Une erreur est survenue lors du chargement de la page.", 
                 "index.php?action=Home\Home", 
@@ -55,10 +53,10 @@ class AdminUserSave
             'email' => trim($_POST['userMail']),
             'userFunction' => trim($_POST['userFunction']), 
             'isValid' => trim($_POST['userValidity']),
-            'password' => trim($_POST['userPwd']),
+            'password' => trim($_POST['password']),
         ));
 
-        $passwordConfirmation = trim($_POST['userPwdConfirmation']);
+        $passwordConfirmation = trim($_POST['passwordConfirmation']);
 
         $fieldsWarnings = array(
             'name' => 'Vous devez renseigner un prénom', 
