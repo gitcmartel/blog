@@ -1,12 +1,10 @@
-passwordInputElement = document.getElementById("password");
 togglePasswordElement = document.getElementById("togglePassword");
-passwordConfirmationInputElement = document.getElementById("passwordConfirmation");
 togglePasswordConfirmationElement = document.getElementById("togglePasswordConfirmation");
 
 togglePasswordElement.addEventListener("click", function() { 
-    showPassword(passwordInputElement, togglePasswordElement);
+    Password.showPassword(document.getElementById("password"), togglePasswordElement);
 });
 
 togglePasswordConfirmationElement.addEventListener("click", function() { 
-    showPassword(passwordConfirmationInputElement, togglePasswordConfirmationElement);
+    Password.showPassword(document.getElementById("passwordConfirmation"), togglePasswordConfirmationElement);
 });
