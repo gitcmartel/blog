@@ -39,11 +39,17 @@
                 </div>
                 <div class="mt-2 d-none" id="grpUserPwd">
                     <label class="form-label font-size3" for="userPwd">Mot de passe</label>
-                    <input type="password" class="form-control" name="userPwd" id="userPwd">
+                    <div class="d-flex flex-row">
+                        <input type="password" class="form-control" id = "password" name="password" required>
+                        <i class="far fa-eye position-relative align-self-center" id="togglePassword" style="margin-left: -30px; cursor: pointer;"></i>
+                    </div>
                 </div>
                 <div class="mt-2 d-none" id="grpUserPwdConfirmation">
                     <label class="form-label font-size3" for="userPwdConfirmation">Confirmation du mot de passe</label>
-                    <input type="password" class="form-control" name="userPwdConfirmation" id="userPwdConfirmation">
+                    <div class="d-flex flex-row">
+                        <input type="password" class="form-control" id = "passwordConfirmation" name="passwordConfirmation" required>
+                        <i class="far fa-eye position-relative align-self-center" id="togglePasswordConfirmation"  style="margin-left: -30px; cursor: pointer;"></i> 
+                    </div> 
                     <div class="text-danger">{{ warningPassword }}</div>
                 </div>
                 <div class="mt-2">
@@ -95,5 +101,7 @@
 {% endblock %}
 
 {% block js %}
-    <script src="Js/AdminUserSave.js"></script>
+    <script src="Js/Classes/Password.js"></script>
+    <script src="Js/Templates/Password.js"></script>
+    <script src="Js/Templates/AdminUserSave.js"></script>
 {% endblock %}
