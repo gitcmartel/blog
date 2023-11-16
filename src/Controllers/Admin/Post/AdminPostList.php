@@ -43,7 +43,7 @@ class AdminPostList
 
         #region Function execution
         
-        $posts = $postRepository->getPosts($pageNumber, Constants::NUMBER_OF_POSTS_PER_PAGE);
+        $posts = $postRepository->getPosts($pageNumber, Constants::NUMBER_OF_POSTS_PER_PAGE, false);
 
         echo $twig->render('Admin\Post\AdminPostList.html.twig', [ 
             'actualPage' => $pageNumber, 

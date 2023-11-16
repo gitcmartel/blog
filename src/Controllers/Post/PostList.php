@@ -2,12 +2,10 @@
 
 namespace Application\Controllers\Post;
 
-use Application\Models\Post;
+
 use Application\Models\PostRepository;
-use Application\Models\UserRepository;
-use Application\Models\User;
 use Application\Lib\Session;
-use Application\Lib\DatabaseConnexion;
+
 use Application\Lib\TwigLoader;
 
 class PostList 
@@ -17,7 +15,7 @@ class PostList
     {
         #region Variables
 
-        $postRepository = new PostRepository(new DatabaseConnexion);
+        $postRepository = new PostRepository();
         $posts = "";
         $totalPages = 1;
         $pageNumber = 1;
@@ -31,11 +29,11 @@ class PostList
         
         if (isset($_GET['pageNumber'])){
             if($_GET['pageNumber'] !== 0){
-                $posts = $postRepository->getPosts($_GET['pageNumber'], 4);
+                $posts = $postRepository->getPosts($_GET['pageNumber'], 4, true);
                 $pageNumber = $_GET['pageNumber'];
             }
         } else {
-            $posts = $postRepository->getPosts(1, 4);
+            $posts = $postRepository->getPosts(1, 4, true);
         }
         
         echo $twig->render('Post\PostList.html.twig', [ 

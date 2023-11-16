@@ -69,7 +69,7 @@ class AdminPostPublish
             }
         }
         
-        $posts = $postRepository->getPosts($pageNumber, 10);
+        $posts = $postRepository->getPosts($pageNumber, 10, false);
 
         //Page display
         echo $twig->render('Admin\Post\AdminPostList.html.twig', [ 
