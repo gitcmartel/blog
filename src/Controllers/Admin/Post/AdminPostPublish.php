@@ -27,8 +27,7 @@ class AdminPostPublish
 
         #region Conditions tests
 
-        if(! UserActiveCheckValidity::check(array('Administrateur', 'Createur')) || ! isset($_POST['postPublish']) ||
-            ! isset($_POST['unpublish'])){
+        if(! UserActiveCheckValidity::check(array('Administrateur', 'Createur')) || ! isset($_POST['postValidation'])){
             TwigWarning::display(
                 "Vous n'avez pas les droits requis pour accéder à cette page. Contactez l'administrateur du site", 
                 "index.php?action=Home\Home", 
@@ -41,7 +40,7 @@ class AdminPostPublish
             $pageNumber = $_GET['pageNumber'];
         }
 
-        $postsToPublish = is_array($_POST['postPublish']) ? $_POST['postPublish'] : [$_POST['postPublish']];
+        $postsToPublish = is_array($_POST['postValidation']) ? $_POST['postValidation'] : [$_POST['postValidation']];
 
         //Check if all the commentid's are present in the database and if the validation variable is present
         if(! $postRepository->checkIds($postsToPublish, 'post', 'id')){
@@ -53,19 +52,20 @@ class AdminPostPublish
             return;
         }
 
+        $validation = boolval($_POST["validation"]);
+
         #endregion
 
         #region Function execution
-        
         
 
         //Updates the status post field
         foreach($postsToPublish as $postId){
             $postRepository->getPost($postId);
-            if($_POST['unpublish'] === "false"){
-                $postRepository->setPublicationDate($postId);
-            } else {
+            if (! $validation) {
                 $postRepository->setPublicationDateToNull($postId);
+            } else {
+                $postRepository->setPublicationDate($postId);
             }
         }
         
