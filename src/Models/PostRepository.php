@@ -49,20 +49,21 @@ class PostRepository extends Repository
      * If the $pageNumber parameter is different than 0, the function will return the corresponding posts
      * The $numberOfPostsPerPage determins the number of posts to return
      */
-    public function getPosts(string $pageNumber, int $numberOfPostsPerPage) : array
+    public function getPosts(string $pageNumber, int $numberOfPostsPerPage, bool $publishedPostsOnly) : array
     {
         $offset = (($pageNumber - 1) * $numberOfPostsPerPage) >=0 ? (($pageNumber - 1) * $numberOfPostsPerPage) : 0;
+        $whereClause = $publishedPostsOnly === true ? 'WHERE publicationDate IS NOT NULL ' : '';
 
         if($pageNumber !== 0 && $numberOfPostsPerPage !== 0){
             $statement = $this->connexion->getConnexion()->prepare(
-                "SELECT * FROM post ORDER BY creationDate DESC LIMIT ". $numberOfPostsPerPage . " OFFSET ". $offset . ";"
+                "SELECT * FROM post " . $whereClause . "ORDER BY creationDate DESC LIMIT ". $numberOfPostsPerPage . " OFFSET ". $offset . ";"
             );
 
             $statement->execute();
 
         } else { //We return all posts
             $statement = $this->connexion->getConnexion()->prepare(
-                "SELECT * FROM post ORDER BY creationDate DESC;"
+                "SELECT * FROM post ". $whereClause . "ORDER BY creationDate DESC;"
             );
     
             $statement->execute();
