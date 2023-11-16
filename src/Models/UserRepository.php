@@ -138,7 +138,7 @@ class UserRepository extends Repository
 
         //If there is a password we have to change it
         if($user->getPassword() !== ""){
-            $result = $this->changePassword($user->getId(), $user->getPassword());
+            $result = $this->changePassword($user, $user->getPassword());
         }
 
         return $result;
@@ -202,7 +202,7 @@ class UserRepository extends Repository
     /**
      * Updates the tokenForgotPassword and forgotPasswordDate fields
      */
-    public function updateToken(int $userId, string $token) : bool
+    public function updateToken(User $user, string $token) : bool
     {
         $statement = $this->connexion->getConnexion()->prepare(
             "UPDATE user SET tokenForgotPassword = :token, forgotPasswordDate = now() 
@@ -210,9 +210,9 @@ class UserRepository extends Repository
         );
 
         $statement->bindValue("token", $token, PDO::PARAM_STR);
-        $statement->bindValue("userId", $userId, PDO::PARAM_INT);
+        $statement->bindValue("userId", $user->getId(), PDO::PARAM_INT);
 
-        if ($statement->execute([$token, $userId])) {
+        if ($statement->execute()) {
             return true;
         } else {
             return false;
@@ -241,17 +241,17 @@ class UserRepository extends Repository
         return $user;
      }
 
-     public function changePassword(int $userId, string $password)
+     public function changePassword(User $user, string $password)
      {
         $statement = $this->connexion->getConnexion()->prepare(
             "UPDATE user SET tokenForgotPassword = '', forgotPasswordDate = null, password = :password 
             WHERE id = :userId;"
         );
 
-        $statement->bindValue("userId", $userId, PDO::PARAM_INT);
-        $statement->bindValue("password", $password, PDO::PARAM_STR);
+        $statement->bindValue("userId", $user->getId(), PDO::PARAM_INT);
+        $statement->bindValue("password", Password::encrypt($password), PDO::PARAM_STR);
 
-        if ($statement->execute([Password::encrypt($password), $userId])) {
+        if ($statement->execute()) {
             return true;
         } else {
             return false;
