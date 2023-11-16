@@ -3,7 +3,7 @@
 {% block body %}
     <section class="vh-60">
         <form method="POST" action="index.php?action=Admin\Post\AdminPostPublish" id="formList">
-            <input type="hidden" id="unpublish" name="unpublish" value="false">
+            <input type="hidden" id="validation" name="validation" value="-1">
             <table class="table">
                 <thead>
                 <tr>
@@ -28,7 +28,7 @@
                         </button>
                     </th>
                     <th>
-                        <button id="btnUnpublish"" class="border-0 bg-transparent" type="submit">
+                        <button id="btnDevalidation"" class="border-0 bg-transparent" type="submit">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#000000" class="bi bi-send" viewBox="0 0 16 16">
                                 <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576 6.636 10.07Zm6.787-8.201L1.591 6.602l4.339 2.76 7.494-7.493Z"/>
                                 <path d="M 15.410419,15.47141 0.48792884,0.48792884 Z" style="fill:#000000;stroke:#000000;stroke-opacity:1;stroke-width:0.5;stroke-dasharray:none"/>
@@ -50,7 +50,7 @@
                     {% for post in posts  %}
                     <tr>
                         <td>
-                            <input type="checkbox" name="postPublish[]" class="form-check-input" value="{{ post.id }}">
+                            <input type="checkbox" name="postValidation[]" class="form-check-input" value="{{ post.id }}">
                         </td>
                         <td>{{ post.creationDate|date('Y-m-d') }}</td>
                         <td>{{ post.title }}</td>
