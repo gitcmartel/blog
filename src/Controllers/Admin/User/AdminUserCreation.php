@@ -37,6 +37,7 @@ class AdminUserCreation
 
         echo $twig->render('Admin\User\AdminUser.html.twig', [ 
             'user' => $user, 
+            'pwdChangeCheckedValue' => 'checked', 
             'activeUser' => Session::getActiveUser(), 
             'userFunction' => Session::getActiveUserFunction()
         ]);

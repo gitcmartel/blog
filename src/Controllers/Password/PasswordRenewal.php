@@ -20,11 +20,10 @@ class PasswordRenewal
     {
         #region Variables
 
-        $warningLogin = "";
         $successMessage = "";
         $errorMessage = "";
         $emailValue = "";
-        $userRepository = new UserRepository(new DatabaseConnexion);
+        $userRepository = new UserRepository();
         $user = "";
         $twig = TwigLoader::getEnvironment();
 
@@ -56,7 +55,7 @@ class PasswordRenewal
             ]);
             return;
         }
-        
+
         $emailValue = $_POST['emailAddress'];
         $user = $userRepository->getUserByMail($_POST['emailAddress']);
 
@@ -73,8 +72,9 @@ class PasswordRenewal
         }
 
         $token = Password::generateToken();
+
         //Stores the token and the actual datetime in the user table
-        if (! $userRepository->updateToken($user->getId(), $token)){
+        if (! $userRepository->updateToken($user, $token)){
             TwigWarning::display(
                 "Un problème est survenu lors de la demande de renouvellement de mot de passe.", 
                 "index.php?action=Password\PasswordRenewal", 

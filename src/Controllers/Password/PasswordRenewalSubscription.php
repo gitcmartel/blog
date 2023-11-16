@@ -3,8 +3,6 @@
 namespace Application\Controllers\Password;
 
 use Application\Models\UserRepository;
-use Application\Models\User;
-use Application\Lib\DatabaseConnexion;
 use Application\Lib\Password;
 use Application\Lib\TwigLoader;
 use Application\Lib\TwigWarning;
@@ -18,7 +16,6 @@ class PasswordRenewalSubscription
         #region Variables
 
         $errorMessage = "";
-        $warningMessage = "";
         $user = "";
         $userRepository = new UserRepository();
         $twig = TwigLoader::getEnvironment();
@@ -78,7 +75,7 @@ class PasswordRenewalSubscription
         #region Function execution
 
         //We update the new password and set the token field and it's date to null
-        if($userRepository->changePassword($user->getId(), $_POST['password'])){
+        if($userRepository->changePassword($user, $_POST['password'])){
             echo $twig->render('Password\PasswordRenewalSuccess.html.twig', []);
         } else {
             TwigWarning::display(

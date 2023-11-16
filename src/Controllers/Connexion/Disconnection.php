@@ -2,9 +2,6 @@
 
 namespace Application\Controllers\Connexion;
 
-use Application\Models\UserRepository;
-use Application\Models\User;
-use Application\Lib\Session;
 
 class Disconnection
 {
