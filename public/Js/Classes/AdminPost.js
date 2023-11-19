@@ -1,33 +1,16 @@
-class Admin
-{
-    constructor() {
-        this.formList = document.getElementById("formList");
-        this.searchString = document.getElementById("searchString");
-        this.inputValidation = document.getElementById("validation");
+class AdminPost {
+    constructor () {
         this.image = document.getElementById("imagePost");
         this.imagePath = document.getElementById("imagePath");
         this.resetImage = document.getElementById("resetImage");
         this.formPost = document.getElementById("formPost");
-    }
+        this.btnResetImage = document.getElementById("btnResetImage");
+        this.btnValidation = document.getElementById("btnValidation");
 
-    search(event, action) {
-        if(this.searchString.value.trim() !== ""){
-            this.formList.action = action;
-        } else {
-            event.preventDefault(); //Cancel form submission
-        }
-    }
-
-    /**
-     * Set the hidden html input element to 1
-     * Then when a sumbission is performed, the php controller can know if it's a
-     * validation or not
-     */
-
-    devalidation() {
-        if(this.inputValidation !== null){
-            this.inputValidation.setAttribute('value', '0');
-        }
+        //Adding listeners
+        this.btnValidation.addEventListener("click", this.publish.bind(this));
+        this.btnResetImage.addEventListener("click", this.resetImagePost.bind(this));
+        this.imagePath.addEventListener("change", this.displayImagePost.bind(this));
     }
 
     /**
@@ -65,15 +48,6 @@ class Admin
             this.formPost.action = "index.php?action=Admin\\Post\\AdminPostPublish"
         } else {
             event.preventDefault(); //Cancel form submission
-        }
-    }
-    
-    addListener(eventToAdd, elementId, controller, functionName) {
-        let listenerELement = document.getElementById(elementId);
-        if(listenerELement !== null){
-            listenerELement.addEventListener(eventToAdd, (event) => {
-                this[functionName](event, controller);
-            })
         }
     }
 }

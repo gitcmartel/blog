@@ -8,6 +8,13 @@ class Password
       this.grpPasswordField = document.getElementById("grpUserPwd");
       this.grpPasswordConfirmationField = document.getElementById("grpUserPwdConfirmation");
       this.checkBoxPasswordField = document.getElementById("passwordChange");
+
+      this.checkBoxPasswordField.addEventListener('click', this.displayPwdFields.bind(this));
+      //password.addListener("click", "passwordChange", "displayPwdFields");
+      this.togglePasswordElement.addEventListener('click', this.showPassword.bind(this));
+      //password.addListener("click", "togglePassword", "showPassword");
+      //password.addListener("click", "togglePasswordConfirmation", "showPassword");
+      this.togglePasswordConfirmationElement.addEventListener('click', this.showPassword.bind(this));
     }
 
     showPassword() {
@@ -40,14 +47,5 @@ class Password
         }
       }
     }
-
-    addListener(eventToAdd, elementId, functionName) {
-      let listenerELement = document.getElementById(elementId);
-      if(listenerELement !== null){
-        listenerELement.addEventListener(eventToAdd, (event) => {
-          this[functionName](event);
-        })
-      }
-  }
 }
 
