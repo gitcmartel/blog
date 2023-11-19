@@ -101,6 +101,9 @@
 {% endblock %}
 
 {% block js %}
-    <script src="Js/Classes/Password.js"></script>w
-    <script src="Js/Templates/AdminUser.js"></script>
+    <script src="Js/Classes/Password.js"></script>
+    <script>
+        password = new Password();
+        password.displayPwdFields("passwordChange", "grpUserPwd", "grpUserPwdConfirmation");
+    </script>
 {% endblock %}
