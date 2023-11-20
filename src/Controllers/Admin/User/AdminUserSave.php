@@ -87,17 +87,6 @@ class AdminUserSave
             return;
         }
 
-        //Check if the userId variable is present in the database
-        $userDatabase = $userRepository->getUser($user->getid());
-
-        if($user->getId() !== null && ($userDatabase->getId() !== (int)$user->getId())){
-            TwigWarning::display(
-                "Un problème est survenu lors de l'enregistrement de l'utilisateur.", 
-                "index.php?action=Home\Home", 
-                "Retour à la page d'accueil");
-            return; 
-        }
-
         #endregion
 
         #region Function execution
