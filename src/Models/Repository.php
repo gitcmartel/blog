@@ -3,7 +3,6 @@
 namespace Application\Models;
 
 use Application\Lib\DatabaseConnexion;
-use PDO;
 
 abstract class Repository
 {

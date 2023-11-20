@@ -26,11 +26,6 @@ class CommentRepository extends Repository
         $statement->execute();
 
         while($row = $statement->fetch()) {
-            $userRepository = new UserRepository();
-            $postRepository = new PostRepository();
-            $row['user'] = $userRepository->getUser($row['user']);
-            $row['post'] = $postRepository->getPost($row['post']);
-
             $comment->hydrate($row);
         }
 
@@ -60,14 +55,9 @@ class CommentRepository extends Repository
         }
 
         $comments = array();
-        $userRepository = new UserRepository();
-        $postRepository = new PostRepository();
 
         while($row = $statement->fetch()) {
             $comment = new Comment();
-
-            $row['user'] = $userRepository->getUser($row['user']);
-            $row['post'] = $postRepository->getPost($row['post']);
 
             $comment->hydrate($row);
 
@@ -89,14 +79,9 @@ class CommentRepository extends Repository
         $statement->execute();
 
         $comments = array();
-        $userRepository = new UserRepository();
-        $postRepository = new PostRepository();
 
         while ($row = $statement->fetch()) {
             $comment = new Comment();
-
-            $row['user'] = $userRepository->getUser($row['user']);
-            $row['post'] = $postRepository->getPost($row['post']);
 
             $comment->hydrate($row);            
 

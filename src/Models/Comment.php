@@ -12,7 +12,19 @@ class Comment extends Table
     private string $comment;
     private User $user;
     private Post $post;
+    private UserRepository $userRepository;
+    private PostRepository $postRepository;
     
+    #endregion
+
+    #region Constructor
+    function __construct(array $values = array())
+    {
+        parent::__construct($values);
+        $this->userRepository = new UserRepository();
+        $this->postRepository = new PostRepository();
+    }
+
     #endregion
 
     #region getters and setters
@@ -68,9 +80,9 @@ class Comment extends Table
         }
     }
 
-    function setUser(User $user)
+    function setUser($user)
     {
-        $this->user = $user;
+        $this->user = $user instanceof User ? $user : $this->userRepository->getUser($user);
     }
 
     function getPost() : ?Post 
@@ -82,9 +94,9 @@ class Comment extends Table
         }
     }
 
-    function setPost(Post $post)
+    function setPost($post)
     {
-        $this->post = $post;
+        $this->post = $post instanceof Post ? $post : $this->postRepository->getPost($post);
     }
     #endregion
 }
