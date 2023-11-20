@@ -85,18 +85,8 @@ class AdminPostSave
             return;
         }
 
-        //Check if the postId variable is present in the database
         $postDatabase = $postRepository->getPost($post->getId());
-
-        if($post->getId() !== null && ($postDatabase->getId() !== (int)$post->getId())){
-            TwigWarning::display(
-                "Un problème est survenu lors de l'enregistrement du post.", 
-                "index.php?action=Home\Home", 
-                "Retour à la page d'accueil");
-            return; 
-        }
-
-        
+       
         #endregion
 
         #region Function execution
