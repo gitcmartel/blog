@@ -8,7 +8,6 @@ use Application\Models\CommentRepository;
 use Application\Models\Comment;
 use Application\Models\PostRepository;
 use Application\Lib\Session;
-use Application\Lib\DatabaseConnexion;
 use Application\Lib\TwigLoader;
 use Application\Lib\TwigWarning;
 
@@ -68,18 +67,6 @@ class AdminCommentSave
                 'activeUser' => Session::getActiveUser()
             ]);
             return;
-        }
-
-        //Check if the commentId and postId variables are present in the database
-        $commentDatabase = $commentRepository->getComment($comment->getId());
-
-        if(($comment->getId() !== null && ($commentDatabase->getId() === null || $comment->getPost()->getId() === null)) || 
-            ($comment->getId() === null && $comment->getPost()->getId() === null)){
-            TwigWarning::display(
-                "Un problème est survenu lors de l'enregistrement du commentaire.", 
-                "index.php?action=Home\Home", 
-                "Retour à la page d'accueil");
-            return; 
         }
 
         #endregion
