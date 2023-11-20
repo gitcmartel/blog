@@ -5,7 +5,6 @@ namespace Application\Models;
 use Application\Lib\Constants;
 use Application\Lib\Image;
 use DateTime;
-use DateTimeInterface;
 use PDO;
 
 class PostRepository extends Repository
@@ -26,17 +25,8 @@ class PostRepository extends Repository
         $statement->execute();
 
         $post = new Post();
-        $userRepository = new UserRepository();
 
         while($row = $statement->fetch()) {
-            $row['user'] = $userRepository->getUser($row['user']);
-
-            if($row['modifier'] !== null){
-                $row['modifier'] = $userRepository->getUser($row['modifier']);
-            } else {
-                $row['modifier']= new User();
-            }
-    
             $post->hydrate($row);
         }
 
@@ -72,15 +62,6 @@ class PostRepository extends Repository
         $posts = array();
 
         while($row = $statement->fetch()) {
-            $userRepository = new UserRepository();
-            $row['user'] = $userRepository->getUser($row['user']);
-
-            if($row['modifier'] !== null){
-                $row['modifier'] = $userRepository->getUser($row['modifier']);
-            } else {
-                $row['modifier'] = new User();
-            }
-
             $post = new Post();
 
             $post->hydrate($row);
@@ -207,15 +188,6 @@ class PostRepository extends Repository
         $posts = array();
 
         while($row = $statement->fetch()) {
-            $userRepository = new UserRepository();
-            $row['user'] = $userRepository->getUser($row['user']);
-
-            if($row['modifier'] !== null){
-                $row['modifier'] = $userRepository->getUser($row['modifier']);
-            } else {
-                $row['modifier'] = new User();
-            }
-
             $post = new Post();
 
             $post->hydrate($row);

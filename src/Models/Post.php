@@ -18,6 +18,17 @@ class Post extends Table
     private ?string $lastUpdateDate;
     private User $user;
     private User $modifier;
+    private UserRepository $userRepository;
+
+    #endregion
+
+    #region Constructor
+
+    function __construct(array $values = array())
+    {
+        parent::__construct($values);
+        $this->userRepository = new UserRepository();
+    }
 
     #endregion
 
@@ -148,9 +159,9 @@ class Post extends Table
         }
     }
 
-    function setUser(User $user)
+    function setUser($user)
     {
-        $this->user = $user;
+        $this->user = $user instanceof User ? $user : $this->userRepository->getUser($user);
     }
 
     function getModifier() : ?User 
@@ -162,9 +173,9 @@ class Post extends Table
         }
     }
 
-    function setModifier(User $modifier)
+    function setModifier($modifier)
     {
-        $this->modifier = $modifier;
+        $this->modifier = $modifier instanceof User ? $modifier : $this->userRepository->getUser($modifier);
     }
     #endregion
 }
