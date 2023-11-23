@@ -4,9 +4,7 @@ namespace Application\Controllers\Home;
 
 use Application\Lib\FormValidation;
 use Application\Lib\Email;
-use Application\Models\UserRepository;
-use Application\Models\User;
-use Application\Lib\DatabaseConnexion;
+use Application\Models\PostRepository;
 use Application\Lib\Session;
 use Application\Lib\TwigLoader;
 
@@ -16,7 +14,7 @@ class Home
     public function execute() {
 
         #region Variables
-
+        $postRepository = new PostRepository();
         $twig = TwigLoader::getEnvironment();
         $messageResponse = "";
 
@@ -24,10 +22,14 @@ class Home
 
         #region Conditions tests
 
+        //Get the latest 3 posts
+        $posts = $postRepository->getPosts(1, 3, true);
+
         //If the fields are not set we simply display the home page
         if (! isset($_POST['surname']) && ! isset($_POST['name']) && ! isset($_POST['email']) && ! isset($_POST['message'])){
             echo $twig->render('Home\Home.html.twig', [ 
                 'messageResponse' => "", 
+                'posts' => $posts, 
                 'activeUser' => Session::getActiveUser(), 
                 'userFunction' => Session::getActiveUserFunction()
             ]);
@@ -85,6 +87,7 @@ class Home
 
         echo $twig->render('Home\Home.html.twig', [ 
             'messageResponse' => $messageResponse, 
+            'posts' => $posts, 
             'activeUser' => Session::getActiveUser(), 
             'userFunction' => Session::getActiveUserFunction()
         ]);
