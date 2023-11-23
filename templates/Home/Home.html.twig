@@ -1,11 +1,109 @@
 {% extends 'Layout/layout.html.twig' %}
 
 {% block title %}
-    Explorez l'univers du développement web avec Christophe Martel : 
+    Explorez l'univers du développement web : 
     des lignes de code qui transforment vos idées en réalité numérique.
 {% endblock %}
 
 {% block body %}
+    <!--Latest blog post-->
+    <section>
+        <div class="my-5">
+            <div class="d-flex justify-content-center mb-5">
+                <p class="fs-2 text">Derniers blog posts</p>
+            </div>
+            <div class="container-fluid d-flex justify-content-between px-5"> 
+                <div class="row row-cols-1 row-cols-md-3 g-4">           
+                    {% for post in posts  %}
+                    <div class="col"> 
+                        <div class="card w-75 h-100 shadow">
+                            <a href="index.php?action=Post\PostDisplay&postId={{ post.id }}">
+                                <img class="card-img-top rounded" src="{{ post.imagePath }}" alt="Image du post">
+                            </a>
+                            <div class="card-body">
+                                <a class="card-title text-reset fw-bold text-decoration-none" href="index.php?action=Post\PostDisplay&postId={{ post.id }}">
+                                    <p class="fs-5">{{ post.title }}</p>
+                                </a>
+                                <p class="card-text">{{ post.summary }}</p>
+                            </div>
+                            <div class="card-footer">
+                                <a class="text-decoration-none" href="index.php?action=Post\PostDisplay&postId={{ post.id }}">Lire l'article</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+               </div>
+            </div>
+        </div>
+    </section>
+    <section>
+        <div class="container-fluid d-flex justify-content-between mt-25 mb-5 px-5">
+            <div class="col-6">
+                <p class="fs-3 text">Contactez-nous !</p>
+                <p class="fs-6 text">Besoin d'aide avec votre dernier projet de développement ?</p>  
+                <p class="fs-6 text">Nous sommes là pour vous. Laissez-nous un message.</p>
+            </div>
+            <div class="col-6">
+                <div class="col-12 contact-form-name">
+                    <div class="col-12 d-flex mb-3 h-50">
+                        <div class="col-6 pe-3">
+                            <input type="text" class="form-control" id="surname" name="surname" placeholder="Nom"required>
+                            <div class="avertissement font-size3" id="alertSurname">{{ warningSurname }}</div>
+                        </div>
+                        <div class="col-6">
+                            <input type="text" class="form-control" id="name" name="name" placeholder="Prénom" required>
+                            <div class="avertissement font-size3" id="alertName">{{ warningName }}</div>
+                        </div>
+                    </div>
+                    <div class="mb-3 contact-form-email">
+                        <div class="input-group h-50">
+                            <span class="input-group-text" id="inputGroupPrepend">@</span>
+                            <input type="email" class="form-control" id="email" name="email" aria-describedby="inputGroupPrepend" placeholder="Email" required>
+                        </div>
+                        <div class="avertissement font-size3" id="alertEmail">{{ warningEmail }}</div>
+                    </div>
+                    <div class="mb-4 message contact-form-message">
+                        <textarea class="form-control" id="message" name="message" maxlength="500" form="contactForm" rows="5" placeholder="Message" required></textarea>
+                        <div class="avertissement font-size3" id="alertMessage">{{ warningMessage }}</div>
+                    </div>
+                    <div class="d-flex justify-content-end contact-form-button pe-5">
+                        <button type="submit" class="button text-light font-size3 d-flex justify-content-center align-items-center">
+                            <span>Envoyer</span> 
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div> 
+    </section>
+    <section>
+        <div class="container-fluid mt-25 px-5">
+            <div class="col d-flex justify-content-center">
+                <div class="col-4 d-flex justify-content-center">
+                    <img class= "photo rounded-circle" src="img/photo.jpeg" alt="photo Christophe Martel">
+                    <p class="m-2">Christophe Martel - Développeur</p>
+                </div>
+                <div class="col-4 m-2 d-flex justify-content-center">
+                    <i class="me-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16">
+                            <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6"/>
+                        </svg>
+                    </i>
+                    <address>96 route de la Poyat - 73200 Mercury</address>
+                </div>
+                <div class="col-4 m-2 d-flex justify-content-center">
+                    <div class="d-flex justify-content-around">
+                        <p class="text-light font-size3"><a href="img/CV.pdf" target="_blank">CV</a></p>
+                        <div class="d-flex socials">
+                            <img class="me-4 h-100" src="img/twitter.png" alt="Twitter icon">
+                            <img class="me-4 h-100" src="img/facebook.png" alt="Facebook icon">
+                            <img class="h-100" src="img/linkedin.png" alt="Linkedin icon">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>   
+    </section>
+    <!--
     <section>
         <div class="container-fluid d-flex align-items-center body-container">
             <div class="contact-form rounded-corners shadow f-flex justify-content-center" id="containerContactForm">
@@ -43,7 +141,9 @@
                 </form>
                 <div>{{ messageResponse }}</div>
             </div>
-
+    </section>
+    -->
+    <!--
             <div class="presentation d-flex flex-column justify-content-around align-items-center shadow p-3 mb-5 rounded-corners">
                 <img class= "photo rounded-circle" src="img/photo.jpeg" alt="photo Christophe Martel">
                 <p class="text-light font-size3">Christophe Martel</p>
@@ -56,5 +156,5 @@
                 </div>
             </div>
         </div>
-    </section>
+-->
 {% endblock %}
