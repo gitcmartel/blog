@@ -12,7 +12,7 @@
 
 <body>
     <header>
-        <div class="hero">
+        <div>
             <nav class="navbar navbar-expand-lg navbar-light">
                 <div class="container-fluid">
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -22,43 +22,43 @@
                     <div class="collapse navbar-collapse justify-content-start" id="navbarNav">
                         <ul class="navbar-nav me-auto">
                             <li class="nav-item">
-                                <a class="nav-link active text-light font-size1" aria-current="page"
+                                <a class="nav-link active text-body font-size1 underline-effect" aria-current="page"
                                     href="index.php">Accueil</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-light font-size1"
+                                <a class="nav-link text-body font-size1 underline-effect"
                                     href="index.php?action=Post\PostList&pageNumber=1">Blog</a>
                             </li>
                             {% if activeUser != "" %}
                             {% if userFunction == 'Createur' or userFunction =='Administrateur' %}
                             <li class="nav-item">
-                                <a class="nav-link text-light font-size1"
+                                <a class="nav-link text-body font-size1 underline-effect"
                                     href="index.php?action=Admin\Post\AdminPostList&pageNumber=1">Posts</a>
                             </li>
                             {% endif %}
                             {% if userFunction == "Administrateur"%}
                             <li class="nav-item">
-                                <a class="nav-link text-light font-size1"
+                                <a class="nav-link text-body font-size1 underline-effect"
                                     href="index.php?action=Admin\User\AdminUserList&pageNumber=1">Utilisateurs</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-light font-size1"
+                                <a class="nav-link text-body font-size1 underline-effect"
                                     href="index.php?action=Admin\Comment\AdminCommentList&pageNumber=1">Commentaires</a>
                             </li>
                             {% endif %}
                             {% else %}
                             <li class="nav-item">
-                                <a class="nav-link text-light font-size1"
+                                <a class="nav-link text-body font-size1 underline-effect"
                                     href="index.php?action=Connexion\Connexion">Connexion</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-light font-size1"
+                                <a class="nav-link text-body font-size1 underline-effect"
                                     href="index.php?action=Subscription\Subscription">Inscription</a>
                             </li>
                             {% endif %}
                         </ul>
                         {% if activeUser != "" %}
-                        <div class="text-light fst-italic font-size3 me-3" id="pseudo">Bienvenue {{ activeUser }}</div>
+                        <div class="text-body fst-italic font-size3 me-3" id="pseudo">Bienvenue {{ activeUser }}</div>
                         <a href="" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
                             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor"
                                 class="bi bi-person-circle" viewBox="0 0 16 16">
@@ -83,9 +83,11 @@
                     </div>
                 </div>
             </nav>
-            <p class="page-title font-size2 text-light text-center">
-                {% block title %}{% endblock %}
-            </p>
+            <div class="hero">
+                <p class="page-title fs-4 text text-body text-center">
+                    {% block title %}{% endblock %}
+                </p>
+            </div>
         </div>
     </header>
     {% block body %}{% endblock %}
@@ -132,6 +134,7 @@
             </div>
         </div>
     </footer>
+
 </body>
 
 {% block js %}{% endblock %}
