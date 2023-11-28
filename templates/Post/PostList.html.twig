@@ -7,31 +7,33 @@ Nos blog posts
 {% block body %}
 <section class="vh-60 mt-5">
     <div class="container-fluid px-5">
-        <div class="row row-cols-1 row-cols-md-2 g-4 d-flex justify-content-around">
+        <div class="row justify-content-evenly">
             {% for post in posts %}
-            <div class="card mb-3 shadow" style="max-width: 540px;">
-                <div class="row g-0">
-                    <div class="col-md-4">
-                        <a href="index.php?action=Post\PostDisplay&postId={{ post.id }}">
-                            <img class="w-100 rounded-start" src="{{ post.imagePath }}" alt="Image du post">
-                        </a>
-                    </div>
-                    <div class="col-md-8">
-                        <div class="card-body">
-                            <h5 class="card-title">
-                                <a class="text-reset text-decoration-none"
-                                    href="index.php?action=Post\PostDisplay&postId={{ post.id }}">
-                                    <p class="fs-5">{{ post.title }}</p>
-                                </a>
-                            </h5>
-                            <p class="card-text w-100 overflow-auto">
-                                {{ post.summary }}
-                            </p>
-                            <p class="card-text"><small class="text-body-secondary">Rédigé par {{ post.getUser().getPseudo() }} le {{ post.getCreationDate() | date('d/m/Y') }}</small></p>
+            <div class="col-md-6 col-sd-12 g-4" style="max-width: 540px;">
+                <div class="card p-0 h-100 mb-3 shadow" >
+                    <div class="row g-0">
+                        <div class="col-md-4 h-100">
+                            <a href="index.php?action=Post\PostDisplay&postId={{ post.id }}">
+                                <img class="w-100 post-card-image rounded-start" src="{{ post.imagePath }}" alt="Image du post">
+                            </a>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <a class="text-reset text-decoration-none"
+                                        href="index.php?action=Post\PostDisplay&postId={{ post.id }}">
+                                        <p class="fs-5">{{ post.title }}</p>
+                                    </a>
+                                </h5>
+                                <p class="card-text w-100 overflow-auto">
+                                    {{ post.summary }}
+                                </p>
+                                <p class="card-text"><small class="text-body-secondary">Rédigé par {{ post.getUser().getPseudo() }} le {{ post.getCreationDate() | date('d/m/Y') }}</small></p>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>       
             {% endfor %}
         </div>
     </div>
