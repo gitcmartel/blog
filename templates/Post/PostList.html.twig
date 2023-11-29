@@ -9,26 +9,26 @@ Nos blog posts
     <div class="container-fluid px-5">
         <div class="row justify-content-evenly">
             {% for post in posts %}
-            <div class="col-md-6 col-sd-12 g-4" style="max-width: 540px;">
+            <div class="col-lg-6 col-sd-12 g-4" style="max-width: 540px;">
                 <div class="card p-0 h-100 mb-3 shadow" >
-                    <div class="row g-0">
-                        <div class="col-md-4 h-100">
-                            <a href="index.php?action=Post\PostDisplay&postId={{ post.id }}">
+                    <div class="row h-100 g-0">
+                        <div class="col-md-4">
+                            <a class="h-75" href="index.php?action=Post\PostDisplay&postId={{ post.id }}">
                                 <img class="w-100 post-card-image rounded-start" src="{{ post.imagePath }}" alt="Image du post">
                             </a>
                         </div>
                         <div class="col-md-8">
-                            <div class="card-body">
-                                <h5 class="card-title">
+                            <div class="card-body h-100">
+                                <h5 class="card-title h-25">
                                     <a class="text-reset text-decoration-none"
                                         href="index.php?action=Post\PostDisplay&postId={{ post.id }}">
                                         <p class="fs-5">{{ post.title }}</p>
                                     </a>
                                 </h5>
-                                <p class="card-text w-100 overflow-auto">
+                                <p class="card-text w-100 h-50 overflow-auto">
                                     {{ post.summary }}
                                 </p>
-                                <p class="card-text"><small class="text-body-secondary">Rédigé par {{ post.getUser().getPseudo() }} le {{ post.getCreationDate() | date('d/m/Y') }}</small></p>
+                                <p class="card-text h-25"><small class="text-body-secondary">Rédigé par {{ post.getUser().getPseudo() }} le {{ post.getCreationDate() | date('d/m/Y') }}</small></p>
                             </div>
                         </div>
                     </div>
