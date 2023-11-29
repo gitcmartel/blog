@@ -5,7 +5,7 @@ namespace Application\Controllers\Post;
 
 use Application\Models\PostRepository;
 use Application\Lib\Session;
-
+use Application\Lib\Constants;
 use Application\Lib\TwigLoader;
 
 class PostList 
@@ -25,7 +25,7 @@ class PostList
 
         #region Function execution
 
-        $totalPages = $postRepository->getTotalPageNumber(4);
+        $totalPages = $postRepository->getTotalPageNumber(Constants::NUMBER_OF_BLOG_POST_PER_PAGE, true);
         
         if (isset($_GET['pageNumber'])){
             if($_GET['pageNumber'] !== 0){
@@ -33,7 +33,7 @@ class PostList
                 $pageNumber = $_GET['pageNumber'];
             }
         } else {
-            $posts = $postRepository->getPosts(1, 4, true);
+            $posts = $postRepository->getPosts(1, Constants::NUMBER_OF_BLOG_POST_PER_PAGE, true);
         }
         
         echo $twig->render('Post\PostList.html.twig', [ 

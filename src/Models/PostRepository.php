@@ -156,10 +156,11 @@ class PostRepository extends Repository
      * Get the total number of pages for a given number of posts per page
      * The $numberOfPostsPerPage parameter contains the number of posts per page
      */
-    public function getTotalPageNumber(int $numberOfPostsPerPage) : int
+    public function getTotalPageNumber(int $numberOfPostsPerPage, bool $onlyPublishedPosts) : int
     {
+        $publishedCondition = $onlyPublishedPosts ? " WHERE publicationDate IS NOT NULL;" : ";";
         $statement = $this->connexion->getConnexion()->prepare(
-            "SELECT COUNT(id) AS TotalPosts FROM post;"
+            "SELECT COUNT(id) AS TotalPosts FROM post" . $publishedCondition
         );
 
         $statement->execute();
