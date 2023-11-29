@@ -3,8 +3,6 @@
 namespace Application\Controllers\Connexion;
 
 use Application\Models\UserRepository;
-use Application\Models\User;
-use Application\Lib\DatabaseConnexion;
 use Application\Lib\Password;
 use Application\Lib\Session;
 use Application\Lib\TwigLoader;
