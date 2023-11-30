@@ -1,15 +1,6 @@
-@import 'variables';
-
-
-.hero-connexion {
+.hero-subscription {
     background-image: url("../img/header-connexion.jpg");
     background-size: cover;
     height:40vh;
     clip-path: polygon(0 0, 100% 0, 100% 100%, 0 81%);
-}
-
-.connexion-img {
-    height: 40vh;
-    object-fit: cover;
-    object-position: top;
 }

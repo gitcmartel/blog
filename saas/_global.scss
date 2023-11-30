@@ -6,31 +6,23 @@ body {
     font-family: 'Playfair Display', serif;
 }
 
+.page-title {
+    opacity: 0;
+    transform: translateY(-5vh);
+    animation: slideTitle 1s ease-out 0.5s forwards;
+    height: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
-.hero {
-    background-image: url("../img/header.jpg");
-    background-size: cover;
-    height:80vh;
-    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 81%);
+.navbar {
+    background-color: white;
+    height: 10vh;
+}
 
-    .page-title {
-        opacity: 0;
-        transform: translateY(-5vh);
-        animation: slideTitle 1s ease-out 0.5s forwards;
-        height: 50%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .navbar {
-        background-color: white;
-        height: 20vh;
-    }
-
-    .dropdown-menu {
-        background-color: $color3;
-    }
+.dropdown-menu {
+    background-color: $color3;
 }
 
 .button {
@@ -87,6 +79,10 @@ background-size: 100% 3px, auto;
 
 .vh-50{
     min-height: 50vh;
+}
+
+.vh-40{
+    min-height: 40vh;
 }
 
 .vh-5 {

@@ -1,5 +1,12 @@
 @import 'variables';
 
+.hero-home {
+    background-image: url("../img/header.jpg");
+    background-size: cover;
+    height:80vh;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 81%);
+}
+
 .contact {
     background-color: $color1;
     padding: 15% 2% 15% 5%;

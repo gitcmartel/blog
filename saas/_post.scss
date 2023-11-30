@@ -8,3 +8,10 @@
     object-fit: contain;
     object-position: top;
 }
+
+.hero-blog {
+    background-image: url("../img/header-blog.jpg");
+    background-size: cover;
+    height:40vh;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 81%);
+}
