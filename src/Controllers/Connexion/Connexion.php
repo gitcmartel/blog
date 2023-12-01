@@ -71,10 +71,7 @@ class Connexion
                 $_SESSION['activeUserFunction'] = $user->getUserFunction()->toString();
                 $_SESSION['userId'] = $user->getId();
 
-                echo $twig->render('Connexion/connexionSuccess.html.twig', [
-                    'activeUser' => Session::getActiveUser(), 
-                    'userFunction' => Session::getActiveUserFunction()
-                ]);
+                header("Location:index.php?action=Home\Home");
                 return;
             } else {
                 $warningPassword = "Le mot de passe est incorrect";
