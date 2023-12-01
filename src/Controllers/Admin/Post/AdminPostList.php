@@ -18,7 +18,7 @@ class AdminPostList
         #region Variables
 
         $postRepository = new PostRepository();
-        $totalPages = $postRepository->getTotalPageNumber(Constants::NUMBER_OF_POSTS_PER_PAGE);;
+        $totalPages = $postRepository->getTotalPageNumber(Constants::NUMBER_OF_POSTS_PER_PAGE, false);;
         $pageNumber = 1;
         $posts = "";
         $twig = TwigLoader::getEnvironment();
