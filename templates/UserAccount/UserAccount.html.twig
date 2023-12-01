@@ -1,0 +1,75 @@
+{% extends 'Layout/layout.html.twig' %}
+
+{% block title %}
+<div class="hero-users">
+    <p class="page-title fs-4 text text-light text-center">
+        Mon compte
+    </p>
+</div>
+{% endblock %}
+
+{% block body %}
+    <section>
+        <div class="d-flex justify-content-center align-items-center">
+            <form class="formulaire connexion-form container-fluid d-flex flex-column w-50 rounded-corners p-4 shadow" method="post" action="index.php?action=UserAccount\UserAccount" id = "userAccountForm" novalidate>
+                <div class="row h-100 mt-3">
+                    <div class="col-md-6 d-flex flex-column pb-2 pe-3 mb-3">
+                        <input type="text" class="form-control" id = "name" name="name"  required value="{{ user.getName() }}" placeholder="Prénom">
+                        <div id="warningName" class="text-danger">{{ warningName }}</div>
+                    </div>
+                    <div class="col-md-6 d-flex flex-column pb-2 mb-3">
+                        <input type="text" class="form-control" id = "surname" name="surname" required value="{{ user.getSurname() }}" placeholder="Nom">
+                        <div id="warningSurname" class="text-danger">{{ warningSurname }}</div>
+                    </div>
+                </div>
+                <div class="row h-100 mb-3">
+                    <div class="col-md-6 flex-column pb-2 w-50 pe-3">
+                        <input type="text" class="form-control" id = "pseudo" name="pseudo" value="{{ user.getPseudo() }}" placeholder="Pseudo" required>
+                        <div id="warningPseudo" class="text-danger">{{ warningPseudo }}</div>
+                    </div>
+                </div>
+                <div class="row h-100 mb-3">
+                    <div class="col-md-12 d-flex flex-column pb-2">
+                        <input type="email" class="form-control" id = "email" name="email" value="{{ user.getEmail() }}" placeholder="Adresse Email" required>
+                        <div id="warningEmail" class="text-danger">{{ warningEmail }}</div>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <input type="checkbox" class="form-check-input" name="passwordChange" id="passwordChange" value="-1" {{ pwdChangeCheckedValue }}>
+                    <label class="form-check-label font-size3" for="passwordChange">Modifier le mot de passe</label>
+                </div>
+                <div class="mt-2" id="grpUserPwd">
+                    <label class="form-label font-size3" for="userPwd">Mot de passe</label>
+                    <div class="d-flex flex-row">
+                        <input type="password" class="form-control" id = "password" name="password">
+                        <i class="far fa-eye-slash position-relative align-self-center" id="togglePassword" style="margin-left: -30px; cursor: pointer;"></i>
+                    </div>
+                </div>
+                <div class="mt-2" id="grpUserPwdConfirmation">
+                    <label class="form-label font-size3" for="userPwdConfirmation">Confirmation du mot de passe</label>
+                    <div class="d-flex flex-row">
+                        <input type="password" class="form-control" id = "passwordConfirmation" name="passwordConfirmation">
+                        <i class="far fa-eye-slash position-relative align-self-center" id="togglePasswordConfirmation"  style="margin-left: -30px; cursor: pointer;"></i> 
+                    </div> 
+                    <div class="text-danger">{{ warningPassword }}</div>
+                </div>
+                <div class="row h-100 mb-1">
+                    <div class="col-md-8">
+
+                    </div>
+                    <div class="col-md-4 mt-3 d-flex justify-content-center">
+                        <button type="submit" class="button text-light" id="btnValider">Valider</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+{% endblock %}
+
+{% block js %}
+    <script src="Js/Classes/Password.js"></script>
+    <script>
+        password = new Password();
+    </script>
+{% endblock %}
+
