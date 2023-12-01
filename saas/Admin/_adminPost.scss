@@ -1,0 +1,16 @@
+.hero-posts {
+    height:40vh;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 81%);
+}
+
+.hero-posts::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url("../img/header-posts.jpg");
+    background-size: cover;
+    z-index: -1; 
+}

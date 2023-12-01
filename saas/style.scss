@@ -4,25 +4,12 @@
 @import 'post';
 @import 'connexion';
 @import 'subscription';
-
-
+@import 'Admin/_adminUser';
+@import 'Admin/_adminComment';
+@import 'Admin/_adminPost';
 
 
 .message input {
     height: 15vh;
 }
 
-
-
-.body-container {
-    height: 60vh;
-}
-
-
-
-
-//Media Queries
-
-@media screen and (max-width: 1440px){
-
-}
