@@ -5,7 +5,6 @@ namespace Application\Controllers\Admin\Post;
 use Application\Models\PostRepository;
 use Application\Lib\UserActiveCheckValidity;
 use Application\Lib\Session;
-use Application\Lib\DatabaseConnexion;
 use Application\Lib\TwigLoader;
 use Application\Lib\Constants;
 use Application\Lib\TwigWarning;
