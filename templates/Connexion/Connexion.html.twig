@@ -10,13 +10,13 @@
 
 {% block body %}
     <section>
-        <div class="body-container d-flex justify-content-center align-items-center">
-            <form method="post" action="" class="container-fluid w-50 rounded-corners shadow p-3" novalidate>
-                <div class="row">
-                    <div class="col">
+        <div class="d-flex justify-content-center align-items-center">
+            <form method="post" action="" class="container-fluid w-50 rounded-corners shadow p-3 connexion-form" novalidate>
+                <div class="row h-100">
+                    <div class="col-lg-4 d-flex justify-content-center align-items-start my-2">
                         <img class="connexion-img" src="../img/key-hole.png" alt="">
                     </div>
-                    <div class="col">
+                    <div class="col-lg-8 px-5 d-flex flex-column justify-content-evenly">
                         <div class="d-flex flex-column pb-2">
                             <label for="login" class="form-label text-reset">Identifiant :</label>
                             <input type="text" class="form-control" id = "login" name="login" required value="{{ loginValue }}">
@@ -27,9 +27,13 @@
                             <input type="password" class="form-control" id = "password" name="password" required>
                             <div id="warningSurname" class="text-danger">{{ warningPassword }}</div>
                         </div>
-                        <div class="d-flex justify-content-between">
-                            <a href="index.php?action=Password\passwordRenewal" class="fst-italic">Mot de passe oublié ?</a>
-                            <button class="button text-light" id="">Valider</button>
+                        <div class="row d-flex justify-content-between m-2 g-2">
+                            <div class="col-md-6 d-flex justify-content-center">
+                                <button class="button text-light" id="">Valider</button>
+                            </div>
+                            <div class="col-md-6 d-flex justify-content-center">
+                                <a href="index.php?action=Password\passwordRenewal" class="fst-italic">Mot de passe oublié ?</a>
+                            </div>
                         </div>
                     </div>
                 </div>
