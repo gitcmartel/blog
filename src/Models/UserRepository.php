@@ -164,11 +164,11 @@ class UserRepository extends Repository
     public function exists(string $value, string $field) : bool
     {
         $statement = $this->connexion->getConnexion()->prepare(
-            "SELECT " . $field . " FROM user WHERE " . $field . "=:fieldName;"
+            "SELECT " . $field . " FROM user WHERE " . $field . "=:fieldValue;"
         );
 
-        $statement->bindValue("fieldName", $field, PDO::PARAM_STR);
-        $statement->execute([$value]);
+        $statement->bindValue("fieldValue", $value, PDO::PARAM_STR);
+        $statement->execute();
 
         if ($statement->rowCount() > 0){
             return true;
