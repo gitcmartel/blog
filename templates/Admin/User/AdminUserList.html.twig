@@ -1,5 +1,13 @@
 {% extends 'Layout/layout.html.twig' %}
 
+{% block title %}
+<div class="hero-users">
+    <p class="page-title fs-4 text text-light text-center">
+        Utilisateurs
+    </p>
+</div>
+{% endblock %}
+
 {% block body %}
     <section class="vh-60">
         <form method="POST" action="index.php?action=Admin\User\AdminUserValidation" id="formList">
@@ -37,7 +45,7 @@
                     </a>
                 </div>
             </div>
-            <table class="table">
+            <table class="table table-striped">
                 <thead>
                 <tr>
                     <th class="font-size3"></th>
