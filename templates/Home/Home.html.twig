@@ -1,8 +1,12 @@
 {% extends 'Layout/layout.html.twig' %}
 
 {% block title %}
-Explorez l'univers du développement web :
-des lignes de code qui transforment vos idées en réalité numérique.
+<div class="hero-home">
+    <p class="page-title fs-4 text text-body text-center">
+        Explorez l'univers du développement web :
+        des lignes de code qui transforment vos idées en réalité numérique.
+    </p>
+</div>
 {% endblock %}
 
 {% block body %}
@@ -15,7 +19,7 @@ des lignes de code qui transforment vos idées en réalité numérique.
         <div class="px-5 container-fluid">
             <div class="row justify-content-evenly">
                 {% for post in posts %}
-                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 mb-4">
+                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 mb-4" style="max-width: 540px;">
                     <div class="card h-100 shadow">
                         <a class="h-50" href="index.php?action=Post\PostDisplay&postId={{ post.id }}">
                             <img class="card-img-top card-image rounded" src="{{ post.imagePath }}" alt="Image du post">
@@ -120,4 +124,11 @@ des lignes de code qui transforment vos idées en réalité numérique.
         </div>
     </div>
 </section>
+{% endblock %}
+
+{% block js %}
+    <script src="Js/Classes/Disconnexion.js"></script>
+    <script>
+        disconnexion = new Disconnexion();
+    </script>
 {% endblock %}

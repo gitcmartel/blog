@@ -23,10 +23,6 @@
                     </div>
                 </div>
                 <div class="row h-100 mb-3">
-                    <div class="col-md-6">
-                        <input type="checkbox" class="form-check-input" name="pseudoChange" id="pseudoChange" value="-1" {{ pseudoChangeCheckedValue }}>
-                        <label class="form-check-label font-size3" for="pseudoChange">Modifier le pseudo</label>
-                    </div>
                     <div class="col-md-6 flex-column pb-2 w-50 pe-3">
                         <input type="text" class="form-control" id = "pseudo" name="pseudo" value="{{ user.getPseudo() }}" placeholder="Pseudo" required>
                         <div id="warningPseudo" class="text-danger">{{ warningPseudo }}</div>
@@ -72,8 +68,10 @@
 
 {% block js %}
     <script src="Js/Classes/Password.js"></script>
+    <script src="Js/Classes/Disconnexion.js"></script>
     <script>
         password = new Password();
+        disconnexion = new Disconnexion();
     </script>
 {% endblock %}
 

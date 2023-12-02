@@ -12,7 +12,7 @@
 
 <body>
     <header>
-        <nav class="navbar bg-white sticky-top navbar-expand-lg navbar-light">
+        <nav class="navbar sticky-top navbar-expand-lg navbar-light bg-light">
             <div class="container-fluid">
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                     aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -21,43 +21,43 @@
                 <div class="collapse navbar-collapse justify-content-start" id="navbarNav">
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
-                            <a class="nav-link active text-body font-size1 underline-effect" aria-current="page"
+                            <a class="nav-link active text-body fs-5 underline-effect" aria-current="page"
                                 href="index.php">Accueil</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-body font-size1 underline-effect"
+                            <a class="nav-link text-body fs-5 underline-effect"
                                 href="index.php?action=Post\PostList&pageNumber=1">Blog</a>
                         </li>
                         {% if activeUser != "" %}
                         {% if userFunction == 'Createur' or userFunction =='Administrateur' %}
                         <li class="nav-item">
-                            <a class="nav-link text-body font-size1 underline-effect"
+                            <a class="nav-link text-body fs-5 underline-effect"
                                 href="index.php?action=Admin\Post\AdminPostList&pageNumber=1">Posts</a>
                         </li>
                         {% endif %}
                         {% if userFunction == "Administrateur"%}
                         <li class="nav-item">
-                            <a class="nav-link text-body font-size1 underline-effect"
+                            <a class="nav-link text-body fs-5 underline-effect"
                                 href="index.php?action=Admin\User\AdminUserList&pageNumber=1">Utilisateurs</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-body font-size1 underline-effect"
+                            <a class="nav-link text-body fs-5 underline-effect"
                                 href="index.php?action=Admin\Comment\AdminCommentList&pageNumber=1">Commentaires</a>
                         </li>
                         {% endif %}
                         {% else %}
                         <li class="nav-item">
-                            <a class="nav-link text-body font-size1 underline-effect"
+                            <a class="nav-link text-body fs-5 underline-effect"
                                 href="index.php?action=Connexion\Connexion">Connexion</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-body font-size1 underline-effect"
+                            <a class="nav-link text-body fs-5 underline-effect"
                                 href="index.php?action=Subscription\Subscription">Inscription</a>
                         </li>
                         {% endif %}
                     </ul>
                     {% if activeUser != "" %}
-                    <div class="text-body fst-italic font-size3 me-3" id="pseudo">Bienvenue {{ activeUser }}</div>
+                    <div class="text-body fst-italic fs-5 me-3" id="pseudo">Bienvenue {{ activeUser }}</div>
                     <a href="" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
                         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor"
                             class="bi bi-person-circle" viewBox="0 0 16 16">
@@ -69,12 +69,12 @@
 
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuLink">
                         {% if activeUser != "" %}
-                        <li><a class="dropdown-item" href="#">Mon compte</a></li>
+                        <li><a class="dropdown-item fs-5" href="index.php?action=UserAccount\UserAccount">Mon compte</a></li>
                         {% endif %}
                         {% if activeUser == "" %}
-                        <li><a class="dropdown-item" href="#">Connexion</a></li>
+                        <li><a class="dropdown-item fs-5" href="#">Connexion</a></li>
                         {% else %}
-                        <li><a class="dropdown-item rowAction" data-action="Déconnection"
+                        <li><a class="dropdown-item rowAction fs-5" id="btnDisconnexion" data-action="Déconnection"
                                 data-id="index.php?action=Connexion\Disconnection"
                                 data-message="Confirmez-vous la déconnexion ?" data-bs-toggle="modal"
                                 data-bs-target="#confirmationModal">Déconnexion</a></li>
@@ -84,11 +84,8 @@
                 </div>
             </div>
         </nav>
-        <div class="hero">
-            <p class="page-title fs-4 text text-body text-center">
-                {% block title %}{% endblock %}
-            </p>
-        </div>
+
+        {% block title %}{% endblock %}
 
     </header>
     {% block body %}{% endblock %}

@@ -1,7 +1,11 @@
 {% extends 'Layout/layout.html.twig' %}
 
 {% block title %}
-Nos blog posts
+<div class="hero-blog">
+    <p class="page-title fs-4 text text-body text-center">
+        Nos blog posts
+    </p>
+</div>
 {% endblock %}
 
 {% block body %}
@@ -28,7 +32,7 @@ Nos blog posts
                                 <p class="card-text w-100 h-50 overflow-auto">
                                     {{ post.summary }}
                                 </p>
-                                <p class="card-text h-25"><small class="text-body-secondary">Rédigé par {{ post.getUser().getPseudo() }} le {{ post.getCreationDate() | date('d/m/Y') }}</small></p>
+                                <p class="card-text h-25 d-flex justify-content-end"><small class="text-body-secondary">Rédigé par {{ post.getUser().getPseudo() }} le {{ post.getCreationDate() | date('d/m/Y') }}</small></p>
                             </div>
                         </div>
                     </div>
@@ -83,4 +87,11 @@ Nos blog posts
         </ul>
     </nav>
 </section>
+{% endblock %}
+
+{% block js %}
+    <script src="Js/Classes/Disconnexion.js"></script>
+    <script>
+        disconnexion = new Disconnexion();
+    </script>
 {% endblock %}

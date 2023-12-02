@@ -1,54 +1,70 @@
 {% extends 'Layout/layout.html.twig' %}
 
+{% block title %}
+<div class="hero-subscription">
+    <p class="page-title fs-4 text text-body text-center">
+        Inscription
+    </p>
+</div>
+
+{% endblock %}
+
 {% block body %}
     <section>
-        <div class="body-container d-flex justify-content-center align-items-center">
-            <form method="post" action="index.php?action=Subscription\Subscription" id = "subscriptionForm" class="formulaire connexion-form container-fluid d-flex flex-column w-50 rounded-corners p-3" novalidate>
-                <div class="d-flex flex-row">
-                    <div class="d-flex flex-column w-50 pb-2 pe-3">
-                        <label for="name" class="form-label text-light">Prénom :</label>
-                        <input type="text" class="form-control" id = "name" name="name"  required value="{{ user.getName() }}">
+        <div class="d-flex justify-content-center align-items-center">
+            <form class="formulaire connexion-form container-fluid d-flex flex-column w-50 rounded-corners p-4 shadow" method="post" action="index.php?action=Subscription\Subscription" id = "subscriptionForm" novalidate>
+                <div class="row h-100 mt-3">
+                    <div class="col-md-6 d-flex flex-column pb-2 pe-3 mb-3">
+                        <input type="text" class="form-control" id = "name" name="name"  required value="{{ user.getName() }}" placeholder="Prénom">
                         <div id="warningName" class="text-danger">{{ warningName }}</div>
                     </div>
-                    <div class="d-flex flex-column pb-2 w-50">
-                        <label for="surname" class="form-label text-light">Nom :</label>
-                        <input type="text" class="form-control" id = "surname" name="surname" required value="{{ user.getSurname() }}">
+                    <div class="col-md-6 d-flex flex-column pb-2 mb-3">
+                        <input type="text" class="form-control" id = "surname" name="surname" required value="{{ user.getSurname() }}" placeholder="Nom">
                         <div id="warningSurname" class="text-danger">{{ warningSurname }}</div>
                     </div>
                 </div>
-                <div class="d-flex flex-column pb-2 w-50 pe-3">
-                    <label for="pseudo" class="form-label text-light">Pseudo :</label>
-                    <input type="text" class="form-control" id = "pseudo" name="pseudo" value="{{ user.getPseudo() }}" required>
-                    <div id="warningPseudo" class="text-danger">{{ warningPseudo }}</div>
-                </div>
-                <div class="d-flex flex-column pb-2">
-                    <label for="email" class="form-label text-light">Adresse Email :</label>
-                    <input type="email" class="form-control" id = "email" name="email" value="{{ user.getEmail() }}" required>
-                    <div id="warningEmail" class="text-danger">{{ warningEmail }}</div>
-                </div>
-                <div class="d-flex flex-column pb-2">
-                    <label for="password" class="form-label text-light">Mot de passe :</label>
-                    <div class="d-flex flex-row">
-                        <input type="password" class="form-control" id = "password" name="password" required>
-                        <i class="far fa-eye-slash position-relative align-self-center" id="togglePassword" style="margin-left: -30px; cursor: pointer;"></i>
+                <div class="row h-100 mb-3">
+                    <div class="col-md-6 flex-column pb-2 w-50 pe-3">
+                        <input type="text" class="form-control" id = "pseudo" name="pseudo" value="{{ user.getPseudo() }}" placeholder="Pseudo" required>
+                        <div id="warningPseudo" class="text-danger">{{ warningPseudo }}</div>
                     </div>
-                    <div id="warningPassword" class="text-danger">{{ warningPassword }}</div>
                 </div>
-                <div class="d-flex flex-column pb-2">
-                    <label for="passwordConfirmation" class="form-label text-light">Confirmation du mot de passe :</label>
-                    <div class="d-flex flex-row">
-                        <input type="password" class="form-control" id = "passwordConfirmation" name="passwordConfirmation" required>
-                        <i class="far fa-eye-slash position-relative align-self-center" id="togglePasswordConfirmation"  style="margin-left: -30px; cursor: pointer;"></i> 
-                    </div> 
+                <div class="row h-100 mb-3">
+                    <div class="col-md-12 d-flex flex-column pb-2">
+                        <input type="email" class="form-control" id = "email" name="email" value="{{ user.getEmail() }}" placeholder="Adresse Email" required>
+                        <div id="warningEmail" class="text-danger">{{ warningEmail }}</div>
+                    </div>
                 </div>
-                <button type="submit" class="button text-light" id="btnValider">Valider</button>
+                <div class="row h-100 mb-3">
+                    <div class="col-md-12 d-flex flex-column pb-2">
+                        <div class="d-flex flex-row">
+                            <input type="password" class="form-control" id = "password" name="password" placeholder="Mot de passe" required>
+                            <i class="far fa-eye-slash position-relative align-self-center" id="togglePassword" style="margin-left: -30px; cursor: pointer;"></i>
+                        </div>
+                        <div id="warningPassword" class="text-danger">{{ warningPassword }}</div>
+                    </div>
+                </div>
+                <div class="row h-100 mb-3">
+                    <div class="col-md-12 d-flex flex-column pb-2">
+                        <div class="d-flex flex-row">
+                            <input type="password" class="form-control" id = "passwordConfirmation" name="passwordConfirmation" placeholder="Confirmation du mot de passe" required>
+                            <i class="far fa-eye-slash position-relative align-self-center" id="togglePasswordConfirmation"  style="margin-left: -30px; cursor: pointer;"></i> 
+                        </div> 
+                    </div>
+                </div>
+                <div class="row h-100 mb-1">
+                    <div class="col-md-8">
+
+                    </div>
+                    <div class="col-md-4 d-flex justify-content-center">
+                        <button type="submit" class="button text-light" id="btnValider">Valider</button>
+                    </div>
+                </div>
             </form>
         </div>
     </section>
 {% endblock %}
 
 {% block js %}
-    <script src="Js/Functions.js"></script>
     <script src="Js/Classes/Password.js"></script>
-    <script src="Js/Templates/Password.js"></script>
 {% endblock %}
