@@ -41,23 +41,23 @@ class UserAccount
 
         $user = $userRepository->getUser(Session::getActiveUserId());
 
-        $user->hydrate(array (
-            "name"=> $_POST["name"],
-            "surname"=> $_POST["surname"],
-            "pseudo"=> isset($_POST['pseudoChange']) ? $_POST["pseudo"] : $user->getPseudo(),
-            "email"=> $_POST["email"],
-            "password"=> isset($_POST['passwordChange']) ? $_POST["password"] : $user->getPassword()
-        ));
-
         $passwordConfirmation = trim($_POST['passwordConfirmation']);
         
         $fieldsWarnings = array(
             'warningName' => ! $userRepository->checkNameSurname($_POST['name']) ? 'Le champ prénom doit être complété (50 caractères max)' : '',
-            'warningSurname' => ! $userRepository->checkNameSurname($_POST['surname']) ? 'Le champ prénom doit être complété (50 caractères max)' : '',
+            'warningSurname' => ! $userRepository->checkNameSurname($_POST['surname']) ? 'Le champ nom doit être complété (50 caractères max)' : '',
             'warningEmail' => Email::checkMailFormat($_POST['email']) ? '' : 'L\'adresse email est incorrecte',  
-            'warningPseudo' => isset($_POST['pseudoChange']) ? Pseudo::checkPseudo($_POST['pseudo']) : $user->getPseudo(), 
-            'warningPassword' => isset($_POST['passwordChange']) ? Password::checkPasswordFormFields($user->getPassword(), $passwordConfirmation) : ''
+            'warningPseudo' => $user->getPseudo() !== trim($_POST['pseudo']) ? Pseudo::checkPseudo(trim($_POST['pseudo'])) : '', 
+            'warningPassword' => isset($_POST['passwordChange']) ? Password::checkPasswordFormFields(trim($_POST['password']), $passwordConfirmation) : ''
         );
+
+        $user->hydrate(array (
+            "name"=> trim($_POST["name"]),
+            "surname"=> trim($_POST["surname"]),
+            "pseudo"=> trim($_POST["pseudo"]),
+            "email"=> trim($_POST["email"]),
+            "password"=> isset($_POST['passwordChange']) ? $_POST["password"] : $user->getPassword()
+        ));
 
         //If there is a warning to display (incorrect field content)
         if (! ($fieldsWarnings["warningName"] === "" && $fieldsWarnings["warningSurname"] === "" && $fieldsWarnings["warningEmail"] === "" 
@@ -69,7 +69,6 @@ class UserAccount
                 'warningPseudo' => $fieldsWarnings["warningPseudo"], 
                 'warningPassword' => isset($_POST['passwordChange']) ? Password::checkPasswordFormFields($user->getPassword(), $passwordConfirmation) : '',  
                 'pwdChangeCheckedValue' => isset($_POST['passwordChange']) ? 'checked' : '',
-                'pseudoChangeCheckedValue' => isset($_POST['pseudoChange']) ? 'checked' : '',
                 'user' => $user, 
                 'activeUser' => Session::getActiveUser(), 
                 'userFunction' => Session::getActiveUserFunction()
@@ -80,8 +79,7 @@ class UserAccount
         #endregion
 
         #region Function execution
-        var_dump($user);
-        exit;
+
         if($userRepository->updateUser($user)){
             header("Location:index.php?action=Home\Home");
         } else {
