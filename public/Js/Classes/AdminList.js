@@ -5,7 +5,7 @@ class AdminList
         this.searchString = document.getElementById("searchString");
         this.inputValidation = document.getElementById("validation");
         this.btnDevalidation = document.getElementById("btnDevalidation");
-        this.deleteRows = document.getElementsByClassName('rowAction');
+        this.deleteRows = document.getElementsByClassName('btnDeletion');
 
         //Adding listeners
         this.btnDevalidation.addEventListener("click", this.devalidation.bind(this));
