@@ -15,6 +15,7 @@ class Password
       //password.addListener("click", "togglePassword", "showPassword");
       //password.addListener("click", "togglePasswordConfirmation", "showPassword");
       this.togglePasswordConfirmationElement.addEventListener('click', this.showPassword.bind(this));
+      this.displayPwdFields();
     }
 
     showPassword() {

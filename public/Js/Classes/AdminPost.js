@@ -42,12 +42,8 @@ class AdminPost {
      * Change the action attribute of the form
      * to re-route the action to the AdminPostPublish Controller
      */
-    publish(event)
+    publish()
     {
-        if(this.formPost !== null){
-            this.formPost.action = "index.php?action=Admin\\Post\\AdminPostPublish"
-        } else {
-            event.preventDefault(); //Cancel form submission
-        }
+        this.formPost.action = "index.php?action=Admin\\Post\\AdminPostPublish";
     }
 }
