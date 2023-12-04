@@ -1,5 +1,13 @@
 {% extends 'Layout/LayoutComment.html.twig' %}
 
+{% block title %}
+<div class="hero-comments">
+    <p class="page-title fs-4 text text-reset text-center">
+        Commentaire
+    </p>
+</div>
+{% endblock %}
+
 {% block commentReturn %}
     <div class="d-flex w-50 justify-content-end mt-2 me-2">
         <a href="index.php?action=Admin\Comment\AdminCommentList&pageNumber=1">Retour</a>
