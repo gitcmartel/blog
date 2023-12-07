@@ -8,10 +8,12 @@ class Disconnexion
         const alertId = document.getElementById('btnConfirmationModal');
         const message = document.getElementById('confirmationMessage');
         
-        this.btnDisconnexion.addEventListener('click', function(){           
-            alertLabel.innerHTML = this.getAttribute('data-action');           
-            alertId.href = this.getAttribute('data-id');           
-            message.innerHTML = this.getAttribute('data-message');
-        });
+        if(this.btnDisconnexion){
+            this.btnDisconnexion.addEventListener('click', function(){           
+                alertLabel.innerHTML = this.getAttribute('data-action');           
+                alertId.href = this.getAttribute('data-id');           
+                message.innerHTML = this.getAttribute('data-message');
+            });
+        }
     }
 }
