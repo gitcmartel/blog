@@ -9,7 +9,9 @@ class Password
       this.grpPasswordConfirmationField = document.getElementById("grpUserPwdConfirmation");
       this.checkBoxPasswordField = document.getElementById("passwordChange");
 
-      this.checkBoxPasswordField.addEventListener('click', this.displayPwdFields.bind(this));
+      if(this.checkBoxPasswordField !== null){
+        this.checkBoxPasswordField.addEventListener('click', this.displayPwdFields.bind(this));
+      }
       //password.addListener("click", "passwordChange", "displayPwdFields");
       this.togglePasswordElement.addEventListener('click', this.showPassword.bind(this));
       //password.addListener("click", "togglePassword", "showPassword");
