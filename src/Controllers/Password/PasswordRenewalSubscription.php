@@ -6,8 +6,6 @@ use Application\Models\UserRepository;
 use Application\Lib\Password;
 use Application\Lib\TwigLoader;
 use Application\Lib\TwigWarning;
-use DateTime;
-
 class PasswordRenewalSubscription
 {
     #region Functions
