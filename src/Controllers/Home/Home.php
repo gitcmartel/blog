@@ -30,6 +30,7 @@ class Home
             echo $twig->render('Home\Home.html.twig', [ 
                 'messageResponse' => "", 
                 'posts' => $posts, 
+                'alertConnexion' => isset($_GET['Connexion']) ? $_GET['Connexion'] : '',
                 'activeUser' => Session::getActiveUser(), 
                 'userFunction' => Session::getActiveUserFunction()
             ]);
