@@ -3,15 +3,12 @@
 namespace Application\Controllers\Password;
 
 use Application\Models\UserRepository;
-use Application\Models\User;
 use Application\Lib\Password;
 use Application\Lib\Email;
 use Application\Lib\Constants;
-use Application\Lib\DatabaseConnexion;
 use Application\Lib\Session;
 use Application\Lib\TwigLoader;
 use Application\Lib\TwigWarning;
-use DateTime;
 
 class PasswordRenewal
 {
