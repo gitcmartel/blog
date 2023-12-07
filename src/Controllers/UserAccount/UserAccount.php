@@ -56,7 +56,7 @@ class UserAccount
             "surname"=> trim($_POST["surname"]),
             "pseudo"=> trim($_POST["pseudo"]),
             "email"=> trim($_POST["email"]),
-            "password"=> isset($_POST['passwordChange']) ? $_POST["password"] : $user->getPassword()
+            "password"=> isset($_POST['passwordChange']) ? $_POST["password"] : ""
         ));
 
         //If there is a warning to display (incorrect field content)

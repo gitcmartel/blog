@@ -71,7 +71,8 @@ class Connexion
                 $_SESSION['activeUserFunction'] = $user->getUserFunction()->toString();
                 $_SESSION['userId'] = $user->getId();
 
-                header("Location:index.php?action=Home\Home");
+                header("Location:index.php?action=Home\Home&Connexion=true");
+
                 return;
             } else {
                 $warningPassword = "Le mot de passe est incorrect";
