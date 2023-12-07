@@ -15,6 +15,7 @@ class DatabaseConnexion
     protected function construct() : PDO
     {
         return new PDO('mysql:host=localhost;dbname=blog;charset=utf8', 'root', '');
+        //return new PDO('mysql:host=localhost;dbname=u135719036_blog;charset=utf8', 'u135719036_adminoccc', '9sj6!@9fBc8rKfhe');
     }
 
     public final function getConnexion() : PDO
