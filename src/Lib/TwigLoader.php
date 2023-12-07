@@ -4,7 +4,6 @@ namespace Application\Lib;
 
 use Twig\Loader\FilesystemLoader;
 use Twig\Environment;
-use Application\lib\Path;
 
 abstract class TwigLoader
 {
@@ -17,7 +16,7 @@ abstract class TwigLoader
     #region Functions
     private static function construct() : Environment 
     {
-        $loader = new FilesystemLoader(Path::getRootPath() . '\templates');
+        $loader = new FilesystemLoader(Path::getRootPath() . '/templates');
         return new Environment($loader, ['cache' => false]);
     }
 
