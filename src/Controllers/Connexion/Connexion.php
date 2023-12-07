@@ -26,7 +26,7 @@ class Connexion
         #region Conditions tests
 
         if (! isset($_POST['login']) && ! isset($_POST['password'])){
-            echo $twig->render('Connexion/connexion.html.twig', [ 
+            echo $twig->render('Connexion/Connexion.html.twig', [ 
                 'warningLogin' => $warningLogin, 
                 'warningPassword' => $warningPassword,
                 'loginValue' => $loginValue,
@@ -47,7 +47,7 @@ class Connexion
         $loginValue = $_POST['login'];
 
         if($warningLogin !== "" || $warningPassword !== ""){
-            echo $twig->render('Connexion/connexion.html.twig', [ 
+            echo $twig->render('Connexion/Connexion.html.twig', [ 
                 'warningLogin' => $warningLogin, 
                 'warningPassword' => $warningPassword,
                 'loginValue' => $loginValue,
@@ -81,7 +81,7 @@ class Connexion
             $warningLogin = "Cet identifiant est inexistant";
         }
 
-        echo $twig->render('Connexion/connexion.html.twig', [ 
+        echo $twig->render('Connexion/Connexion.html.twig', [ 
             'warningLogin' => $warningLogin, 
             'warningPassword' => $warningPassword,
             'loginValue' => $loginValue,
