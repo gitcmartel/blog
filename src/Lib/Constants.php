@@ -9,7 +9,7 @@ namespace Application\Lib;
 
 class Constants 
 {
-    CONST WEBSITE_DOMAIN = 'http://localhost/blog/';
+    CONST WEBSITE_DOMAIN = 'http://blog/';
     CONST IMAGE_POST_PATH = 'img\\img-posts\\';
     CONST DEFAULT_IMAGE_POST = 'blog-post.svg';
     CONST DEFAULT_IMAGE_POST_PATH = 'img\\blog-post.svg';
