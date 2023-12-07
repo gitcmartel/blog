@@ -19,7 +19,7 @@ class AdminPostPublish
         $postsToPublish = "";
         $pageNumber = 1;
         $posts = "";
-        $totalPages = $postRepository->getTotalPageNumber(10);
+        $totalPages = $postRepository->getTotalPageNumber(10, false);
         $twig = TwigLoader::getEnvironment();
 
         #endregion
