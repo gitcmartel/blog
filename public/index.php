@@ -36,7 +36,6 @@ try {
     $errorMessage = $exception->getMessage();
     var_dump($errorMessage);
     exit;
-    require('templates/error.php');
 }
 
 
