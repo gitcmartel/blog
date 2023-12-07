@@ -128,7 +128,14 @@
 
 {% block js %}
     <script src="Js/Classes/Disconnexion.js"></script>
+    <script src="Js/Classes/AlertMessage.js"></script>
     <script>
         disconnexion = new Disconnexion();
     </script>
+    {% if alertConnexion == true %}
+        <script>
+            alertMessage = new AlertMessage();
+            alertMessage.show("Connexion réussie !");
+        </script>
+    {% endif %}
 {% endblock %}
