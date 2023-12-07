@@ -95,13 +95,13 @@ class PasswordRenewal
             "contact@blog.devcm.fr", 
             $_POST['emailAddress'],
             "Renouvellement de mot de passe", 
-            $twig->render('Mail\mailMessage.html.twig', $parameters)
+            $twig->render('Mail\MailMessage.html.twig', $parameters)
         );
 
         if($email->sendMail()){
             $successMessage = "Un mail vous a été envoyé pour le renouvellement de votre mot de passe";
         } else {
-            $errorMessage = 'Erreur de Mailer : ' . $email->errorInfo;
+            $errorMessage = 'Erreur de Mailer : ' . $email->getErrorInfo();
         }
 
         echo $twig->render('Password\PasswordRenewal.html.twig', [ 

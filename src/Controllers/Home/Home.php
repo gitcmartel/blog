@@ -83,7 +83,7 @@ class Home
         if($mail->sendMail()) {
             $messageResponse = 'Le message a été envoyé.';
         } else {
-            $messageResponse = 'Erreur de Mailer : ' . $mail->errorInfo;
+            $messageResponse = 'Erreur de Mailer : ' . $mail->getErrorInfo();
         }
 
         echo $twig->render('Home\Home.html.twig', [ 
