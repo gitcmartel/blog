@@ -10,6 +10,7 @@ class Comment extends Table
     private string $creationDate;
     private ?string $publicationDate;
     private string $comment;
+    private bool $isValid;
     private User $user;
     private Post $post;
     private UserRepository $userRepository;
@@ -80,6 +81,20 @@ class Comment extends Table
         }
     }
 
+    function getIsValid() : bool 
+    {
+        if (isset($this->isValid)){
+            return $this->isValid;
+        } else {
+            return false;
+        }
+    }
+
+    function setIsValid(bool $isValid) 
+    {
+        $this->isValid = $isValid;
+    }
+    
     function setUser($user)
     {
         $this->user = $user instanceof User ? $user : $this->userRepository->getUser($user);
