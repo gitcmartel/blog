@@ -41,14 +41,14 @@ class CommentRepository extends Repository
 
         if($pageNumber !== 0 && $numberOfCommentsPerPage !== 0){
             $statement = $this->connexion->getConnexion()->prepare(
-                "SELECT * FROM comment ORDER BY publicationDate, creationDate DESC LIMIT ". $numberOfCommentsPerPage . " OFFSET ". $offset . ";"
+                "SELECT * FROM comment ORDER BY publicationDate DESC LIMIT ". $numberOfCommentsPerPage . " OFFSET ". $offset . ";"
             );
 
             $statement->execute();
 
         } else { //We return all comments
             $statement = $this->connexion->getConnexion()->prepare(
-                "SELECT * FROM comment ORDER BY publicationDate, creationDate DESC;"
+                "SELECT * FROM comment ORDER BY publicationDate DESC;"
             );
     
             $statement->execute();
