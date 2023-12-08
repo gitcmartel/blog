@@ -41,14 +41,14 @@ class CommentRepository extends Repository
 
         if($pageNumber !== 0 && $numberOfCommentsPerPage !== 0){
             $statement = $this->connexion->getConnexion()->prepare(
-                "SELECT * FROM comment ORDER BY isValid ASC, creationDate DESC LIMIT ". $numberOfCommentsPerPage . " OFFSET ". $offset . ";"
+                "SELECT * FROM comment ORDER BY isValid DESC, creationDate DESC LIMIT ". $numberOfCommentsPerPage . " OFFSET ". $offset . ";"
             );
 
             $statement->execute();
 
         } else { //We return all comments
             $statement = $this->connexion->getConnexion()->prepare(
-                "SELECT * FROM comment ORDER BY isValid ASC, creationDate DESC;"
+                "SELECT * FROM comment ORDER BY isValid DESC, creationDate DESC;"
             );
     
             $statement->execute();
@@ -162,7 +162,7 @@ class CommentRepository extends Repository
     public function setPublicationDate(int $commentId)
     {
         $statement = $this->connexion->getConnexion()->prepare(
-            "UPDATE comment SET publicationDate = now() WHERE id = :commentId;"
+            "UPDATE comment SET publicationDate = now(), isValid = -1 WHERE id = :commentId;"
         );
 
         $statement->bindValue("commentId", $commentId, PDO::PARAM_INT);
@@ -176,7 +176,7 @@ class CommentRepository extends Repository
     public function setPublicationDateToNull(int $commentId)
     {
         $statement = $this->connexion->getConnexion()->prepare(
-            "UPDATE comment SET publicationDate = null WHERE id = :commentId;"
+            "UPDATE comment SET publicationDate = null, isValid = 0 WHERE id = :commentId;"
         );
 
         $statement->bindValue("commentId", $commentId, PDO::PARAM_INT);
