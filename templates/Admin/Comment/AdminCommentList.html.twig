@@ -44,7 +44,8 @@
                     <tr>
                         <th></th>
                         <th class="fs-6">Post</th>
-                        <th class="fs-6" scope="col">Créé le</th>
+                        <th class="fs-6 d-none d-md-table-cell" scope="col">Créé le</th>
+                        <th class="fs-6 d-none d-md-table-cell" scope="col">Publié le</th>
                         <th class="fs-6" scope="col">Auteur</th>
                         <th class="fs-6" scope="col">Statut</th>
                         <th class="fs-6" scope="col">Commentaire</th>
@@ -57,7 +58,8 @@
                                     <input type="checkbox" name="commentValidation[]" class="form-check-input" value="{{ comment.id }}">
                                 </td>
                                 <td>{{ comment.post.title }}</td>
-                                <td class="w-10">{{ comment.creationDate|date('Y-m-d') }}</td>
+                                <td class="w-10 d-none d-md-table-cell">{{ comment.creationDate|date('Y-m-d') }}</td>
+                                <td class="w-10 d-none d-md-table-cell">{{ comment.publicationDate is empty ? "" : comment.publicationDate |date('Y-m-d') }}</td>
                                 <td class="w-10">{{ comment.user.name }} {{ comment.user.surname }}</td>
                                 <td class="w-10">
                                     {% if comment.publicationDate != ''%}
