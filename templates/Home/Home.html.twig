@@ -132,10 +132,10 @@
     <script>
         disconnexion = new Disconnexion();
     </script>
-    {% if alertConnexion == true %}
+    {% if alert == true and alertMessage != "" %}
         <script>
             alertMessage = new AlertMessage();
-            alertMessage.show("Connexion réussie !");
+            alertMessage.show();
         </script>
     {% endif %}
 {% endblock %}
