@@ -14,7 +14,7 @@ class Disconnection
             unset($_SESSION["userId"]);
             unset($_SESSION["activeUser"]);
             unset($_SESSION["activeUserFunction"]);
-            header("Location:index.php?action=Home\Home");
+            header("Location:index.php?action=Home\Home&alert=true&alertType=Disconnexion");
         }
 
         #endregion
