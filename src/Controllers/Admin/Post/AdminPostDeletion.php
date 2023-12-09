@@ -51,7 +51,7 @@ class AdminPostDeletion
         $post->deleteImage();
 
         //We display the updated post list
-        header("Location:index.php?action=Admin\Post\AdminPostList&pageNumber=1");
+        header("Location:index.php?action=Admin\Post\AdminPostList&pageNumber=1&alert=true&alertType=Deletion");
 
         #endregion
     }
