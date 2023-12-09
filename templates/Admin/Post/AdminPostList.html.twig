@@ -140,8 +140,14 @@
     <script src="Js/Classes/AdminList.js"></script>
     <script src="Js/Classes/AdminPostList.js"></script>
     <script src="Js/Classes/Disconnexion.js"></script>
+    <script src="Js/Classes/AlertMessage.js"></script>
     <script>
         adminPostList = new AdminPostList();
         disconnexion = new Disconnexion();
     </script>
+    {% if alert == true and alertMessage != "" %}
+    <script>
+        alertMessage = new AlertMessage();
+    </script>
+{% endif %}
 {% endblock %}
