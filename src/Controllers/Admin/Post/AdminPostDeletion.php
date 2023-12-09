@@ -2,10 +2,8 @@
 
 namespace Application\Controllers\Admin\Post;
 
-use Application\Models\Post;
 use Application\Models\PostRepository;
 use Application\Lib\UserActiveCheckValidity;
-use Application\Lib\DatabaseConnexion;
 use Application\Lib\TwigWarning;
 
 class AdminPostDeletion
@@ -16,7 +14,7 @@ class AdminPostDeletion
     {
         #region Variables
 
-        $postRepository = new PostRepository(new DatabaseConnexion);
+        $postRepository = new PostRepository();
         $post = "";
         
         #endregion
