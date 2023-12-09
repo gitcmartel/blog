@@ -7,6 +7,7 @@ use Application\Lib\Email;
 use Application\Models\PostRepository;
 use Application\Lib\Session;
 use Application\Lib\TwigLoader;
+use Application\Lib\Alert;
 
 class Home 
 {
@@ -30,7 +31,8 @@ class Home
             echo $twig->render('Home\Home.html.twig', [ 
                 'messageResponse' => "", 
                 'posts' => $posts, 
-                'alertConnexion' => isset($_GET['Connexion']) ? $_GET['Connexion'] : '',
+                'alert' => isset($_GET['alert']) ? $_GET['alert'] : '',
+                'alertMessage' => isset($_GET['alertType']) ? Alert::getMessage($_GET['alertType']) : '',
                 'activeUser' => Session::getActiveUser(), 
                 'userFunction' => Session::getActiveUserFunction()
             ]);
