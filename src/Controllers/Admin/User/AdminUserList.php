@@ -4,11 +4,11 @@ namespace Application\Controllers\Admin\User;
 
 use Application\Models\UserRepository;
 use Application\Lib\UserActiveCheckValidity;
-use Application\Lib\DatabaseConnexion;
 use Application\Lib\Session;
 use Application\Lib\TwigLoader;
 use Application\Lib\TwigWarning;
 use Application\Lib\Constants;
+use Application\Lib\Alert;
 
 class AdminUserList 
 {
@@ -51,6 +51,8 @@ class AdminUserList
             'actualPage' => $pageNumber, 
             'totalPages' => $totalPages, 
             'users' => $users, 
+            'alert' => isset($_GET['alert']) ? $_GET['alert'] : '',
+            'alertMessage' => isset($_GET['alertType']) ? Alert::getMessage($_GET['alertType']) : '',
             'activeUser' => Session::getActiveUser(), 
             'userFunction' => Session::getActiveUserFunction()
         ]);
