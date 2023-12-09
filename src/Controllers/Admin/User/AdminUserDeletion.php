@@ -54,7 +54,7 @@ class AdminUserDeletion
             return; 
         } else  {
             //We display the updated user list
-            header("Location:index.php?action=Admin\User\AdminUserList&pageNumber=1");
+            header("Location:index.php?action=Admin\User\AdminUserList&pageNumber=1&alert=true&alertType=Deletion");
             return;
         }
 
