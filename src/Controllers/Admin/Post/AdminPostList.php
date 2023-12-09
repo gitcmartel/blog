@@ -8,6 +8,7 @@ use Application\Lib\Session;
 use Application\Lib\TwigLoader;
 use Application\Lib\Constants;
 use Application\Lib\TwigWarning;
+use Application\Lib\Alert;
 
 class AdminPostList 
 {
@@ -48,6 +49,8 @@ class AdminPostList
             'actualPage' => $pageNumber, 
             'totalPages' => $totalPages, 
             'posts' => $posts, 
+            'alert' => isset($_GET['alert']) ? $_GET['alert'] : '',
+            'alertMessage' => isset($_GET['alertType']) ? Alert::getMessage($_GET['alertType']) : '',
             'activeUser' => Session::getActiveUser(), 
             'userFunction' => Session::getActiveUserFunction()
         ]);
