@@ -8,6 +8,7 @@ use Application\Lib\Session;
 use Application\Lib\TwigLoader;
 use Application\Lib\TwigWarning;
 use Application\Lib\Constants;
+use Application\Lib\Alert;
 
 class AdminCommentList
 {
@@ -62,6 +63,8 @@ class AdminCommentList
             'actualPage' => $pageNumber, 
             'totalPages' => $totalPages, 
             'comments' => $comments, 
+            'alert' => isset($_GET['alert']) ? $_GET['alert'] : '',
+            'alertMessage' => isset($_GET['alertType']) ? Alert::getMessage($_GET['alertType']) : '',
             'activeUser' => Session::getActiveUser(), 
             'userFunction' => Session::getActiveUserFunction()
         ]);
