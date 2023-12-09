@@ -71,7 +71,7 @@ class Connexion
                 $_SESSION['activeUserFunction'] = $user->getUserFunction()->toString();
                 $_SESSION['userId'] = $user->getId();
 
-                header("Location:index.php?action=Home\Home&Connexion=true");
+                header("Location:index.php?action=Home\Home&alert=true&alertType=Connexion");
 
                 return;
             } else {
