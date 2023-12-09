@@ -59,7 +59,7 @@ class AdminCommentDeletion
         $commentRepository->deleteComment($comment);
 
         //We display the updated comment list
-        header('Location:index.php?action=Admin\Comment\AdminCommentList&pageNumber=1');
+        header('Location:index.php?action=Admin\Comment\AdminCommentList&pageNumber=1&alert=true&alertType=Deletion');
         return;
 
         #endregion
