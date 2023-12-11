@@ -26,9 +26,7 @@ class FormValidation
     //Controls the form fields values and returns true or false
     public function isValid() : bool
     {
-
         return ($this->controlLength() && $this->controlEmail() && $this->controlMessage());
-
     }
 
     //Controls the fields length
@@ -59,7 +57,7 @@ class FormValidation
      */
     private function controlMessage() : bool 
     {
-        return !(strlen($this->message) < 50 || strlen($this->message) > 500);
+        return (strlen($this->message) > 20 && strlen($this->message) < 500);
     }
 
     #endregion
