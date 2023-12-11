@@ -43,7 +43,11 @@ class Home
         if (trim($_POST['surname']) === "" || trim($_POST['name']) === "" || trim($_POST['email']) === "" 
         || trim($_POST['message']) === "" ){
             echo $twig->render('Home\Home.html.twig', [ 
-                'messageResponse' => "Vous devez compléter tous les champs du formulaire.", 
+                'warningMessage' => "Vous devez compléter tous les champs du formulaire !", 
+                'surname' => $_POST['surname'], 
+                'name' => $_POST['name'], 
+                'email' => $_POST['email'], 
+                'message' => $_POST['message'], 
                 'activeUser' => Session::getActiveUser(), 
                 'userFunction' => Session::getActiveUserFunction()
             ]);
@@ -58,9 +62,13 @@ class Home
             $_POST['message']
         );
 
-        if ($formValidation->isValid()) {
+        if (! $formValidation->isValid()) {
             echo $twig->render('Home\Home.html.twig', [ 
-                'messageResponse' => "Un ou plusieurs champs du formulaire sont invalides !", 
+                'warningMessage' => "Un ou plusieurs champs du formulaire sont invalides !", 
+                'surname' => $_POST['surname'], 
+                'name' => $_POST['name'], 
+                'email' => $_POST['email'], 
+                'message' => $_POST['message'], 
                 'activeUser' => Session::getActiveUser(), 
                 'userFunction' => Session::getActiveUserFunction()
             ]);
@@ -90,6 +98,8 @@ class Home
 
         echo $twig->render('Home\Home.html.twig', [ 
             'messageResponse' => $messageResponse, 
+            'alert' => true,
+            'alertMessage' => $messageResponse,
             'posts' => $posts, 
             'activeUser' => Session::getActiveUser(), 
             'userFunction' => Session::getActiveUserFunction()
