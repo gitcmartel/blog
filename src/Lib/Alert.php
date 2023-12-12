@@ -16,6 +16,10 @@ class Alert
 
     static public function getMessage(string $messageType) : string
     {
+        if(!array_key_exists($messageType, self::$alerts)){
+            return 'Type de message inconnu !';
+        }
+
         return self::$alerts[$messageType];
     }
 }
