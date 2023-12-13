@@ -5,6 +5,7 @@ mb_internal_encoding("UTF-8");
 require_once("../vendor/autoload.php");
 
 use Application\Controllers\Home\Home;
+use Application\Lib\TwigWarning;
 
 session_start();
 
@@ -36,7 +37,11 @@ try {
     }
 } catch (Exception $exception) {
     $errorMessage = $exception->getMessage();
-    echo($errorMessage);
+    TwigWarning::display(
+        'L\erreur suivante c\'est produite : ' . $errorMessage, 
+        'index.php?action=Home\Home', 
+        "Nous contacter"
+    );
 }
 
 
