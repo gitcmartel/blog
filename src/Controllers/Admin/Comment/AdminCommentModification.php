@@ -31,8 +31,10 @@ class AdminCommentModification
             return;
         }
 
+        $commentId = filter_input(INPUT_GET, 'commentId', FILTER_SANITIZE_NUMBER_INT);
+
         //If the commentId variable is not set
-        if (! isset($_GET['commentId']) || trim($_GET['commentId']) === ""){
+        if ($commentId === false || $commentId === null){
             TwigWarning::display(
                 "Une erreur est survenue lors du chargement de la page.", 
                 "index.php?action=Home\Home", 
@@ -40,7 +42,7 @@ class AdminCommentModification
             return;
         }
 
-        $comment = $commentRepository->getComment($_GET['commentId'] === '' ? null : $_GET['commentId']);
+        $comment = $commentRepository->getComment($commentId);
 
         //Check if the comment is present in the database
         if($comment->getid() === null){
