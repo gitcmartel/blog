@@ -36,8 +36,10 @@ class AdminCommentList
             return;
         }
 
+        $pageNumber = filter_input(INPUT_GET, 'pageNumber', FILTER_SANITIZE_NUMBER_INT);
+
         //If the pageNumber variable is not set
-        if (! isset($_GET['pageNumber']) || trim($_GET['pageNumber']) === ""){
+        if ($pageNumber === false || $pageNumber === null){
             TwigWarning::display(
                 "Une erreur est survenue lors du chargement de la page.", 
                 "index.php?action=Home\Home", 
@@ -50,9 +52,8 @@ class AdminCommentList
         #region Function execution
         $totalPages = $commentRepository->getTotalPageNumber(Constants::NUMBER_OF_COMMENTS_PER_PAGE);
 
-        if($_GET['pageNumber'] !== 0){
-            $comments = $commentRepository->getComments($_GET['pageNumber'], Constants::NUMBER_OF_COMMENTS_PER_PAGE);
-            $pageNumber = $_GET['pageNumber'];
+        if($pageNumber !== 0){
+            $comments = $commentRepository->getComments($pageNumber, Constants::NUMBER_OF_COMMENTS_PER_PAGE);
         }else {
             $comments = $commentRepository->getComments(1, Constants::NUMBER_OF_COMMENTS_PER_PAGE);
         } 
