@@ -6,7 +6,6 @@ use Application\Models\PostRepository;
 use Application\Lib\UserActiveCheckValidity;
 use Application\Models\Comment;
 use Application\Lib\Session;
-use Application\Lib\DatabaseConnexion;
 use Application\Lib\TwigLoader;
 use Application\Lib\TwigWarning;
 
@@ -28,8 +27,10 @@ class AdminCommentCreation
             return;
         }
 
+        $postId = filter_input(INPUT_GET, 'postId', FILTER_SANITIZE_NUMBER_INT);
+
         //If the postId variable is not set
-        if (! isset($_GET['postId']) || trim($_GET['postId']) === ""){
+        if ($postId === false || $postId === null){
             TwigWarning::display(
                 "Une erreur est survenue lors du chargement de la page.", 
                 "index.php?action=Home\Home", 
@@ -42,7 +43,7 @@ class AdminCommentCreation
         #region Function execution
 
         $postRepository = new PostRepository();
-        $post = $postRepository->getPost($_GET['postId']);
+        $post = $postRepository->getPost($postId);
         $comment = new Comment();
 
         $twig = TwigLoader::getEnvironment();
