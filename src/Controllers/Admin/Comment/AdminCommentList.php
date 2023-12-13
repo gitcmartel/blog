@@ -36,6 +36,8 @@ class AdminCommentList
             return;
         }
 
+        $alert = filter_input(INPUT_GET, 'alert', FILTER_SANITIZE_SPECIAL_CHARS);
+        $alertType = filter_input(INPUT_GET, 'alertType', FILTER_SANITIZE_SPECIAL_CHARS);
         $pageNumber = filter_input(INPUT_GET, 'pageNumber', FILTER_SANITIZE_NUMBER_INT);
 
         //If the pageNumber variable is not set
@@ -64,8 +66,8 @@ class AdminCommentList
             'actualPage' => $pageNumber, 
             'totalPages' => $totalPages, 
             'comments' => $comments, 
-            'alert' => isset($_GET['alert']) ? $_GET['alert'] : '',
-            'alertMessage' => isset($_GET['alertType']) ? Alert::getMessage($_GET['alertType']) : '',
+            'alert' => ($alert !== false && $alert !== null) ? $alert : '',
+            'alertMessage' => ($alertType !== false && $alertType !== null) ? Alert::getMessage($alertType) : '',
             'activeUser' => Session::getActiveUser(), 
             'userFunction' => Session::getActiveUserFunction()
         ]);
