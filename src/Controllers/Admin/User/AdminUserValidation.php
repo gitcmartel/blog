@@ -18,7 +18,6 @@ class AdminUserValidation
         $userRepository = new UserRepository();
         $twig = TwigLoader::getEnvironment();
         $totalPages = 1;
-        $pageNumber = 1;
 
         #endregion
 
@@ -33,11 +32,14 @@ class AdminUserValidation
             return; 
         }
 
-        if (isset($_GET['pageNumber']) && $_GET['pageNumber'] !== 0){
-            $pageNumber = $_GET['pageNumber'];
+        $validation = filter_input(INPUT_POST, 'validation', FILTER_VALIDATE_BOOLEAN);
+        $pageNumber = filter_input(INPUT_GET, 'pageNumber', FILTER_SANITIZE_NUMBER_INT);
+
+        if ($pageNumber === false || $pageNumber === null || $pageNumber === '0'){
+            $pageNumber = 1;
         }
 
-        $validation = boolval($_POST["validation"]);
+        $validation = boolval($validation);
 
         $usersToValidate = is_array($_POST['userValidation']) ? $_POST['userValidation'] : [$_POST['userValidation']];
 
