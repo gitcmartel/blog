@@ -34,6 +34,7 @@ class AdminCommentValidation
         }
 
         $pageNumber = filter_input(INPUT_GET, 'pageNumber', FILTER_SANITIZE_NUMBER_INT);
+        $validation = filter_input(INPUT_POST, 'validation', FILTER_VALIDATE_BOOLEAN);
         
         if ($pageNumber === false || $pageNumber === null || $pageNumber === '0'){
             $pageNumber = 1;
@@ -42,7 +43,7 @@ class AdminCommentValidation
         $commentIds = is_array($_POST['commentValidation']) ? $_POST['commentValidation'] : [$_POST['commentValidation']];
 
         //Check if all the commentid's are present in the database and if the validation variable is present
-        if(! $commentRepository->checkIds($commentIds, 'comment', 'id') || ! isset($_POST['validation'])){
+        if(! $commentRepository->checkIds($commentIds, 'comment', 'id') || $validation === null){
             TwigWarning::display(
                 "Une erreur est survenue lors de la validation du ou des commentaires.",
                 "index.php?action=Admin\Comment\AdminCommentList&pageNumber=1",
@@ -51,7 +52,7 @@ class AdminCommentValidation
             return;
         }
 
-        $validation = boolval($_POST["validation"]);
+        $validation = boolval($validation);
 
         #endregion
 
