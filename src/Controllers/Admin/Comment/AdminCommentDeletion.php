@@ -32,8 +32,10 @@ class AdminCommentDeletion
             return;
         }
 
+        $commentId = filter_input(INPUT_GET, 'commentId', FILTER_SANITIZE_NUMBER_INT);
+
         //If the commentId variable is not set
-        if (! isset($_GET['commentId']) || trim($_GET['commentId']) === ""){
+        if ($commentId === false || $commentId === null){
             TwigWarning::display(
                 "Une erreur est survenue lors du chargement de la page.", 
                 "index.php?action=Home\Home", 
@@ -41,7 +43,7 @@ class AdminCommentDeletion
             return;
         }
 
-        $comment = $commentRepository->getComment(trim($_GET['commentId']));
+        $comment = $commentRepository->getComment($commentId);
 
         //If the comment id is null
         if($comment->getid() === null){
