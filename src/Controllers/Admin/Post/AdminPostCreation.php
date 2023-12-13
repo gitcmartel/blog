@@ -5,7 +5,6 @@ namespace Application\Controllers\Admin\Post;
 use Application\Models\PostRepository;
 use Application\Lib\UserActiveCheckValidity;
 use Application\Lib\Session;
-use Application\Lib\DatabaseConnexion;
 use Application\Lib\TwigLoader;
 use Application\Lib\TwigWarning;
 
@@ -30,11 +29,13 @@ class AdminPostCreation
             return;     
         }
 
+        $postId = filter_input(INPUT_GET, 'postId', FILTER_SANITIZE_NUMBER_INT);
+
         #endregion
 
         #region Function execution
-        if(isset($_GET['postId'])){
-            $post = $postRepository->getPost($_GET['postId']);
+        if($postId === false || $postId === null){
+            $post = $postRepository->getPost($postId );
         }
         
         $twig = TwigLoader::getEnvironment();
