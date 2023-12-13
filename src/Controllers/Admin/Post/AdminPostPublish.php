@@ -17,7 +17,6 @@ class AdminPostPublish
 
         $postRepository = new PostRepository();
         $postsToPublish = "";
-        $pageNumber = 1;
         $posts = "";
         $totalPages = $postRepository->getTotalPageNumber(10, false);
         $twig = TwigLoader::getEnvironment();
@@ -34,9 +33,11 @@ class AdminPostPublish
             return;  
         }
 
+        $pageNumber = filter_input(INPUT_GET, 'pageNumber', FILTER_SANITIZE_NUMBER_INT);
+
         //Paging
-        if (isset($_GET['pageNumber']) && $_GET['pageNumber'] !== 0){
-            $pageNumber = $_GET['pageNumber'];
+        if ($pageNumber === false || $pageNumber === null || $pageNumber === '0'){
+            $pageNumber = 1;
         }
 
         $postsToPublish = is_array($_POST['postValidation']) ? $_POST['postValidation'] : [$_POST['postValidation']];
