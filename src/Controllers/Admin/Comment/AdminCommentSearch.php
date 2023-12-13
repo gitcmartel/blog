@@ -30,8 +30,10 @@ class AdminCommentSearch
             return;
         }
 
+        $searchString = filter_input(INPUT_POST, 'searchString', FILTER_SANITIZE_SPECIAL_CHARS);
+
         //If the searchString variable is not set
-        if (! isset($_POST['searchString']) || trim($_POST['searchString']) === ""){
+        if ($searchString === false || $searchString === null){
             TwigWarning::display(
                 "Une erreur est survenue lors du chargement de la page.", 
                 "index.php?action=Home\Home", 
@@ -43,12 +45,13 @@ class AdminCommentSearch
 
         #region Function execution
 
-        $comments = $commentRepository->searchComments(trim($_POST['searchString']));
+        $comments = $commentRepository->searchComments(trim($searchString));
 
         echo $twig->render('Admin\Comment\AdminCommentList.html.twig', [ 
             'actualPage' => "1", 
             'totalPages' => "1", 
             'comments' => $comments, 
+            'searchString' => $searchString, 
             'userFunction' => Session::getActiveUserFunction(),
             'activeUser' => Session::getActiveUser()
         ]);
