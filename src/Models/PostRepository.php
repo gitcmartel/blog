@@ -236,7 +236,6 @@ class PostRepository extends Repository
         Image::deleteImage($post->getImagePath());
         $pathImage = Constants::IMAGE_POST_PATH . Image::createImagePathName(
             $post->getId(), 
-            $tmpImagePath, 
             $imageName, 
             DateTime::createFromFormat('Y-m-d H:i:s', $post->getCreationDate())
         );
