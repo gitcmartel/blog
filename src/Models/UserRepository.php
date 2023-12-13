@@ -7,11 +7,13 @@ use PDO;
 
 class UserRepository extends Repository
 {
+
+
     #region Functions
     /**
      * Returns a User object
-     * @param int $userId
-     * @return User
+     * @param int $userId user Id
+     * @return User User object
      */
     public function getUser(?int $userId): User
     {
@@ -39,8 +41,8 @@ class UserRepository extends Repository
 
     /**
      * Returns a user object by it's email address
-     * @param string $userEmail
-     * @return User
+     * @param string $userEmail User email
+     * @return User User object
      */
     public function getUserByMail(string $userEmail): User
     {
@@ -67,8 +69,8 @@ class UserRepository extends Repository
      * If the $pageNumber parameter is different than 0, the function will return the corresponding users
      * The $numberOfUsersPerPage determins the number of users to return
      * 
-     * @param string $pageNumber
-     * @param int $numberOfUsersPerPage
+     * @param string $pageNumber Number of the desired page
+     * @param int $numberOfUsersPerPage Number of users displayed in the page
      * @return array of User objects
      */
     public function getUsers(string $pageNumber, int $numberOfUsersPerPage): array
@@ -106,7 +108,7 @@ class UserRepository extends Repository
 
     /**
      * Creates a new user
-     * @param User $user
+     * @param User $user User object
      * @return bool
      */
     public function createUser(User $user): bool
@@ -129,7 +131,7 @@ class UserRepository extends Repository
 
     /**
      * Updates a user
-     * @param User $user
+     * @param User $user User object
      * @return bool
      */
     public function updateUser(User $user): bool
@@ -161,7 +163,7 @@ class UserRepository extends Repository
 
     /**
      * Deletes a user
-     * @param int $userId
+     * @param int $userId User id
      * @return bool
      */
     public function deleteUser(int $userId): bool
@@ -177,8 +179,8 @@ class UserRepository extends Repository
     /**
      * Checks if an address email or pseudo exists in the database
      * The field parameter contains the database targeted database field name
-     * @param string $value
-     * @param string $field
+     * @param string $value Value of the targeted field
+     * @param string $field Field name
      * @return bool
      */
     public function exists(string $value, string $field): bool
@@ -200,7 +202,7 @@ class UserRepository extends Repository
     /**
      * Checks if the parameter is max 50 characters long
      * and is not empty
-     * @param string $value
+     * @param string $value Name or surname
      * @return bool
      */
     public function checkNameSurname(string $value): bool
@@ -214,7 +216,7 @@ class UserRepository extends Repository
 
     /**
      * Checks the email validity
-     * @param string $email
+     * @param string $email Email adress
      * @return bool
      */
     public function checkEmail(string $email): bool
@@ -224,8 +226,8 @@ class UserRepository extends Repository
 
     /**
      * Updates the tokenForgotPassword and forgotPasswordDate fields
-     * @param User $user
-     * @param string $token
+     * @param User $user User object
+     * @param string $token Token value
      * @return bool
      */
     public function updateToken(User $user, string $token): bool
@@ -243,8 +245,8 @@ class UserRepository extends Repository
 
     /**
      * Checks the token validity and returns the corresponding user
-     * @param string $token
-     * @param string $email
+     * @param string $token Token value
+     * @param string $email Email adress
      * @return User
      */
     public function getUserFromToken(string $token, string $email): User
@@ -268,8 +270,8 @@ class UserRepository extends Repository
 
     /**
      * Update the password field
-     * @param User $user
-     * @param string $password
+     * @param User $user User object
+     * @param string $password Password
      * @return bool
      */
     public function changePassword(User $user, string $password) : bool
@@ -288,7 +290,7 @@ class UserRepository extends Repository
     /**
      * Get the number of records by page
      * The $numberOfUsersPerPage parameter contains the number of posts per page
-     * @param int $numberOfUsersPerPage
+     * @param int $numberOfUsersPerPage Number of desired users to display on each page
      * @return int
      */
     public function getTotalPageNumber(int $numberOfUsersPerPage): int
@@ -307,7 +309,7 @@ class UserRepository extends Repository
     /**
      * Returns a list of User objects given the searchString parameter
      * If the searchString parameter is found in one of the following fields : name, surname, email
-     * @param string $searchString
+     * @param string $searchString String to search
      * @return array of User objects
      */
     public function searchUsers(string $searchString) : array
@@ -340,17 +342,17 @@ class UserRepository extends Repository
 
     /**
      * Set the isValid field to true or false
-     * @param int $userId
-     * @param int $value
+     * @param int $userId User id
+     * @param int $value Value to update
      * @return bool
      */
-    public function setValidation(int $userId, int $value): bool
+    public function setValidation(int $userId, int $fieldValue): bool
     {
         $statement = $this->connexion->getConnexion()->prepare(
             "UPDATE user SET isValid = :value WHERE id = :id;"
         );
 
-        $statement->bindValue(':value', $value, PDO::PARAM_INT);
+        $statement->bindValue(':value', $fieldValue, PDO::PARAM_INT);
         $statement->bindValue(':id', $userId, PDO::PARAM_INT);
 
         $affectedLines = $statement->execute();
