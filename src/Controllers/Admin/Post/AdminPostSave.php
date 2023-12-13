@@ -38,8 +38,15 @@ class AdminPostSave
             return;   
         }
 
-        if(! isset($_POST['postTitle']) || ! isset($_POST['postSummary']) || ! isset($_POST['postContent']) 
-        || ! isset($_POST['postId']) || ! isset($_POST['resetImage'])){
+        $postId = filter_input(INPUT_POST, 'postId', FILTER_SANITIZE_NUMBER_INT);
+        $postTitle = filter_input(INPUT_POST, 'postTitle', FILTER_SANITIZE_SPECIAL_CHARS);
+        $postSummary = filter_input(INPUT_POST, 'postSummary', FILTER_SANITIZE_SPECIAL_CHARS);
+        $postContent = filter_input(INPUT_POST, 'postContent', FILTER_SANITIZE_SPECIAL_CHARS);
+        $resetImage = filter_input(INPUT_POST, 'resetImage', FILTER_VALIDATE_BOOLEAN);
+
+        if($postId === false || $postId === null || $postTitle === false || $postTitle === null || 
+        $postSummary === false || $postSummary === null || $postContent === false || $postContent === null || 
+        $resetImage === null){
         TwigWarning::display(
             "Un problème est survenu lors de l'enregistrement du post.", 
             "index.php?action=Home\Home", 
@@ -56,15 +63,13 @@ class AdminPostSave
         $post = new Post();
 
         $post->hydrate(array(
-            'id' => trim($_POST["postId"]) === '' ? null : intval(trim($_POST["postId"])),
-            'title' => trim($_POST["postTitle"]), 
-            'summary' => trim($_POST['postSummary']), 
-            'content' => trim($_POST['postContent']), 
+            'id' => intval($postId),
+            'title' => trim($postTitle), 
+            'summary' => trim($postSummary), 
+            'content' => trim($postContent), 
             'user' => $userRepository->getUser(Session::getActiveUserId()), 
             'modifier' => $userRepository->getUser(Session::getActiveUserId())
         ));
-
-        $resetImage = $_POST['resetImage'];
 
         $fieldsWarnings = array(
             'title' => 'Vous devez renseigner un titre', 
@@ -92,7 +97,7 @@ class AdminPostSave
         #region Function execution
 
         //If there is a Post Id then we have to make an update
-        if($post->getId() !== null){ 
+        if($post->getId() !== 0){ 
             //Fetching creationDate and imagePath from the database
             $post->setCreationDate($postDatabase->getCreationDate());
             $post->setImagePath($postDatabase->getImagePath());
@@ -105,7 +110,7 @@ class AdminPostSave
         //Image management function (deletes, update, move physical tmp image etc...)
         try {
             //If we have to reset the image
-            if($resetImage === 'true'){
+            if($resetImage === true){
                 $postRepository->resetImage($post);
             }
 
