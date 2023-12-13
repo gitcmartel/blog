@@ -21,8 +21,9 @@ class AdminPostDeletion
 
         #region Conditions tests
 
-        if(! UserActiveCheckValidity::check(array('Administrateur', 'Createur')) || ! isset($_GET['postId']) 
-        || $_GET['postId'] === ""){
+        $postId = filter_input(INPUT_GET, 'postId', FILTER_SANITIZE_NUMBER_INT);
+
+        if(! UserActiveCheckValidity::check(array('Administrateur', 'Createur')) || $postId === false || $postId === null){
             TwigWarning::display(
                 "Vous n'avez pas les droits requis pour accéder à cette page. Contactez l'administrateur du site", 
                 "index.php?action=Home\Home", 
@@ -30,7 +31,7 @@ class AdminPostDeletion
             return;  
         }
 
-        $post = $postRepository->getPost($_GET['postId']);
+        $post = $postRepository->getPost($postId);
 
         //Check if the postId exists in the database
         if($post->getId() === null){
