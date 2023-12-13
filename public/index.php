@@ -2,7 +2,7 @@
 
 mb_internal_encoding("UTF-8");
 
-require_once(dirname(__DIR__) . "/vendor/autoload.php");
+require_once("../vendor/autoload.php");
 
 use Application\Controllers\Home\Home;
 
