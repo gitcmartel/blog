@@ -16,7 +16,7 @@ try {
             function (array $match): string {
                 return mb_strtoupper($match[0]);
             },
-            $_GET['action']
+            filter_input(INPUT_GET, 'action', FILTER_SANITIZE_URL)
         );
 
         $classFound = false;
@@ -34,7 +34,7 @@ try {
     }
 } catch (Exception $exception) {
     $errorMessage = $exception->getMessage();
-    var_dump($errorMessage);
+    echo($errorMessage);
 }
 
 
