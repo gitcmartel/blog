@@ -17,7 +17,7 @@ abstract class TwigLoader
     private static function construct() : Environment 
     {
         $loader = new FilesystemLoader(Path::getRootPath() . '/templates');
-        return new Environment($loader, ['cache' => false]);
+        return new Environment($loader, ['cache' => false, 'autoescape' => 'html']);
     }
 
     public static function getEnvironment() : Environment
