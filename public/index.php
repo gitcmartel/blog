@@ -8,15 +8,17 @@ use Application\Controllers\Home\Home;
 
 session_start();
 
+$action = filter_input(INPUT_GET, 'action', FILTER_SANITIZE_URL);
+
 try {
-    if (isset($_GET['action']) && $_GET['action'] !== ''){
+    if (isset($action) && $action !== ''){
         $class = "Application\\Controllers\\" .
         preg_replace_callback(
             '#(?<=\\\\)[a-z]#',
             function (array $match): string {
                 return mb_strtoupper($match[0]);
             },
-            filter_input(INPUT_GET, 'action', FILTER_SANITIZE_URL)
+            $action
         );
 
         $classFound = false;
