@@ -69,7 +69,7 @@ class UserRepository extends Repository
      * If the $pageNumber parameter is different than 0, the function will return the corresponding users
      * The $numberOfUsersPerPage determins the number of users to return
      * 
-     * @param string $pageNumber Number of the desired page
+     * @param string $pageNumber        Number of the desired page
      * @param int $numberOfUsersPerPage Number of users displayed in the page
      * @return array of User objects
      */
@@ -86,8 +86,8 @@ class UserRepository extends Repository
             $statement->bindValue(':offset', $offset, PDO::PARAM_INT);
 
             $statement->execute();
-        // We return all users
-        } else { 
+            // We return all users
+        } else {
             $statement = $this->connexion->getConnexion()->prepare(
                 "SELECT * FROM user ORDER BY creationDate DESC;"
             );
@@ -226,7 +226,7 @@ class UserRepository extends Repository
 
     /**
      * Updates the tokenForgotPassword and forgotPasswordDate fields
-     * @param User $user User object
+     * @param User $user    User object
      * @param string $token Token value
      * @return bool
      */
@@ -270,11 +270,11 @@ class UserRepository extends Repository
 
     /**
      * Update the password field
-     * @param User $user User object
+     * @param User $user       User object
      * @param string $password Password
      * @return bool
      */
-    public function changePassword(User $user, string $password) : bool
+    public function changePassword(User $user, string $password): bool
     {
         $statement = $this->connexion->getConnexion()->prepare(
             "UPDATE user SET tokenForgotPassword = '', forgotPasswordDate = null, password = :password 
@@ -312,7 +312,7 @@ class UserRepository extends Repository
      * @param string $searchString String to search
      * @return array of User objects
      */
-    public function searchUsers(string $searchString) : array
+    public function searchUsers(string $searchString): array
     {
         $searchString = htmlspecialchars($searchString); //Escape special characters
 
@@ -343,7 +343,7 @@ class UserRepository extends Repository
     /**
      * Set the isValid field to true or false
      * @param int $userId User id
-     * @param int $value Value to update
+     * @param int $value  Value to update
      * @return bool
      */
     public function setValidation(int $userId, int $fieldValue): bool
