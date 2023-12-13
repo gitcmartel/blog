@@ -31,7 +31,7 @@ class UserRepository extends Repository
 
         $user = new User();
 
-        while (($row = $statement->fetch()) === true) {
+        while (($row = $statement->fetch()) !== false) {
             $user->hydrate($row);
         }
 
@@ -55,7 +55,7 @@ class UserRepository extends Repository
 
         $user = new User();
 
-        while (($row = $statement->fetch()) === true) {
+        while (($row = $statement->fetch()) !== false) {
             $user->hydrate($row);
         }
 
@@ -97,7 +97,7 @@ class UserRepository extends Repository
 
         $users = [];
 
-        while (($row = $statement->fetch()) === true) {
+        while (($row = $statement->fetch()) !== false) {
             $user = new User();
             $user->hydrate($row);
             $users[] = $user;
@@ -261,7 +261,7 @@ class UserRepository extends Repository
 
         $user = new User();
 
-        while (($row = $statement->fetch()) === true) {
+        while (($row = $statement->fetch()) !== false) {
             $user->hydrate($row);
         }
 
@@ -330,7 +330,7 @@ class UserRepository extends Repository
 
         $users = [];
 
-        while (($row = $statement->fetch()) === true) {
+        while (($row = $statement->fetch()) !== false) {
             $user = new User();
 
             $user->hydrate($row);
