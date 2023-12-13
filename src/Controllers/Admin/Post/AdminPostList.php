@@ -19,13 +19,16 @@ class AdminPostList
 
         $postRepository = new PostRepository();
         $totalPages = $postRepository->getTotalPageNumber(Constants::NUMBER_OF_POSTS_PER_PAGE, false);;
-        $pageNumber = 1;
         $posts = "";
         $twig = TwigLoader::getEnvironment();
 
         #endregion
 
         #region Conditions tests
+
+        $alert = filter_input(INPUT_GET, 'alert', FILTER_SANITIZE_SPECIAL_CHARS);
+        $alertType = filter_input(INPUT_GET, 'alertType', FILTER_SANITIZE_SPECIAL_CHARS);
+        $pageNumber = filter_input(INPUT_GET, 'pageNumber', FILTER_SANITIZE_NUMBER_INT);
 
         if(! UserActiveCheckValidity::check(array('Administrateur', 'Createur'))){
             TwigWarning::display(
@@ -35,8 +38,8 @@ class AdminPostList
             return;  
         }
 
-        if (isset($_GET['pageNumber']) && $_GET['pageNumber'] !== 0){
-            $pageNumber = $_GET['pageNumber'];
+        if ($pageNumber === false || $pageNumber === null || $pageNumber === '0'){
+            $pageNumber = 1;
         }
         
         #endregion
@@ -49,8 +52,8 @@ class AdminPostList
             'actualPage' => $pageNumber, 
             'totalPages' => $totalPages, 
             'posts' => $posts, 
-            'alert' => isset($_GET['alert']) ? $_GET['alert'] : '',
-            'alertMessage' => isset($_GET['alertType']) ? Alert::getMessage($_GET['alertType']) : '',
+            'alert' => ($alert !== false && $alert !== null) ? $alert : '',
+            'alertMessage' => ($alertType !== false && $alertType !== null) ? Alert::getMessage($alertType) : '',
             'activeUser' => Session::getActiveUser(), 
             'userFunction' => Session::getActiveUserFunction()
         ]);
