@@ -34,8 +34,14 @@ class AdminCommentSave
             return;
         }
 
+        $commentId = filter_input(INPUT_POST, 'commentId', FILTER_SANITIZE_NUMBER_INT);
+        $postId = filter_input(INPUT_POST, 'postId', FILTER_SANITIZE_NUMBER_INT);
+        $commentString = filter_input(INPUT_POST, 'comment', FILTER_SANITIZE_SPECIAL_CHARS);
+        $validation = filter_input(INPUT_POST, 'validation', FILTER_SANITIZE_SPECIAL_CHARS);
+
         //If the commentId variable is not set
-        if (! isset($_POST['commentId']) || ! isset($_POST['postId']) || ! isset($_POST['comment'])){
+        if ($postId === false || $postId === null || $commentId === false || $commentId === null || $commentString === false 
+        || $commentString === null){
             TwigWarning::display(
                 "Une erreur est survenue lors du chargement de la page.", 
                 "index.php?action=Home\Home", 
@@ -46,11 +52,11 @@ class AdminCommentSave
         $comment = new Comment();
 
         $comment->hydrate(array (
-            'id' => trim($_POST["commentId"]) === '' ? null : intval(trim($_POST["commentId"])),
-            'publicationDate' => isset($_POST['validation']) ? date('Y-m-d H:i:s') : null,
-            'comment' => trim($_POST['comment']), 
+            'id' => intval($commentId),
+            'publicationDate' => ($validation !== false && $validation !== null) ? date('Y-m-d H:i:s') : null,
+            'comment' => $commentString, 
             'user' => $userRepository->getUser(Session::getActiveUserId()), 
-            'post' => $postRepository->getPost($_POST["postId"])
+            'post' => $postRepository->getPost($postId)
         ));
 
         $twig = TwigLoader::getEnvironment();
@@ -74,7 +80,7 @@ class AdminCommentSave
         #region Function executions
 
         //If there is a commentId we update the comment field
-        if ($comment->getId() !== null){
+        if ($comment->getId() !== 0){
             $commentRepository->updateComment($comment);
             //We display the updated user list
             header("Location:index.php?action=Admin\Comment\AdminCommentList&pageNumber=1");
@@ -82,7 +88,6 @@ class AdminCommentSave
         }
 
         //If there is no commentId we create a new comment
-
         $commentRepository->createComment($comment);
 
         //We display the updated comment list
