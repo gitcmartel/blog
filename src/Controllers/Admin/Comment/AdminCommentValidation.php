@@ -17,7 +17,6 @@ class AdminCommentValidation
 
         $commentRepository = new CommentRepository();
         $comments = "";
-        $pageNumber = 1;
         $totalPages = $commentRepository->getTotalPageNumber(10);
         $twig = TwigLoader::getEnvironment();
         
@@ -34,8 +33,10 @@ class AdminCommentValidation
             return;
         }
 
-        if (isset($_GET['pageNumber']) && $_GET['pageNumber'] !== 0){
-            $pageNumber = $_GET['pageNumber'];
+        $pageNumber = filter_input(INPUT_GET, 'pageNumber', FILTER_SANITIZE_NUMBER_INT);
+        
+        if ($pageNumber === false || $pageNumber === null || $pageNumber === '0'){
+            $pageNumber = 1;
         }
 
         $commentIds = is_array($_POST['commentValidation']) ? $_POST['commentValidation'] : [$_POST['commentValidation']];
