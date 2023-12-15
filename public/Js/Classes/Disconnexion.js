@@ -2,17 +2,15 @@ class Disconnexion {
   constructor () {
     this.btnDisconnexion = document.getElementById("btnDisconnexion");
 
+    //Modal alert
+    this.alertModal = new AlertModal();
+
     //Adding listener
-    const alertLabel = document.getElementById("confirmationModalLabel");
-    const alertId = document.getElementById("btnConfirmationModal");
-    const message = document.getElementById("confirmationMessage");
 
     if (this.btnDisconnexion) {
-      this.btnDisconnexion.addEventListener("click", function () {
-        alertLabel.innerHTML = this.getAttribute("data-action");
-        alertId.href = this.getAttribute("data-id");
-        message.innerHTML = this.getAttribute("data-message");
-      })
+      this.btnDisconnexion.addEventListener("click", () => {
+        this.alertModal.setModal(this.btnDisconnexion);
+      });
     }
   }
 }
