@@ -9,12 +9,13 @@ enum UserFunction
     case Lecteur;
     case Autre;
 
-    
     #region Functions
     /**
      * Returns the corresponding string of an enum case
      * @return string
      */
+
+
     public function toString(): string
     {
         return match ($this) {
@@ -28,5 +29,6 @@ enum UserFunction
     //end
     #endregion
 
+    
 
 }

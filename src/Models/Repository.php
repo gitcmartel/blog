@@ -25,8 +25,9 @@ abstract class Repository
      */
     public function checkIds(array $ids, string $tableName, string $idFieldName) : bool
     {
-        $idsString = implode(',', array_map("htmlspecialchars", $ids));
 
+        $idsString = implode(',', $ids);
+        
         $statement = $this->connexion->getConnexion()->prepare(
             "SELECT count(*) as count FROM $tableName WHERE $idFieldName IN ($idsString);"
         );
