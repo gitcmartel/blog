@@ -9,6 +9,7 @@ enum UserFunction
     case Lecteur;
     case Autre;
 
+    
     #region Functions
     /**
      * Returns the corresponding string of an enum case
@@ -22,7 +23,10 @@ enum UserFunction
             self::Lecteur => 'Lecteur',
             self::Autre => ''
         };
-    }
 
+    }
+    //end
     #endregion
+
+
 }
