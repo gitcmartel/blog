@@ -6,18 +6,16 @@ class AdminList {
     this.btnDevalidation = document.getElementById("btnDevalidation");
     this.deleteRows = document.getElementsByClassName("btnDeletion");
 
+    //Modal alert
+    this.alertModal = new AlertModal();
+
     //Adding listeners
     this.btnDevalidation.addEventListener("click", this.devalidation.bind(this));
 
     if (this.deleteRows !== null) {
-      const alertLabel = document.getElementById("confirmationModalLabel");
-      const alertId = document.getElementById("btnConfirmationModal");
-      const message = document.getElementById("confirmationMessage");
       for (let i = 0; i < this.deleteRows.length; i++) {
-        this.deleteRows[i].addEventListener("click", function () {
-          alertLabel.innerHTML = this.getAttribute("data-action");
-          alertId.href = this.getAttribute("data-id");
-          message.innerHTML = this.getAttribute("data-message");
+        this.deleteRows[i].addEventListener("click", () => {
+          this.alertModal.setModal(this.deleteRows[i]);
         })
       }
     }
