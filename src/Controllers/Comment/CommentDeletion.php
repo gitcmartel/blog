@@ -22,9 +22,10 @@ class CommentDeletion
         #region Conditions tests
         
         //We display an warning message if one of the following conditions are false
+        $commentId = filter_input(INPUT_GET, 'commentId', FILTER_SANITIZE_NUMBER_INT);
 
         //If the commentId variable is not set
-        if (! isset($_GET['commentId']) || trim($_GET['commentId']) === ""){
+        if ($commentId === false || $commentId === null){
             TwigWarning::display(
                 "Une erreur est survenue lors du chargement de la page.", 
                 "index.php?action=Home\Home", 
@@ -32,7 +33,7 @@ class CommentDeletion
             return;
         }
 
-        $comment = $commentRepository->getComment(trim($_GET['commentId']));
+        $comment = $commentRepository->getComment($commentId);
 
         //If the active user is not the comment's author
         if(Session::getActiveUserId() !== $comment->getUser()->getId()){
