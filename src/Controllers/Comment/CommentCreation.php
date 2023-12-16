@@ -26,8 +26,10 @@ class CommentCreation
             return;
         }
 
+        $postId = filter_input(INPUT_GET, 'postId', FILTER_SANITIZE_NUMBER_INT);
+
         //If the postId variable is not set
-        if (! isset($_GET['postId']) || trim($_GET['postId']) === ""){
+        if ($postId === false || $postId === null){
             TwigWarning::display(
                 "Une erreur est survenue lors du chargement de la page.", 
                 "index.php?action=Home\Home", 
@@ -40,7 +42,7 @@ class CommentCreation
         #region Function execution
 
         $postRepository = new PostRepository();
-        $post = $postRepository->getPost($_GET['postId']);
+        $post = $postRepository->getPost($postId);
         $comment = new Comment();
 
         $twig = TwigLoader::getEnvironment();
