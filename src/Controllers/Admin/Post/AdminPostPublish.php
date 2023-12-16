@@ -8,7 +8,7 @@ use Application\Lib\Session;
 use Application\Lib\TwigLoader;
 use Application\Lib\TwigWarning;
 
-class AdminPostPublish 
+class AdminPostPublish
 {
     #region Functions
     public function execute()
@@ -25,25 +25,34 @@ class AdminPostPublish
 
         #region Conditions tests
 
-        if(! UserActiveCheckValidity::check(array('Administrateur', 'Createur')) || ! isset($_POST['postValidation'])){
+        $options = array(
+            'postValidation' => array(
+                'filter' => FILTER_VALIDATE_INT,
+                'flags' => FILTER_REQUIRE_ARRAY
+            )
+        );
+
+        $postValidation = filter_input_array(INPUT_POST, $options);
+
+        if (!UserActiveCheckValidity::check(array('Administrateur', 'Createur'))) {
             TwigWarning::display(
-                "Vous n'avez pas les droits requis pour accéder à cette page. Contactez l'administrateur du site", 
-                "index.php?action=Home\Home", 
+                "Vous n'avez pas les droits requis pour accéder à cette page. Contactez l'administrateur du site",
+                "index.php?action=Home\Home",
                 "Nous contacter");
-            return;  
+            return;
         }
 
         $pageNumber = filter_input(INPUT_GET, 'pageNumber', FILTER_SANITIZE_NUMBER_INT);
 
         //Paging
-        if ($pageNumber === false || $pageNumber === null || $pageNumber === '0'){
+        if ($pageNumber === false || $pageNumber === null || $pageNumber === '0') {
             $pageNumber = 1;
         }
 
-        $postsToPublish = is_array($_POST['postValidation']) ? $_POST['postValidation'] : [$_POST['postValidation']];
+        $postsToPublish = is_array($postValidation) ? $postValidation : [$postValidation];
 
         //Check if all the commentid's are present in the database and if the validation variable is present
-        if(! $postRepository->checkIds($postsToPublish, 'post', 'id')){
+        if ($postsToPublish['commentValidation'][0] === false || !$postRepository->checkIds($postsToPublish, 'post', 'id')) {
             TwigWarning::display(
                 "Une erreur est survenue lors de la publication du ou des posts.",
                 "index.php?action=Admin\Comment\AdminCommentList&pageNumber=1",
@@ -57,25 +66,25 @@ class AdminPostPublish
         #endregion
 
         #region Function execution
-        
+
 
         //Updates the status post field
-        foreach($postsToPublish as $postId){
+        foreach ($postsToPublish as $postId) {
             $postRepository->getPost($postId);
-            if (! $validation) {
+            if (!$validation) {
                 $postRepository->setPublicationDateToNull($postId);
             } else {
                 $postRepository->setPublicationDate($postId);
             }
         }
-        
+
         $posts = $postRepository->getPosts($pageNumber, 10, false);
 
         //Page display
-        echo $twig->render('Admin\Post\AdminPostList.html.twig', [ 
-            'actualPage' => "1", 
-            'totalPages' => $totalPages, 
-            'posts' => $posts, 
+        echo $twig->render('Admin\Post\AdminPostList.html.twig', [
+            'actualPage' => "1",
+            'totalPages' => $totalPages,
+            'posts' => $posts,
             'userFunction' => Session::getActiveUserFunction(),
             'activeUser' => Session::getActiveUser()
         ]);
