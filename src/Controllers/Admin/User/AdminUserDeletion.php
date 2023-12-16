@@ -20,7 +20,7 @@ class AdminUserDeletion
 
         #region Conditions tests
         
-        if(! UserActiveCheckValidity::check(array('Administrateur')) || ! isset($_GET['userId']) || trim($_GET['userId']) === ""){
+        if(! UserActiveCheckValidity::check(array('Administrateur'))){
             TwigWarning::display(
                 "Vous n'avez pas les droits requis pour accéder à cette page. Contactez l'administrateur du site", 
                 "index.php?action=Home\Home", 
