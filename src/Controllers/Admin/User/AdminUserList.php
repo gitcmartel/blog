@@ -19,13 +19,16 @@ class AdminUserList
 
         $userRepository = new UserRepository();
         $totalPages = 1;
-        $pageNumber = 1;
         $twig = TwigLoader::getEnvironment();
 
         #endregion
 
         #region Conditions tests
         
+        $alert = filter_input(INPUT_GET, 'alert', FILTER_SANITIZE_SPECIAL_CHARS);
+        $alertType = filter_input(INPUT_GET, 'alertType', FILTER_SANITIZE_SPECIAL_CHARS);
+        $pageNumber = filter_input(INPUT_GET, 'pageNumber', FILTER_SANITIZE_NUMBER_INT);
+
         if(! UserActiveCheckValidity::check(array('Administrateur'))){
             TwigWarning::display(
                 "Vous n'avez pas les droits requis pour accéder à cette page. Contactez l'administrateur du site", 
@@ -34,9 +37,8 @@ class AdminUserList
             return; 
         }
 
-        if (isset($_GET['pageNumber']) && $_GET['pageNumber'] !== 0){
-            $pageNumber = $_GET['pageNumber'];
-
+        if ($pageNumber === false || $pageNumber === null || $pageNumber === '0'){
+            $pageNumber = 1;
         }
 
         #endregion
@@ -51,8 +53,8 @@ class AdminUserList
             'actualPage' => $pageNumber, 
             'totalPages' => $totalPages, 
             'users' => $users, 
-            'alert' => isset($_GET['alert']) ? $_GET['alert'] : '',
-            'alertMessage' => isset($_GET['alertType']) ? Alert::getMessage($_GET['alertType']) : '',
+            'alert' => ($alert !== false && $alert !== null) ? $alert : '',
+            'alertMessage' => ($alertType !== false && $alertType !== null) ? Alert::getMessage($alertType) : '',
             'activeUser' => Session::getActiveUser(), 
             'userFunction' => Session::getActiveUserFunction()
         ]);
