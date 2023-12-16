@@ -53,7 +53,7 @@ class AdminPostPublish
         $postsToPublish = is_array($postValidation) ? $postValidation : [$postValidation];
 
         //Check if all the commentid's are present in the database and if the validation variable is present
-        if ($postsToPublish['postValidation'][0] === false || !$postRepository->checkIds($postsToPublish['postValidation'], 'post', 'id')) {
+        if ($postsToPublish['postValidation'][0] === false || $postRepository->checkIds($postsToPublish['postValidation'], 'post', 'id') === false) {
             TwigWarning::display(
                 "Une erreur est survenue lors de la publication du ou des posts.",
                 "index.php?action=Admin\Comment\AdminCommentList&pageNumber=1",
