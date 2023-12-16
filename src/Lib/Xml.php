@@ -2,24 +2,51 @@
 
 namespace Application\Lib;
 
+use XMLReader;
+use DOMDocument;
+
 class Xml
 {
     #region Functions
 
-    //Convert an xml file into an array object
-    public static function convertToObject(string $path) : object
+    /**
+     * Convert an xml file into an array object
+     * @param string $path
+     * @return object
+     */
+    public static function convertToObject(string $path): ?object
     {
-        if(! is_readable($path)){
+        if (file_exists($path) == false) {
             return null;
         }
+    
+        $reader = new XMLReader();
 
-        //Read entire file into string
-        $xmlFile = file_get_contents($path);
+        try {
+            if ($reader->open($path) === false) {
+                return null;
+            }
 
-        //Convert xml string into an object
-        $xmlObject = simplexml_load_string($xmlFile);
+            // Load xml content
+            $doc = new DOMDocument;
 
-        return $xmlObject;
+            // Use XMLReader to read the file
+            while ($reader->read()) {
+                if ($reader->nodeType == XMLReader::ELEMENT) {
+                    $doc->loadXML($reader->readOuterXML());
+                    break;
+                }
+            }
+
+            // Converting into SimpleXMLElement
+            $xmlObject = simplexml_import_dom($doc);
+
+            return $xmlObject;
+        } catch (\Exception $exception) {
+            return null;
+        } finally {
+            $reader->close();
+        }
     }
 
     #endregion
