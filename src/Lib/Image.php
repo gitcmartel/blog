@@ -32,7 +32,7 @@ class Image
 
     public static function createImagePathName(int $postId, string $imageName, DateTime $date) : string
     {
-        return $postId . $date->format("YmdHis") . '.' . Upload::getExtension($imageName);
+        return $postId . $date->format("YmdHis") . '.' . File::getExtension($imageName);
     }
 
     #endregion
