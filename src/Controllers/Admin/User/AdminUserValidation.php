@@ -23,8 +23,16 @@ class AdminUserValidation
 
         #region Conditions tests
 
-        if(! UserActiveCheckValidity::check(array('Administrateur')) || ! isset($_POST['userValidation']) 
-            || ! isset($_POST['validation']) || $_POST['validation'] === ""){
+        $options = array(
+            'userValidation' => array(
+                'filter' => FILTER_VALIDATE_INT,
+                'flags' => FILTER_REQUIRE_ARRAY
+            )
+        );
+
+        $userValidation = filter_input_array(INPUT_POST, $options);
+
+        if(! UserActiveCheckValidity::check(array('Administrateur'))){
             TwigWarning::display(
                 "Vous n'avez pas les droits requis pour accéder à cette page. Contactez l'administrateur du site", 
                 "index.php?action=Home\Home", 
@@ -41,10 +49,10 @@ class AdminUserValidation
 
         $validation = boolval($validation);
 
-        $usersToValidate = is_array($_POST['userValidation']) ? $_POST['userValidation'] : [$_POST['userValidation']];
+        $usersToValidate = is_array($userValidation) ? $userValidation : [$userValidation];
 
         //Check if all the userId's are present in the database
-        if(! $userRepository->checkIds($usersToValidate, 'user', 'id')){
+        if($usersToValidate['userValidation'][0] === false || ! $userRepository->checkIds($usersToValidate['userValidation'], 'user', 'id')){
             TwigWarning::display(
                 "Une erreur est survenue lors de la validation du ou des utilisateurs.",
                 "index.php?action=Admin\Comment\AdminCommentList&pageNumber=1",
@@ -61,7 +69,7 @@ class AdminUserValidation
 
         //Updates the status user field
 
-        foreach($usersToValidate as $userId){
+        foreach($usersToValidate['userValidation'] as $userId){
             $user = $userRepository->getUser($userId);
             if($user->getId() !== null){
                 $userRepository->setValidation($userId, $validation);
