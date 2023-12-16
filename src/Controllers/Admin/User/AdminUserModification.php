@@ -16,14 +16,16 @@ class AdminUserModification
     {
         #region Variables
 
-        $userRepository = new UserRepository(new DatabaseConnexion);
+        $userRepository = new UserRepository();
         $twig = TwigLoader::getEnvironment();
 
         #endregion
 
         #region Conditions tests
 
-        if(! UserActiveCheckValidity::check(array('Administrateur')) || ! isset($_GET['userId'])){
+        $userId = filter_input(INPUT_GET, 'userId', FILTER_SANITIZE_NUMBER_INT);
+
+        if(! UserActiveCheckValidity::check(array('Administrateur'))){
             TwigWarning::display(
                 "Vous n'avez pas les droits requis pour accéder à cette page. Contactez l'administrateur du site", 
                 "index.php?action=Home\Home", 
@@ -31,7 +33,7 @@ class AdminUserModification
             return; 
         }
 
-        $user = $userRepository->getUser($_GET['userId']);
+        $user = $userRepository->getUser($userId);
 
         //Check if the userId exists in the database
         if($user->getId() === null){
