@@ -64,14 +64,14 @@ class AdminUserSave
         $user = new User();
 
         $user->hydrate(array(
-            'id' => intval($userId),
-            'name' => trim($userName),
-            'surname' => trim($userSurname),
-            'pseudo' => trim($pseudo),
-            'email' => trim($userMail),
+            'id'           => (int) $userId,
+            'name'         => trim($userName),
+            'surname'      => trim($userSurname),
+            'pseudo'       => trim($pseudo),
+            'email'        => trim($userMail),
             'userFunction' => trim($userFunction),
-            'isValid' => trim($userValidity),
-            'password' => trim($password),
+            'isValid'      => trim($userValidity),
+            'password'     => trim($password),
         ));
 
         $passwordConfirmation = trim($passwordConfirmation);
@@ -80,7 +80,7 @@ class AdminUserSave
             'name' => 'Vous devez renseigner un prénom',
             'surname' => 'Vous devez renseigner un nom',
             'pseudo' => 'Vous devez renseigner un pseudo',
-            'email' => Email::checkMailFormat($user->getEmail()) ? '' : 'L\'adresse email est incorrecte',
+            'email' => Email::checkMailFormat($user->getEmail()) === true ? '' : 'L\'adresse email est incorrecte',
             'userFunction' => 'Vous devez renseigner une fonction',
             'password' => $passwordChange === true ? Password::checkPasswordFormFields($user->getPassword(), $passwordConfirmation) : '',
             'validity' => 'Vous devez selectionner une option'
@@ -92,17 +92,17 @@ class AdminUserSave
             $user->getUserFunction() === "" || $user->getIsValid() === "" || $fieldsWarnings['email'] !== '' || $fieldsWarnings['password'] !== ''
         ) {
             echo $twig->render('Admin\User\AdminUser.html.twig', [
-                'warningName' => $user->getName() === "" ? $fieldsWarnings['name'] : '',
-                'warningSurname' => $user->getSurname() === "" ? $fieldsWarnings['surname'] : '',
-                'warningPseudo' => $user->getPseudo() === "" ? $fieldsWarnings['pseudo'] : '',
-                'warningEmail' => $fieldsWarnings['email'],
-                'warningPassword' => $fieldsWarnings['password'],
-                'warningFunction' => $user->getUserFunction() === "" ? $fieldsWarnings['userFunction'] : '',
-                'warningValidity' => $user->getIsValid() === "" ? $fieldsWarnings['validity'] : '',
-                'user' => $user,
+                'warningName'           => $user->getName() === "" ? $fieldsWarnings['name'] : '',
+                'warningSurname'        => $user->getSurname() === "" ? $fieldsWarnings['surname'] : '',
+                'warningPseudo'         => $user->getPseudo() === "" ? $fieldsWarnings['pseudo'] : '',
+                'warningEmail'          => $fieldsWarnings['email'],
+                'warningPassword'       => $fieldsWarnings['password'],
+                'warningFunction'       => $user->getUserFunction() === "" ? $fieldsWarnings['userFunction'] : '',
+                'warningValidity'       => $user->getIsValid() === "" ? $fieldsWarnings['validity'] : '',
+                'user'                  => $user,
                 'pwdChangeCheckedValue' => $passwordChange === true ? 'checked' : '',
-                'userFunction' => Session::getActiveUserFunction(),
-                'activeUser' => Session::getActiveUser()
+                'userFunction'          => Session::getActiveUserFunction(),
+                'activeUser'            => Session::getActiveUser()
             ]);
             return;
         }
