@@ -43,6 +43,7 @@ class AdminPostPublish
         }
 
         $pageNumber = filter_input(INPUT_GET, 'pageNumber', FILTER_SANITIZE_NUMBER_INT);
+        $validation = filter_input(INPUT_POST, 'validation', FILTER_VALIDATE_BOOLEAN);
 
         //Paging
         if ($pageNumber === false || $pageNumber === null || $pageNumber === '0') {
@@ -52,7 +53,7 @@ class AdminPostPublish
         $postsToPublish = is_array($postValidation) ? $postValidation : [$postValidation];
 
         //Check if all the commentid's are present in the database and if the validation variable is present
-        if ($postsToPublish['commentValidation'][0] === false || !$postRepository->checkIds($postsToPublish, 'post', 'id')) {
+        if ($postsToPublish['postValidation'][0] === false || !$postRepository->checkIds($postsToPublish['postValidation'], 'post', 'id')) {
             TwigWarning::display(
                 "Une erreur est survenue lors de la publication du ou des posts.",
                 "index.php?action=Admin\Comment\AdminCommentList&pageNumber=1",
@@ -61,7 +62,7 @@ class AdminPostPublish
             return;
         }
 
-        $validation = boolval($_POST["validation"]);
+        $validation = boolval($validation);
 
         #endregion
 
@@ -69,9 +70,9 @@ class AdminPostPublish
 
 
         //Updates the status post field
-        foreach ($postsToPublish as $postId) {
+        foreach ($postsToPublish['postValidation'] as $postId) {
             $postRepository->getPost($postId);
-            if (!$validation) {
+            if ($validation === false) {
                 $postRepository->setPublicationDateToNull($postId);
             } else {
                 $postRepository->setPublicationDate($postId);
