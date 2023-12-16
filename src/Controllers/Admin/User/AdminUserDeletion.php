@@ -28,7 +28,18 @@ class AdminUserDeletion
             return; 
         }
 
-        $user = $userRepository->getUser(trim($_GET['userId']));
+        $userId = filter_input(INPUT_GET, 'userId', FILTER_SANITIZE_NUMBER_INT);
+
+        //If the commentId variable is not set
+        if ($userId === false || $userId === null){
+            TwigWarning::display(
+                "Une erreur est survenue lors du chargement de la page.", 
+                "index.php?action=Home\Home", 
+                "Retour à la page d'accueil");
+            return;
+        }
+
+        $user = $userRepository->getUser($userId);
 
         //If the user id is null
         if($user->getid() === null){
