@@ -11,6 +11,9 @@ use Application\Lib\TwigWarning;
 class AdminCommentValidation
 {
     #region Functions
+    /**
+     * Main function execute
+     */
     public function execute()
     {
         #region Variables
@@ -19,14 +22,14 @@ class AdminCommentValidation
         $comments = "";
         $totalPages = $commentRepository->getTotalPageNumber(10);
         $twig = TwigLoader::getEnvironment();
-        
+
         #endregion
 
         #region Conditions tests
         $options = array(
             'commentValidation' => array(
                 'filter' => FILTER_VALIDATE_INT,
-                'flags'  => FILTER_REQUIRE_ARRAY
+                'flags' => FILTER_REQUIRE_ARRAY
             )
         );
 
@@ -43,15 +46,15 @@ class AdminCommentValidation
 
         $pageNumber = filter_input(INPUT_GET, 'pageNumber', FILTER_SANITIZE_NUMBER_INT);
         $validation = filter_input(INPUT_POST, 'validation', FILTER_VALIDATE_BOOLEAN);
-        
-        if ($pageNumber === false || $pageNumber === null || $pageNumber === '0'){
+
+        if ($pageNumber === false || $pageNumber === null || $pageNumber === '0') {
             $pageNumber = 1;
         }
 
         $commentIds = is_array($commentValidation) ? $commentValidation : [$commentValidation];
 
         //Check if all the commentid's are present in the database and if the validation variable is present
-        if($commentIds['commentValidation'][0] === false || ! $commentRepository->checkIds($commentIds['commentValidation'], 'comment', 'id') || $validation === null){
+        if ($commentIds['commentValidation'][0] === false || !$commentRepository->checkIds($commentIds['commentValidation'], 'comment', 'id') || $validation === null) {
             TwigWarning::display(
                 "Une erreur est survenue lors de la validation du ou des commentaires.",
                 "index.php?action=Admin\Comment\AdminCommentList&pageNumber=1",
@@ -65,11 +68,11 @@ class AdminCommentValidation
         #endregion
 
         #region Function execution
-    
+
         //Updates the comment publicationDate field
 
         foreach ($commentIds['commentValidation'] as $commentId) {
-            if (! $validation) {
+            if (!$validation) {
                 $commentRepository->setPublicationDateToNull($commentId);
             } elseif ($validation) {
                 $commentRepository->setPublicationDate($commentId);
@@ -78,10 +81,10 @@ class AdminCommentValidation
 
         $comments = $commentRepository->getComments($pageNumber, 10);
 
-        echo $twig->render('Admin\Comment\AdminCommentList.html.twig', [ 
-            'actualPage' => "1", 
-            'totalPages' => $totalPages, 
-            'comments' => $comments, 
+        echo $twig->render('Admin\Comment\AdminCommentList.html.twig', [
+            'actualPage' => "1",
+            'totalPages' => $totalPages,
+            'comments' => $comments,
             'userFunction' => Session::getActiveUserFunction(),
             'activeUser' => Session::getActiveUser()
         ]);
