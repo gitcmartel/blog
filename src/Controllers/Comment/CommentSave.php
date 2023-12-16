@@ -13,6 +13,9 @@ use Application\Lib\TwigWarning;
 class CommentSave
 {
     #region Functions
+    /**
+     * Controller main function execute
+     */
     public function execute()
     {
         #region variables
@@ -33,8 +36,13 @@ class CommentSave
             return;
         }
 
+        $commentId = filter_input(INPUT_POST, 'commentId', FILTER_SANITIZE_NUMBER_INT);
+        $postId = filter_input(INPUT_POST, 'postId', FILTER_SANITIZE_NUMBER_INT);
+        $commentString = filter_input(INPUT_POST, 'comment', FILTER_SANITIZE_SPECIAL_CHARS);
+
         //If the commentId variable is not set
-        if (! isset($_POST['commentId']) || ! isset($_POST['postId']) || ! isset($_POST['comment'])){
+        if ($postId === false || $postId === null || $commentId === false || $commentId === null || $commentString === false 
+        || $commentString === null){
             TwigWarning::display(
                 "Une erreur est survenue lors du chargement de la page.", 
                 "index.php?action=Home\Home", 
@@ -45,11 +53,11 @@ class CommentSave
         $comment = new Comment();
 
         $comment->hydrate(array (
-            'id' => trim($_POST["commentId"]) === '' ? null : intval(trim($_POST["commentId"])),
-            'comment' => trim($_POST['comment']), 
+            'id' => trim($commentId),
+            'comment' => trim($commentString), 
             'publicationDate' => null,
             'user' => $userRepository->getUser(Session::getActiveUserId()), 
-            'post' => $postRepository->getPost($_POST["postId"])
+            'post' => $postRepository->getPost($postId)
         ));
 
         $twig = TwigLoader::getEnvironment();
