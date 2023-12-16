@@ -9,7 +9,7 @@ class Disconnection
     public function execute()
     {
         #region Function execution
-
+        
         if(isset($_SESSION['userId']) && isset($_SESSION['activeUser'])){
             unset($_SESSION["userId"]);
             unset($_SESSION["activeUser"]);
