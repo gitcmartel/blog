@@ -84,7 +84,7 @@ class PasswordRenewalSubscription
 
         //We update the new password and set the token field and it's date to null
         if ($userRepository->changePassword($user, $password)) {
-            echo $twig->render('Password\PasswordRenewalSuccess.html.twig', []);
+            header("Location:index.php?action=Home\Home&alert=true&alertType=PasswordChange");
         } else {
             TwigWarning::display(
                 "Une erreur est survenue lors de la tentative de renouvellement du mot de passe.",
