@@ -6,9 +6,13 @@ use Application\Models\UserRepository;
 use Application\Lib\Password;
 use Application\Lib\TwigLoader;
 use Application\Lib\TwigWarning;
+
 class PasswordRenewalSubscription
 {
     #region Functions
+    /**
+     * Controller main function
+     */
     public function execute()
     {
         #region Variables
@@ -22,47 +26,53 @@ class PasswordRenewalSubscription
 
         #region Conditions tests
 
-        if(! isset($_GET['token']) || ! isset($_GET['email'])){
+        $email = filter_input(INPUT_GET, 'email', FILTER_SANITIZE_EMAIL);
+        $token = filter_input(INPUT_GET, 'token', FILTER_DEFAULT);
+
+        if ($email === false || $email === null || $token === false || $token === null) {
             TwigWarning::display(
-                "Ce lien n'est plus valide, veuillez générer une nouvelle demande de renouvellement de mot de passe.", 
-                "index.php?action=Password\PasswordRenewal", 
+                "Ce lien n'est plus valide, veuillez générer une nouvelle demande de renouvellement de mot de passe.",
+                "index.php?action=Password\PasswordRenewal",
                 "Renouveller la demande");
-            return; 
+            return;
         }
 
         //We check if the token and it's date are valid
-        $user = $userRepository->getUserFromToken($_GET['token'], $_GET['email']);
+        $user = $userRepository->getUserFromToken($token, $email);
 
-        if(! $user->tokenCheckValidity()) {
+        if (!$user->tokenCheckValidity()) {
             TwigWarning::display(
-                "Ce lien n'est plus valide, veuillez générer une nouvelle demande de renouvellement de mot de passe.", 
-                "index.php?action=Password\PasswordRenewal", 
+                "Ce lien n'est plus valide, veuillez générer une nouvelle demande de renouvellement de mot de passe.",
+                "index.php?action=Password\PasswordRenewal",
                 "Renouveller la demande");
-            return; 
+            return;
         }
 
+        $password = filter_input(INPUT_POST, 'password', FILTER_DEFAULT);
+        $passwordConfirmation = filter_input(INPUT_POST, 'passwordConfirmation', FILTER_DEFAULT);
+
         //If the user has not already entered his new password
-        if(! isset($_POST['password']) && ! isset($_POST['passwordConfirmation'])){
+        if ($password === false || $password === null || $passwordConfirmation === false || $passwordConfirmation === null) {
             echo $twig->render('Password\PasswordRenewalSubscription.html.twig', [
-                'warningMessage' => '', 
+                'warningMessage' => '',
                 'errorMessage' => ''
             ]);
             return;
         }
 
         //Check password validity
-        if (! Password::checkPassword($_POST['password'])){
+        if (!Password::checkPassword($password)) {
             echo $twig->render('Password\PasswordRenewalSubscription.html.twig', [
-                'warningMessage' => "Le mot de passe doit être composé d'au moins 8 caractères, 1 majuscule, 1 minuscule, 1 nombre et 1 caractère spécial.", 
+                'warningMessage' => "Le mot de passe doit être composé d'au moins 8 caractères, 1 majuscule, 1 minuscule, 1 nombre et 1 caractère spécial.",
                 'errorMessage' => $errorMessage
             ]);
             return;
         }
 
         //Check if the passwords are the same
-        if(trim($_POST['password']) !== trim($_POST['passwordConfirmation'])){
+        if (trim($password) !== trim($passwordConfirmation)) {
             echo $twig->render('Password\PasswordRenewalSubscription.html.twig', [
-                'warningMessage' => "Les deux mots de passe ne correspondent pas.", 
+                'warningMessage' => "Les deux mots de passe ne correspondent pas.",
                 'errorMessage' => $errorMessage
             ]);
             return;
@@ -73,12 +83,12 @@ class PasswordRenewalSubscription
         #region Function execution
 
         //We update the new password and set the token field and it's date to null
-        if($userRepository->changePassword($user, $_POST['password'])){
+        if ($userRepository->changePassword($user, $password)) {
             echo $twig->render('Password\PasswordRenewalSuccess.html.twig', []);
         } else {
             TwigWarning::display(
-                "Une erreur est survenue lors de la tentative de renouvellement du mot de passe.", 
-                "index.php?action=Password\PasswordRenewal", 
+                "Une erreur est survenue lors de la tentative de renouvellement du mot de passe.",
+                "index.php?action=Password\PasswordRenewal",
                 "Renouveller la demande");
         }
 
