@@ -74,9 +74,7 @@ class Connexion
             //Check the password validity
             if (Password::verify($password, $user->getPassword())) {
 
-                $_SESSION['activeUser'] = $user->getPseudo();
-                $_SESSION['activeUserFunction'] = $user->getUserFunction()->toString();
-                $_SESSION['userId'] = $user->getId();
+                Session::setUser($user);
 
                 header("Location:index.php?action=Home\Home&alert=true&alertType=Connexion");
 
