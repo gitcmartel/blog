@@ -71,7 +71,7 @@ class Connexion
         $user = $userRepository->getUserByMail($login);
 
 
-        if($user->getIsValid() === false) {
+        if ($user->getIsValid() === false) {
             $warningLogin = 'Cet identifiant est inactif ! Contactez l\'administrateur du site.';
         }
 
@@ -84,7 +84,7 @@ class Connexion
             $warningLogin = 'Adresse email inconnue !';
         }
 
-        if($warningLogin !== "" || $warningPassword !== "") {
+        if ($warningLogin !== "" || $warningPassword !== "") {
             echo $twig->render('Connexion/Connexion.html.twig', [
                 'warningLogin' => $warningLogin,
                 'warningPassword' => $warningPassword,
@@ -96,7 +96,7 @@ class Connexion
         }
 
         Session::setUser($user);
-        
+
         header("Location:index.php?action=Home\Home&alert=true&alertType=Connexion");
 
         #endregion
