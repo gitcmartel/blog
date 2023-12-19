@@ -18,7 +18,6 @@ class PostList
         $postRepository = new PostRepository();
         $posts = "";
         $totalPages = 1;
-        $pageNumber = 1;
         $twig = TwigLoader::getEnvironment();
 
         #endregion
@@ -26,15 +25,13 @@ class PostList
         #region Function execution
 
         $totalPages = $postRepository->getTotalPageNumber(Constants::NUMBER_OF_BLOG_POST_PER_PAGE, true);
-        
-        if (isset($_GET['pageNumber'])){
-            if($_GET['pageNumber'] !== 0){
-                $posts = $postRepository->getPosts($_GET['pageNumber'], 4, true);
-                $pageNumber = $_GET['pageNumber'];
-            }
-        } else {
-            $posts = $postRepository->getPosts(1, Constants::NUMBER_OF_BLOG_POST_PER_PAGE, true);
+        $pageNumber = filter_input(INPUT_GET, 'pageNumber', FILTER_SANITIZE_NUMBER_INT);
+
+        if ($pageNumber === false || $pageNumber === null || $pageNumber === '0'){
+            $pageNumber = 1;
         }
+
+        $posts = $postRepository->getPosts($pageNumber, Constants::NUMBER_OF_BLOG_POST_PER_PAGE, true);
         
         echo $twig->render('Post\PostList.html.twig', [ 
             'actualPage' => $pageNumber, 
