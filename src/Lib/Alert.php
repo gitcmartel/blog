@@ -9,7 +9,8 @@ class Alert
         'Disconnexion' => 'Déconnection réussie !',
         'Deletion' => 'Suppression effectuée !', 
         'MailSent' => 'Message envoyé !', 
-        'PasswordChange' => 'Mot de passe modifié !'
+        'PasswordChange' => 'Mot de passe modifié !', 
+        'SubscriptionSuccess' => 'Compte créé avec succès !'
     ];
 
 
