@@ -122,7 +122,7 @@ class UserRepository extends Repository
         $statement->bindValue("surname", htmlspecialchars($user->getSurname()), PDO::PARAM_STR);
         $statement->bindValue("pseudo", htmlspecialchars($user->getPseudo()), PDO::PARAM_STR);
         $statement->bindValue("email", htmlspecialchars($user->getEmail()), PDO::PARAM_STR);
-        $statement->bindValue("password", htmlspecialchars($user->getPassword()), PDO::PARAM_STR);
+        $statement->bindValue("password", Password::encrypt($user->getPassword()), PDO::PARAM_STR);
         $statement->bindValue("userFunction", htmlspecialchars($user->getUserFunction()->toString()), PDO::PARAM_STR);
         $statement->bindValue("isValid", htmlspecialchars($user->getIsValid()), PDO::PARAM_BOOL);
 
