@@ -21,16 +21,10 @@ class PostDisplay{
 
         #endregion
         
-        #region Conditions tests
-        if(! isset($_GET['postId'])){
-            TwigWarning::display(
-                "Un problème est survenu lors de l'affichage de l'article.", 
-                "index.php?action=Post\PostList", 
-                "Retour à la liste des articles");
-            return; 
-        }
+        $postId = filter_input(INPUT_GET, 'postId', FILTER_SANITIZE_NUMBER_INT);
 
-        if(trim($_GET['postId']) === ""){
+        #region Conditions tests
+        if($postId === false || $postId === null){
             TwigWarning::display(
                 "Un problème est survenu lors de l'affichage de l'article.", 
                 "index.php?action=Post\PostList", 
@@ -42,7 +36,7 @@ class PostDisplay{
 
         #region Function execution
                     
-        $post = $postRepository->getPost($_GET['postId']);
+        $post = $postRepository->getPost($postId);
         $comments = $commentRepository->getCommentsPost($post);
 
         echo $twig->render('Post\PostDisplay.html.twig', [  
