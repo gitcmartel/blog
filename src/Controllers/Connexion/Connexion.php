@@ -70,29 +70,34 @@ class Connexion
 
         $user = $userRepository->getUserByMail($login);
 
-        if ($user->getId() !== null) {
-            //Check the password validity
-            if (Password::verify($password, $user->getPassword())) {
 
-                Session::setUser($user);
-
-                header("Location:index.php?action=Home\Home&alert=true&alertType=Connexion");
-
-                return;
-            } else {
-                $warningPassword = "Le mot de passe est incorrect";
-            }
-        } else {
-            $warningLogin = "Cet identifiant est inexistant";
+        if($user->getIsValid() === false) {
+            $warningLogin = 'Cet identifiant est inactif ! Contactez l\'administrateur du site.';
         }
 
-        echo $twig->render('Connexion/Connexion.html.twig', [
-            'warningLogin' => $warningLogin,
-            'warningPassword' => $warningPassword,
-            'loginValue' => $loginValue,
-            'userFunction' => Session::getActiveUserFunction(),
-            'activeUser' => Session::getActiveUser()
-        ]);
+        //Check the password validity
+        if (Password::verify($password, $user->getPassword()) === false) {
+            $warningPassword = 'Le mot de passe est incorrect';
+        }
+
+        if ($user->getId() === null) {
+            $warningLogin = 'Adresse email inconnue !';
+        }
+
+        if($warningLogin !== "" || $warningPassword !== "") {
+            echo $twig->render('Connexion/Connexion.html.twig', [
+                'warningLogin' => $warningLogin,
+                'warningPassword' => $warningPassword,
+                'loginValue' => $loginValue,
+                'userFunction' => Session::getActiveUserFunction(),
+                'activeUser' => Session::getActiveUser()
+            ]);
+            return;
+        }
+
+        Session::setUser($user);
+        
+        header("Location:index.php?action=Home\Home&alert=true&alertType=Connexion");
 
         #endregion
     }
