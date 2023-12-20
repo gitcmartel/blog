@@ -230,8 +230,9 @@ class PostRepository extends Repository
      * Concatenates the imagePath with the id of the row and updates the imagePath field
      * @param Post $post
      * @param string $pathImage
+     * @return bool 
      */
-    public function updateImagePath(Post $post, string $pathImage) : void
+    public function updateImagePath(Post $post, string $pathImage) : bool
     {
         if ($post->getId() === null) {
             return false;
@@ -247,6 +248,8 @@ class PostRepository extends Repository
         $statement->bindValue("imagePath", $pathImage, PDO::PARAM_STR);
 
         $statement->execute();
+
+        return true;
     }
 
     /**

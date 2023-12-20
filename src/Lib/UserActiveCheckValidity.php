@@ -2,9 +2,7 @@
 
 namespace Application\Lib;
 
-use Application\Lib\DatabaseConnexion;
 use Application\Models\UserRepository;
-use Application\Models\User;
 
 class UserActiveCheckValidity
 {
@@ -17,9 +15,10 @@ class UserActiveCheckValidity
         $user = "";
 
         #endregion
+        $userId = Session::getActiveUserId();
 
         #region Tests conditions
-        if(! isset($_SESSION['userId'])){
+        if($userId === null){
             return false;
         }
 
@@ -27,7 +26,7 @@ class UserActiveCheckValidity
 
         #region Function execution
 
-        $user = $userRepository->getUser($_SESSION['userId']);
+        $user = $userRepository->getUser($userId);
 
         if($user->getId() == null){
             return false;
