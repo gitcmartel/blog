@@ -10,13 +10,17 @@ use PDO;
 class PostRepository extends Repository
 {
     #region Functions
-    //Returns a Post
-    public function getPost($postId) : Post
+    /**
+     * Returns a Post
+     * @param int $postId
+     * @return Post
+     */
+    public function getPost(int $postId): Post
     {
-        if($postId === null){
+        if ($postId === null) {
             return new Post();
         }
-        
+
         $statement = $this->connexion->getConnexion()->prepare(
             "SELECT * FROM post WHERE id = :postId;"
         );
@@ -26,7 +30,7 @@ class PostRepository extends Repository
 
         $post = new Post();
 
-        while($row = $statement->fetch()) {
+        while ($row = $statement->fetch()) {
             $post->hydrate($row);
         }
 
@@ -38,41 +42,48 @@ class PostRepository extends Repository
      * If the $pageNumber parameter is set to 0, the function will return all posts
      * If the $pageNumber parameter is different than 0, the function will return the corresponding posts
      * The $numberOfPostsPerPage determins the number of posts to return
+     * @param string $pageNumber
+     * @param int $numberOfPostsPerPage
+     * @param bool $publishedPostsOnly
+     * @return array An array of Post objects
      */
-    public function getPosts(string $pageNumber, int $numberOfPostsPerPage, bool $publishedPostsOnly) : array
+    public function getPosts(string $pageNumber, int $numberOfPostsPerPage, bool $publishedPostsOnly): array
     {
-        $offset = (($pageNumber - 1) * $numberOfPostsPerPage) >=0 ? (($pageNumber - 1) * $numberOfPostsPerPage) : 0;
+        $offset = (($pageNumber - 1) * $numberOfPostsPerPage) >= 0 ? (($pageNumber - 1) * $numberOfPostsPerPage) : 0;
         $whereClause = $publishedPostsOnly === true ? 'WHERE publicationDate IS NOT NULL ' : '';
 
-        if($pageNumber !== 0 && $numberOfPostsPerPage !== 0){
+        if ($pageNumber !== 0 && $numberOfPostsPerPage !== 0) {
             $statement = $this->connexion->getConnexion()->prepare(
-                "SELECT * FROM post " . $whereClause . "ORDER BY creationDate DESC LIMIT ". $numberOfPostsPerPage . " OFFSET ". $offset . ";"
+                "SELECT * FROM post " . $whereClause . "ORDER BY creationDate DESC LIMIT " . $numberOfPostsPerPage . " OFFSET " . $offset . ";"
             );
 
             $statement->execute();
 
         } else { //We return all posts
             $statement = $this->connexion->getConnexion()->prepare(
-                "SELECT * FROM post ". $whereClause . "ORDER BY creationDate DESC;"
+                "SELECT * FROM post " . $whereClause . "ORDER BY creationDate DESC;"
             );
-    
+
             $statement->execute();
         }
- 
+
         $posts = array();
 
-        while($row = $statement->fetch()) {
+        while ($row = $statement->fetch()) {
             $post = new Post();
 
             $post->hydrate($row);
 
-            $posts[] = $post; 
+            $posts[] = $post;
         }
         return $posts;
     }
 
-    //Creates a new post and returns the id of the inserted row if there is an image to insert
-    public function createPost(Post $post)
+    /**
+     * Creates a new post and returns the id of the inserted row if there is an image to insert
+     * @param Post
+     */
+    public function createPost(Post $post) : void
     {
         $post->setCreationDate(Date('Y-m-d H:i:s'));
         $post->setLastUpdateDate($post->getCreationDate());
@@ -96,27 +107,34 @@ class PostRepository extends Repository
         $post->setId($this->connexion->getConnexion()->lastInsertId());
     }
 
-    //Updates a post (except the imagePath field)
-    public function updatePost($post)
+    /**
+     * Updates a post (except the imagePath field)
+     * @param Post
+     */
+    public function updatePost(Post $post) : void
     {
         $post->setLastUpdateDate(Date("Y-m-d H:i:s"));
 
         $statement = $this->connexion->getConnexion()->prepare(
-            "UPDATE post SET title = :title, summary = :summary, content = :content, modifier = :modifier, lastUpdateDate = :lastUpdateDate WHERE id= :postId;"
+            "UPDATE post SET title = :title, summary = :summary, content = :content, modifier = :modifier, publicationDate = :publicationDate, 
+            lastUpdateDate = :lastUpdateDate WHERE id= :postId;"
         );
 
         $statement->bindValue("title", htmlspecialchars($post->getTitle()), PDO::PARAM_STR);
         $statement->bindValue("summary", htmlspecialchars($post->getSummary()), PDO::PARAM_STR);
         $statement->bindValue("content", htmlspecialchars($post->getContent()), PDO::PARAM_STR);
         $statement->bindValue("modifier", htmlspecialchars($post->getModifier()->getId()), PDO::PARAM_INT);
+        $statement->bindValue("publicationDate", htmlspecialchars($post->getPublicationDate()), PDO::PARAM_STR);
         $statement->bindValue("lastUpdateDate", htmlspecialchars($post->getLastUpdateDate()), PDO::PARAM_STR);
         $statement->bindValue("postId", htmlspecialchars($post->getId()), PDO::PARAM_INT);
 
         $statement->execute();
     }
 
-    //Deletes a post
-    public function deletePost($post)
+    /**
+     * Deletes a post
+     */
+    public function deletePost(Post $post) : void
     {
         $statement = $this->connexion->getConnexion()->prepare(
             "DELETE FROM post WHERE id = :postId"
@@ -128,8 +146,9 @@ class PostRepository extends Repository
 
     /**
      * Set the publicationDate field to now
+     * @param int $postId
      */
-    public function setPublicationDate(int $postId)
+    public function setPublicationDate(int $postId) : void
     {
         $statement = $this->connexion->getConnexion()->prepare(
             "UPDATE post SET publicationDate = now() WHERE id = :postId;"
@@ -141,6 +160,7 @@ class PostRepository extends Repository
 
     /**
      * Set the publicationDate field to null
+     * @param int $postId
      */
     public function setPublicationDateToNull(int $postId)
     {
@@ -155,8 +175,11 @@ class PostRepository extends Repository
     /**
      * Get the total number of pages for a given number of posts per page
      * The $numberOfPostsPerPage parameter contains the number of posts per page
+     * @param int $numberOfPostsPerPage
+     * @param bool $onlyPublishedPosts
+     * @return int 
      */
-    public function getTotalPageNumber(int $numberOfPostsPerPage, bool $onlyPublishedPosts) : int
+    public function getTotalPageNumber(int $numberOfPostsPerPage, bool $onlyPublishedPosts): int
     {
         $publishedCondition = $onlyPublishedPosts ? " WHERE publicationDate IS NOT NULL;" : ";";
         $statement = $this->connexion->getConnexion()->prepare(
@@ -170,7 +193,12 @@ class PostRepository extends Repository
         return ceil(round($row['TotalPosts'] / $numberOfPostsPerPage, 2));
     }
 
-    public function searchPosts(string $searchString) : array
+    /**
+     * Returns an array of post objects witch contains the given characters
+     * @param string $searchString
+     * @return array An array of Post objects
+     */
+    public function searchPosts(string $searchString): array
     {
         $searchString = htmlspecialchars($searchString); //Escape special characters
 
@@ -188,20 +216,24 @@ class PostRepository extends Repository
 
         $posts = array();
 
-        while($row = $statement->fetch()) {
+        while ($row = $statement->fetch()) {
             $post = new Post();
 
             $post->hydrate($row);
 
-            $posts[] = $post; 
+            $posts[] = $post;
         }
         return $posts;
     }
 
-    //Concatenates the imagePath with the id of the row and updates the imagePath field
-    public function updateImagePath(Post $post, string $pathImage)
+    /**
+     * Concatenates the imagePath with the id of the row and updates the imagePath field
+     * @param Post $post
+     * @param string $pathImage
+     */
+    public function updateImagePath(Post $post, string $pathImage) : void
     {
-        if ($post->getId() === null){
+        if ($post->getId() === null) {
             return false;
         }
 
@@ -219,8 +251,9 @@ class PostRepository extends Repository
 
     /**
      * Reset an imagePath field and deletes the physical image file
+     * @param Post $post
      */
-    public function resetImage(Post $post)
+    public function resetImage(Post $post) : void
     {
         Image::deleteImage($post->getImagePath());
         $this->updateImagePath($post, Constants::DEFAULT_IMAGE_POST_PATH);
@@ -230,13 +263,16 @@ class PostRepository extends Repository
      * Deletes physicaly the previous image
      * Move the new image into the image path folder
      * Updates the new image path into the imagePath post table field
+     * @param Post $post
+     * @param string $tmpImagePath
+     * @param string $imageName
      */
-    public function updateImage(Post $post, string $tmpImagePath, string $imageName)
+    public function updateImage(Post $post, string $tmpImagePath, string $imageName) : void
     {
         Image::deleteImage($post->getImagePath());
         $pathImage = Constants::IMAGE_POST_PATH . Image::createImagePathName(
-            $post->getId(), 
-            $imageName, 
+            $post->getId(),
+            $imageName,
             DateTime::createFromFormat('Y-m-d H:i:s', $post->getCreationDate())
         );
 
@@ -244,13 +280,14 @@ class PostRepository extends Repository
 
         $this->updateImagePath($post, $pathImage);
     }
-    
+
 
     /**
      * Returns an id's array
      * Can be usefull for blog post navigation
+     * @return array Of post Ids
      */
-    public function getPostIdList() : array
+    public function getPostIdList(): array
     {
         $statement = $this->connexion->getConnexion()->prepare(
             "SELECT id FROM post ORDER BY id ASC;"
