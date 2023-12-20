@@ -5,6 +5,7 @@ class AdminPost {
     this.resetImage = document.getElementById("resetImage");
     this.formPost = document.getElementById("formPost");
     this.btnResetImage = document.getElementById("btnResetImage");
+    this.validation = document.getElementById("validation");
     this.btnValidation = document.getElementById("btnValidation");
 
     //Adding listeners
@@ -41,6 +42,6 @@ class AdminPost {
    * to re-route the action to the AdminPostPublish Controller
    */
   publish () {
-    this.formPost.action = "index.php?action=Admin\\Post\\AdminPostPublish";
+    this.validation.value = true;
   }
 }
