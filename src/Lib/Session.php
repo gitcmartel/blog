@@ -15,8 +15,13 @@ class Session
      */
     public static function getActiveUser(): string
     {
-        if (isset($_SESSION['activeUser'])) {
-            return $_SESSION['activeUser'];
+        $activeUser = filter_var(
+            isset($_SESSION['activeUser']) === true ? $_SESSION['activeUser'] : '',
+            FILTER_SANITIZE_SPECIAL_CHARS
+        );
+
+        if ($activeUser !== false) {
+            return $activeUser;
         } else {
             return "";
         }
@@ -28,8 +33,13 @@ class Session
      */
     public static function getActiveUserFunction(): string
     {
-        if (isset($_SESSION['activeUserFunction'])) {
-            return $_SESSION['activeUserFunction'];
+        $activeUserFunction = filter_var(
+            isset($_SESSION['activeUserFunction']) === true ? $_SESSION['activeUserFunction'] : '',
+            FILTER_SANITIZE_SPECIAL_CHARS
+        );
+
+        if ($activeUserFunction !== false) {
+            return $activeUserFunction;
         } else {
             return "";
         }
@@ -41,8 +51,13 @@ class Session
      */
     public static function getActiveUserId(): ?int
     {
-        if (isset($_SESSION['userId'])) {
-            return $_SESSION['userId'];
+        $userId = filter_var(
+            isset($_SESSION['userId']) === true ? $_SESSION['userId'] : null, 
+            FILTER_SANITIZE_NUMBER_INT
+        );
+
+        if ($userId !== false) {
+            return $userId;
         } else {
             return null;
         }
