@@ -41,6 +41,7 @@ class AdminPostSave
         $postSummary = filter_input(INPUT_POST, 'postSummary', FILTER_SANITIZE_SPECIAL_CHARS);
         $postContent = filter_input(INPUT_POST, 'postContent', FILTER_SANITIZE_SPECIAL_CHARS);
         $resetImage = filter_input(INPUT_POST, 'resetImage', FILTER_VALIDATE_BOOLEAN);
+        $validation = filter_input(INPUT_POST, 'validation', FILTER_VALIDATE_BOOLEAN);
 
         if (
             $postId === false || $postId === null || $postTitle === false || $postTitle === null ||
@@ -67,6 +68,7 @@ class AdminPostSave
             'title' => trim($postTitle),
             'summary' => trim($postSummary),
             'content' => trim($postContent),
+            'publicationDate' => $validation === true ? date('Y-m-d H:i:s') : null, 
             'user' => $userRepository->getUser(Session::getActiveUserId()),
             'modifier' => $userRepository->getUser(Session::getActiveUserId())
         ));
