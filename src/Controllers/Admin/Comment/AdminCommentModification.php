@@ -11,7 +11,10 @@ use Application\Lib\TwigWarning;
 class AdminCommentModification
 {
     #region Functions
-    public function execute()
+    /**
+     * Controller main function
+     */
+    public function execute() : void
     {
 
         #region variables
@@ -23,7 +26,7 @@ class AdminCommentModification
         #region Conditions tests
 
         //If the active user is not an admin
-        if(! UserActiveCheckValidity::check(array('Administrateur'))){
+        if(UserActiveCheckValidity::check(array('Administrateur')) === false){
             TwigWarning::display(
                 "Vous n'avez pas les droits requis pour accéder à cette page. Contactez l'administrateur du site", 
                 "index.php?action=Home\Home", 
@@ -60,10 +63,11 @@ class AdminCommentModification
 
         $twig = TwigLoader::getEnvironment();
 
-        echo $twig->render('Admin\Comment\AdminComment.html.twig', [  
-            'comment' => $comment,
-            'post' => $comment->getPost(),  
-            'activeUser' => Session::getActiveUser(), 
+        echo $twig->render(
+            'Admin\Comment\AdminComment.html.twig', [  
+            'comment'      => $comment,
+            'post'         => $comment->getPost(),  
+            'activeUser'   => Session::getActiveUser(), 
             'userFunction' => Session::getActiveUserFunction()
         ]);
 
@@ -71,3 +75,4 @@ class AdminCommentModification
     }
     #endregion
 }
+//end execute()

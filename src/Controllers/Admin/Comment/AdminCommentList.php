@@ -16,7 +16,7 @@ class AdminCommentList
     /**
      * Controller main function
      */
-    public function execute()
+    public function execute() : void
     {
 
         #region Variables
