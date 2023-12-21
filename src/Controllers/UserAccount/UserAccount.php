@@ -17,7 +17,7 @@ class UserAccount
     /**
      * Controller main function
      */
-    public function execute()
+    public function execute(): void
     {
         #region Variables
 
@@ -44,9 +44,10 @@ class UserAccount
 
             $user = $userRepository->getUser(Session::getActiveUserId());
 
-            echo $twig->render('UserAccount\UserAccount.html.twig', [
-                'user' => $user,
-                'activeUser' => Session::getActiveUser(),
+            echo $twig->render(
+                'UserAccount\UserAccount.html.twig', [
+                'user'         => $user,
+                'activeUser'   => Session::getActiveUser(),
                 'userFunction' => Session::getActiveUserFunction()
             ]);
             return;
@@ -54,37 +55,38 @@ class UserAccount
 
         $user = $userRepository->getUser(Session::getActiveUserId());
 
-        $fieldsWarnings = array(
-            'warningName' => !$userRepository->checkNameSurname($name) ? 'Le champ prénom doit être complété (50 caractères max)' : '',
-            'warningSurname' => !$userRepository->checkNameSurname($surname) ? 'Le champ nom doit être complété (50 caractères max)' : '',
-            'warningEmail' => Email::checkMailFormat($email) ? '' : 'L\'adresse email est incorrecte',
-            'warningPseudo' => $user->getPseudo() !== trim($pseudo) ? Pseudo::checkPseudo(trim($pseudo)) : '',
+        $fieldsWarnings = [
+            'warningName'     => $userRepository->checkNameSurname($name) ? 'Le champ prénom doit être complété (50 caractères max)' : '',
+            'warningSurname'  => !$userRepository->checkNameSurname($surname) ? 'Le champ nom doit être complété (50 caractères max)' : '',
+            'warningEmail'    => Email::checkMailFormat($email) ? '' : 'L\'adresse email est incorrecte',
+            'warningPseudo'   => $user->getPseudo() !== trim($pseudo) ? Pseudo::checkPseudo(trim($pseudo)) : '',
             'warningPassword' => $passwordChange === true ? Password::checkPasswordFormFields(trim($password), $passwordConfirmation) : ''
-        );
+        ];
 
-        $user->hydrate(array(
-            "name" => trim($name),
-            "surname" => trim($surname),
-            "pseudo" => trim($pseudo),
-            "email" => trim($email),
+        $user->hydrate([
+            "name"     => trim($name),
+            "surname"  => trim($surname),
+            "pseudo"   => trim($pseudo),
+            "email"    => trim($email),
             "password" => $passwordChange === true ? $password : ""
-        ));
+        ]);
 
         //If there is a warning to display (incorrect field content)
         if (
-            !($fieldsWarnings["warningName"] === "" && $fieldsWarnings["warningSurname"] === "" && $fieldsWarnings["warningEmail"] === ""
-                && $fieldsWarnings["warningPseudo"] === "" && $fieldsWarnings["warningPassword"] === "")
+            ($fieldsWarnings["warningName"] === "" && $fieldsWarnings["warningSurname"] === "" && $fieldsWarnings["warningEmail"] === ""
+                && $fieldsWarnings["warningPseudo"] === "" && $fieldsWarnings["warningPassword"] === "") === false
         ) {
-            echo $twig->render('UserAccount\UserAccount.html.twig', [
-                'warningName' => $fieldsWarnings["warningName"],
-                'warningSurname' => $fieldsWarnings["warningSurname"],
-                'warningEmail' => $fieldsWarnings["warningEmail"],
-                'warningPseudo' => $fieldsWarnings["warningPseudo"],
-                'warningPassword' => $passwordChange === true ? Password::checkPasswordFormFields($user->getPassword(), $passwordConfirmation) : '',
+            echo $twig->render(
+                'UserAccount\UserAccount.html.twig', [
+                'warningName'           => $fieldsWarnings["warningName"],
+                'warningSurname'        => $fieldsWarnings["warningSurname"],
+                'warningEmail'          => $fieldsWarnings["warningEmail"],
+                'warningPseudo'         => $fieldsWarnings["warningPseudo"],
+                'warningPassword'       => $passwordChange === true ? Password::checkPasswordFormFields($user->getPassword(), $passwordConfirmation) : '',
                 'pwdChangeCheckedValue' => $passwordChange === true ? 'checked' : '',
-                'user' => $user,
-                'activeUser' => Session::getActiveUser(),
-                'userFunction' => Session::getActiveUserFunction()
+                'user'                  => $user,
+                'activeUser'            => Session::getActiveUser(),
+                'userFunction'          => Session::getActiveUserFunction()
             ]);
             return;
         }
@@ -106,3 +108,4 @@ class UserAccount
     }
     #endregion
 }
+//End execute()
