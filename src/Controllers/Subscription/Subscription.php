@@ -18,7 +18,7 @@ class Subscription
     /**
      * Controller main function
      */
-    public function execute()
+    public function execute(): void
     {
         #region Variables
 
@@ -43,37 +43,37 @@ class Subscription
             $password === false || $password === null || $passwordConfirmation === false || $passwordConfirmation === null
         ) {
             echo $twig->render('Subscription\Subscription.html.twig', [
-                'warningName' => '',
-                'warningSurname' => '',
-                'warningEmail' => '',
-                'warningPseudo' => '',
+                'warningName'     => '',
+                'warningSurname'  => '',
+                'warningEmail'    => '',
+                'warningPseudo'   => '',
                 'warningPassword' => '',
-                'activeUser' => Session::getActiveUser(),
-                'userFunction' => Session::getActiveUserFunction()
+                'activeUser'      => Session::getActiveUser(),
+                'userFunction'    => Session::getActiveUserFunction()
             ]);
             return;
         }
 
         $user = new User();
 
-        $user->hydrate(array(
-            "name" => $name,
-            "surname" => $surname,
-            "pseudo" => $pseudo,
-            "email" => $email,
-            "password" => $password,
+        $user->hydrate([
+            "name"         => $name,
+            "surname"      => $surname,
+            "pseudo"       => $pseudo,
+            "email"        => $email,
+            "password"     => $password,
             "creationDate" => Date("Y-m-d H:i:s"),
             "userFunction" => 'Lecteur',
-            'isValid' => 0,
-        ));
+            'isValid'      => 0,
+        ]);
 
-        $fieldsWarnings = array(
-            'warningName' => !$userRepository->checkNameSurname($name) ? 'Le champ prénom doit être complété (50 caractères max)' : '',
-            'warningSurname' => !$userRepository->checkNameSurname($surname) ? 'Le champ prénom doit être complété (50 caractères max)' : '',
-            'warningEmail' => Email::checkMailFormat($email) ? '' : 'L\'adresse email est incorrecte',
-            'warningPseudo' => Pseudo::checkPseudo($pseudo),
+        $fieldsWarnings = [
+            'warningName'     => !$userRepository->checkNameSurname($name) ? 'Le champ prénom doit être complété (50 caractères max)' : '',
+            'warningSurname'  => !$userRepository->checkNameSurname($surname) ? 'Le champ prénom doit être complété (50 caractères max)' : '',
+            'warningEmail'    => Email::checkMailFormat($email) ? '' : 'L\'adresse email est incorrecte',
+            'warningPseudo'   => Pseudo::checkPseudo($pseudo),
             'warningPassword' => Password::checkPasswordFormFields($password, $passwordConfirmation)
-        );
+        ];
 
         //If there is a warning to display (incorrect field content)
         if (
@@ -81,14 +81,14 @@ class Subscription
                 && $fieldsWarnings["warningPseudo"] === "" && $fieldsWarnings["warningPassword"] === "")
         ) {
             echo $twig->render('Subscription\Subscription.html.twig', [
-                'warningName' => $fieldsWarnings["warningName"],
-                'warningSurname' => $fieldsWarnings["warningSurname"],
-                'warningEmail' => $fieldsWarnings["warningEmail"],
-                'warningPseudo' => $fieldsWarnings["warningPseudo"],
+                'warningName'     => $fieldsWarnings["warningName"],
+                'warningSurname'  => $fieldsWarnings["warningSurname"],
+                'warningEmail'    => $fieldsWarnings["warningEmail"],
+                'warningPseudo'   => $fieldsWarnings["warningPseudo"],
                 'warningPassword' => $fieldsWarnings["warningPassword"],
-                'user' => $user,
-                'activeUser' => Session::getActiveUser(),
-                'userFunction' => Session::getActiveUserFunction()
+                'user'            => $user,
+                'activeUser'      => Session::getActiveUser(),
+                'userFunction'    => Session::getActiveUserFunction()
             ]);
             return;
         }
@@ -110,3 +110,5 @@ class Subscription
     }
     #endregion
 }
+//End execute()
+
