@@ -6,7 +6,10 @@ namespace Application\Controllers\Connexion;
 class Disconnection
 {
     #region Functions
-    public function execute()
+    /**
+     * Controller main function
+     */
+    public function execute(): void
     {
         #region Function execution
         
@@ -21,3 +24,4 @@ class Disconnection
     }
     #endregion
 }
+//end execute()
