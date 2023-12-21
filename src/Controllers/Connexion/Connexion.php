@@ -14,7 +14,7 @@ class Connexion
     /**
      * Controller main function execute
      */
-    public function execute()
+    public function execute(): void
     {
         #region Variables
 
@@ -34,11 +34,11 @@ class Connexion
 
         if ($login === false || $login === null || $password === false || $password === null) {
             echo $twig->render('Connexion/Connexion.html.twig', [
-                'warningLogin' => $warningLogin,
+                'warningLogin'    => $warningLogin,
                 'warningPassword' => $warningPassword,
-                'loginValue' => $loginValue,
-                'userFunction' => Session::getActiveUserFunction(),
-                'activeUser' => Session::getActiveUser()
+                'loginValue'      => $loginValue,
+                'userFunction'    => Session::getActiveUserFunction(),
+                'activeUser'      => Session::getActiveUser()
             ]);
             return;
         }
@@ -55,11 +55,11 @@ class Connexion
 
         if ($warningLogin !== "" || $warningPassword !== "") {
             echo $twig->render('Connexion/Connexion.html.twig', [
-                'warningLogin' => $warningLogin,
+                'warningLogin'    => $warningLogin,
                 'warningPassword' => $warningPassword,
-                'loginValue' => $loginValue,
-                'userFunction' => Session::getActiveUserFunction(),
-                'activeUser' => Session::getActiveUser()
+                'loginValue'      => $loginValue,
+                'userFunction'    => Session::getActiveUserFunction(),
+                'activeUser'      => Session::getActiveUser()
             ]);
             return;
         }
@@ -86,11 +86,11 @@ class Connexion
 
         if ($warningLogin !== "" || $warningPassword !== "") {
             echo $twig->render('Connexion/Connexion.html.twig', [
-                'warningLogin' => $warningLogin,
+                'warningLogin'    => $warningLogin,
                 'warningPassword' => $warningPassword,
-                'loginValue' => $loginValue,
-                'userFunction' => Session::getActiveUserFunction(),
-                'activeUser' => Session::getActiveUser()
+                'loginValue'      => $loginValue,
+                'userFunction'    => Session::getActiveUserFunction(),
+                'activeUser'      => Session::getActiveUser()
             ]);
             return;
         }
@@ -103,3 +103,4 @@ class Connexion
     }
     #endregion
 }
+//end execute()
