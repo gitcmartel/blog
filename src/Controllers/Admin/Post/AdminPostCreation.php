@@ -2,7 +2,7 @@
 
 namespace Application\Controllers\Admin\Post;
 
-use Application\Models\PostRepository;
+use Application\Models\Post;
 use Application\Lib\UserActiveCheckValidity;
 use Application\Lib\Session;
 use Application\Lib\TwigLoader;
@@ -16,11 +16,6 @@ class AdminPostCreation
      */
     public function execute() : void
     {
-        #region Variables
-        $post = "";
-        $postRepository = new PostRepository();
-
-        #endregion
 
         #region Conditions tests
 
@@ -32,14 +27,10 @@ class AdminPostCreation
             return;
         }
 
-        $postId = filter_input(INPUT_GET, 'postId', FILTER_SANITIZE_NUMBER_INT);
-
         #endregion
 
         #region Function execution
-        if ($postId === false || $postId === null) {
-            $post = $postRepository->getPost($postId);
-        }
+        $post = new Post();
 
         $twig = TwigLoader::getEnvironment();
 
