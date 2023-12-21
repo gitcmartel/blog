@@ -12,7 +12,7 @@ class AdminCommentDeletion
     /**
      * Controller main function
      */
-    public function execute() : void
+    public function execute(): void
     {
 
         #region Variables
