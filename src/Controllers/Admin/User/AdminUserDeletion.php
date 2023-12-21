@@ -4,13 +4,15 @@ namespace Application\Controllers\Admin\User;
 
 use Application\Models\UserRepository;
 use Application\Lib\UserActiveCheckValidity;
-use Application\Lib\DatabaseConnexion;
 use Application\Lib\TwigWarning;
 
 class AdminUserDeletion
 {
     #region Function
-    public function execute()
+    /**
+     * Controller main function
+     */
+    public function execute() : void
     {
         #region Variables
 
@@ -20,7 +22,7 @@ class AdminUserDeletion
 
         #region Conditions tests
 
-        if (!UserActiveCheckValidity::check(array('Administrateur'))) {
+        if (UserActiveCheckValidity::check(array('Administrateur')) === false) {
             TwigWarning::display(
                 "Vous n'avez pas les droits requis pour accéder à cette page. Contactez l'administrateur du site",
                 "index.php?action=Home\Home",
@@ -52,12 +54,9 @@ class AdminUserDeletion
 
         #endregion
 
-
         #region Function execution
 
-
-
-        if (!$userRepository->deleteUser($user->getId())) {
+        if ($userRepository->deleteUser($user->getId()) === false) {
             TwigWarning::display(
                 "Un problème est survenu lors de la suppression de l'utilisateur.",
                 "index.php?action=Home\Home",
@@ -73,3 +72,4 @@ class AdminUserDeletion
     }
     #endregion
 }
+//end execute()
