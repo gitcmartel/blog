@@ -13,7 +13,7 @@ class PasswordRenewalSubscription
     /**
      * Controller main function
      */
-    public function execute()
+    public function execute(): void
     {
         #region Variables
 
@@ -55,7 +55,7 @@ class PasswordRenewalSubscription
         if ($password === false || $password === null || $passwordConfirmation === false || $passwordConfirmation === null) {
             echo $twig->render('Password\PasswordRenewalSubscription.html.twig', [
                 'warningMessage' => '',
-                'errorMessage' => ''
+                'errorMessage'   => ''
             ]);
             return;
         }
@@ -64,7 +64,7 @@ class PasswordRenewalSubscription
         if (!Password::checkPassword($password)) {
             echo $twig->render('Password\PasswordRenewalSubscription.html.twig', [
                 'warningMessage' => "Le mot de passe doit être composé d'au moins 8 caractères, 1 majuscule, 1 minuscule, 1 nombre et 1 caractère spécial.",
-                'errorMessage' => $errorMessage
+                'errorMessage'   => $errorMessage
             ]);
             return;
         }
@@ -73,7 +73,7 @@ class PasswordRenewalSubscription
         if (trim($password) !== trim($passwordConfirmation)) {
             echo $twig->render('Password\PasswordRenewalSubscription.html.twig', [
                 'warningMessage' => "Les deux mots de passe ne correspondent pas.",
-                'errorMessage' => $errorMessage
+                'errorMessage'   => $errorMessage
             ]);
             return;
         }
@@ -97,3 +97,5 @@ class PasswordRenewalSubscription
 
     #endregion
 }
+//end execute()
+
