@@ -13,6 +13,9 @@ use Application\Lib\Alert;
 class AdminCommentList
 {
     #region Functions
+    /**
+     * Controller main function
+     */
     public function execute()
     {
 
@@ -28,7 +31,7 @@ class AdminCommentList
         #region Conditions tests
 
         //If the active user is not an admin
-        if(! UserActiveCheckValidity::check(array('Administrateur'))){
+        if(UserActiveCheckValidity::check(array('Administrateur')) === false){
             TwigWarning::display(
                 "Vous n'avez pas les droits requis pour accéder à cette page. Contactez l'administrateur du site", 
                 "index.php?action=Home\Home", 
@@ -62,13 +65,14 @@ class AdminCommentList
 
         $twig = TwigLoader::getEnvironment();
         
-        echo $twig->render('Admin\Comment\AdminCommentList.html.twig', [ 
-            'actualPage' => $pageNumber, 
-            'totalPages' => $totalPages, 
-            'comments' => $comments, 
-            'alert' => ($alert !== false && $alert !== null) ? $alert : '',
+        echo $twig->render(
+            'Admin\Comment\AdminCommentList.html.twig', [ 
+            'actualPage'   => $pageNumber, 
+            'totalPages'   => $totalPages, 
+            'comments'     => $comments, 
+            'alert'        => ($alert !== false && $alert !== null) ? $alert : '',
             'alertMessage' => ($alertType !== false && $alertType !== null) ? Alert::getMessage($alertType) : '',
-            'activeUser' => Session::getActiveUser(), 
+            'activeUser'   => Session::getActiveUser(), 
             'userFunction' => Session::getActiveUserFunction()
         ]);
 
@@ -76,3 +80,4 @@ class AdminCommentList
     }
     #endregion
 }
+//end execute()
