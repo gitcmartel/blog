@@ -1,4 +1,4 @@
-import AlertModal from './AlertModal';
+import AlertModal from './AlertModal.js';
 
 class Disconnexion {
   constructor () {

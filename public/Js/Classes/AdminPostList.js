@@ -1,4 +1,4 @@
-import AdminList from './AdminList';
+import AdminList from './AdminList.js';
 
 class AdminPostList extends AdminList {
   constructor () {
