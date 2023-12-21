@@ -12,11 +12,11 @@
                 </div>
                 <div class="d-flex flex-column w-100">
                     <div class="fs-5 text-center my-3 p-3">{{ post.title }}</div>
-                    <div class="p-3">{{ post.summary }}</div>
+                    <div class="p-3">{{ post.summary | nl2br}}</div>
                 </div>
             </div>
             <div class="w-100 p-4">
-                {{ post.content }}
+                {{ post.content | nl2br}}
             </div>
             <p class="card-text h-25 d-flex justify-content-end p-4"><small class="text-body-secondary">Rédigé par {{ post.getUser().getPseudo() }} le {{ post.getCreationDate() | date('d/m/Y') }}</small></p>
         </div>
@@ -58,7 +58,7 @@
                                 {% endif %}
                             </div>
                             <div class="mb-4">
-                                {{ comment.getComment()}}
+                                {{ comment.getComment() | nl2br}}
                             </div>
                         {% endfor %}
                     </div>
