@@ -12,7 +12,10 @@ use Application\Lib\Alert;
 class Home
 {
     #region Functions
-    public function execute()
+    /**
+     * Controller main function
+     */
+    public function execute(): void
     {
 
         #region Variables
@@ -40,14 +43,15 @@ class Home
             $name === false || $name === null || $surname === false || $surname === null ||
             $email === false || $email === null || $message === false || $message === null
         ) {
-            echo $twig->render('Home\Home.html.twig', [
-                'messageResponse' => "",
-                'posts' => $posts,
-                'alert' => ($alert !== false && $alert !== null) ? $alert : '',
-                'alertMessage' => ($alertType !== false && $alertType !== null) ? Alert::getMessage($alertType) : '',
-                'activeUser' => Session::getActiveUser(),
-                'userFunction' => Session::getActiveUserFunction()
-            ]);
+            echo $twig->render(
+                'Home\Home.html.twig', [
+                    'messageResponse' => "",
+                    'posts' => $posts,
+                    'alert' => ($alert !== false && $alert !== null) ? $alert : '',
+                    'alertMessage' => ($alertType !== false && $alertType !== null) ? Alert::getMessage($alertType) : '',
+                    'activeUser' => Session::getActiveUser(),
+                    'userFunction' => Session::getActiveUserFunction()
+                ]);
             return;
         }
 
@@ -76,12 +80,12 @@ class Home
         if (!$formValidation->isValid()) {
             echo $twig->render('Home\Home.html.twig', [
                 'warningMessage' => "Un ou plusieurs champs du formulaire sont invalides !",
-                'surname' => $surname,
-                'name' => $name,
-                'email' => $email,
-                'message' => $message,
-                'activeUser' => Session::getActiveUser(),
-                'userFunction' => Session::getActiveUserFunction()
+                'surname'        => $surname,
+                'name'           => $name,
+                'email'          => $email,
+                'message'        => $message,
+                'activeUser'     => Session::getActiveUser(),
+                'userFunction'   => Session::getActiveUserFunction()
             ]);
             return;
         }
@@ -120,3 +124,5 @@ class Home
     }
     #endregion
 }
+//end execute()
+
