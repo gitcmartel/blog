@@ -17,7 +17,7 @@ class AdminUserSave
     /**
      * Controller function execute
      */
-    public function execute()
+    public function execute(): void
     {
         #region Variables
 
@@ -29,7 +29,7 @@ class AdminUserSave
 
         #region Conditions tests
 
-        if (!UserActiveCheckValidity::check(array('Administrateur'))) {
+        if (UserActiveCheckValidity::check(array('Administrateur')) === false) {
             TwigWarning::display(
                 "Vous n'avez pas les droits requis pour accéder à cette page. Contactez l'administrateur du site",
                 "index.php?action=Home\Home",
@@ -63,7 +63,7 @@ class AdminUserSave
 
         $user = new User();
 
-        $user->hydrate(array(
+        $user->hydrate([
             'id'           => (int) $userId,
             'name'         => trim($userName),
             'surname'      => trim($userSurname),
@@ -72,11 +72,11 @@ class AdminUserSave
             'userFunction' => trim($userFunction),
             'isValid'      => trim($userValidity),
             'password'     => trim($password),
-        ));
+        ]);
 
         $passwordConfirmation = trim($passwordConfirmation);
 
-        $fieldsWarnings = array(
+        $fieldsWarnings = [
             'name' => 'Vous devez renseigner un prénom',
             'surname' => 'Vous devez renseigner un nom',
             'pseudo' => 'Vous devez renseigner un pseudo',
@@ -84,7 +84,7 @@ class AdminUserSave
             'userFunction' => 'Vous devez renseigner une fonction',
             'password' => $passwordChange === true ? Password::checkPasswordFormFields($user->getPassword(), $passwordConfirmation) : '',
             'validity' => 'Vous devez selectionner une option'
-        );
+        ];
 
         //If there is an incorrect field we display the error message
         if (
@@ -92,17 +92,17 @@ class AdminUserSave
             $user->getUserFunction() === "" || $user->getIsValid() === "" || $fieldsWarnings['email'] !== '' || $fieldsWarnings['password'] !== ''
         ) {
             echo $twig->render('Admin\User\AdminUser.html.twig', [
-                'warningName'           => $user->getName() === "" ? $fieldsWarnings['name'] : '',
-                'warningSurname'        => $user->getSurname() === "" ? $fieldsWarnings['surname'] : '',
-                'warningPseudo'         => $user->getPseudo() === "" ? $fieldsWarnings['pseudo'] : '',
-                'warningEmail'          => $fieldsWarnings['email'],
-                'warningPassword'       => $fieldsWarnings['password'],
-                'warningFunction'       => $user->getUserFunction() === "" ? $fieldsWarnings['userFunction'] : '',
-                'warningValidity'       => $user->getIsValid() === "" ? $fieldsWarnings['validity'] : '',
-                'user'                  => $user,
+                'warningName' => $user->getName() === "" ? $fieldsWarnings['name'] : '',
+                'warningSurname' => $user->getSurname() === "" ? $fieldsWarnings['surname'] : '',
+                'warningPseudo' => $user->getPseudo() === "" ? $fieldsWarnings['pseudo'] : '',
+                'warningEmail' => $fieldsWarnings['email'],
+                'warningPassword' => $fieldsWarnings['password'],
+                'warningFunction' => $user->getUserFunction() === "" ? $fieldsWarnings['userFunction'] : '',
+                'warningValidity' => $user->getIsValid() === "" ? $fieldsWarnings['validity'] : '',
+                'user' => $user,
                 'pwdChangeCheckedValue' => $passwordChange === true ? 'checked' : '',
-                'userFunction'          => Session::getActiveUserFunction(),
-                'activeUser'            => Session::getActiveUser()
+                'userFunction' => Session::getActiveUserFunction(),
+                'activeUser' => Session::getActiveUser()
             ]);
             return;
         }
@@ -143,3 +143,5 @@ class AdminUserSave
     }
     #endregion
 }
+//end execute()
+
