@@ -7,17 +7,22 @@ use Application\Lib\TwigLoader;
 
 class Legal 
 {
-    public function execute() {
+    /**
+     * Controller main function
+     */
+    public function execute(): void
+    {
 
         #region Function execution
 
         $twig = TwigLoader::getEnvironment();
 
         echo $twig->render('Legal\LegalNotice.html.twig', [ 
-            'activeUser' => Session::getActiveUser(), 
+            'activeUser'   => Session::getActiveUser(), 
             'userFunction' => Session::getActiveUserFunction()
         ]);
 
         #endregion
     }
 }
+//End execute()
