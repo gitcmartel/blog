@@ -11,7 +11,10 @@ use Application\Lib\TwigWarning;
 class AdminUserValidation 
 {
     #region Functions
-    public function execute()
+    /**
+     * Controller main function
+     */
+    public function execute(): void
     {
         #region Variables
 
@@ -23,16 +26,16 @@ class AdminUserValidation
 
         #region Conditions tests
 
-        $options = array(
-            'userValidation' => array(
-                'filter' => FILTER_VALIDATE_INT,
-                'flags' => FILTER_REQUIRE_ARRAY
-            )
-        );
+        $options =[
+            'userValidation' => [
+                'filter'     => FILTER_VALIDATE_INT,
+                'flags'      => FILTER_REQUIRE_ARRAY
+            ]
+        ];
 
         $userValidation = filter_input_array(INPUT_POST, $options);
 
-        if(! UserActiveCheckValidity::check(array('Administrateur'))){
+        if(UserActiveCheckValidity::check(['Administrateur']) === false){
             TwigWarning::display(
                 "Vous n'avez pas les droits requis pour accéder à cette page. Contactez l'administrateur du site", 
                 "index.php?action=Home\Home", 
@@ -65,8 +68,6 @@ class AdminUserValidation
  
         #region Function execution
         
-
-
         //Updates the status user field
 
         foreach($usersToValidate['userValidation'] as $userId){
@@ -80,15 +81,17 @@ class AdminUserValidation
 
         $totalPages = $userRepository->getTotalPageNumber(10);
         
-        echo $twig->render('Admin\User\AdminUserList.html.twig', [ 
-            'actualPage' => "1", 
-            'totalPages' => $totalPages, 
-            'users' => $users, 
+        echo $twig->render(
+            'Admin\User\AdminUserList.html.twig', [ 
+            'actualPage'   => "1", 
+            'totalPages'   => $totalPages, 
+            'users'        => $users, 
             'userFunction' => Session::getActiveUserFunction(),
-            'activeUser' => Session::getActiveUser()
+            'activeUser'   => Session::getActiveUser()
         ]);
 
         #endregion
     }
     #endregion
 }
+//End execute()
