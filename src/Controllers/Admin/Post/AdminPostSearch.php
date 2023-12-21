@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Application\Controllers\Admin\Post;
 
@@ -11,7 +11,10 @@ use Application\Lib\TwigWarning;
 class AdminPostSearch
 {
     #region Functions
-    public function execute()
+    /**
+     * Controller main function
+     */
+    public function execute(): void
     {
         #region Variables
 
@@ -22,10 +25,10 @@ class AdminPostSearch
         #endregion
 
         #region Conditions tests
-        if(! UserActiveCheckValidity::check(array('Administrateur', 'Createur'))){
+        if (UserActiveCheckValidity::check(array('Administrateur', 'Createur')) === false) {
             TwigWarning::display(
-                "Vous n'avez pas les droits requis pour accéder à cette page. Contactez l'administrateur du site", 
-                "index.php?action=Home\Home", 
+                "Vous n'avez pas les droits requis pour accéder à cette page. Contactez l'administrateur du site",
+                "index.php?action=Home\Home",
                 "Nous contacter");
             return;
         }
@@ -33,10 +36,10 @@ class AdminPostSearch
         $searchString = filter_input(INPUT_POST, 'searchString', FILTER_SANITIZE_SPECIAL_CHARS);
 
         //If the searchString variable is not set
-        if ($searchString === false || $searchString === null){
+        if ($searchString === false || $searchString === null) {
             TwigWarning::display(
-                "Une erreur est survenue lors du chargement de la page.", 
-                "index.php?action=Home\Home", 
+                "Une erreur est survenue lors du chargement de la page.",
+                "index.php?action=Home\Home",
                 "Retour à la page d'accueil");
             return;
         }
@@ -47,12 +50,13 @@ class AdminPostSearch
 
         $posts = $postRepository->searchPosts(trim($searchString));
 
-        echo $twig->render('Admin\Post\AdminPostList.html.twig', [ 
-            'actualPage' => "1", 
-            'totalPages' => "1", 
-            'posts' => $posts, 
-            'searchString' => $searchString, 
-            'activeUser' => Session::getActiveUser(),
+        echo $twig->render(
+            'Admin\Post\AdminPostList.html.twig', [
+            'actualPage'   => "1",
+            'totalPages'   => "1",
+            'posts'        => $posts,
+            'searchString' => $searchString,
+            'activeUser'   => Session::getActiveUser(),
             'userFunction' => Session::getActiveUserFunction()
         ]);
 
@@ -60,3 +64,4 @@ class AdminPostSearch
     }
     #endregion
 }
+//end execute()
