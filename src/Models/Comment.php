@@ -61,7 +61,7 @@ class Comment extends Table
     function getComment() : string 
     {
         if(isset($this->comment)){
-            return $this->comment;
+            return html_entity_decode($this->comment);
         } else {
             return '';
         }
