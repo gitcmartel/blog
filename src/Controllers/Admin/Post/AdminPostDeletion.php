@@ -9,8 +9,10 @@ use Application\Lib\TwigWarning;
 class AdminPostDeletion
 {
     #region Functions
-
-    public function execute()
+    /**
+     * Controller main function
+     */
+    public function execute() : void
     {
         #region Variables
 
@@ -23,7 +25,7 @@ class AdminPostDeletion
 
         $postId = filter_input(INPUT_GET, 'postId', FILTER_SANITIZE_NUMBER_INT);
 
-        if(! UserActiveCheckValidity::check(array('Administrateur', 'Createur')) || $postId === false || $postId === null){
+        if(UserActiveCheckValidity::check(array('Administrateur', 'Createur')) === false || $postId === false || $postId === null){
             TwigWarning::display(
                 "Vous n'avez pas les droits requis pour accéder à cette page. Contactez l'administrateur du site", 
                 "index.php?action=Home\Home", 
@@ -58,3 +60,4 @@ class AdminPostDeletion
     }
     #endregion
 }
+//end execute()
