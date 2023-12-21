@@ -69,7 +69,7 @@ class Post extends Table
     function getSummary() : string 
     {
         if(isset($this->summary)){
-            return $this->summary;
+            return html_entity_decode($this->summary);
         } else {
             return '';
         }
@@ -83,7 +83,7 @@ class Post extends Table
     function getContent() : string 
     {
         if(isset($this->content)){
-            return $this->content;
+            return html_entity_decode($this->content);
         } else {
             return '';
         }
