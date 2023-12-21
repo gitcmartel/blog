@@ -10,14 +10,6 @@ use Application\Lib\TwigWarning;
 
 class AdminCommentSearch
 {
-    private $twigLoader;
-    private $userActiveCheckValidity;
-
-    public function __construct(TwigLoader $twigLoader, UserActiveCheckValidity $userActiveCheckValidity) {
-        $this->twigLoader = $twigLoader;
-        $this->userActiveCheckValidity = $userActiveCheckValidity;
-    }
-
     #region Functions
     /**
      * Controller main function
@@ -27,13 +19,13 @@ class AdminCommentSearch
         #region variables
         $commentRepository = new CommentRepository();
         $comments = "";
-        $twig = $this->twigLoader->getEnvironment();
+        $twig = TwigLoader::getEnvironment();
         #endregion
 
         #region Conditions tests
 
         //If the active user is not an admin
-        if ($this->userActiveCheckValidity->check(array('Administrateur')) === false) {
+        if (UserActiveCheckValidity::check(['Administrateur']) === false) {
             TwigWarning::display(
                 "Vous n'avez pas les droits requis pour accéder à cette page. Contactez l'administrateur du site",
                 "index.php?action=Home\Home",
@@ -58,13 +50,14 @@ class AdminCommentSearch
 
         $comments = $commentRepository->searchComments(trim($searchString));
 
-        echo $twig->render('Admin\Comment\AdminCommentList.html.twig', [
-            'actualPage' =>   "1",
-            'totalPages' =>   "1",
-            'comments' =>     $comments,
-            'searchString' => $searchString,
-            'userFunction' => Session::getActiveUserFunction(),
-            'activeUser' =>   Session::getActiveUser()
+        echo $twig->render(
+            'Admin\Comment\AdminCommentList.html.twig', [
+            'actualPage'      => "1",
+            'totalPages'      => "1",
+            'comments'        => $comments,
+            'searchString'    => $searchString,
+            'userFunction'    => Session::getActiveUserFunction(),
+            'activeUser'      => Session::getActiveUser()
         ]);
 
         #endregion
