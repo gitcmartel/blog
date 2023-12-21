@@ -64,7 +64,7 @@ class AdminPostSave
         $post = new Post();
 
         $post->hydrate(array(
-            'id' => intval($postId),
+            'id' => (int) $postId,
             'title' => trim($postTitle),
             'summary' => trim($postSummary),
             'content' => trim($postContent),

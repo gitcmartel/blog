@@ -52,7 +52,7 @@ class AdminCommentSave
         $comment = new Comment();
 
         $comment->hydrate(array (
-            'id' => intval($commentId),
+            'id' => (int) $commentId,
             'publicationDate' => ($validation !== false && $validation !== null) ? date('Y-m-d H:i:s') : null,
             'comment' => $commentString, 
             'user' => $userRepository->getUser(Session::getActiveUserId()), 
