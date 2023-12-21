@@ -68,7 +68,7 @@ class AdminPostSave
             'title' => trim($postTitle),
             'summary' => trim($postSummary),
             'content' => trim($postContent),
-            'publicationDate' => $validation === true ? date('Y-m-d H:i:s') : null, 
+            'publicationDate' => $validation === true ? date('Y-m-d H:i:s') : '', 
             'user' => $userRepository->getUser(Session::getActiveUserId()),
             'modifier' => $userRepository->getUser(Session::getActiveUserId())
         ));
@@ -103,6 +103,7 @@ class AdminPostSave
             //Fetching creationDate and imagePath from the database
             $post->setCreationDate($postDatabase->getCreationDate());
             $post->setImagePath($postDatabase->getImagePath());
+            $post->getPublicationDate() === '' ? $post->setPublicationDate($postDatabase->getPublicationDate()) : $post->setPublicationDate($post->getPublicationDate());
             $postRepository->updatePost($post);
         } else {
             //Else we have to create a new post
