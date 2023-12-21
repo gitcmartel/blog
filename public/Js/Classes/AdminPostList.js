@@ -1,5 +1,3 @@
-import AdminList from './AdminList.js';
-
 class AdminPostList extends AdminList {
   constructor () {
     super();
