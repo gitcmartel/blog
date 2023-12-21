@@ -12,7 +12,10 @@ use Application\Lib\TwigWarning;
 class AdminUserModification
 {
     #region Functions
-    public function execute()
+    /**
+     * Controller main function
+     */
+    public function execute(): void
     {
         #region Variables
 
@@ -25,32 +28,33 @@ class AdminUserModification
 
         $userId = filter_input(INPUT_GET, 'userId', FILTER_SANITIZE_NUMBER_INT);
 
-        if(! UserActiveCheckValidity::check(array('Administrateur'))){
+        if (UserActiveCheckValidity::check(array('Administrateur')) === false) {
             TwigWarning::display(
-                "Vous n'avez pas les droits requis pour accéder à cette page. Contactez l'administrateur du site", 
-                "index.php?action=Home\Home", 
+                "Vous n'avez pas les droits requis pour accéder à cette page. Contactez l'administrateur du site",
+                "index.php?action=Home\Home",
                 "Nous contacter");
-            return; 
+            return;
         }
 
         $user = $userRepository->getUser($userId);
 
         //Check if the userId exists in the database
-        if($user->getId() === null){
+        if ($user->getId() === null) {
             TwigWarning::display(
-                "Un problème est survenu lors de l'affichage de l'utilisateur.", 
-                "index.php?action=Home\Home", 
+                "Un problème est survenu lors de l'affichage de l'utilisateur.",
+                "index.php?action=Home\Home",
                 "Nous contacter");
-            return;  
+            return;
         }
-        
+
         #endregion
 
         #region Function execution
 
-        echo $twig->render('Admin\User\AdminUser.html.twig', [  
-            'user' => $user, 
-            'activeUser' => Session::getActiveUser(), 
+        echo $twig->render(
+            'Admin\User\AdminUser.html.twig', [
+            'user'         => $user,
+            'activeUser'   => Session::getActiveUser(),
             'userFunction' => Session::getActiveUserFunction()
         ]);
 
@@ -58,3 +62,4 @@ class AdminUserModification
     }
     #endregion
 }
+//end execute()
