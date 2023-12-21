@@ -13,7 +13,7 @@ class CommentModification
     /**
      * Controller main function execute
      */
-    public function execute()
+    public function execute(): void
     {
         #region variables
         $commentRepository = new CommentRepository();
@@ -58,13 +58,13 @@ class CommentModification
 
         #region Function execution
 
-
         $twig = TwigLoader::getEnvironment();
 
-        echo $twig->render('Comment\Comment.html.twig', [
-            'comment' => $comment,
-            'post' => $comment->getPost(),
-            'activeUser' => Session::getActiveUser(),
+        echo $twig->render(
+            'Comment\Comment.html.twig', [
+            'comment'      => $comment,
+            'post'         => $comment->getPost(),
+            'activeUser'   => Session::getActiveUser(),
             'userFunction' => Session::getActiveUserFunction()
         ]);
 
@@ -72,3 +72,5 @@ class CommentModification
     }
     #endregion
 }
+//end execute()
+
