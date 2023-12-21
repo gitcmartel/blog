@@ -7,11 +7,17 @@ class AdminPost {
     this.btnResetImage = document.getElementById("btnResetImage");
     this.validation = document.getElementById("validation");
     this.btnValidation = document.getElementById("btnValidation");
+    this.summary = document.getElementById("postSummary");
+    this.summaryCharactersCount = document.getElementById("postSummaryCaractersCount");
 
     //Adding listeners
     this.btnValidation.addEventListener("click", this.publish.bind(this));
     this.btnResetImage.addEventListener("click", this.resetImagePost.bind(this));
     this.imagePath.addEventListener("change", this.displayImagePost.bind(this));
+    this.summary.addEventListener("input", this.charactersCount.bind(this));
+
+    //Function call
+    this.charactersCount();
   }
 
   /**
@@ -43,5 +49,15 @@ class AdminPost {
    */
   publish () {
     this.validation.value = true;
+  }
+
+  /**
+   * Display the number of characters left available
+   */
+  charactersCount() {
+    let maxLength = this.summary.getAttribute('maxlength');
+    let currentLength = this.summary.value.length;
+    let remainingCharacters = maxLength - currentLength;
+    this.summaryCharactersCount.textContent = remainingCharacters + " caractère(s) restant(s) sur " + maxLength + ".";
   }
 }
