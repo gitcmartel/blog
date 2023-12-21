@@ -10,22 +10,30 @@ use Application\Lib\TwigWarning;
 
 class AdminCommentSearch
 {
+    private $twigLoader;
+    private $userActiveCheckValidity;
+
+    public function __construct(TwigLoader $twigLoader, UserActiveCheckValidity $userActiveCheckValidity) {
+        $this->twigLoader = $twigLoader;
+        $this->userActiveCheckValidity = $userActiveCheckValidity;
+    }
+
     #region Functions
     /**
      * Controller main function
      */
-    public function execute()
+    public function execute() : void
     {
         #region variables
         $commentRepository = new CommentRepository();
         $comments = "";
-        $twig = TwigLoader::getEnvironment();
+        $twig = $this->twigLoader->getEnvironment();
         #endregion
 
         #region Conditions tests
 
         //If the active user is not an admin
-        if (UserActiveCheckValidity::check(array('Administrateur')) === false) {
+        if ($this->userActiveCheckValidity->check(array('Administrateur')) === false) {
             TwigWarning::display(
                 "Vous n'avez pas les droits requis pour accéder à cette page. Contactez l'administrateur du site",
                 "index.php?action=Home\Home",
