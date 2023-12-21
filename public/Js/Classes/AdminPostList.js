@@ -1,3 +1,5 @@
+import AdminList from './AdminList';
+
 class AdminPostList extends AdminList {
   constructor () {
     super();

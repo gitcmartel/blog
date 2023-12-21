@@ -1,3 +1,5 @@
+import AlertModal from './AlertModal';
+
 class Disconnexion {
   constructor () {
     this.btnDisconnexion = document.getElementById("btnDisconnexion");
