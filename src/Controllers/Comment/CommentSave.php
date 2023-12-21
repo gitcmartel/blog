@@ -16,7 +16,7 @@ class CommentSave
     /**
      * Controller main function execute
      */
-    public function execute()
+    public function execute() : void
     {
         #region variables
         $commentRepository = new CommentRepository();
@@ -28,10 +28,10 @@ class CommentSave
         #region Conditions tests
 
         //If the user is not logged in
-        if(Session::getActiveUser() === ""){
+        if (Session::getActiveUser() === "") {
             TwigWarning::display(
-                "Vous devez vous connecter pour pouvoir ajouter un commentaire.", 
-                "index.php?action=Connexion\Connexion", 
+                "Vous devez vous connecter pour pouvoir ajouter un commentaire.",
+                "index.php?action=Connexion\Connexion",
                 "Se connecter");
             return;
         }
@@ -41,34 +41,36 @@ class CommentSave
         $commentString = filter_input(INPUT_POST, 'comment', FILTER_SANITIZE_SPECIAL_CHARS);
 
         //If the commentId variable is not set
-        if ($postId === false || $postId === null || $commentId === false || $commentId === null || $commentString === false 
-        || $commentString === null){
+        if (
+            $postId === false || $postId === null || $commentId === false || $commentId === null || $commentString === false
+            || $commentString === null
+        ) {
             TwigWarning::display(
-                "Une erreur est survenue lors du chargement de la page.", 
-                "index.php?action=Home\Home", 
+                "Une erreur est survenue lors du chargement de la page.",
+                "index.php?action=Home\Home",
                 "Retour à la page d'accueil");
             return;
         }
 
         $comment = new Comment();
 
-        $comment->hydrate(array (
-            'id' => trim($commentId),
-            'comment' => trim($commentString), 
+        $comment->hydrate(array(
+            'id'              => $commentId === '' ? null : $commentId,
+            'comment'         => trim($commentString),
             'publicationDate' => null,
-            'user' => $userRepository->getUser(Session::getActiveUserId()), 
-            'post' => $postRepository->getPost($postId)
+            'user'            => $userRepository->getUser(Session::getActiveUserId()),
+            'post'            => $postRepository->getPost($postId)
         ));
 
         $twig = TwigLoader::getEnvironment();
 
         //If the comment variable is empty
-        if($comment->getComment() === ""){
-            echo $twig->render('Comment\Comment.html.twig', [ 
-                'warningComment' => "Vous devez renseigner un commentaire", 
-                'commentId' => $comment->getId(), 
-                'postId' => $comment->getPost()->getId(), 
-                'commentString' => $comment->getComment(), 
+        if ($comment->getComment() === "") {
+            echo $twig->render('Comment\Comment.html.twig', [
+                'warningComment' => "Vous devez renseigner un commentaire",
+                'commentId' => $comment->getId(),
+                'postId' => $comment->getPost()->getId(),
+                'commentString' => $comment->getComment(),
                 'userFunction' => Session::getActiveUserFunction(),
                 'activeUser' => Session::getActiveUser()
             ]);
@@ -78,13 +80,15 @@ class CommentSave
         //Check if the commentId and postId variables are present in the database
         $commentDatabase = $commentRepository->getComment($comment->getId());
 
-        if(($comment->getId() !== null && ($commentDatabase->getId() === null || $comment->getPost()->getId() === null)) || 
-            ($comment->getId() === null && $comment->getPost()->getId() === null)){
+        if (
+            ($comment->getId() !== null && ($commentDatabase->getId() === null || $comment->getPost()->getId() === null)) ||
+            ($comment->getId() === null && $comment->getPost()->getId() === null)
+        ) {
             TwigWarning::display(
-                "Un problème est survenu lors de l'enregistrement du commentaire.", 
-                "index.php?action=Home\Home", 
+                "Un problème est survenu lors de l'enregistrement du commentaire.",
+                "index.php?action=Home\Home",
                 "Retour à la page d'accueil");
-            return; 
+            return;
         }
 
         #endregion
@@ -92,10 +96,10 @@ class CommentSave
         #region Function executions
 
         //If there is a commentId we update the comment field
-        if ($comment->getId() !== null){
+        if ($comment->getId() !== null) {
             $commentRepository->updateComment($comment);
             //We display the updated user list
-            header("Location:index.php?action=Post\PostDisplay&postId=". $comment->getPost()->getId());
+            header("Location:index.php?action=Post\PostDisplay&postId=" . $comment->getPost()->getId());
             return;
         }
 
