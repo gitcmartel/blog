@@ -16,7 +16,7 @@ class PasswordRenewal
     /**
      * Controller main function
      */
-    public function execute()
+    public function execute(): void
     {
         #region Variables
 
@@ -35,24 +35,24 @@ class PasswordRenewal
         //If the emailAdress field is not set we display the page
         if ($emailAdress === false || $emailAdress === null) {
             echo $twig->render('Password\PasswordRenewal.html.twig', [
-                'warningLogin' => '',
-                'emailValue' => '',
-                'errorMessage' => $errorMessage,
+                'warningLogin'   => '',
+                'emailValue'     => '',
+                'errorMessage'   => $errorMessage,
                 'successMessage' => $successMessage,
-                'activeUser' => Session::getActiveUser(),
-                'userFunction' => Session::getActiveUserFunction()
+                'activeUser'     => Session::getActiveUser(),
+                'userFunction'   => Session::getActiveUserFunction()
             ]);
             return;
         }
 
         if (trim($emailAdress) === "") {
             echo $twig->render('Password\PasswordRenewal.html.twig', [
-                'warningLogin' => "Vous devez renseigner une adresse email.",
-                'emailValue' => '',
-                'errorMessage' => $errorMessage,
+                'warningLogin'   => "Vous devez renseigner une adresse email.",
+                'emailValue'     => '',
+                'errorMessage'   => $errorMessage,
                 'successMessage' => $successMessage,
-                'activeUser' => Session::getActiveUser(),
-                'userFunction' => Session::getActiveUserFunction()
+                'activeUser'     => Session::getActiveUser(),
+                'userFunction'   => Session::getActiveUserFunction()
             ]);
             return;
         }
@@ -61,12 +61,12 @@ class PasswordRenewal
 
         if ($user->getId() === null) {
             echo $twig->render('Password\PasswordRenewal.html.twig', [
-                'warningLogin' => "Cette addresse email est inconue.",
-                'emailValue' => $emailAdress,
-                'errorMessage' => $errorMessage,
+                'warningLogin'   => "Cette addresse email est inconue.",
+                'emailValue'     => $emailAdress,
+                'errorMessage'   => $errorMessage,
                 'successMessage' => $successMessage,
-                'activeUser' => Session::getActiveUser(),
-                'userFunction' => Session::getActiveUserFunction()
+                'activeUser'     => Session::getActiveUser(),
+                'userFunction'   => Session::getActiveUserFunction()
             ]);
             return;
         }
@@ -87,11 +87,11 @@ class PasswordRenewal
         #region Function execution
 
         //Send the email with the password renewal link
-        $parameters = array(
-            'domaine' => Constants::WEBSITE_DOMAIN,
+        $parameters = [
+            'domaine'     => Constants::WEBSITE_DOMAIN,
             'emailAdress' => $emailAdress,
-            'token' => $token
-        );
+            'token'       => $token
+        ];
 
         $email = new Email("Blog Devcm",
             "",
@@ -108,15 +108,17 @@ class PasswordRenewal
         }
 
         echo $twig->render('Password\PasswordRenewal.html.twig', [
-            'warningLogin' => "",
-            'emailValue' => $emailAdress,
-            'errorMessage' => $errorMessage,
+            'warningLogin'   => "",
+            'emailValue'     => $emailAdress,
+            'errorMessage'   => $errorMessage,
             'successMessage' => $successMessage,
-            'activeUser' => Session::getActiveUser(),
-            'userFunction' => Session::getActiveUserFunction()
+            'activeUser'     => Session::getActiveUser(),
+            'userFunction'   => Session::getActiveUserFunction()
         ]);
 
         #endregion
     }
     #endregion
 }
+//end execute()
+
