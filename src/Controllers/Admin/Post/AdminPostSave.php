@@ -15,7 +15,10 @@ use Exception;
 class AdminPostSave
 {
     #region Functions
-    public function execute()
+    /**
+     * Controller main function
+     */
+    public function execute(): void
     {
         #region Variables
 
@@ -28,7 +31,7 @@ class AdminPostSave
 
         #region Conditions tests
 
-        if (!UserActiveCheckValidity::check(array('Administrateur', 'Createur'))) {
+        if (UserActiveCheckValidity::check(array('Administrateur', 'Createur')) === false) {
             TwigWarning::display(
                 "Vous n'avez pas les droits requis pour accéder à cette page. Contactez l'administrateur du site",
                 "index.php?action=Home\Home",
@@ -63,22 +66,22 @@ class AdminPostSave
 
         $post = new Post();
 
-        $post->hydrate(array(
-            'id' => (int) $postId,
-            'title' => trim($postTitle),
-            'summary' => trim($postSummary),
-            'content' => trim($postContent),
-            'publicationDate' => $validation === true ? date('Y-m-d H:i:s') : '', 
-            'user' => $userRepository->getUser(Session::getActiveUserId()),
-            'modifier' => $userRepository->getUser(Session::getActiveUserId())
-        ));
+        $post->hydrate([
+            'id'              => (int) $postId,
+            'title'           => trim($postTitle),
+            'summary'         => trim($postSummary),
+            'content'         => trim($postContent),
+            'publicationDate' => $validation === true ? date('Y-m-d H:i:s') : '',
+            'user'            => $userRepository->getUser(Session::getActiveUserId()),
+            'modifier'        => $userRepository->getUser(Session::getActiveUserId())
+        ]);
 
-        $fieldsWarnings = array(
-            'title' => 'Vous devez renseigner un titre',
+        $fieldsWarnings = [
+            'title'   => 'Vous devez renseigner un titre',
             'summary' => 'Vous devez renseigner un résumé',
             'content' => 'Vous devez renseigner un contenu',
-            'image' => $warningImage,
-        );
+            'image'   => $warningImage,
+        ];
 
         if ($post->getTitle() === "" || $post->getSummary() === "" || $post->getContent() === "") {
             echo $twig->render('Admin\Post\AdminPost.html.twig', [
@@ -138,3 +141,4 @@ class AdminPostSave
     }
     #endregion
 }
+//end execute()
