@@ -11,7 +11,10 @@ use Application\Lib\TwigWarning;
 class AdminPostPublish
 {
     #region Functions
-    public function execute()
+    /**
+     * Controller main function
+     */
+    public function execute(): void
     {
         #region Variables
 
@@ -25,12 +28,12 @@ class AdminPostPublish
 
         #region Conditions tests
 
-        $options = array(
-            'postValidation' => array(
-                'filter' => FILTER_VALIDATE_INT,
-                'flags' => FILTER_REQUIRE_ARRAY
-            )
-        );
+        $options = [
+                'postValidation' => [
+                'filter'         => FILTER_VALIDATE_INT,
+                'flags'          => FILTER_REQUIRE_ARRAY
+            ]
+        ];
 
         $postValidation = filter_input_array(INPUT_POST, $options);
 
@@ -83,14 +86,15 @@ class AdminPostPublish
 
         //Page display
         echo $twig->render('Admin\Post\AdminPostList.html.twig', [
-            'actualPage' => "1",
-            'totalPages' => $totalPages,
-            'posts' => $posts,
+            'actualPage'   => "1",
+            'totalPages'   => $totalPages,
+            'posts'        => $posts,
             'userFunction' => Session::getActiveUserFunction(),
-            'activeUser' => Session::getActiveUser()
+            'activeUser'   => Session::getActiveUser()
         ]);
 
         #endregion
     }
     #endregion
 }
+//end execute()
