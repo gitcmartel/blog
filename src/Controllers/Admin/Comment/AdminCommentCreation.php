@@ -12,17 +12,20 @@ use Application\Lib\TwigWarning;
 class AdminCommentCreation
 {
     #region Functions
-    public function execute()
+    /**
+     * Controller main function
+     */
+    public function execute(): void
     {
         #region Conditions tests
-        
+
         //We display an warning message if one of the following conditions are false
 
         //If the active user is not an admin
-        if(! UserActiveCheckValidity::check(array('Administrateur'))){
+        if (UserActiveCheckValidity::check(array('Administrateur')) === false) {
             TwigWarning::display(
-                "Vous n'avez pas les droits requis pour accéder à cette page. Contactez l'administrateur du site", 
-                "index.php?action=Home\Home", 
+                "Vous n'avez pas les droits requis pour accéder à cette page. Contactez l'administrateur du site",
+                "index.php?action=Home\Home",
                 "Nous contacter");
             return;
         }
@@ -30,10 +33,10 @@ class AdminCommentCreation
         $postId = filter_input(INPUT_GET, 'postId', FILTER_SANITIZE_NUMBER_INT);
 
         //If the postId variable is not set
-        if ($postId === false || $postId === null){
+        if ($postId === false || $postId === null) {
             TwigWarning::display(
-                "Une erreur est survenue lors du chargement de la page.", 
-                "index.php?action=Home\Home", 
+                "Une erreur est survenue lors du chargement de la page.",
+                "index.php?action=Home\Home",
                 "Retour à la page d'accueil");
             return;
         }
@@ -48,14 +51,16 @@ class AdminCommentCreation
 
         $twig = TwigLoader::getEnvironment();
 
-        echo $twig->render('Admin\Comment\AdminComment.html.twig', [  
-            'comment' => $comment, 
-            'post' => $post, 
-            'activeUser' => Session::getActiveUser(), 
+        echo $twig->render(
+            'Admin\Comment\AdminComment.html.twig', [
+            'comment'      => $comment,
+            'post'         => $post,
+            'activeUser'   => Session::getActiveUser(),
             'userFunction' => Session::getActiveUserFunction()
         ]);
-        
+
         #endregion
-    }  
+    }
     #endregion   
 }
+//end execute()
