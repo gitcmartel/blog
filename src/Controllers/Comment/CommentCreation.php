@@ -11,7 +11,10 @@ use Application\Lib\TwigWarning;
 class CommentCreation
 {
     #region Functions
-    public function execute()
+    /**
+     * Controller main function
+     */
+    public function execute(): void
     {
         #region Conditions tests
         
@@ -47,10 +50,11 @@ class CommentCreation
 
         $twig = TwigLoader::getEnvironment();
 
-        echo $twig->render('Comment\Comment.html.twig', [  
-            'comment' => $comment, 
-            'post' => $post, 
-            'activeUser' => Session::getActiveUser(), 
+        echo $twig->render(
+            'Comment\Comment.html.twig', [  
+            'comment'      => $comment, 
+            'post'         => $post, 
+            'activeUser'   => Session::getActiveUser(), 
             'userFunction' => Session::getActiveUserFunction()
         ]);
         
@@ -58,3 +62,4 @@ class CommentCreation
     }  
     #endregion   
 }
+//End execute()
