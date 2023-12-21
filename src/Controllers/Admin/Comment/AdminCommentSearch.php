@@ -11,6 +11,9 @@ use Application\Lib\TwigWarning;
 class AdminCommentSearch
 {
     #region Functions
+    /**
+     * Controller main function
+     */
     public function execute()
     {
         #region variables
@@ -22,10 +25,10 @@ class AdminCommentSearch
         #region Conditions tests
 
         //If the active user is not an admin
-        if(! UserActiveCheckValidity::check(array('Administrateur'))){
+        if (UserActiveCheckValidity::check(array('Administrateur')) === false) {
             TwigWarning::display(
-                "Vous n'avez pas les droits requis pour accéder à cette page. Contactez l'administrateur du site", 
-                "index.php?action=Home\Home", 
+                "Vous n'avez pas les droits requis pour accéder à cette page. Contactez l'administrateur du site",
+                "index.php?action=Home\Home",
                 "Nous contacter");
             return;
         }
@@ -33,10 +36,10 @@ class AdminCommentSearch
         $searchString = filter_input(INPUT_POST, 'searchString', FILTER_SANITIZE_SPECIAL_CHARS);
 
         //If the searchString variable is not set
-        if ($searchString === false || $searchString === null){
+        if ($searchString === false || $searchString === null) {
             TwigWarning::display(
-                "Une erreur est survenue lors du chargement de la page.", 
-                "index.php?action=Home\Home", 
+                "Une erreur est survenue lors du chargement de la page.",
+                "index.php?action=Home\Home",
                 "Retour à la page d'accueil");
             return;
         }
@@ -47,16 +50,17 @@ class AdminCommentSearch
 
         $comments = $commentRepository->searchComments(trim($searchString));
 
-        echo $twig->render('Admin\Comment\AdminCommentList.html.twig', [ 
-            'actualPage' => "1", 
-            'totalPages' => "1", 
-            'comments' => $comments, 
-            'searchString' => $searchString, 
+        echo $twig->render('Admin\Comment\AdminCommentList.html.twig', [
+            'actualPage' =>   "1",
+            'totalPages' =>   "1",
+            'comments' =>     $comments,
+            'searchString' => $searchString,
             'userFunction' => Session::getActiveUserFunction(),
-            'activeUser' => Session::getActiveUser()
+            'activeUser' =>   Session::getActiveUser()
         ]);
 
         #endregion
     }
     #endregion
 }
+//end execute()
