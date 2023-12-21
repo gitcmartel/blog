@@ -11,7 +11,10 @@ use Application\Lib\TwigWarning;
 class AdminUserCreation
 {
     #region Functions
-    public function execute()
+    /**
+     * Controller main function
+     */
+    public function execute() : void
     {
         #region Variables
 
@@ -21,7 +24,7 @@ class AdminUserCreation
 
         #region Condtions tests
 
-        if(! UserActiveCheckValidity::check(array('Administrateur'))){
+        if(UserActiveCheckValidity::check(array('Administrateur')) === false){
             TwigWarning::display(
                 "Vous n'avez pas les droits requis pour accéder à cette page. Contactez l'administrateur du site", 
                 "index.php?action=Home\Home", 
@@ -35,14 +38,16 @@ class AdminUserCreation
 
         $user = new User();
 
-        echo $twig->render('Admin\User\AdminUser.html.twig', [ 
-            'user' => $user, 
+        echo $twig->render(
+            'Admin\User\AdminUser.html.twig', [ 
+            'user'                  => $user, 
             'pwdChangeCheckedValue' => 'checked', 
-            'activeUser' => Session::getActiveUser(), 
-            'userFunction' => Session::getActiveUserFunction()
+            'activeUser'            => Session::getActiveUser(), 
+            'userFunction'          => Session::getActiveUserFunction()
         ]);
 
         #endregion
     }
     #endregion
 }
+//end execute()
