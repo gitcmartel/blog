@@ -111,7 +111,7 @@ class AdminUserSave
 
         #region Function execution
 
-        if ($user->getId() !== null) {
+        if ($user->getId() !== 0) {
             //If there is a userId we update
             if ($userRepository->updateUser($user)) {
                 //We display the updated user list
