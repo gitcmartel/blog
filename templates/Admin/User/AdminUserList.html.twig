@@ -146,13 +146,12 @@
 {% endblock %}
 
 {% block js %}
-    <script src="Js/Classes/AdminList.js"></script>
-    <script src="Js/Classes/AdminUserList.js"></script>
     <script src="Js/Classes/Disconnexion.js"></script>
     <script src="Js/Classes/AlertModal.js"></script>
     <script src="Js/Classes/AlertMessage.js"></script>
     <script src="Js/Classes/Tooltips.js"></script>
     <script>
+        import AdminUserList from "Js/Classes/AdminUserList.js";
         adminUserList = new AdminUserList();
         disconnexion = new Disconnexion();
         tooltips = new Tooltips();
