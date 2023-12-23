@@ -130,9 +130,9 @@ class Comment extends Table
 
     /**
      * Setter
-     * @param User $user
+     * @param User $user or int
      */
-    function setUser(User $user): void
+    function setUser($user): void
     {
         $this->user = $user instanceof User ? $user : $this->userRepository->getUser($user);
     }
@@ -152,9 +152,9 @@ class Comment extends Table
 
     /**
      * Setter
-     * @param Post $post
+     * @param Post $post or int
      */
-    function setPost(Post $post): void
+    function setPost($post): void
     {
         $this->post = $post instanceof Post ? $post : $this->postRepository->getPost($post);
     }
