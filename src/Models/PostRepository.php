@@ -83,7 +83,7 @@ class PostRepository extends Repository
      * Creates a new post and returns the id of the inserted row if there is an image to insert
      * @param Post
      */
-    public function createPost(Post $post) : void
+    public function createPost(Post $post): void
     {
         $post->setCreationDate(Date('Y-m-d H:i:s'));
         $post->setLastUpdateDate($post->getCreationDate());
@@ -112,7 +112,7 @@ class PostRepository extends Repository
      * Updates a post (except the imagePath field)
      * @param Post
      */
-    public function updatePost(Post $post) : void
+    public function updatePost(Post $post): void
     {
         $post->setLastUpdateDate(Date("Y-m-d H:i:s"));
 
@@ -135,7 +135,7 @@ class PostRepository extends Repository
     /**
      * Deletes a post
      */
-    public function deletePost(Post $post) : void
+    public function deletePost(Post $post): void
     {
         $statement = $this->connexion->getConnexion()->prepare(
             "DELETE FROM post WHERE id = :postId"
@@ -149,7 +149,7 @@ class PostRepository extends Repository
      * Set the publicationDate field to now
      * @param int $postId
      */
-    public function setPublicationDate(int $postId) : void
+    public function setPublicationDate(int $postId): void
     {
         $statement = $this->connexion->getConnexion()->prepare(
             "UPDATE post SET publicationDate = now() WHERE id = :postId;"
@@ -233,7 +233,7 @@ class PostRepository extends Repository
      * @param string $pathImage
      * @return bool 
      */
-    public function updateImagePath(Post $post, string $pathImage) : bool
+    public function updateImagePath(Post $post, string $pathImage): bool
     {
         if ($post->getId() === null) {
             return false;
@@ -257,7 +257,7 @@ class PostRepository extends Repository
      * Reset an imagePath field and deletes the physical image file
      * @param Post $post
      */
-    public function resetImage(Post $post) : void
+    public function resetImage(Post $post): void
     {
         Image::deleteImage($post->getImagePath());
         $this->updateImagePath($post, Constants::DEFAULT_IMAGE_POST_PATH);
@@ -271,7 +271,7 @@ class PostRepository extends Repository
      * @param string $tmpImagePath
      * @param string $imageName
      */
-    public function updateImage(Post $post, string $tmpImagePath, string $imageName) : void
+    public function updateImage(Post $post, string $tmpImagePath, string $imageName): void
     {
         Image::deleteImage($post->getImagePath());
         $pathImage = Constants::IMAGE_POST_PATH . Image::createImagePathName(
