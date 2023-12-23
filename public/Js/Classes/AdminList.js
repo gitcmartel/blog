@@ -1,4 +1,4 @@
-class AdminList {
+export default class AdminList {
   constructor () {
     this.formList = document.getElementById("formList");
     this.searchString = document.getElementById("searchString");
