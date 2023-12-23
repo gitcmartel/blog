@@ -54,7 +54,8 @@ class Connexion
         $loginValue = $login;
 
         if ($warningLogin !== "" || $warningPassword !== "") {
-            echo $twig->render('Connexion/Connexion.html.twig', [
+            echo $twig->render(
+                'Connexion/Connexion.html.twig', [
                 'warningLogin'    => $warningLogin,
                 'warningPassword' => $warningPassword,
                 'loginValue'      => $loginValue,
