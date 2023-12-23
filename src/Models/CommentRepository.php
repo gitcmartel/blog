@@ -9,8 +9,10 @@ class CommentRepository extends Repository
     //region Functions
     /**
      * Returns a comment object
+     * @param int $commentId
+     * @return Comment
      */
-    public function getComment($commentId) : Comment
+    public function getComment(int $commentId) : Comment
     {
         if($commentId === null){
             return new Comment();
@@ -34,6 +36,9 @@ class CommentRepository extends Repository
 
     /**
      * Returns an array of comment objects
+     * @param string $pageNumber
+     * @param int $numberOfCommentsPerPage
+     * @return array of Comment objects or empty
      */
     public function getComments(string $pageNumber, int $numberOfCommentsPerPage) : array
     {
@@ -68,6 +73,8 @@ class CommentRepository extends Repository
 
     /**
      * Returns an array of comment objects for a specific post
+     * @param Post $post
+     * @return array of Comment objects or empty
      */
     public function getCommentsPost(Post $post) : array 
     {
@@ -93,8 +100,9 @@ class CommentRepository extends Repository
 
     /**
      * Creates a new comment record in the database
+     * @param Comment $comment
      */
-    public function createComment(Comment $comment)
+    public function createComment(Comment $comment): void
     {
         $statement = $this->connexion->getConnexion()->prepare(
             "INSERT INTO comment (creationDate, publicationDate, comment, user, post) 
@@ -111,8 +119,9 @@ class CommentRepository extends Repository
 
     /**
      * Updates a comment record
+     * @param Comment $comment
      */
-    public function updateComment(Comment $comment)
+    public function updateComment(Comment $comment): void
     {   
         $statement = $this->connexion->getConnexion()->prepare(
             "UPDATE comment SET comment = :comment, publicationDate = :publicationDate WHERE id = :commentId;"
@@ -127,8 +136,9 @@ class CommentRepository extends Repository
 
     /**
      * Deletes a comment record
+     * @param Comment $comment
      */
-    public function deleteComment(Comment $comment)
+    public function deleteComment(Comment $comment): void
     {
         $statement = $this->connexion->getConnexion()->prepare(
             "DELETE FROM comment WHERE id = :commentId;"
@@ -142,6 +152,8 @@ class CommentRepository extends Repository
     /**
      * Get the number of records by page
      * The $numberOfCommentsPerPage parameter contains the number of comments per page
+     * @param int $numberOfCommentsPerPage
+     * @return int 
      */
     public function getTotalPageNumber(int $numberOfCommentsPerPage) : int
     {
@@ -158,8 +170,9 @@ class CommentRepository extends Repository
 
     /**
      * Set the publicationDate field to now
+     * @param int $commentId
      */
-    public function setPublicationDate(int $commentId)
+    public function setPublicationDate(int $commentId): void
     {
         $statement = $this->connexion->getConnexion()->prepare(
             "UPDATE comment SET publicationDate = now(), isValid = -1 WHERE id = :commentId;"
@@ -172,8 +185,9 @@ class CommentRepository extends Repository
 
     /**
      * Set the publicationDate field to null
+     * @param int $commentId
      */
-    public function setPublicationDateToNull(int $commentId)
+    public function setPublicationDateToNull(int $commentId): void
     {
         $statement = $this->connexion->getConnexion()->prepare(
             "UPDATE comment SET publicationDate = null, isValid = 0 WHERE id = :commentId;"
@@ -189,8 +203,10 @@ class CommentRepository extends Repository
      * User : Name, surname, pseudo, email
      * Post : title
      * Comment : comment, creationDate
+     * @param string $searchString
+     * @return array of Comment objects or empty
      */
-    public function searchComments(string $searchString)
+    public function searchComments(string $searchString): array
     {
         $searchString = htmlspecialchars($searchString); //Escape special characters
 
