@@ -14,7 +14,7 @@ class AdminCommentValidation
     /**
      * Main function execute
      */
-    public function execute()
+    public function execute(): void
     {
         //region Variables
 
