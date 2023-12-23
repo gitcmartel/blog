@@ -6,7 +6,6 @@ use Application\Models\UserRepository;
 use Application\Lib\Password;
 use Application\Lib\Session;
 use Application\Lib\TwigLoader;
-use Application\Lib\TwigWarning;
 
 class Connexion
 {
@@ -33,7 +32,8 @@ class Connexion
         $password = filter_input(INPUT_POST, 'password', FILTER_DEFAULT);
 
         if ($login === false || $login === null || $password === false || $password === null) {
-            echo $twig->render('Connexion/Connexion.html.twig', [
+            echo $twig->render(
+                'Connexion/Connexion.html.twig', [
                 'warningLogin'    => $warningLogin,
                 'warningPassword' => $warningPassword,
                 'loginValue'      => $loginValue,
@@ -43,11 +43,11 @@ class Connexion
             return;
         }
 
-        if (trim($login === "")) {
+        if (trim($login) === "") {
             $warningLogin = "Vous devez entrer un identifiant";
         }
 
-        if (trim($password === "")) {
+        if (trim($password) === "") {
             $warningPassword = "Vous devez entrer un mot de passe";
         }
 
@@ -69,7 +69,6 @@ class Connexion
         //region Function execution
 
         $user = $userRepository->getUserByMail($login);
-
 
         if ($user->getIsValid() === false) {
             $warningLogin = 'Cet identifiant est inactif ! Contactez l\'administrateur du site.';
