@@ -22,6 +22,10 @@ abstract class Repository
     /**
      * Checks if the ids exist in the database
      * Returns a boolean
+     * @param array $ids
+     * @param string $tableName
+     * @param string $idFieldName
+     * @return bool
      */
     public function checkIds(array $ids, string $tableName, string $idFieldName) : bool
     {
