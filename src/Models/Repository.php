@@ -11,12 +11,13 @@ abstract class Repository
     //endregion
 
     //region Constructor
-    public function __construct(){
+    public function __construct()
+    {
         $this->connexion = new DatabaseConnexion();
     }
 
     //endregion
-    
+
     //region Functions
 
     /**
@@ -27,11 +28,11 @@ abstract class Repository
      * @param string $idFieldName
      * @return bool
      */
-    public function checkIds(array $ids, string $tableName, string $idFieldName) : bool
+    public function checkIds(array $ids, string $tableName, string $idFieldName): bool
     {
 
         $idsString = implode(',', $ids);
-        
+
         $statement = $this->connexion->getConnexion()->prepare(
             "SELECT count(*) as count FROM $tableName WHERE $idFieldName IN ($idsString);"
         );
