@@ -1,4 +1,6 @@
-class AdminPostList extends AdminList {
+import AdminList from "./AdminList";
+
+export default class AdminPostList extends AdminList {
   constructor () {
     super();
     this.btnSearchPost = document.getElementById("btnSearchPost");
