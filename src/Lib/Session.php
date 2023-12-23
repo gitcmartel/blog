@@ -6,7 +6,7 @@ use Application\Models\User;
 
 class Session
 {
-    #region Functions
+    //region Functions
 
     /**
      * Returns the user pseudo If it is registered in the superglobal $_SESSION
@@ -72,5 +72,5 @@ class Session
         $_SESSION['activeUserFunction'] = $user->getUserFunction()->toString();
         $_SESSION['userId'] = $user->getId();
     }
-    #endregion
+    //endregion
 }

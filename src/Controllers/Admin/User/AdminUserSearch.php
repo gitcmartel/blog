@@ -10,20 +10,20 @@ use Application\Lib\TwigWarning;
 
 class AdminUserSearch
 {
-    #region Functions
+    //region Functions
     /**
      * Controller main function
      */
     public function execute(): void
     {
-        #region Variables
+        //region Variables
 
         $userRepository = new UserRepository();
         $twig = TwigLoader::getEnvironment();
 
-        #endregion
+        //endregion
 
-        #region Conditions tests
+        //region Conditions tests
 
         if(UserActiveCheckValidity::check(['Administrateur']) === false){
             TwigWarning::display(
@@ -44,9 +44,9 @@ class AdminUserSearch
             return;
         }
 
-        #endregion
+        //endregion
 
-        #region Function execution
+        //region Function execution
         
         $users = $userRepository->searchUsers(trim($searchString));
 
@@ -60,8 +60,8 @@ class AdminUserSearch
             'activeUser'   => Session::getActiveUser()
         ]);
 
-        #endregion
+        //endregion
     }
-    #endregion
+    //endregion
 }
 //end execute()

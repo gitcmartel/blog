@@ -13,21 +13,21 @@ use Application\Lib\Email;
 
 class AdminUserSave
 {
-    #region Functions
+    //region Functions
     /**
      * Controller function execute
      */
     public function execute(): void
     {
-        #region Variables
+        //region Variables
 
         $userRepository = new UserRepository();
         $twig = TwigLoader::getEnvironment();
         $passwordConfirmation = '';
 
-        #endregion
+        //endregion
 
-        #region Conditions tests
+        //region Conditions tests
 
         if (UserActiveCheckValidity::check(array('Administrateur')) === false) {
             TwigWarning::display(
@@ -107,9 +107,9 @@ class AdminUserSave
             return;
         }
 
-        #endregion
+        //endregion
 
-        #region Function execution
+        //region Function execution
 
         if ($user->getId() !== 0) {
             //If there is a userId we update
@@ -139,9 +139,9 @@ class AdminUserSave
             return;
         }
 
-        #endregion
+        //endregion
     }
-    #endregion
+    //endregion
 }
 //end execute()
 

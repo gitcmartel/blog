@@ -4,7 +4,7 @@ namespace Application\Lib;
 
 class Password 
 {
-    #region Functions
+    //region Functions
 
     /**
      * Returns an encrypted password
@@ -34,7 +34,7 @@ class Password
     public static function checkPassword(string $password) : bool
     {
     return preg_match(
-        "/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[`!@#$%^&*()_+\-=\[\]{};':\\|,.<>\/?~])(?=.{8,})/", 
+        "/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[`!@//$%^&*()_+\-=\[\]{};':\\|,.<>\/?~])(?=.{8,})/", 
         $password
     );
     }
@@ -62,5 +62,5 @@ class Password
         return '';
     }
 
-    #endregion
+    //endregion
 }

@@ -12,13 +12,13 @@ use Application\Lib\Alert;
 
 class AdminPostList
 {
-    #region Functions
+    //region Functions
     /**
      * Controller main function
      */
     public function execute(): void
     {
-        #region Variables
+        //region Variables
 
         $postRepository = new PostRepository();
         $totalPages = $postRepository->getTotalPageNumber(Constants::NUMBER_OF_POSTS_PER_PAGE, false);
@@ -26,9 +26,9 @@ class AdminPostList
         $posts = "";
         $twig = TwigLoader::getEnvironment();
 
-        #endregion
+        //endregion
 
-        #region Conditions tests
+        //region Conditions tests
 
         $alert = filter_input(INPUT_GET, 'alert', FILTER_SANITIZE_SPECIAL_CHARS);
         $alertType = filter_input(INPUT_GET, 'alertType', FILTER_SANITIZE_SPECIAL_CHARS);
@@ -46,9 +46,9 @@ class AdminPostList
             $pageNumber = 1;
         }
 
-        #endregion
+        //endregion
 
-        #region Function execution
+        //region Function execution
 
         $posts = $postRepository->getPosts($pageNumber, Constants::NUMBER_OF_POSTS_PER_PAGE, false);
 
@@ -63,8 +63,8 @@ class AdminPostList
         ]);
         return;
 
-        #endregion
+        //endregion
     }
-    #endregion
+    //endregion
 }
 //end execute()

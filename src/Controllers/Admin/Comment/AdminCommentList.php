@@ -12,23 +12,23 @@ use Application\Lib\Alert;
 
 class AdminCommentList
 {
-    #region Functions
+    //region Functions
     /**
      * Controller main function
      */
     public function execute() : void
     {
 
-        #region Variables
+        //region Variables
 
         $commentRepository = new CommentRepository();
         $comments = "";
         $pageNumber = 1;
         $totalPages = 1;
 
-        #endregion
+        //endregion
 
-        #region Conditions tests
+        //region Conditions tests
 
         //If the active user is not an admin
         if(UserActiveCheckValidity::check(array('Administrateur')) === false){
@@ -52,9 +52,9 @@ class AdminCommentList
             return;
         }
 
-        #endregion
+        //endregion
 
-        #region Function execution
+        //region Function execution
         $totalPages = $commentRepository->getTotalPageNumber(Constants::NUMBER_OF_COMMENTS_PER_PAGE);
 
         if($pageNumber !== 0){
@@ -76,8 +76,8 @@ class AdminCommentList
             'userFunction' => Session::getActiveUserFunction()
         ]);
 
-        #endregion
+        //endregion
     }
-    #endregion
+    //endregion
 }
 //end execute()

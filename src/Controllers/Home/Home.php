@@ -11,21 +11,21 @@ use Application\Lib\Alert;
 
 class Home
 {
-    #region Functions
+    //region Functions
     /**
      * Controller main function
      */
     public function execute(): void
     {
 
-        #region Variables
+        //region Variables
         $postRepository = new PostRepository();
         $twig = TwigLoader::getEnvironment();
         $messageResponse = "";
 
-        #endregion
+        //endregion
 
-        #region Conditions tests
+        //region Conditions tests
 
         //Get the latest 3 posts
         $posts = $postRepository->getPosts(1, 3, true);
@@ -90,9 +90,9 @@ class Home
             return;
         }
 
-        #endregion
+        //endregion
 
-        #region Function execution
+        //region Function execution
 
         $mail = new Email(
             $surname,
@@ -120,9 +120,9 @@ class Home
             'userFunction' => Session::getActiveUserFunction()
         ]);
 
-        #endregion
+        //endregion
     }
-    #endregion
+    //endregion
 }
 //end execute()
 

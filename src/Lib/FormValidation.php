@@ -4,16 +4,16 @@ namespace Application\Lib;
 
 class FormValidation
 {
-    #region Properties
+    //region Properties
 
     private string $surname;
     private string $name;
     private string $email;
     private string $message;
 
-    #endregion
+    //endregion
 
-    #region Functions
+    //region Functions
 
     function __construct(string $surname, string $name, string $email, string $message)
     {
@@ -60,9 +60,9 @@ class FormValidation
         return (strlen($this->message) > 20 && strlen($this->message) < 500);
     }
 
-    #endregion
+    //endregion
 
-    #region Getters and Setters
+    //region Getters and Setters
 
     function getSurname() : string 
     {
@@ -104,5 +104,5 @@ class FormValidation
         $this->message = $message;
     }
 
-    #endregion
+    //endregion
 }

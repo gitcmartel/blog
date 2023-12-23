@@ -4,20 +4,20 @@ namespace Application\Models;
 
 abstract class Table 
 {
-    #region Properties
+    //region Properties
     protected ?int $id = null;
-    #endregion
+    //endregion
 
-    #region Constructor 
+    //region Constructor 
     function __construct(array $values = array())
     {
         if(! empty($values)){
             $this->hydrate($values);
         }
     }
-    #endregion
+    //endregion
 
-    #region Functions
+    //region Functions
     
     function getId() : ?int
     {
@@ -46,5 +46,5 @@ abstract class Table
         }
     }
 
-    #endregion
+    //endregion
 }

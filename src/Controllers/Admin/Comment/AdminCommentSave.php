@@ -13,20 +13,20 @@ use Application\Lib\TwigWarning;
 
 class AdminCommentSave
 {
-    #region Functions
+    //region Functions
     /**
      * Controller main function
      */
     public function execute(): void
     {
-        #region variables
+        //region variables
         $commentRepository = new CommentRepository();
         $postRepository = new PostRepository();
         $userRepository = new UserRepository();
 
-        #endregion
+        //endregion
 
-        #region Conditions tests
+        //region Conditions tests
 
         //If the active user is not an admin
         if (UserActiveCheckValidity::check(array('Administrateur')) === false) {
@@ -80,9 +80,9 @@ class AdminCommentSave
             return;
         }
 
-        #endregion
+        //endregion
 
-        #region Function executions
+        //region Function executions
 
         //If there is a commentId we update the comment field
         if ($comment->getId() !== 0) {
@@ -98,9 +98,9 @@ class AdminCommentSave
         //We display the updated comment list
         header("Location:index.php?action=Admin\Comment\AdminCommentList&pageNumber=1");
 
-        #endregion
+        //endregion
     }
 
-    #endregion
+    //endregion
 }
 //end execute()

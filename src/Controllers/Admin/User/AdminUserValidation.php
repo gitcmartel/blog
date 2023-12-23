@@ -10,21 +10,21 @@ use Application\Lib\TwigWarning;
 
 class AdminUserValidation 
 {
-    #region Functions
+    //region Functions
     /**
      * Controller main function
      */
     public function execute(): void
     {
-        #region Variables
+        //region Variables
 
         $userRepository = new UserRepository();
         $twig = TwigLoader::getEnvironment();
         $totalPages = 1;
 
-        #endregion
+        //endregion
 
-        #region Conditions tests
+        //region Conditions tests
 
         $options =[
             'userValidation' => [
@@ -64,9 +64,9 @@ class AdminUserValidation
             return;
         }
 
-        #endregion
+        //endregion
  
-        #region Function execution
+        //region Function execution
         
         //Updates the status user field
 
@@ -90,8 +90,8 @@ class AdminUserValidation
             'activeUser'   => Session::getActiveUser()
         ]);
 
-        #endregion
+        //endregion
     }
-    #endregion
+    //endregion
 }
 //End execute()

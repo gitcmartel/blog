@@ -9,7 +9,7 @@ use PDO;
 
 class PostRepository extends Repository
 {
-    #region Functions
+    //region Functions
     /**
      * Returns a Post
      * @param int $postId
@@ -302,5 +302,5 @@ class PostRepository extends Repository
         return $statement->fetchAll(PDO::FETCH_COLUMN);
     }
 
-    #endregion
+    //endregion
 }

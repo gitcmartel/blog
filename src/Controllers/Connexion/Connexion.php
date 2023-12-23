@@ -10,13 +10,13 @@ use Application\Lib\TwigWarning;
 
 class Connexion
 {
-    #region Functions
+    //region Functions
     /**
      * Controller main function execute
      */
     public function execute(): void
     {
-        #region Variables
+        //region Variables
 
         $warningLogin = "";
         $warningPassword = "";
@@ -25,9 +25,9 @@ class Connexion
         $user = "";
         $twig = TwigLoader::getEnvironment();
 
-        #endregion
+        //endregion
 
-        #region Conditions tests
+        //region Conditions tests
 
         $login = filter_input(INPUT_POST, 'login', FILTER_SANITIZE_SPECIAL_CHARS);
         $password = filter_input(INPUT_POST, 'password', FILTER_DEFAULT);
@@ -64,9 +64,9 @@ class Connexion
             return;
         }
 
-        #endregion
+        //endregion
 
-        #region Function execution
+        //region Function execution
 
         $user = $userRepository->getUserByMail($login);
 
@@ -99,8 +99,8 @@ class Connexion
 
         header("Location:index.php?action=Home\Home&alert=true&alertType=Connexion");
 
-        #endregion
+        //endregion
     }
-    #endregion
+    //endregion
 }
 //end execute()

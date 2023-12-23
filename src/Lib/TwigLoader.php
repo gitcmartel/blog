@@ -7,13 +7,13 @@ use Twig\Environment;
 
 abstract class TwigLoader
 {
-    #region Properties
+    //region Properties
 
     private static ?Environment $environment = null;
 
-    #endregion
+    //endregion
 
-    #region Functions
+    //region Functions
     private static function construct() : Environment 
     {
         $loader = new FilesystemLoader(Path::getRootPath() . '/templates');
@@ -28,5 +28,5 @@ abstract class TwigLoader
         return static::$environment;
     }
 
-    #endregion
+    //endregion
 }

@@ -10,22 +10,22 @@ use Application\Lib\TwigWarning;
 
 class AdminCommentValidation
 {
-    #region Functions
+    //region Functions
     /**
      * Main function execute
      */
     public function execute()
     {
-        #region Variables
+        //region Variables
 
         $commentRepository = new CommentRepository();
         $comments = "";
         $totalPages = $commentRepository->getTotalPageNumber(10);
         $twig = TwigLoader::getEnvironment();
 
-        #endregion
+        //endregion
 
-        #region Conditions tests
+        //region Conditions tests
         $options = array(
             'commentValidation' => array(
                 'filter' => FILTER_VALIDATE_INT,
@@ -65,9 +65,9 @@ class AdminCommentValidation
 
         $validation = boolval($validation);
 
-        #endregion
+        //endregion
 
-        #region Function execution
+        //region Function execution
 
         //Updates the comment publicationDate field
 
@@ -89,7 +89,7 @@ class AdminCommentValidation
             'activeUser' => Session::getActiveUser()
         ]);
 
-        #endregion
+        //endregion
     }
-    #endregion
+    //endregion
 }

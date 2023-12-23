@@ -10,19 +10,19 @@ use Application\Lib\TwigWarning;
 
 class AdminUserCreation
 {
-    #region Functions
+    //region Functions
     /**
      * Controller main function
      */
     public function execute() : void
     {
-        #region Variables
+        //region Variables
 
         $twig = TwigLoader::getEnvironment();
 
-        #endregion
+        //endregion
 
-        #region Condtions tests
+        //region Condtions tests
 
         if(UserActiveCheckValidity::check(array('Administrateur')) === false){
             TwigWarning::display(
@@ -32,9 +32,9 @@ class AdminUserCreation
             return; 
         }
 
-        #endregion
+        //endregion
         
-        #region Function execution
+        //region Function execution
 
         $user = new User();
 
@@ -46,8 +46,8 @@ class AdminUserCreation
             'userFunction'          => Session::getActiveUserFunction()
         ]);
 
-        #endregion
+        //endregion
     }
-    #endregion
+    //endregion
 }
 //end execute()

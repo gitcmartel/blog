@@ -13,7 +13,7 @@ class Legal
     public function execute(): void
     {
 
-        #region Function execution
+        //region Function execution
 
         $twig = TwigLoader::getEnvironment();
 
@@ -22,7 +22,7 @@ class Legal
             'userFunction' => Session::getActiveUserFunction()
         ]);
 
-        #endregion
+        //endregion
     }
 }
 //End execute()

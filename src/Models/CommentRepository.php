@@ -6,7 +6,7 @@ use PDO;
 
 class CommentRepository extends Repository 
 {
-    #region Functions
+    //region Functions
     /**
      * Returns a comment object
      */
@@ -222,5 +222,5 @@ class CommentRepository extends Repository
         return $comments;
     }
 
-    #endregion
+    //endregion
 }

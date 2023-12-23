@@ -10,19 +10,19 @@ use Application\Lib\TwigWarning;
 
 class AdminCommentSearch
 {
-    #region Functions
+    //region Functions
     /**
      * Controller main function
      */
     public function execute() : void
     {
-        #region variables
+        //region variables
         $commentRepository = new CommentRepository();
         $comments = "";
         $twig = TwigLoader::getEnvironment();
-        #endregion
+        //endregion
 
-        #region Conditions tests
+        //region Conditions tests
 
         //If the active user is not an admin
         if (UserActiveCheckValidity::check(['Administrateur']) === false) {
@@ -44,9 +44,9 @@ class AdminCommentSearch
             return;
         }
 
-        #endregion
+        //endregion
 
-        #region Function execution
+        //region Function execution
 
         $comments = $commentRepository->searchComments(trim($searchString));
 
@@ -60,8 +60,8 @@ class AdminCommentSearch
             'activeUser'      => Session::getActiveUser()
         ]);
 
-        #endregion
+        //endregion
     }
-    #endregion
+    //endregion
 }
 //end execute()

@@ -6,25 +6,25 @@ use Application\Models\UserRepository;
 
 class UserActiveCheckValidity
 {
-    #region Functions
+    //region Functions
     static function check(array $functions) : bool
     {
-        #region Variables
+        //region Variables
 
         $userRepository = new UserRepository();
         $user = "";
 
-        #endregion
+        //endregion
         $userId = Session::getActiveUserId();
 
-        #region Tests conditions
+        //region Tests conditions
         if($userId === null){
             return false;
         }
 
-        #endregion
+        //endregion
 
-        #region Function execution
+        //region Function execution
 
         $user = $userRepository->getUser($userId);
 
@@ -34,7 +34,7 @@ class UserActiveCheckValidity
             return $user->checkValidity($functions);
         }
 
-        #endregion
+        //endregion
     }
-   #endregion
+   //endregion
 }

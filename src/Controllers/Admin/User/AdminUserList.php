@@ -12,21 +12,21 @@ use Application\Lib\Alert;
 
 class AdminUserList
 {
-    #region Functions
+    //region Functions
     /**
      * Controller main function
      */
     public function execute(): void
     {
-        #region Variables
+        //region Variables
 
         $userRepository = new UserRepository();
         $totalPages = 1;
         $twig = TwigLoader::getEnvironment();
 
-        #endregion
+        //endregion
 
-        #region Conditions tests
+        //region Conditions tests
 
         $alert = filter_input(INPUT_GET, 'alert', FILTER_SANITIZE_SPECIAL_CHARS);
         $alertType = filter_input(INPUT_GET, 'alertType', FILTER_SANITIZE_SPECIAL_CHARS);
@@ -44,9 +44,9 @@ class AdminUserList
             $pageNumber = 1;
         }
 
-        #endregion
+        //endregion
 
-        #region Function execution
+        //region Function execution
 
         $totalPages = $userRepository->getTotalPageNumber(Constants::NUMBER_OF_USERS_PER_PAGE);
         ;
@@ -64,8 +64,8 @@ class AdminUserList
             'userFunction' => Session::getActiveUserFunction()
         ]);
 
-        #endregion
+        //endregion
     }
-    #endregion
+    //endregion
 }
 //end execute()

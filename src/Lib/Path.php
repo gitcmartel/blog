@@ -4,7 +4,7 @@ namespace Application\Lib;
 
 class Path 
 {
-    #region Functions
+    //region Functions
 
     /**
      * Build a path with the OS corresponding separator
@@ -28,5 +28,5 @@ class Path
         return dirname(__FILE__, 3);
     }
 
-    #endregion
+    //endregion
 }

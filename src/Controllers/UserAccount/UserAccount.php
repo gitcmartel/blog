@@ -13,20 +13,20 @@ use Application\Lib\Pseudo;
 
 class UserAccount
 {
-    #region Functions
+    //region Functions
     /**
      * Controller main function
      */
     public function execute(): void
     {
-        #region Variables
+        //region Variables
 
         $twig = TwigLoader::getEnvironment();
         $userRepository = new UserRepository();
 
-        #endregion 
+        //endregion 
 
-        #region Conditions tests
+        //region Conditions tests
         $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_SPECIAL_CHARS);
         $surname = filter_input(INPUT_POST, 'surname', FILTER_SANITIZE_SPECIAL_CHARS);
         $pseudo = filter_input(INPUT_POST, 'pseudo', FILTER_SANITIZE_SPECIAL_CHARS);
@@ -91,9 +91,9 @@ class UserAccount
             return;
         }
 
-        #endregion
+        //endregion
 
-        #region Function execution
+        //region Function execution
 
         if ($userRepository->updateUser($user)) {
             header("Location:index.php?action=Home\Home");
@@ -104,8 +104,8 @@ class UserAccount
                 "Réessayer");
         }
 
-        #endregion
+        //endregion
     }
-    #endregion
+    //endregion
 }
 //End execute()

@@ -14,22 +14,22 @@ use Exception;
 
 class AdminPostSave
 {
-    #region Functions
+    //region Functions
     /**
      * Controller main function
      */
     public function execute(): void
     {
-        #region Variables
+        //region Variables
 
         $postRepository = new PostRepository();
         $userRepository = new UserRepository();
         $warningImage = '';
         $twig = TwigLoader::getEnvironment();
 
-        #endregion
+        //endregion
 
-        #region Conditions tests
+        //region Conditions tests
 
         if (UserActiveCheckValidity::check(array('Administrateur', 'Createur')) === false) {
             TwigWarning::display(
@@ -97,9 +97,9 @@ class AdminPostSave
 
         $postDatabase = $postRepository->getPost($post->getId());
 
-        #endregion
+        //endregion
 
-        #region Function execution
+        //region Function execution
 
         //If there is a Post Id then we have to make an update
         if ($post->getId() !== 0) {
@@ -137,8 +137,8 @@ class AdminPostSave
         //We display the updated post list
         header("Location:index.php?action=Admin\Post\AdminPostList&pageNumber=1");
 
-        #endregion
+        //endregion
     }
-    #endregion
+    //endregion
 }
 //end execute()

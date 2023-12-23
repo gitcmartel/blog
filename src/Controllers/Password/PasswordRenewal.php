@@ -12,13 +12,13 @@ use Application\Lib\TwigWarning;
 
 class PasswordRenewal
 {
-    #region Functions
+    //region Functions
     /**
      * Controller main function
      */
     public function execute(): void
     {
-        #region Variables
+        //region Variables
 
         $successMessage = "";
         $errorMessage = "";
@@ -26,9 +26,9 @@ class PasswordRenewal
         $user = "";
         $twig = TwigLoader::getEnvironment();
 
-        #endregion
+        //endregion
 
-        #region Conditions tests
+        //region Conditions tests
 
         $emailAdress = filter_input(INPUT_POST, 'emailAddress', FILTER_SANITIZE_EMAIL);
 
@@ -82,9 +82,9 @@ class PasswordRenewal
             return;
         }
 
-        #endregion
+        //endregion
 
-        #region Function execution
+        //region Function execution
 
         //Send the email with the password renewal link
         $parameters = [
@@ -116,9 +116,9 @@ class PasswordRenewal
             'userFunction'   => Session::getActiveUserFunction()
         ]);
 
-        #endregion
+        //endregion
     }
-    #endregion
+    //endregion
 }
 //end execute()
 

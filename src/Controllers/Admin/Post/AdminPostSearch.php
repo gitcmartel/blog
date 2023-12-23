@@ -10,21 +10,21 @@ use Application\Lib\TwigWarning;
 
 class AdminPostSearch
 {
-    #region Functions
+    //region Functions
     /**
      * Controller main function
      */
     public function execute(): void
     {
-        #region Variables
+        //region Variables
 
         $postRepository = new PostRepository();
         $posts = "";
         $twig = TwigLoader::getEnvironment();
 
-        #endregion
+        //endregion
 
-        #region Conditions tests
+        //region Conditions tests
         if (UserActiveCheckValidity::check(array('Administrateur', 'Createur')) === false) {
             TwigWarning::display(
                 "Vous n'avez pas les droits requis pour accéder à cette page. Contactez l'administrateur du site",
@@ -44,9 +44,9 @@ class AdminPostSearch
             return;
         }
 
-        #endregion
+        //endregion
 
-        #region Function execution
+        //region Function execution
 
         $posts = $postRepository->searchPosts(trim($searchString));
 
@@ -60,8 +60,8 @@ class AdminPostSearch
             'userFunction' => Session::getActiveUserFunction()
         ]);
 
-        #endregion
+        //endregion
     }
-    #endregion
+    //endregion
 }
 //end execute()

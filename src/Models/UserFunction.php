@@ -9,7 +9,7 @@ enum UserFunction
     case Lecteur;
     case Autre;
 
-    #region Functions
+    //region Functions
     /**
      * Returns the corresponding string of an enum case
      * @return string
@@ -26,6 +26,6 @@ enum UserFunction
     }
     //end
 
-    #endregion
+    //endregion
 
 }

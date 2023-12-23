@@ -7,7 +7,7 @@ use DateTime;
 
 class User extends Table
 {
-    #region properties
+    //region properties
 
     private string $name;
     private string $surname;
@@ -19,9 +19,9 @@ class User extends Table
     private string $creationDate;
     private UserFunction $userFunction;
     private bool $isValid;
-    #endregion
+    //endregion
 
-    #region Functions
+    //region Functions
     /**
      * Checks if the user is valid and has the proper function
      */
@@ -54,9 +54,9 @@ class User extends Table
         return false;
     }
 
-    #endregion
+    //endregion
 
-    #region Getters and Setters
+    //region Getters and Setters
     /**
      * Getters and setters
      */
@@ -211,6 +211,6 @@ class User extends Table
     {
         $this->isValid = $isValid;
     }
-    #endregion
+    //endregion
 }
 

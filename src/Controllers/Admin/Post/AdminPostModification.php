@@ -10,21 +10,21 @@ use Application\Lib\TwigWarning;
 
 class AdminPostModification
 {
-    #region Function
+    //region Function
     /**
      * Controller main function
      */
     public function execute(): void
     {
-        #region Variables
+        //region Variables
 
         $postRepository = new PostRepository();
         $post = "";
         $twig = TwigLoader::getEnvironment();
 
-        #endregion
+        //endregion
 
-        #region Conditions tests
+        //region Conditions tests
         $postId = filter_input(INPUT_GET, 'postId', FILTER_SANITIZE_NUMBER_INT);
 
         if (UserActiveCheckValidity::check(array('Administrateur', 'Createur')) === false) {
@@ -46,9 +46,9 @@ class AdminPostModification
             return;
         }
 
-        #endregion
+        //endregion
 
-        #region Function execution
+        //region Function execution
 
         echo $twig->render('Admin\Post\AdminPost.html.twig', [
             'post'         => $post,
@@ -56,8 +56,8 @@ class AdminPostModification
             'userFunction' => Session::getActiveUserFunction()
         ]);
 
-        #endregion
+        //endregion
     }
-    #endregion
+    //endregion
 }
 //end execute()

@@ -10,22 +10,22 @@ use Application\Lib\TwigLoader;
 
 class PostList
 {
-    #region Functions
+    //region Functions
     /**
      * Controller main function
      */
     public function execute(): void
     {
-        #region Variables
+        //region Variables
 
         $postRepository = new PostRepository();
         $posts = "";
         $totalPages = 1;
         $twig = TwigLoader::getEnvironment();
 
-        #endregion
+        //endregion
 
-        #region Function execution
+        //region Function execution
 
         $totalPages = $postRepository->getTotalPageNumber(Constants::NUMBER_OF_BLOG_POST_PER_PAGE, true);
         $pageNumber = filter_input(INPUT_GET, 'pageNumber', FILTER_SANITIZE_NUMBER_INT);
@@ -44,8 +44,8 @@ class PostList
             'userFunction' => Session::getActiveUserFunction()
         ]);
 
-        #endregion
+        //endregion
     }
-    #endregion
+    //endregion
 }
 //End execute()

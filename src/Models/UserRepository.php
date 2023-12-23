@@ -9,7 +9,7 @@ class UserRepository extends Repository
 {
 
 
-    #region Functions
+    //region Functions
     /**
      * Returns a User object
      * @param int $userId user Id
@@ -359,5 +359,5 @@ class UserRepository extends Repository
 
         return ($affectedLines > 0);
     }
-    #endregion
+    //endregion
 }

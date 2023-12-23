@@ -9,19 +9,19 @@ use Application\Lib\TwigWarning;
 
 class CommentModification
 {
-    #region Functions
+    //region Functions
     /**
      * Controller main function execute
      */
     public function execute(): void
     {
-        #region variables
+        //region variables
         $commentRepository = new CommentRepository();
         $comment = "";
 
-        #endregion
+        //endregion
 
-        #region Conditions tests
+        //region Conditions tests
 
         $commentId = filter_input(INPUT_GET, 'commentId', FILTER_SANITIZE_NUMBER_INT);
 
@@ -54,9 +54,9 @@ class CommentModification
             return;
         }
 
-        #endregion
+        //endregion
 
-        #region Function execution
+        //region Function execution
 
         $twig = TwigLoader::getEnvironment();
 
@@ -68,9 +68,9 @@ class CommentModification
             'userFunction' => Session::getActiveUserFunction()
         ]);
 
-        #endregion
+        //endregion
     }
-    #endregion
+    //endregion
 }
 //end execute()
 

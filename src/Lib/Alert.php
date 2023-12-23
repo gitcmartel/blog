@@ -14,7 +14,7 @@ class Alert
     ];
 
 
-    #region Functions
+    //region Functions
 
     static public function getMessage(string $messageType) : string
     {

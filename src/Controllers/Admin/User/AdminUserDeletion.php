@@ -8,19 +8,19 @@ use Application\Lib\TwigWarning;
 
 class AdminUserDeletion
 {
-    #region Function
+    //region Function
     /**
      * Controller main function
      */
     public function execute() : void
     {
-        #region Variables
+        //region Variables
 
         $userRepository = new UserRepository();
 
-        #endregion
+        //endregion
 
-        #region Conditions tests
+        //region Conditions tests
 
         if (UserActiveCheckValidity::check(array('Administrateur')) === false) {
             TwigWarning::display(
@@ -52,9 +52,9 @@ class AdminUserDeletion
             return;
         }
 
-        #endregion
+        //endregion
 
-        #region Function execution
+        //region Function execution
 
         if ($userRepository->deleteUser($user->getId()) === false) {
             TwigWarning::display(
@@ -68,8 +68,8 @@ class AdminUserDeletion
             return;
         }
 
-        #endregion
+        //endregion
     }
-    #endregion
+    //endregion
 }
 //end execute()

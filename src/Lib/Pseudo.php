@@ -6,7 +6,7 @@ use Application\Models\UserRepository;
 
 class Pseudo
 {
-    #region Functions
+    //region Functions
 
     static public function checkPseudo(string $pseudo) : string
     {
@@ -23,5 +23,5 @@ class Pseudo
         return '';
     }
 
-    #endregion
+    //endregion
 }

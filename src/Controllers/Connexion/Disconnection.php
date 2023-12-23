@@ -5,13 +5,13 @@ namespace Application\Controllers\Connexion;
 
 class Disconnection
 {
-    #region Functions
+    //region Functions
     /**
      * Controller main function
      */
     public function execute(): void
     {
-        #region Function execution
+        //region Function execution
         
         if(isset($_SESSION['userId']) && isset($_SESSION['activeUser'])){
             unset($_SESSION["userId"]);
@@ -20,8 +20,8 @@ class Disconnection
             header("Location:index.php?action=Home\Home&alert=true&alertType=Disconnexion");
         }
 
-        #endregion
+        //endregion
     }
-    #endregion
+    //endregion
 }
 //end execute()

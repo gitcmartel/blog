@@ -10,20 +10,20 @@ use Application\Lib\TwigWarning;
 
 class AdminCommentModification
 {
-    #region Functions
+    //region Functions
     /**
      * Controller main function
      */
     public function execute() : void
     {
 
-        #region variables
+        //region variables
         $commentRepository = new CommentRepository();
         $comment = "";
 
-        #endregion
+        //endregion
 
-        #region Conditions tests
+        //region Conditions tests
 
         //If the active user is not an admin
         if(UserActiveCheckValidity::check(array('Administrateur')) === false){
@@ -56,9 +56,9 @@ class AdminCommentModification
             return;
         }
 
-        #endregion
+        //endregion
 
-        #region Function execution
+        //region Function execution
         
 
         $twig = TwigLoader::getEnvironment();
@@ -71,8 +71,8 @@ class AdminCommentModification
             'userFunction' => Session::getActiveUserFunction()
         ]);
 
-        #endregion
+        //endregion
     }
-    #endregion
+    //endregion
 }
 //end execute()

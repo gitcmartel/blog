@@ -4,15 +4,15 @@ namespace Application\Lib;
 
 class File
 {
-    #region Properties
+    //region Properties
     private ?array $filePath;
     private ?string $filePathError;
     private ?string $filePathSize;
     private ?string $filePathName;
     private ?string $filePathTmpName;
-    #endregion
+    //endregion
 
-    #Region Constructor
+    //Region Constructor
     public function __construct(array $files)
     {
         $this->filePath = $files['imagePath'];
@@ -22,7 +22,7 @@ class File
         $this->filePathTmpName = $files['imagePath']['tmp_name'];
     }
 
-    #region Getters and setters
+    //region Getters and setters
     /**
      * Get file Path
      * @return string
@@ -112,9 +112,9 @@ class File
     {
         $this->filePathTmpName = $filePathTmpName;
     }
-    #endregion
+    //endregion
 
-    #region Functions
+    //region Functions
     /**
      * Check the size and type of a file
      * @return string
@@ -183,5 +183,5 @@ class File
             $this->filePathSize > 0
         );
     }
-    #endregion
+    //endregion
 }

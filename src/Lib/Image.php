@@ -6,7 +6,7 @@ use DateTime;
 
 class Image
 {
-    #region Functions 
+    //region Functions 
 
     /**
      * Move the image file from the temp server folder, to the the image post folder
@@ -36,5 +36,5 @@ class Image
         return $postId . $date->format("YmdHis") . '.' . File::getExtension($imageName);
     }
 
-    #endregion
+    //endregion
 }

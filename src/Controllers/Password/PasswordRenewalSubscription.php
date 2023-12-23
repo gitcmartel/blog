@@ -9,22 +9,22 @@ use Application\Lib\TwigWarning;
 
 class PasswordRenewalSubscription
 {
-    #region Functions
+    //region Functions
     /**
      * Controller main function
      */
     public function execute(): void
     {
-        #region Variables
+        //region Variables
 
         $errorMessage = "";
         $user = "";
         $userRepository = new UserRepository();
         $twig = TwigLoader::getEnvironment();
 
-        #endregion
+        //endregion
 
-        #region Conditions tests
+        //region Conditions tests
 
         $email = filter_input(INPUT_GET, 'email', FILTER_SANITIZE_EMAIL);
         $token = filter_input(INPUT_GET, 'token', FILTER_DEFAULT);
@@ -78,9 +78,9 @@ class PasswordRenewalSubscription
             return;
         }
 
-        #endregion
+        //endregion
 
-        #region Function execution
+        //region Function execution
 
         //We update the new password and set the token field and it's date to null
         if ($userRepository->changePassword($user, $password)) {
@@ -92,10 +92,10 @@ class PasswordRenewalSubscription
                 "Renouveller la demande");
         }
 
-        #endregion
+        //endregion
     }
 
-    #endregion
+    //endregion
 }
 //end execute()
 

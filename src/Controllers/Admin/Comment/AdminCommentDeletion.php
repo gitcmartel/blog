@@ -8,21 +8,21 @@ use Application\Lib\TwigWarning;
 
 class AdminCommentDeletion
 {
-    #region Functions
+    //region Functions
     /**
      * Controller main function
      */
     public function execute(): void
     {
 
-        #region Variables
+        //region Variables
 
         $commentRepository = new CommentRepository();
         $comment = "";
 
-        #endregion
+        //endregion
 
-        #region Conditions tests
+        //region Conditions tests
 
         //We display an warning message if one of the following conditions are false
 
@@ -57,9 +57,9 @@ class AdminCommentDeletion
             return;
         }
 
-        #endregion
+        //endregion
 
-        #region Function execution
+        //region Function execution
 
         $commentRepository->deleteComment($comment);
 
@@ -67,7 +67,7 @@ class AdminCommentDeletion
         header('Location:index.php?action=Admin\Comment\AdminCommentList&pageNumber=1&alert=true&alertType=Deletion');
         return;
 
-        #endregion
+        //endregion
     }
-    #endregion
+    //endregion
 }

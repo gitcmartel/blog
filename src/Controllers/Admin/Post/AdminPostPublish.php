@@ -10,13 +10,13 @@ use Application\Lib\TwigWarning;
 
 class AdminPostPublish
 {
-    #region Functions
+    //region Functions
     /**
      * Controller main function
      */
     public function execute(): void
     {
-        #region Variables
+        //region Variables
 
         $postRepository = new PostRepository();
         $postsToPublish = "";
@@ -24,9 +24,9 @@ class AdminPostPublish
         $totalPages = $postRepository->getTotalPageNumber(10, false);
         $twig = TwigLoader::getEnvironment();
 
-        #endregion
+        //endregion
 
-        #region Conditions tests
+        //region Conditions tests
 
         $options = [
                 'postValidation' => [
@@ -67,9 +67,9 @@ class AdminPostPublish
 
         $validation = boolval($validation);
 
-        #endregion
+        //endregion
 
-        #region Function execution
+        //region Function execution
 
 
         //Updates the status post field
@@ -93,8 +93,8 @@ class AdminPostPublish
             'activeUser'   => Session::getActiveUser()
         ]);
 
-        #endregion
+        //endregion
     }
-    #endregion
+    //endregion
 }
 //end execute()

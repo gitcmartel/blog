@@ -5,7 +5,7 @@ namespace Application\Models;
 
 class Comment extends Table
 {
-    #region properties
+    //region properties
 
     private string $creationDate;
     private ?string $publicationDate;
@@ -16,9 +16,9 @@ class Comment extends Table
     private UserRepository $userRepository;
     private PostRepository $postRepository;
 
-    #endregion
+    //endregion
 
-    #region Constructor
+    //region Constructor
     function __construct(array $values = array())
     {
         parent::__construct($values);
@@ -26,9 +26,9 @@ class Comment extends Table
         $this->postRepository = new PostRepository();
     }
 
-    #endregion
+    //endregion
 
-    #region getters and setters
+    //region getters and setters
     /**
      * Getter
      * @return string
@@ -158,5 +158,5 @@ class Comment extends Table
     {
         $this->post = $post instanceof Post ? $post : $this->postRepository->getPost($post);
     }
-    #endregion
+    //endregion
 }

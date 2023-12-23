@@ -4,7 +4,7 @@ namespace Application\Lib;
 
 class MailParameters 
 {
-    #region Properties
+    //region Properties
 
     private string $userName;
     private string $password;
@@ -13,9 +13,9 @@ class MailParameters
     private string $port;
     private string $secureMode;
     
-    #endregion
+    //endregion
 
-    #region Functions
+    //region Functions
     
     function __construct() 
     {
@@ -28,9 +28,9 @@ class MailParameters
         $this->secureMode = $parameters->mail->secureMode;
     }
 
-    #endregion
+    //endregion
 
-    #region Getters and Setters
+    //region Getters and Setters
 
     function getUsername() : string 
     {
@@ -91,5 +91,5 @@ class MailParameters
     {
         $this->secureMode = $secureMode;
     }
-    #endregion
+    //endregion
 }

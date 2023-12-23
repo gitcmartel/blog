@@ -6,18 +6,18 @@ use Application\Lib\DatabaseConnexion;
 
 abstract class Repository
 {
-    #region Properties
+    //region Properties
     protected readonly DatabaseConnexion $connexion;
-    #endregion
+    //endregion
 
-    #region Constructor
+    //region Constructor
     public function __construct(){
         $this->connexion = new DatabaseConnexion();
     }
 
-    #endregion
+    //endregion
     
-    #region Functions
+    //region Functions
 
     /**
      * Checks if the ids exist in the database
@@ -38,5 +38,5 @@ abstract class Repository
 
         return ($row['count'] === count($ids));
     }
-    #endregion
+    //endregion
 }

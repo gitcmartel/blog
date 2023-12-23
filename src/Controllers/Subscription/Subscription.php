@@ -14,20 +14,20 @@ use Application\Lib\Pseudo;
 
 class Subscription
 {
-    #region Functions
+    //region Functions
     /**
      * Controller main function
      */
     public function execute(): void
     {
-        #region Variables
+        //region Variables
 
         $twig = TwigLoader::getEnvironment();
         $userRepository = new UserRepository();
 
-        #endregion 
+        //endregion 
 
-        #region Conditions tests
+        //region Conditions tests
 
         $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_SPECIAL_CHARS);
         $surname = filter_input(INPUT_POST, 'surname', FILTER_SANITIZE_SPECIAL_CHARS);
@@ -93,9 +93,9 @@ class Subscription
             return;
         }
 
-        #endregion
+        //endregion
 
-        #region Function execution
+        //region Function execution
 
         if ($userRepository->createUser($user)) {
             header("Location:index.php?action=Home\Home&alert=true&alertType=SubscriptionSuccess");
@@ -106,9 +106,9 @@ class Subscription
                 "Réessayer");
         }
 
-        #endregion
+        //endregion
     }
-    #endregion
+    //endregion
 }
 //End execute()
 

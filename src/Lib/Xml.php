@@ -7,7 +7,7 @@ use DOMDocument;
 
 class Xml
 {
-    #region Functions
+    //region Functions
 
     /**
      * Convert an xml file into an array object
@@ -49,5 +49,5 @@ class Xml
         }
     }
 
-    #endregion
+    //endregion
 }

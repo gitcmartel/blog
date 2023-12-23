@@ -11,20 +11,20 @@ use Application\Lib\TwigWarning;
 
 class AdminUserModification
 {
-    #region Functions
+    //region Functions
     /**
      * Controller main function
      */
     public function execute(): void
     {
-        #region Variables
+        //region Variables
 
         $userRepository = new UserRepository();
         $twig = TwigLoader::getEnvironment();
 
-        #endregion
+        //endregion
 
-        #region Conditions tests
+        //region Conditions tests
 
         $userId = filter_input(INPUT_GET, 'userId', FILTER_SANITIZE_NUMBER_INT);
 
@@ -47,9 +47,9 @@ class AdminUserModification
             return;
         }
 
-        #endregion
+        //endregion
 
-        #region Function execution
+        //region Function execution
 
         echo $twig->render(
             'Admin\User\AdminUser.html.twig', [
@@ -58,8 +58,8 @@ class AdminUserModification
             'userFunction' => Session::getActiveUserFunction()
         ]);
 
-        #endregion
+        //endregion
     }
-    #endregion
+    //endregion
 }
 //end execute()

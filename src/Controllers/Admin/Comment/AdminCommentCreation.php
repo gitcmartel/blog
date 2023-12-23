@@ -11,13 +11,13 @@ use Application\Lib\TwigWarning;
 
 class AdminCommentCreation
 {
-    #region Functions
+    //region Functions
     /**
      * Controller main function
      */
     public function execute(): void
     {
-        #region Conditions tests
+        //region Conditions tests
 
         //We display an warning message if one of the following conditions are false
 
@@ -41,9 +41,9 @@ class AdminCommentCreation
             return;
         }
 
-        #endregion
+        //endregion
 
-        #region Function execution
+        //region Function execution
 
         $postRepository = new PostRepository();
         $post = $postRepository->getPost($postId);
@@ -59,8 +59,8 @@ class AdminCommentCreation
             'userFunction' => Session::getActiveUserFunction()
         ]);
 
-        #endregion
+        //endregion
     }
-    #endregion   
+    //endregion   
 }
 //end execute()

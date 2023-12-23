@@ -4,7 +4,7 @@ namespace Application\Lib;
 
 class TwigWarning
 {
-    #region functions 
+    //region functions 
 
     //Display the warning page
     public static function display(string $warningMessage, string $warningLink, string $warningLinkMessage)
@@ -19,5 +19,5 @@ class TwigWarning
             'activeUser' => Session::getActiveUser()
         ]);
     }
-    #endregion
+    //endregion
 }

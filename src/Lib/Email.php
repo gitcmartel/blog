@@ -6,7 +6,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 
 class Email
 {
-    #region Properties
+    //region Properties
     private string $surname = '';
     private string $name = '';
     private string $from = '';
@@ -15,9 +15,9 @@ class Email
     private string $message = '';
     private string $errorInfo = '';
 
-    #endregion
+    //endregion
 
-    #region Functions
+    //region Functions
 
     function __construct(string $surname, string $name, string $from, string $to, string $subject, string $message)
     {
@@ -71,9 +71,9 @@ class Email
         return true;
     }
     
-    #endregion
+    //endregion
 
-    #region Getters and setters
+    //region Getters and setters
 
     function getSurname() : string 
     {
@@ -144,5 +144,5 @@ class Email
     {
         $this->errorInfo = $errorInfo;
     }
-    #endregion
+    //endregion
 }

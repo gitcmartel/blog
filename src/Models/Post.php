@@ -7,7 +7,7 @@ use Application\Lib\Path;
 
 class Post extends Table
 {
-    #region Properties
+    //region Properties
 
     private string $title;
     private string $summary;
@@ -20,9 +20,9 @@ class Post extends Table
     private User $modifier;
     private UserRepository $userRepository;
 
-    #endregion
+    //endregion
 
-    #region Constructor
+    //region Constructor
 
     function __construct(array $values = array())
     {
@@ -30,9 +30,9 @@ class Post extends Table
         $this->userRepository = new UserRepository();
     }
 
-    #endregion
+    //endregion
 
-    #region Functions
+    //region Functions
     /**
      * Deletes the image post if there is one
      */
@@ -48,9 +48,9 @@ class Post extends Table
         }
         return false;
     }
-    #endregion
+    //endregion
 
-    #region Getters and Setters
+    //region Getters and Setters
 
     function getTitle() : string 
     {
@@ -177,5 +177,5 @@ class Post extends Table
     {
         $this->modifier = $modifier instanceof User ? $modifier : $this->userRepository->getUser($modifier);
     }
-    #endregion
+    //endregion
 }

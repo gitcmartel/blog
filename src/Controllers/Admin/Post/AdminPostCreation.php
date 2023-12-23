@@ -10,14 +10,14 @@ use Application\Lib\TwigWarning;
 
 class AdminPostCreation
 {
-    #region Functions
+    //region Functions
     /**
      * Controller main function
      */
     public function execute() : void
     {
 
-        #region Conditions tests
+        //region Conditions tests
 
         if (UserActiveCheckValidity::check(array('Administrateur', 'Createur')) === false) {
             TwigWarning::display(
@@ -27,9 +27,9 @@ class AdminPostCreation
             return;
         }
 
-        #endregion
+        //endregion
 
-        #region Function execution
+        //region Function execution
         $post = new Post();
 
         $twig = TwigLoader::getEnvironment();
@@ -40,8 +40,8 @@ class AdminPostCreation
             'userFunction' => Session::getActiveUserFunction()
         ]);
 
-        #endregion
+        //endregion
     }
-    #endregion
+    //endregion
 }
 //end execute()

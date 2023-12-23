@@ -8,20 +8,20 @@ use Application\Lib\TwigWarning;
 
 class AdminPostDeletion
 {
-    #region Functions
+    //region Functions
     /**
      * Controller main function
      */
     public function execute() : void
     {
-        #region Variables
+        //region Variables
 
         $postRepository = new PostRepository();
         $post = "";
         
-        #endregion
+        //endregion
 
-        #region Conditions tests
+        //region Conditions tests
 
         $postId = filter_input(INPUT_GET, 'postId', FILTER_SANITIZE_NUMBER_INT);
 
@@ -44,9 +44,9 @@ class AdminPostDeletion
             return;  
         }
         
-        #endregion
+        //endregion
 
-        #region Function execution
+        //region Function execution
 
         $postRepository->deletePost($post);
 
@@ -56,8 +56,8 @@ class AdminPostDeletion
         //We display the updated post list
         header("Location:index.php?action=Admin\Post\AdminPostList&pageNumber=1&alert=true&alertType=Deletion");
 
-        #endregion
+        //endregion
     }
-    #endregion
+    //endregion
 }
 //end execute()

@@ -12,20 +12,20 @@ use Application\Lib\TwigWarning;
 
 class CommentSave
 {
-    #region Functions
+    //region Functions
     /**
      * Controller main function execute
      */
     public function execute() : void
     {
-        #region variables
+        //region variables
         $commentRepository = new CommentRepository();
         $postRepository = new PostRepository();
         $userRepository = new UserRepository();
 
-        #endregion
+        //endregion
 
-        #region Conditions tests
+        //region Conditions tests
 
         //If the user is not logged in
         if (Session::getActiveUser() === "") {
@@ -91,9 +91,9 @@ class CommentSave
             return;
         }
 
-        #endregion
+        //endregion
 
-        #region Function executions
+        //region Function executions
 
         //If there is a commentId we update the comment field
         if ($comment->getId() !== null) {
@@ -110,10 +110,10 @@ class CommentSave
         //We display the updated comment list
         header("Location:index.php?action=Post\PostDisplay&postId=" . $comment->getPost()->getId());
 
-        #endregion
+        //endregion
     }
 
-    #endregion
+    //endregion
 }
 //end execute()
 
