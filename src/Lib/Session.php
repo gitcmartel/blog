@@ -51,10 +51,10 @@ class Session
      */
     public static function getActiveUserId(): ?int
     {
-        $userId = filter_var(
-            isset($_SESSION['userId']) === true ? $_SESSION['userId'] : null, 
+        $userId = isset($_SESSION['userId']) === true ? filter_var(
+            $_SESSION['userId'],
             FILTER_SANITIZE_NUMBER_INT
-        );
+        ) : null;
 
         if ($userId !== false) {
             return $userId;
