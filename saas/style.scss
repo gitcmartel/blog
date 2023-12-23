@@ -1,14 +1,14 @@
-@import url('variables');
-@import url('global');
-@import url('home');
-@import url('post');
-@import url('connexion');
-@import url('subscription');
-@import url('password-renewal');
-@import url('legal');
-@import url('Admin/_adminUser');
-@import url('Admin/_adminComment');
-@import url('Admin/_adminPost');
+@import 'variables';
+@import 'global';
+@import 'home';
+@import 'post';
+@import 'connexion';
+@import 'subscription';
+@import 'password-renewal';
+@import 'legal';
+@import 'Admin/_adminUser';
+@import 'Admin/_adminComment';
+@import 'Admin/_adminPost';
 
 
 .message input {

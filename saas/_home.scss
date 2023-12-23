@@ -1,4 +1,4 @@
-@import url('variables');
+@import 'variables';
 
 .hero-home {
     background-image: url("../img/header.jpg");
@@ -42,7 +42,6 @@
         }
     }
 }
-
 
 .card-image {
     height: 100%;
