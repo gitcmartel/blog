@@ -15,7 +15,7 @@ class Comment extends Table
     private Post $post;
     private UserRepository $userRepository;
     private PostRepository $postRepository;
-    
+
     #endregion
 
     #region Constructor
@@ -33,9 +33,9 @@ class Comment extends Table
      * Getter
      * @return string
      */
-    function getCreationDate() : string 
+    function getCreationDate(): string
     {
-        if(isset($this->creationDate)){
+        if (isset($this->creationDate)) {
             return $this->creationDate;
         } else {
             return '';
@@ -54,9 +54,9 @@ class Comment extends Table
      * Getter
      * @return string or null
      */
-    function getPublicationDate() : ?string
+    function getPublicationDate(): ?string
     {
-        if(isset($this->publicationDate)){
+        if (isset($this->publicationDate)) {
             return $this->publicationDate;
         } else {
             return null;
@@ -75,9 +75,9 @@ class Comment extends Table
      * Getter
      * @return string
      */
-    function getComment() : string 
+    function getComment(): string
     {
-        if(isset($this->comment)){
+        if (isset($this->comment)) {
             return html_entity_decode($this->comment);
         } else {
             return '';
@@ -97,9 +97,9 @@ class Comment extends Table
      * Getter
      * @return User or null
      */
-    function getUser() : ?User 
+    function getUser(): ?User
     {
-        if (isset($this->user)){
+        if (isset($this->user)) {
             return $this->user;
         } else {
             return null;
@@ -110,9 +110,9 @@ class Comment extends Table
      * Getter
      * @return bool
      */
-    function getIsValid() : bool 
+    function getIsValid(): bool
     {
-        if (isset($this->isValid)){
+        if (isset($this->isValid)) {
             return $this->isValid;
         } else {
             return false;
@@ -123,11 +123,11 @@ class Comment extends Table
      * Setter
      * @param bool $isValid
      */
-    function setIsValid(bool $isValid) 
+    function setIsValid(bool $isValid)
     {
         $this->isValid = $isValid;
     }
-    
+
     /**
      * Setter
      * @param User $user
@@ -141,9 +141,9 @@ class Comment extends Table
      * Getter
      * @return Post or null
      */
-    function getPost() : ?Post 
+    function getPost(): ?Post
     {
-        if (isset($this->post)){
+        if (isset($this->post)) {
             return $this->post;
         } else {
             return null;
