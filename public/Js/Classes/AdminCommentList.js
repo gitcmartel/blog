@@ -1,4 +1,6 @@
-class AdminCommentList extends AdminList {
+import AdminList from "./AdminList";
+
+export default class AdminCommentList extends AdminList {
   constructor () {
     super();
     this.btnSearchComment = document.getElementById("btnSearchComment");
