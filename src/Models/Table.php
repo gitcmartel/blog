@@ -18,7 +18,10 @@ abstract class Table
     //endregion
 
     //region Functions
-    
+    /**
+     * Getter
+     * @return ?int
+     */
     function getId() : ?int
     {
         if(isset($this->id)){
@@ -28,12 +31,19 @@ abstract class Table
         } 
     }
 
+    /**
+     * Setter
+     * @param ?int $id
+     */
     function setId(?int $id)
     {
         $this->id = $id;
     }
 
-
+    /**
+     * Set the values of an array to the object properties
+     * @param array $data
+     */
     function hydrate(array $data) 
     {
         foreach ($data as $key => $value) {
