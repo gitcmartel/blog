@@ -24,10 +24,12 @@ class User extends Table
     //region Functions
     /**
      * Checks if the user is valid and has the proper function
+     * @param array $function
+     * @return bool
      */
-    function checkValidity(array $function) : bool
-    {     
-        if($this->isValid && in_array($this->userFunction->toString(), $function)){
+    function checkValidity(array $function): bool
+    {
+        if ($this->isValid && in_array($this->userFunction->toString(), $function)) {
             return true;
         } else {
             return false;
@@ -36,19 +38,20 @@ class User extends Table
 
     /**
      * Checks if the token and it's generation date are valid
+     * @return bool
      */
-    function tokenCheckValidity() : bool
+    function tokenCheckValidity(): bool
     {
         //If we get a valid user then we proceed
-        if($this->id !== null){
+        if ($this->id !== null) {
             //Check if the date is no more than 24h old
             $tokenDate = DateTime::createFromFormat('Y-m-d H:i:s', $this->forgotPasswordDate);
 
             $dateDifference = $tokenDate->diff(new DateTime());
             $secondsDifference = ($dateDifference->h * 60 * 60) + ($dateDifference->i * 60) + $dateDifference->s;
 
-            if(($secondsDifference) <= 86400){
-               return true;
+            if (($secondsDifference) <= 86400) {
+                return true;
             }
         }
         return false;
@@ -58,124 +61,186 @@ class User extends Table
 
     //region Getters and Setters
     /**
-     * Getters and setters
+     * Getter
+     * @return string
      */
-
-    function getName() : string 
+    function getName(): string
     {
-        if(isset($this->name)){
+        if (isset($this->name)) {
             return $this->name;
         } else {
             return '';
         }
     }
 
-    function setName(string $name)
+    /**
+     * Setter
+     * @param string $name
+     */
+    function setName(string $name): void
     {
         $this->name = $name;
     }
 
-    function getSurname() : string 
+    /**
+     * Getter
+     * @return string
+     */
+    function getSurname(): string
     {
-        if(isset($this->surname)){
+        if (isset($this->surname)) {
             return $this->surname;
         } else {
             return '';
         }
     }
 
-    function setSurname(string $surname)
+    /**
+     * Setter
+     * @param string $surname
+     */
+    function setSurname(string $surname): void
     {
         $this->surname = $surname;
     }
 
-    function getPseudo() : string 
+    /**
+     * Getter
+     * @return string
+     */
+    function getPseudo(): string
     {
-        if(isset($this->pseudo)){
+        if (isset($this->pseudo)) {
             return $this->pseudo;
         } else {
             return '';
         }
     }
 
-    function setPseudo(string $pseudo)
+    /**
+     * Setter
+     * @param string
+     */
+    function setPseudo(string $pseudo): void
     {
         $this->pseudo = $pseudo;
     }
 
-    function getEmail() : string 
+    /**
+     * Getter
+     * @return string
+     */
+    function getEmail(): string
     {
-        if(isset($this->email)){
+        if (isset($this->email)) {
             return $this->email;
         } else {
             return '';
         }
     }
 
-    function setEmail(string $email)
+    /**
+     * Setter
+     * @param string $email
+     */
+    function setEmail(string $email): void
     {
         $this->email = $email;
     }
 
-    function getPassword() : string 
+    /**Getter
+     * @return string
+     */
+    function getPassword(): string
     {
-        if(isset($this->password)){
+        if (isset($this->password)) {
             return $this->password;
         } else {
             return '';
         }
     }
 
-    function setPassword(string $password)
+    /**
+     * Setter
+     * @param string $password
+     */
+    function setPassword(string $password): void
     {
         $this->password = $password;
     }
 
-    function getTokenForgotPassword() : string 
+    /**
+     * @return string
+     */
+    function getTokenForgotPassword(): string
     {
-        if(isset($this->tokenForgotPassword)){
+        if (isset($this->tokenForgotPassword)) {
             return $this->tokenForgotPassword;
         } else {
             return '';
         }
     }
 
-    function setTokenForgotPassword(?string $tokenForgotPassword)
+    /**
+     * Setter
+     * @param ?string $tokenForgotPassword
+     */
+    function setTokenForgotPassword(?string $tokenForgotPassword): void
     {
         $this->tokenForgotPassword = $tokenForgotPassword;
     }
 
-    function getForgotPasswordDate() : string 
+    /**
+     * Getter
+     * @return string
+     */
+    function getForgotPasswordDate(): string
     {
-        if(isset($this->forgotPasswordDate)){
+        if (isset($this->forgotPasswordDate)) {
             return $this->forgotPasswordDate;
         } else {
             return '';
         }
     }
 
-    function setForgotPasswordDate(?string $forgotPasswordDate)
+    /**
+     * Setter
+     * @param ?string $forgotPasswordDate
+     */
+    function setForgotPasswordDate(?string $forgotPasswordDate): void
     {
         $this->forgotPasswordDate = $forgotPasswordDate;
     }
 
-    function getCreationDate() : string 
+    /**
+     * Getter
+     * @return string
+     */
+    function getCreationDate(): string
     {
-        if(isset($this->creationDate)){
+        if (isset($this->creationDate)) {
             return $this->creationDate;
         } else {
             return '';
         }
     }
 
-    function setCreationDate(string $creationDate)
+    /**
+     * Setter
+     * @param string $creationDate
+     */
+    function setCreationDate(string $creationDate): void
     {
         $this->creationDate = $creationDate;
     }
 
+    /**
+     * Setter
+     * @param string $function
+     */
     function setUserFunction(string $function)
     {
-        switch ($function){
+        switch ($function) {
             case 'Administrateur':
                 $this->userFunction = UserFunction::Administrateur;
                 break;
@@ -188,29 +253,39 @@ class User extends Table
         }
     }
 
-
-    function getUserFunction() : UserFunction
+    /**
+     * Getter
+     * @return UserFunction
+     */
+    function getUserFunction(): UserFunction
     {
-        if(isset($this->userFunction)){
+        if (isset($this->userFunction)) {
             return $this->userFunction;
-        }else{
+        } else {
             return UserFunction::Autre;
         }
     }
 
-    function getIsValid() : bool 
+    /**
+     * Getter
+     * @return bool
+     */
+    function getIsValid(): bool
     {
-        if (isset($this->isValid)){
+        if (isset($this->isValid)) {
             return $this->isValid;
         } else {
             return false;
         }
     }
 
-    function setIsValid(bool $isValid) 
+    /**
+     * Setter
+     * @param bool $isValid
+     */
+    function setIsValid(bool $isValid): void
     {
         $this->isValid = $isValid;
     }
     //endregion
 }
-
