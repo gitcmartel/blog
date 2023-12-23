@@ -35,14 +35,15 @@ class Post extends Table
     //region Functions
     /**
      * Deletes the image post if there is one
+     * @return bool
      */
-    function deleteImage() : bool
+    function deleteImage(): bool
     {
         //If the image post is not the default image we delete it
         $rootPath = dirname(__FILE__, 3) . DIRECTORY_SEPARATOR;
 
-        if ($this->imagePath !== Path::fileBuildPath(array("img", Constants::DEFAULT_IMAGE_POST))){
-            if (file_exists($rootPath . $this->imagePath)){
+        if ($this->imagePath !== Path::fileBuildPath(array("img", Constants::DEFAULT_IMAGE_POST))) {
+            if (file_exists($rootPath . $this->imagePath)) {
                 return unlink($rootPath . $this->imagePath);
             }
         }
@@ -51,129 +52,193 @@ class Post extends Table
     //endregion
 
     //region Getters and Setters
-
-    function getTitle() : string 
+    /**
+     * Getter
+     * @return string
+     */
+    function getTitle(): string
     {
-        if(isset($this->title)){
+        if (isset($this->title)) {
             return $this->title;
         } else {
             return '';
         }
     }
 
-    function setTitle(string $title)
+    /**
+     * Setter
+     * @param string $title
+     */
+    function setTitle(string $title): void
     {
         $this->title = $title;
     }
 
-    function getSummary() : string 
+    /**
+     * Getter
+     * @return string
+     */
+    function getSummary(): string
     {
-        if(isset($this->summary)){
+        if (isset($this->summary)) {
             return html_entity_decode($this->summary);
         } else {
             return '';
         }
     }
 
-    function setSummary(string $summary)
+    /**
+     * Setter
+     * @param string $summary
+     */
+    function setSummary(string $summary): void
     {
         $this->summary = $summary;
     }
 
-    function getContent() : string 
+    /**
+     * Getter
+     * @return string
+     */
+    function getContent(): string
     {
-        if(isset($this->content)){
+        if (isset($this->content)) {
             return html_entity_decode($this->content);
         } else {
             return '';
         }
     }
 
+    /**
+     * Setter
+     * @param string $content
+     */
     function setContent(string $content)
     {
         $this->content = $content;
     }
 
-    function getImagePath() : string 
+    /**
+     * Getter
+     * @return string
+     */
+    function getImagePath(): string
     {
-        if(isset($this->imagePath)){
+        if (isset($this->imagePath)) {
             return $this->imagePath;
         } else {
             return '';
         }
     }
 
-    function setImagePath(string $imagePath)
+    /**
+     * Setter
+     * @param string $imagePath
+     */
+    function setImagePath(string $imagePath): void
     {
         $this->imagePath = $imagePath;
     }
 
-    function getCreationDate() : string
+    /**
+     * Getter
+     * @return string
+     */
+    function getCreationDate(): string
     {
-        if(isset($this->creationDate)){
+        if (isset($this->creationDate)) {
             return $this->creationDate;
         } else {
             return '';
         }
     }
 
-    function setCreationDate(string $creationDate)
+    /**
+     * Setter
+     * @param string
+     */
+    function setCreationDate(string $creationDate): void
     {
         $this->creationDate = $creationDate;
     }
 
-    function getPublicationDate() : ?string
+    /**
+     * Getter
+     * @return string or null
+     */
+    function getPublicationDate(): ?string
     {
-        if(isset($this->publicationDate)){
+        if (isset($this->publicationDate)) {
             return $this->publicationDate;
         } else {
             return null;
         }
     }
 
-    function setPublicationDate($publicationDate)
+    /**
+     * Setter
+     * @param ?string $publicationDate
+     */
+    function setPublicationDate(?string $publicationDate): void
     {
         $this->publicationDate = $publicationDate;
     }
 
-    function getLastUpdateDate() : string
+    /**
+     * Getter
+     * @return string
+     */
+    function getLastUpdateDate(): string
     {
-        if(isset($this->lastUpdateDate)){
+        if (isset($this->lastUpdateDate)) {
             return $this->lastUpdateDate;
         } else {
             return '';
         }
     }
 
-    function setLastUpdateDate(string $lastUpdateDate)
+    /**Setter
+     * @param string $lastUpdateDate
+     */
+    function setLastUpdateDate(string $lastUpdateDate): void
     {
         $this->lastUpdateDate = $lastUpdateDate;
     }
 
-    function getUser() : ?User 
+    /**Getter
+     * @return ?User
+     */
+    function getUser(): ?User
     {
-        if (isset($this->user)){
+        if (isset($this->user)) {
             return $this->user;
         } else {
             return null;
         }
     }
 
-    function setUser($user)
+    /**Setter
+     * @param User or int $user
+     */
+    function setUser($user): void
     {
         $this->user = $user instanceof User ? $user : $this->userRepository->getUser($user);
     }
 
-    function getModifier() : ?User 
+    function getModifier(): ?User
     {
-        if (isset($this->modifier)){
+        if (isset($this->modifier)) {
             return $this->modifier;
         } else {
             return null;
         }
     }
 
-    function setModifier($modifier)
+    /**
+     * Setter
+     * @param User or int
+     */
+    function setModifier($modifier): void
     {
         $this->modifier = $modifier instanceof User ? $modifier : $this->userRepository->getUser($modifier);
     }
