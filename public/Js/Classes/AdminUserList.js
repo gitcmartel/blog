@@ -1,4 +1,4 @@
-import AdminList from "./AdminList";
+import AdminList from "./AdminList.js";
 
 export default class AdminUserList extends AdminList {
   constructor () {
