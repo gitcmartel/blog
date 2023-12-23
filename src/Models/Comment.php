@@ -29,7 +29,10 @@ class Comment extends Table
     #endregion
 
     #region getters and setters
-
+    /**
+     * Getter
+     * @return string
+     */
     function getCreationDate() : string 
     {
         if(isset($this->creationDate)){
@@ -38,12 +41,19 @@ class Comment extends Table
             return '';
         }
     }
-
-    function setCreationDate(?string $creationDate)
+    /**
+     * Setter
+     * @param string $creationDate
+     */
+    function setCreationDate(?string $creationDate): void
     {
         $this->creationDate = $creationDate;
     }
 
+    /**
+     * Getter
+     * @return string or null
+     */
     function getPublicationDate() : ?string
     {
         if(isset($this->publicationDate)){
@@ -52,12 +62,19 @@ class Comment extends Table
             return null;
         }
     }
-
-    function setPublicationDate(?string $publicationDate)
+    /**
+     * Setter
+     * @param string $publicationDate
+     */
+    function setPublicationDate(?string $publicationDate): void
     {
         $this->publicationDate = $publicationDate;
     }
 
+    /**
+     * Getter
+     * @return string
+     */
     function getComment() : string 
     {
         if(isset($this->comment)){
@@ -67,11 +84,19 @@ class Comment extends Table
         }
     }
 
-    function setComment(string $comment) 
+    /**
+     * Setter
+     * @param string $comment
+     */
+    function setComment(string $comment): void
     {
         $this->comment = $comment;
     }
 
+    /**
+     * Getter
+     * @return User or null
+     */
     function getUser() : ?User 
     {
         if (isset($this->user)){
@@ -81,6 +106,10 @@ class Comment extends Table
         }
     }
 
+    /**
+     * Getter
+     * @return bool
+     */
     function getIsValid() : bool 
     {
         if (isset($this->isValid)){
@@ -90,16 +119,28 @@ class Comment extends Table
         }
     }
 
+    /**
+     * Setter
+     * @param bool $isValid
+     */
     function setIsValid(bool $isValid) 
     {
         $this->isValid = $isValid;
     }
     
-    function setUser($user)
+    /**
+     * Setter
+     * @param User $user
+     */
+    function setUser(User $user): void
     {
         $this->user = $user instanceof User ? $user : $this->userRepository->getUser($user);
     }
 
+    /**
+     * Getter
+     * @return Post or null
+     */
     function getPost() : ?Post 
     {
         if (isset($this->post)){
@@ -109,7 +150,11 @@ class Comment extends Table
         }
     }
 
-    function setPost($post)
+    /**
+     * Setter
+     * @param Post $post
+     */
+    function setPost(Post $post): void
     {
         $this->post = $post instanceof Post ? $post : $this->postRepository->getPost($post);
     }
