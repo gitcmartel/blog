@@ -58,12 +58,12 @@
                             <div class="col-6 pe-3">
                                 <input type="text" class="form-control" id="surname" name="surname" placeholder="Nom" value="{{ surname }}"
                                     required>
-                                <div class="avertissement fs-6 text-danger" id="alertSurname">{{ warningSurname }}</div>
+                                <div class="avertissement fs-6 text-danger" id="alertSurname">{{ errors['surname'] }}</div>
                             </div>
                             <div class="col-6">
                                 <input type="text" class="form-control" id="name" name="name" placeholder="Prénom" value="{{ name }}"
                                     required>
-                                <div class="avertissement fs-6 text-danger" id="alertName">{{ warningName }}</div>
+                                <div class="avertissement fs-6 text-danger" id="alertName">{{ errors['name'] }}</div>
                             </div>
                         </div>
                         <div class="mb-3 contact-form-email">
@@ -71,12 +71,13 @@
                                 <span class="input-group-text" id="inputGroupPrepend">@</span>
                                 <input type="email" class="form-control" id="email" name="email"
                                     aria-describedby="inputGroupPrepend" placeholder="Email" required value="{{ email }}">
-                                <div class="avertissement fs-6 text-danger" id="alertEmail">{{ warningEmail }}</div>
                             </div>
+                            <div class="avertissement fs-6 text-danger" id="alertEmail">{{ errors['email'] }}</div>
                         </div>
                         <div class="mb-4 message contact-form-message">
                             <textarea class="form-control" id="message" name="message" maxlength="500"
                                 form="contactForm" rows="5" placeholder="Message" required>{{ message }}</textarea>
+                            <div class="avertissement fs-6 text-danger" id="alertMessage">{{ errors['message'] }}</div>
                             <div class="avertissement fs-6 text-danger" id="alertMessage">{{ warningMessage }}</div>
                         </div>
                         <div class="d-flex justify-content-end pe-5">
