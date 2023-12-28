@@ -79,11 +79,11 @@ class Home
 
         if (!$formValidation->isValid()) {
             echo $twig->render('Home\Home.html.twig', [
-                'warningMessage' => "Un ou plusieurs champs du formulaire sont invalides !",
                 'surname'        => $surname,
                 'name'           => $name,
                 'email'          => $email,
                 'message'        => $message,
+                'errors'         => $formValidation->getErrors(),
                 'activeUser'     => Session::getActiveUser(),
                 'userFunction'   => Session::getActiveUserFunction()
             ]);
