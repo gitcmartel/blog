@@ -10,6 +10,7 @@ class FormValidation
     private string $name;
     private string $email;
     private string $message;
+    private array $errors;
 
     //endregion
 
@@ -21,6 +22,12 @@ class FormValidation
         $this->name = htmlspecialchars($name);
         $this->email = htmlspecialchars($email);
         $this->message = htmlspecialchars($message);
+        $this->errors = [
+            'surname' => '', 
+            'name'    => '', 
+            'email'   => '', 
+            'message' => ''
+        ];
     }
 
     //Controls the form fields values and returns true or false
@@ -34,8 +41,9 @@ class FormValidation
     private function controlLength() : bool
     {
 
-        foreach($this as $property) {
-            if (mb_strlen($property) === 0) {
+        foreach($this as $propertyName => $propertyValue) {
+            if ($propertyName !== 'errors' && mb_strlen($propertyValue) === 0) {
+                $this->errors[$propertyName] = 'Le champ ne peut pas être vide';
                 return false;
             }
         }
@@ -49,7 +57,13 @@ class FormValidation
     private function controlEmail() : bool
     {
         $emailRegExp = "/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix";
-        return preg_match($emailRegExp, $this->email) === 1;
+
+        if (preg_match($emailRegExp, $this->email) !== 1) {
+            $this->errors['email'] = 'L\'adresse email est incorrecte';
+            return false;
+        }
+
+        return true;  
     }
 
     /**
@@ -57,7 +71,12 @@ class FormValidation
      */
     private function controlMessage() : bool 
     {
-        return (strlen($this->message) > 20 && strlen($this->message) < 500);
+        if ((strlen($this->message) > 20 && strlen($this->message) < 500) === false) {
+            $this->errors['message'] = 'Le nombre de caractères doit être compris entre 20 et 500';
+            return false;
+        }
+
+        return true;
     }
 
     //endregion
@@ -104,5 +123,9 @@ class FormValidation
         $this->message = $message;
     }
 
+    function getErrors() : array
+    {
+        return $this->errors;
+    }
     //endregion
 }
