@@ -2,8 +2,16 @@
 
 @import url("https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap");
 
-body {
+html, body {
     font-family: 'Playfair Display', serif;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+.page-content {
+    min-height: 40vh;
+    box-sizing: border-box;
 }
 
 .page-title {
@@ -149,6 +157,8 @@ background-size: 100% 3px, auto;
 footer {
     height:10vh;
     background-color: $color3;
+    bottom: 0;
+    width: 100%;
 
     p {
         margin: 0;
