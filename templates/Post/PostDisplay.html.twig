@@ -1,14 +1,22 @@
 {% extends 'Layout/Layout.html.twig' %}
 
+{% block title %}
+<div class="hero-blog">
+    <p class="page-title fs-4 text text-body text-center">
+        {{ post.title }}
+    </p>
+</div>
+{% endblock %}
+
 {% block body %}
-    <section class="vh-60">
+    <section class="page-content">
         <div class="d-flex justify-content-end mt-2 me-4">
             <a href="index.php?action=Post\PostList&pageNumber=1">Retour</a>
         </div>
         <div class="post-background-color m-4 shadow rounded">
-            <div class="d-flex vh-40">
+            <div class="d-flex">
                 <div class="w-25">
-                    <img class="w-100 rounded" src="{{ post.imagePath }}" alt="Image du post">
+                    <img class="w-75 rounded" src="{{ post.imagePath }}" alt="Image du post">
                 </div>
                 <div class="d-flex flex-column w-100">
                     <div class="fs-5 text-center my-3 p-3">{{ post.title }}</div>
