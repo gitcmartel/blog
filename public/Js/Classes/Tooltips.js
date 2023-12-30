@@ -1,4 +1,4 @@
-class Tooltips {
+export default class Tooltips {
   constructor () {
     var tooltipTriggerList = [].slice.call(
       document.querySelectorAll('[data-bs-toggle-tooltip="tooltip"]')
