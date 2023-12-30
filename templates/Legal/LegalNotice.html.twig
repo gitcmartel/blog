@@ -46,3 +46,10 @@
 </div>
 
 {% endblock %}
+
+{% block js %}
+    <script type="module">
+        import Disconnexion from "./Js/Classes/Disconnexion.js";
+        let disconnexion = new Disconnexion();
+    </script>
+{% endblock %}
