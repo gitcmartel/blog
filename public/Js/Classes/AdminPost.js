@@ -1,4 +1,4 @@
-class AdminPost {
+export default class AdminPost {
   constructor () {
     this.image = document.getElementById("imagePost");
     this.imagePath = document.getElementById("imagePath");
