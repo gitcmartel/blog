@@ -122,15 +122,14 @@
 {% endblock %}
 
 {% block js %}
-    <script src="Js/Classes/Disconnexion.js"></script>
-    <script src="Js/Classes/AlertModal.js"></script>
-    <script src="Js/Classes/AlertMessage.js"></script>
-    <script>
-        disconnexion = new Disconnexion();
+    <script type="module">
+        import Disconnexion from "./Js/Classes/Disconnexion.js";
+        let disconnexion = new Disconnexion();
     </script>
     {% if alert == true and alertMessage != "" %}
-        <script>
-            alertMessage = new AlertMessage();
+        <script type="module">
+            import AlertMessage from "./Js/Classes/AlertMessage.js";
+            let alertMessage = new AlertMessage();
         </script>
     {% endif %}
 {% endblock %}
