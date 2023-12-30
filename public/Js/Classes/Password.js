@@ -1,4 +1,4 @@
-class Password {
+export default class Password {
   constructor () {
     this.togglePasswordElement = document.getElementById("togglePassword");
     this.togglePasswordConfirmationElement = document.getElementById(
