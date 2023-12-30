@@ -100,8 +100,8 @@ class Home
             "contact@blog.devcm.fr",
             "contact@blog.devcm.fr",
             "Nouveau contact !",
-            "Message envoyé depuis le formulaire de contact du Blog Devcm. \r\n" .
-            "Auteur : " . $surname . " " . $name . " - " . $email . "\r\n" .
+            "Message envoyé depuis le formulaire de contact du Blog Devcm. <br><br>" .
+            "Auteur : " . $surname . " " . $name . " - " . $email . "<br><br>" .
             $message
         );
 
