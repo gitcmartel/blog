@@ -1,4 +1,6 @@
-class Disconnexion {
+import AlertModal from "./AlertModal.js";
+
+export default class Disconnexion {
   constructor () {
     this.btnDisconnexion = document.getElementById("btnDisconnexion");
 
