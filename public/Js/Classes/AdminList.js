@@ -1,3 +1,5 @@
+import AlertModal from "./AlertModal.js";
+
 export default class AdminList {
   constructor () {
     this.formList = document.getElementById("formList");
