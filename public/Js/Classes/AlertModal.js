@@ -1,4 +1,4 @@
-class AlertModal {
+export default class AlertModal {
   constructor () {
     this.alertLabel = document.getElementById('confirmationModalLabel');
     this.alertId = document.getElementById('btnConfirmationModal');
