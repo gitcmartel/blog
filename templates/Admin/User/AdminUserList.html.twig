@@ -146,18 +146,17 @@
 {% endblock %}
 
 {% block js %}
-    <script src="Js/Classes/Disconnexion.js"></script>
-    <script src="Js/Classes/AlertModal.js"></script>
-    <script src="Js/Classes/AlertMessage.js"></script>
-    <script src="Js/Classes/Tooltips.js"></script>
-    <script>
-        import AdminUserList from "Js/Classes/AdminUserList.js";
-        adminUserList = new AdminUserList();
-        disconnexion = new Disconnexion();
-        tooltips = new Tooltips();
+    <script type="module">
+        import AdminUserList from "./Js/Classes/AdminUserList.js";
+        import Disconnexion from "./Js/Classes/Disconnexion.js";
+        import Tooltips from "./Js/Classes/Tooltips.js";
+        let adminUserList = new AdminUserList();
+        let disconnexion = new Disconnexion();
+        let tooltips = new Tooltips();
     </script>
     {% if alert == true and alertMessage != "" %}
-        <script>
+        <script type="module">
+            import AlertMessage from "./Js/Classes/AlertMessage.js";
             alertMessage = new AlertMessage();
         </script>
     {% endif %}
