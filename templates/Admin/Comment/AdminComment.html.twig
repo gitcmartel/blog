@@ -34,9 +34,8 @@
 {% endblock %}
 
 {% block js %}
-    <script src="Js/Classes/Disconnexion.js"></script>
-    <script src="Js/Classes/AlertModal.js"></script>
-    <script>
-        disconnexion = new Disconnexion();
+    <script type="module">
+        import Disconnexion from "./Js/Classes/Disconnexion.js";
+        let disconnexion = new Disconnexion();
     </script>
 {% endblock %}
