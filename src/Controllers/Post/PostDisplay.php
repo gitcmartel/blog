@@ -7,6 +7,7 @@ use Application\Models\CommentRepository;
 use Application\Lib\Session;
 use Application\Lib\TwigLoader;
 use Application\Lib\TwigWarning;
+use Application\Lib\Alert;
 
 class PostDisplay
 {
@@ -26,6 +27,8 @@ class PostDisplay
         //endregion
 
         $postId = filter_input(INPUT_GET, 'postId', FILTER_SANITIZE_NUMBER_INT);
+        $alert = filter_input(INPUT_GET, 'alert', FILTER_SANITIZE_SPECIAL_CHARS);
+        $alertType = filter_input(INPUT_GET, 'alertType', FILTER_SANITIZE_SPECIAL_CHARS);
 
         //region Conditions tests
         if ($postId === false || $postId === null) {
@@ -46,6 +49,8 @@ class PostDisplay
         echo $twig->render('Post\PostDisplay.html.twig', [
             'post'         => $post,
             'comments'     => $comments,
+            'alert'        => ($alert !== false && $alert !== null) ? $alert : '',
+            'alertMessage' => ($alertType !== false && $alertType !== null) ? Alert::getMessage($alertType) : '',
             'activeUser'   => Session::getActiveUser(),
             'activeUserId' => Session::getActiveUserId(),
             'userFunction' => Session::getActiveUserFunction()
