@@ -14,24 +14,24 @@
         <div class="row justify-content-evenly">
             {% for post in posts %}
             <a class="col-lg-6 col-sd-12 g-4 text-reset text-decoration-none" style="max-width: 540px;" href="index.php?action=Post\PostDisplay&postId={{ post.id }}">
-                <div class="card p-0 h-100 mb-3 shadow" >
-                    <div class="row h-100 g-0">
+                <div class="card p-0 mb-3 h-100 shadow" >
+                    <div class="row g-0 h-75">
                         <div class="col-md-4">
-                            <div class="h-75">
-                                <img class="w-100 post-card-image rounded-start" src="{{ post.imagePath }}" alt="Image du post">
-                            </div>
+                            <img class="w-100 post-card-image rounded-start" src="{{ post.imagePath }}" alt="Image du post">
                         </div>
                         <div class="col-md-8">
-                            <div class="card-body h-100">
-                                <h5 class="card-title h-25">
+                            <div class="card-body">
+                                <h5 class="card-title">
                                     <p class="fs-5">{{ post.title }}</p>
                                 </h5>
-                                <p class="card-text w-100 h-50 overflow-auto">
+                                <p class="card-text w-100 overflow-auto">
                                     {{ post.summary }}
                                 </p>
-                                <p class="card-text h-25 d-flex justify-content-end"><small class="text-body-secondary">Rédigé par {{ post.getUser().getPseudo() }} le {{ post.getCreationDate() | date('d/m/Y') }}</small></p>
                             </div>
                         </div>
+                    </div>
+                    <div class="row g-0 h-25">
+                        <p class="d-flex flex-column justify-content-end align-items-end pe-2"><small class="text-body-secondary">Rédigé par {{ post.getUser().getPseudo() }} le {{ post.getCreationDate() | date('d/m/Y') }}</small></p>
                     </div>
                 </div>
             </a>       
@@ -87,9 +87,8 @@
 {% endblock %}
 
 {% block js %}
-    <script src="Js/Classes/Disconnexion.js"></script>
-    <script src="Js/Classes/AlertModal.js"></script>
-    <script>
-        disconnexion = new Disconnexion();
+    <script type="module">
+        import Disconnexion from "./Js/Classes/Disconnexion.js";
+        let disconnexion = new Disconnexion();
     </script>
 {% endblock %}
