@@ -41,7 +41,7 @@ class AdminUserSave
         $userName = filter_input(INPUT_POST, 'userName', FILTER_SANITIZE_SPECIAL_CHARS);
         $userSurname = filter_input(INPUT_POST, 'surname', FILTER_SANITIZE_SPECIAL_CHARS);
         $pseudo = filter_input(INPUT_POST, 'pseudo', FILTER_SANITIZE_SPECIAL_CHARS);
-        $userMail = filter_input(INPUT_POST, 'userMail', FILTER_VALIDATE_EMAIL);
+        $userMail = filter_input(INPUT_POST, 'userMail', FILTER_SANITIZE_SPECIAL_CHARS);
         $password = filter_input(INPUT_POST, 'password', FILTER_UNSAFE_RAW);
         $passwordConfirmation = filter_input(INPUT_POST, 'passwordConfirmation', FILTER_UNSAFE_RAW);
         $userFunction = filter_input(INPUT_POST, 'userFunction', FILTER_SANITIZE_SPECIAL_CHARS);
