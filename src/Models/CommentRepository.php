@@ -12,7 +12,7 @@ class CommentRepository extends Repository
      * @param int $commentId
      * @return Comment
      */
-    public function getComment(int $commentId) : Comment
+    public function getComment(?int $commentId) : Comment
     {
         if($commentId === null){
             return new Comment();
