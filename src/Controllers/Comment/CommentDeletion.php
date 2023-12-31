@@ -63,7 +63,7 @@ class CommentDeletion
         $commentRepository->deleteComment($comment);
 
         //We display the updated comment list
-        header('Location:index.php?action=Post\PostDisplay&postId=' . $comment->getPost()->getId());
+        header('Location:index.php?action=Post\PostDisplay&postId=' . $comment->getPost()->getId() . '&alert=true&alertType=Deletion');
         return;
 
         //endregion
