@@ -99,7 +99,7 @@ class PostRepository extends Repository
         $statement->bindValue("content", htmlspecialchars($post->getContent()), PDO::PARAM_STR);
         $statement->bindValue("imagePath", htmlspecialchars($post->getImagePath()), PDO::PARAM_STR);
         $statement->bindValue("creationDate", htmlspecialchars($post->getCreationDate()), PDO::PARAM_STR);
-        $statement->bindValue("publicationDate", htmlspecialchars($post->getPublicationDate()), PDO::PARAM_STR);
+        $statement->bindValue("publicationDate", htmlspecialchars($post->getPublicationDate()) !== '' ? htmlspecialchars($post->getPublicationDate()) : null, PDO::PARAM_STR);
         $statement->bindValue("lastUpdateDate", htmlspecialchars($post->getLastUpdateDate()), PDO::PARAM_STR);
         $statement->bindValue("userId", htmlspecialchars($post->getUser()->getId()), PDO::PARAM_INT);
 
