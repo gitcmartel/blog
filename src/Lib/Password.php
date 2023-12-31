@@ -34,7 +34,7 @@ class Password
     public static function checkPassword(string $password) : bool
     {
     return preg_match(
-        "/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[`!@//$%^&*()_+\-=\[\]{};':\\|,.<>\/?~])(?=.{8,})/", 
+        "/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[`!@\\/\\$%^&*()_+\\-=\\[\\]{};':\\\\|,.<>\\/?~])(?=.{8,})/", 
         $password
     );
     }
