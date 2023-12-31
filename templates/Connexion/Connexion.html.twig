@@ -10,8 +10,9 @@
 
 {% block body %}
     <section class="page-content">
-        <div class="d-flex justify-content-center align-items-center">
-            <form method="post" action="" class="container-fluid w-50 rounded-corners shadow p-3 connexion-form" novalidate>
+        <div class="row">
+            <div class="col-md-3 col-2"></div>
+            <form method="post" action="" class="col-md-6 col-8 container-fluid rounded-corners shadow p-3 connexion-form" novalidate>
                 <div class="row h-100">
                     <div class="col-lg-4 d-flex justify-content-center align-items-start my-2">
                         <img class="connexion-img" src="../img/key-hole.png" alt="">
@@ -38,6 +39,7 @@
                     </div>
                 </div>
             </form>
+            <div class="col-md-3 col-2"></div>
         </div>
     </section>
 {% endblock %}
