@@ -10,8 +10,9 @@
 
 {% block body %}
     <section class="page-content">
-        <div class="d-flex justify-content-center align-items-center">
-            <form class="formulaire connexion-form container-fluid d-flex flex-column w-50 rounded-corners p-4 shadow" method="post" action="index.php?action=UserAccount\UserAccount" id = "userAccountForm" novalidate>
+        <div class="row">
+            <div class="col-md-3 col-2"></div>
+            <form class="col-md-6 col-8 formulaire connexion-form container-fluid d-flex flex-column rounded-corners p-4 shadow" method="post" action="index.php?action=UserAccount\UserAccount" id = "userAccountForm" novalidate>
                 <div class="row h-100 mt-3">
                     <div class="col-md-6 d-flex flex-column pb-2 pe-3 mb-3">
                         <input type="text" class="form-control" id = "name" name="name"  required value="{{ user.getName() }}" placeholder="Prénom">
@@ -29,7 +30,7 @@
                     </div>
                 </div>
                 <div class="row h-100 mb-3">
-                    <div class="col-md-12 d-flex flex-column pb-2">
+                    <div class="col-md-8 col-12 d-flex flex-column pb-2">
                         <input type="email" class="form-control" id = "email" name="email" value="{{ user.getEmail() }}" placeholder="Adresse Email" required>
                         <div id="warningEmail" class="text-danger">{{ warningEmail }}</div>
                     </div>
@@ -39,19 +40,23 @@
                     <label class="form-check-label fs-6" for="passwordChange">Modifier le mot de passe</label>
                 </div>
                 <div class="mt-2" id="grpUserPwd">
-                    <label class="form-label fs-6" for="userPwd">Mot de passe</label>
-                    <div class="d-flex flex-row">
-                        <input type="password" class="form-control" id = "password" name="password">
-                        <i class="far fa-eye-slash position-relative align-self-center" id="togglePassword" style="margin-left: -30px; cursor: pointer;"></i>
+                    <div class="col-md-8 col-12 d-flex flex-column pb-2">
+                        <label class="form-label fs-6" for="userPwd">Mot de passe</label>
+                        <div class="d-flex flex-row">
+                            <input type="password" class="form-control" id = "password" name="password">
+                            <i class="far fa-eye-slash position-relative align-self-center" id="togglePassword" style="margin-left: -30px; cursor: pointer;"></i>
+                        </div>
                     </div>
                 </div>
                 <div class="mt-2" id="grpUserPwdConfirmation">
-                    <label class="form-label fs-6" for="userPwdConfirmation">Confirmation du mot de passe</label>
-                    <div class="d-flex flex-row">
-                        <input type="password" class="form-control" id = "passwordConfirmation" name="passwordConfirmation">
-                        <i class="far fa-eye-slash position-relative align-self-center" id="togglePasswordConfirmation"  style="margin-left: -30px; cursor: pointer;"></i> 
-                    </div> 
-                    <div class="text-danger">{{ warningPassword }}</div>
+                    <div class="col-md-8 col-12 d-flex flex-column pb-2">
+                        <label class="form-label fs-6" for="userPwdConfirmation">Confirmation du mot de passe</label>
+                        <div class="d-flex flex-row">
+                            <input type="password" class="form-control" id = "passwordConfirmation" name="passwordConfirmation">
+                            <i class="far fa-eye-slash position-relative align-self-center" id="togglePasswordConfirmation"  style="margin-left: -30px; cursor: pointer;"></i> 
+                        </div> 
+                        <div class="text-danger">{{ warningPassword }}</div>
+                    </div>
                 </div>
                 <div class="row h-100 mb-1">
                     <div class="col-md-8">
@@ -62,6 +67,7 @@
                     </div>
                 </div>
             </form>
+            <div class="col-md-3 col-2"></div>
         </div>
     </section>
 {% endblock %}
