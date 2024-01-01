@@ -8,12 +8,6 @@
 </div>
 {% endblock %}
 
-{% block commentReturn %}
-    <div class="d-flex w-50 justify-content-end mt-2 me-2">
-        <a href="index.php?action=Post\PostDisplay&postId={{ post.getId() }}">Retour</a>
-    </div>
-{% endblock %}
-
 {% block commentFormAction %}
     "index.php?action=Comment\CommentSave"
 {% endblock %}
