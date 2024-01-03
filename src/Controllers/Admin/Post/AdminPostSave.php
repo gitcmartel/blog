@@ -10,6 +10,7 @@ use Application\Lib\Session;
 use Application\Lib\File;
 use Application\Lib\TwigLoader;
 use Application\Lib\TwigWarning;
+use Application\Lib\Constants;
 use Exception;
 
 class AdminPostSave
@@ -110,6 +111,7 @@ class AdminPostSave
             $postRepository->updatePost($post);
         } else {
             //Else we have to create a new post
+            $post->setImagePath(Constants::DEFAULT_IMAGE_POST_PATH);
             $postRepository->createPost($post);
         }
 
