@@ -303,7 +303,9 @@ class UserRepository extends Repository
 
         $row = $statement->fetch();
 
-        return ceil(round($row['TotalUsers'] / $numberOfUsersPerPage, 2));
+        $result = ceil($row['TotalUsers'] / $numberOfUsersPerPage);
+
+        return max($result, 1);
     }
 
     /**
