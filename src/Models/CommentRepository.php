@@ -165,7 +165,9 @@ class CommentRepository extends Repository
 
         $row = $statement->fetch();
 
-        return ceil(round($row['TotalComments'] / $numberOfCommentsPerPage, 2));
+        $result = ceil($row['TotalComments'] / $numberOfCommentsPerPage);
+
+        return max($result, 1);
     }
 
     /**
