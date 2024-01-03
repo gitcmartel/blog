@@ -191,7 +191,9 @@ class PostRepository extends Repository
 
         $row = $statement->fetch();
 
-        return ceil(round($row['TotalPosts'] / $numberOfPostsPerPage, 2));
+        $result = ceil($row['TotalPosts'] / $numberOfPostsPerPage);
+
+        return max($result, 1);
     }
 
     /**
