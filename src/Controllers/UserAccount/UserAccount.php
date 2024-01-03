@@ -56,8 +56,8 @@ class UserAccount
         $user = $userRepository->getUser(Session::getActiveUserId());
 
         $fieldsWarnings = [
-            'warningName'     => $userRepository->checkNameSurname($name) ? 'Le champ prénom doit être complété (50 caractères max)' : '',
-            'warningSurname'  => !$userRepository->checkNameSurname($surname) ? 'Le champ nom doit être complété (50 caractères max)' : '',
+            'warningName'     => ! $userRepository->checkNameSurname($name) ? 'Le champ prénom doit être complété (50 caractères max)' : '',
+            'warningSurname'  => ! $userRepository->checkNameSurname($surname) ? 'Le champ nom doit être complété (50 caractères max)' : '',
             'warningEmail'    => Email::checkMailFormat($email) ? '' : 'L\'adresse email est incorrecte',
             'warningPseudo'   => $user->getPseudo() !== trim($pseudo) ? Pseudo::checkPseudo(trim($pseudo)) : '',
             'warningPassword' => $passwordChange === true ? Password::checkPasswordFormFields(trim($password), $passwordConfirmation) : ''
