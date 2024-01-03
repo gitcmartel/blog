@@ -64,7 +64,7 @@ class Subscription
             "password"     => $password,
             "creationDate" => Date("Y-m-d H:i:s"),
             "userFunction" => 'Lecteur',
-            'isValid'      => 0,
+            'isValid'      => 1,
         ]);
 
         $fieldsWarnings = [
